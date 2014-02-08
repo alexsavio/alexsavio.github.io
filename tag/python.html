@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en_us">
+<head>
+        <meta charset="utf-8" />
+        <title>Interlines - python</title>
+        <link rel="stylesheet" href="http://alexsavio.github.io/theme/css/main.css" />
+        <link href="http://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Interlines Atom Feed" />
+        <link href="http://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Interlines RSS Feed" />
+
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+<a href="http://github.com/alexsavio">
+<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
+</a>
+        <header id="banner" class="body">
+                <h1><a href="http://alexsavio.github.io/">Interlines  <strong>Lost in spikes</strong></a></h1>
+                <nav><ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="http://www.ehu.es/ccwintco/index.php/Usuario:Alexsavio">My CV</a></li>
+                    <li><a href="http://alexsavio.github.io/category/python.html">Python</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="http://alexsavio.github.io/virtualenvwrapper.html">How to create virtualenvs with&nbsp;Virtualenvwrapper</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-02-08T21:16:14">
+                Published: sáb 08 febrero 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://alexsavio.github.io/author/alexandre-m-savio.html">Alexandre M. Savio</a>
+        </address>
+<p>In <a href="http://alexsavio.github.io/category/python.html">Python</a>. </p>
+<p>tags: <a href="http://alexsavio.github.io/tag/python.html">python</a><a href="http://alexsavio.github.io/tag/virtualenv.html">virtualenv</a><a href="http://alexsavio.github.io/tag/install.html">install</a></p>
+</footer><!-- /.post-info --><h2>Virtualenv and&nbsp;virtualenvwrapper</h2>
+<p>Install virtualenv and&nbsp;virtualenvwrapper</p>
+<div class="codehilite"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">pip</span>
+<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">virtualenv</span> <span class="n">virtualenvwrapper</span>
+</pre></div>
+
+
+<p>Virtualenvwrapper .bashrc&nbsp;setup:</p>
+<div class="codehilite"><pre><span class="n">echo</span> <span class="s">&quot;export WORKON_HOME=~/envs&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span>
+<span class="n">echo</span> <span class="s">&quot;source /usr/local/bin/virtualenvwrapper.sh&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span>
+<span class="n">echo</span> <span class="s">&quot;export PIP_REQUIRE_VIRTUALENV=true&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span>
+<span class="n">source</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span>
+</pre></div>
+
+
+<p>-PyCharm is a Python <span class="caps">IDE</span> with code assistance and analysis&nbsp;http://www.jetbrains.com/pycharm/download/index.html</p>
+<h2>Basic usage&nbsp;commands</h2>
+<p>Create a&nbsp;virtualenv:</p>
+<div class="codehilite"><pre> <span class="n">mkvirtualenv</span> <span class="o">&lt;</span><span class="n">env</span> <span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p>Activate a&nbsp;virtualenv:</p>
+<div class="codehilite"><pre>  <span class="n">workon</span> <span class="o">&lt;</span><span class="n">env</span> <span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p>Install a package in the activated&nbsp;virtualenv</p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="o">&lt;</span><span class="n">package</span> <span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p>Go to its directory when it is&nbsp;activated</p>
+<div class="codehilite"><pre><span class="n">cdvirtualenv</span>
+</pre></div>
+
+
+<p>Set a working directory as a project of the&nbsp;virtualenv</p>
+<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">project</span> <span class="n">dir</span><span class="o">&gt;</span>
+<span class="n">setvirtualenvproject</span> <span class="err">$</span><span class="n">VIRTUAL_ENV</span> <span class="err">$</span><span class="p">(</span><span class="n">pwd</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Get a list of the Python modules and versions installed in an activated&nbsp;virtualenv</p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">freeze</span>
+</pre></div>
+
+
+<p>To deactivate a&nbsp;virtualenv</p>
+<div class="codehilite"><pre><span class="n">deactivate</span>
+</pre></div>
+
+
+<h4>Run ipython within the&nbsp;virtualenv:</h4>
+<div class="codehilite"><pre><span class="n">alias</span> <span class="n">ipy</span><span class="o">=</span><span class="err">\</span><span class="s">&quot;python -c &#39;import IPython;</span>
+</pre></div>
+
+
+<p>IPython.terminal.ipapp.launch_new_instance()&#8217;&#34;&nbsp;ipy</p>
+<h4>Run ipython with other&nbsp;options:</h4>
+<p>Add this to&nbsp;.bashrc:</p>
+<div class="codehilite"><pre><span class="n">alias</span> <span class="n">ipy</span><span class="o">=</span><span class="s">&quot;python -c &#39;import IPython;</span>
+</pre></div>
+
+
+<p>IPython.terminal.ipapp.launch_new_instance()&#8217;&#8221;</p>
+<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">ipyqt</span><span class="p">(){</span>
+    <span class="nx">python</span> <span class="o">-</span><span class="nx">c</span> <span class="err">&#39;</span><span class="kr">import</span> <span class="nx">IPython</span><span class="p">;</span>
+</pre></div>
+
+
+<p>IPython.start_ipython([&#8216;&#8221;&#8217;&#8220;&#8216;qtconsole&#8217;&#8221;&#8217;&#8221;&#8217;]);&#8217;&nbsp;}</p>
+<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">ipynote</span><span class="p">(){</span>
+    <span class="nx">python</span> <span class="o">-</span><span class="nx">c</span> <span class="s1">&#39;import IPython; IPython.start_ipython(</span><span class="cp">[</span><span class="s1">&#39;&quot;&#39;</span><span class="s2">&quot;&#39;notebook&#39;&quot;</span><span class="s1">&#39;&quot;&#39;</span><span class="cp">]</span><span class="s1">);&#39;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2>Another interesting&nbsp;option:</h2>
+<p>Download a virtualenv&nbsp;script:</p>
+<div class="codehilite"><pre><span class="n">wget</span> <span class="n">https</span><span class="o">:</span><span class="c1">//raw.github.com/pypa/virtualenv/1.9.X/virtualenv.py</span>
+</pre></div>
+
+
+<p>Give it execution&nbsp;permission:</p>
+<div class="codehilite"><pre><span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">virtualenv</span><span class="p">.</span><span class="n">py</span>
+</pre></div>
+
+
+<p>Create the&nbsp;virtualenv:</p>
+<div class="codehilite"><pre><span class="nx">.</span><span class="p">/</span><span class="nx">virtualenv.py</span> <span class="o">&lt;</span><span class="nx">env_name</span><span class="o">&gt;</span> <span class="na">-p</span> <span class="o">&lt;</span><span class="nx">path_to_python</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p>Activate:</p>
+<div class="codehilite"><pre><span class="nb">source</span> <span class="o">&lt;</span><span class="nx">env_name</span><span class="o">&gt;/</span><span class="nx">bin</span><span class="p">/</span><span class="nx">activate</span>
+</pre></div>
+
+
+<p>Python script shebang to use the&nbsp;enviroment:</p>
+<div class="codehilite"><pre><span class="s1">&#39;#!&lt;env_name&gt;/bin/python&#39;</span>
+</pre></div>
+
+
+<h2><span class="caps">REFERENCES</span>:</h2>
+<p><a href="http://www.virtualenv.org/en/latest/">http://www.virtualenv.org/en/latest/</a></p>
+<p><a href="http://virtualenvwrapper.readthedocs.org/en/latest/">http://virtualenvwrapper.readthedocs.org/en/latest/</a></p>
+<p><a href="http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html">http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html</a></p>
+<p><a href="http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-virtualenv-
+for-data-analysis-on-osx/">http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-virtualenv-&nbsp;for-data-analysis-on-osx/</a></p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://alexsavio.github.io/web virtualenv.html" rel="bookmark"
+                           title="Permalink to How to create a virtualenv for web development for Eve and MongoDB">How to create a virtualenv for web development for Eve and&nbsp;MongoDB</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-02-08T21:16:14">
+                Published: sáb 08 febrero 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://alexsavio.github.io/author/alexandre-m-savio.html">Alexandre M. Savio</a>
+        </address>
+<p>In <a href="http://alexsavio.github.io/category/python.html">Python</a>. </p>
+<p>tags: <a href="http://alexsavio.github.io/tag/python.html">python</a><a href="http://alexsavio.github.io/tag/virtualenv.html">virtualenv</a><a href="http://alexsavio.github.io/tag/web.html">web</a><a href="http://alexsavio.github.io/tag/mongodb.html">mongodb</a><a href="http://alexsavio.github.io/tag/eve.html">eve</a></p>
+</footer><!-- /.post-info -->                <p>Create a virtualenv with web development framework Flask</p>
+                <a class="readmore" href="http://alexsavio.github.io/web virtualenv.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://alexsavio.github.io/data-analysis-tools-install.html" rel="bookmark"
+                           title="Permalink to Installing common Python data analysis tools in virtualenv">Installing common Python data analysis tools in&nbsp;virtualenv</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-02-08T20:44:37">
+                Published: sáb 08 febrero 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://alexsavio.github.io/author/alexandre-m-savio.html">Alexandre M. Savio</a>
+        </address>
+<p>In <a href="http://alexsavio.github.io/category/python.html">Python</a>. </p>
+<p>tags: <a href="http://alexsavio.github.io/tag/python.html">python</a><a href="http://alexsavio.github.io/tag/virtualenv.html">virtualenv</a><a href="http://alexsavio.github.io/tag/data.html">data</a></p>
+</footer><!-- /.post-info -->                <p>Installing Python data analysis tools</p>
+                <a class="readmore" href="http://alexsavio.github.io/data-analysis-tools-install.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+            </ol><!-- /#posts-list -->
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://bcig.eu/">BCIG.EU</a></li>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
+
+                            <li><a href="http://twitter.com/alex_savio">twitter</a></li>
+                            <li><a href="http://github.com/alexsavio">github</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

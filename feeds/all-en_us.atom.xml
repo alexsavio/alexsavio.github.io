@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Interlines</title><link href="http://alexsavio.github.io/" rel="alternate"></link><link href="http://alexsavio.github.io/feeds/all-en_us.atom.xml" rel="self"></link><id>http://alexsavio.github.io/</id><updated>2014-02-08T21:16:14+00:00</updated><entry><title>How to create virtualenvs with Virtualenvwrapper</title><link href="http://alexsavio.github.io/virtualenvwrapper.html" rel="alternate"></link><updated>2014-02-08T21:16:14+00:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-02-08:virtualenvwrapper.html</id><summary type="html">&lt;h2&gt;Virtualenv and&amp;nbsp;virtualenvwrapper&lt;/h2&gt;
+&lt;p&gt;Install virtualenv and&amp;nbsp;virtualenvwrapper&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;python3&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pip&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;pip3&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;virtualenv&lt;/span&gt; &lt;span class="n"&gt;virtualenvwrapper&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Virtualenvwrapper .bashrc&amp;nbsp;setup:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;export WORKON_HOME=~/envs&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bashrc&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;source /usr/local/bin/virtualenvwrapper.sh&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bashrc&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;export PIP_REQUIRE_VIRTUALENV=true&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bashrc&lt;/span&gt;
+&lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bashrc&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;-PyCharm is a Python &lt;span class="caps"&gt;IDE&lt;/span&gt; with code assistance and analysis&amp;nbsp;http://www.jetbrains.com/pycharm/download/index.html&lt;/p&gt;
+&lt;h2&gt;Basic usage&amp;nbsp;commands&lt;/h2&gt;
+&lt;p&gt;Create a&amp;nbsp;virtualenv:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;mkvirtualenv&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Activate a&amp;nbsp;virtualenv:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;  &lt;span class="n"&gt;workon&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Install a package in the activated&amp;nbsp;virtualenv&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;package&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Go to its directory when it is&amp;nbsp;activated&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;cdvirtualenv&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Set a working directory as a project of the&amp;nbsp;virtualenv&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;project&lt;/span&gt; &lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="n"&gt;setvirtualenvproject&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;VIRTUAL_ENV&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pwd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Get a list of the Python modules and versions installed in an activated&amp;nbsp;virtualenv&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;freeze&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To deactivate a&amp;nbsp;virtualenv&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;deactivate&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Run ipython within the&amp;nbsp;virtualenv:&lt;/h4&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;ipy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;python -c &amp;#39;import IPython;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;IPython.terminal.ipapp.launch_new_instance()&amp;#8217;&amp;#34;&amp;nbsp;ipy&lt;/p&gt;
+&lt;h4&gt;Run ipython with other&amp;nbsp;options:&lt;/h4&gt;
+&lt;p&gt;Add this to&amp;nbsp;.bashrc:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;ipy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;python -c &amp;#39;import IPython;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;IPython.terminal.ipapp.launch_new_instance()&amp;#8217;&amp;#8221;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;ipyqt&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+    &lt;span class="nx"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;IPython&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;IPython.start_ipython([&amp;#8216;&amp;#8221;&amp;#8217;&amp;#8220;&amp;#8216;qtconsole&amp;#8217;&amp;#8221;&amp;#8217;&amp;#8221;&amp;#8217;]);&amp;#8217;&amp;nbsp;}&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;ipynote&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+    &lt;span class="nx"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;import IPython; IPython.start_ipython(&lt;/span&gt;&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;#39;notebook&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="s1"&gt;);&amp;#39;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Another interesting&amp;nbsp;option:&lt;/h2&gt;
+&lt;p&gt;Download a virtualenv&amp;nbsp;script:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;wget&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//raw.github.com/pypa/virtualenv/1.9.X/virtualenv.py&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Give it execution&amp;nbsp;permission:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;chmod&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;virtualenv&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Create the&amp;nbsp;virtualenv:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nx"&gt;.&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;virtualenv.py&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;env_name&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="na"&gt;-p&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;path_to_python&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Activate:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nb"&gt;source&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;env_name&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;/&lt;/span&gt;&lt;span class="nx"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;activate&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Python script shebang to use the&amp;nbsp;enviroment:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="s1"&gt;&amp;#39;#!&amp;lt;env_name&amp;gt;/bin/python&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;&lt;span class="caps"&gt;REFERENCES&lt;/span&gt;:&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://www.virtualenv.org/en/latest/"&gt;http://www.virtualenv.org/en/latest/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://virtualenvwrapper.readthedocs.org/en/latest/"&gt;http://virtualenvwrapper.readthedocs.org/en/latest/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html"&gt;http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-virtualenv-
+for-data-analysis-on-osx/"&gt;http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-virtualenv-&amp;nbsp;for-data-analysis-on-osx/&lt;/a&gt;&lt;/p&gt;</summary><category term="python"></category><category term="virtualenv"></category><category term="install"></category></entry><entry><title>How to create a virtualenv for web development for Eve and MongoDB</title><link href="http://alexsavio.github.io/web%20virtualenv.html" rel="alternate"></link><updated>2014-02-08T21:16:14+00:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-02-08:web virtualenv.html</id><summary type="html">&lt;h2&gt;Installing Web development&amp;nbsp;frameworks&lt;/h2&gt;
+&lt;p&gt;Create virtualenv for Sands (python&amp;nbsp;2.7.5)&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;mkvirtualenv&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;python2&lt;/span&gt;&lt;span class="mf"&gt;.7&lt;/span&gt; &lt;span class="n"&gt;myweb&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Note that you are using the virtualenv: (myweb) in the beggining of the shell&amp;nbsp;line.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;ipython&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;all&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;First set of tools (en&amp;nbsp;masse):&lt;/h4&gt;
+&lt;p&gt;Create&amp;nbsp;requirements.txt:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;Cerberus&lt;/span&gt;
+&lt;span class="n"&gt;Eve&lt;/span&gt;
+&lt;span class="n"&gt;Events&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Bootstrap&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Login&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Mail&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;MongoRest&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Principal&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;PyMongo&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Restless&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;SSLify&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Script&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Security&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;&lt;span class="caps"&gt;WTF&lt;/span&gt;&lt;/span&gt;
+&lt;span class="n"&gt;Jinja2&lt;/span&gt;
+&lt;span class="n"&gt;MarkupSafe&lt;/span&gt;
+&lt;span class="n"&gt;Pygments&lt;/span&gt;
+&lt;span class="n"&gt;Sphinx&lt;/span&gt;
+&lt;span class="n"&gt;Werkzeug&lt;/span&gt;
+&lt;span class="n"&gt;argparse&lt;/span&gt;
+&lt;span class="n"&gt;docutils&lt;/span&gt;
+&lt;span class="n"&gt;httpretty&lt;/span&gt;
+&lt;span class="n"&gt;itsdangerous&lt;/span&gt;
+&lt;span class="n"&gt;mongoengine&lt;/span&gt;
+&lt;span class="n"&gt;fake&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;factory&lt;/span&gt;
+&lt;span class="n"&gt;nose&lt;/span&gt;
+&lt;span class="n"&gt;py&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;bcrypt&lt;/span&gt;
+&lt;span class="n"&gt;pymongo&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dateutil&lt;/span&gt;
+&lt;span class="n"&gt;requests&lt;/span&gt;
+&lt;span class="n"&gt;six&lt;/span&gt;
+&lt;span class="n"&gt;tornado&lt;/span&gt;
+&lt;span class="n"&gt;urllib3&lt;/span&gt;
+&lt;span class="n"&gt;wsgiref&lt;/span&gt;
+&lt;span class="n"&gt;ujson&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To install all modules in&amp;nbsp;requirements.txt:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="n"&gt;requirements&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Other options: simpler, maybe&amp;nbsp;faster&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://flask-pymongo.readthedocs.org/en/latest/"&gt;http://flask-pymongo.readthedocs.org/en/latest/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://pythonhosted.org/Flask-Classy/"&gt;http://pythonhosted.org/Flask-Classy/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world"&gt;http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Python-Eve seems to be a good solution after&amp;nbsp;all:&lt;/h4&gt;
+&lt;p&gt;&lt;a href="http://python-eve.org/index.html"&gt;http://python-eve.org/index.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://blog.python-eve.org/eve-docs"&gt;http://blog.python-eve.org/eve-docs&lt;/a&gt;&lt;/p&gt;</summary><category term="python"></category><category term="virtualenv"></category><category term="web"></category><category term="mongodb"></category><category term="eve"></category></entry><entry><title>Installing common Python data analysis tools in virtualenv</title><link href="http://alexsavio.github.io/data-analysis-tools-install.html" rel="alternate"></link><updated>2014-02-08T20:44:37+00:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-02-08:data-analysis-tools-install.html</id><summary type="html">&lt;h3&gt;First create virtual&amp;nbsp;environment&lt;/h3&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nx"&gt;mkvirtualenv&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;env_name&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="na"&gt;-p&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;path_to_python&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;*&lt;/span&gt;
+
+&lt;span class="o"&gt;*&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;path_to_python&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;can&lt;/span&gt; &lt;span class="nx"&gt;be&lt;/span&gt; &lt;span class="nx"&gt;either&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;usr&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;python2&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;usr&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;python3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="nx"&gt;whatever&lt;/span&gt; &lt;span class="nx"&gt;you&lt;/span&gt; &lt;span class="nx"&gt;need.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Install&amp;nbsp;modules&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://ipython.org/"&gt;IPython&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;ipython&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;all&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://www.numpy.org/"&gt;Numpy&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Test&amp;nbsp;numpy&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;nose&lt;/span&gt;
+
+&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://cython.org/"&gt;Cython&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;cython&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://www.scipy.org/"&gt;Scipy&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;scipy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://docs.python.org/3.3/library/readline.html"&gt;Readline&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;easy_install&lt;/span&gt; &lt;span class="n"&gt;readline&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Other&amp;nbsp;dependencies&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dateutil&lt;/span&gt; &lt;span class="n"&gt;sphinx&lt;/span&gt; &lt;span class="n"&gt;pygments&lt;/span&gt; &lt;span class="n"&gt;tornado&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Graphical libraries for &lt;span class="caps"&gt;GUI&lt;/span&gt; building and IPython &lt;span class="caps"&gt;QT&lt;/span&gt;&amp;nbsp;console&lt;/h3&gt;
+&lt;h4&gt;You can either install them inside the virtual&amp;nbsp;environment:&lt;/h4&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;pyside&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;PyQt4 must be installed&amp;nbsp;globally:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;python3&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pyqt4&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;or&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pyqt4&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;We recommend installing them globally then linking from the&amp;nbsp;virtual&lt;/h4&gt;
+&lt;p&gt;environment:&lt;/p&gt;
+&lt;p&gt;First install&amp;nbsp;them:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;pip3&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;pyside&lt;/span&gt;
+
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;python3&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;qt4&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;or&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;pyside&lt;/span&gt;
+
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;qt4&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then link them (with the virtualenv&amp;nbsp;activated):&lt;/p&gt;
+&lt;p&gt;In [3] we can see a script to link any library to the virtual environment (save
+it in, e.g. symlink_pyqt4_and_sip.sh or ${WORKON_HOME}/postmkvirtualenv and
+execute&amp;nbsp;it):&lt;/p&gt;
+&lt;table class="codehilitetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="c"&gt;# This hook is run after a new virtualenv is activated.&lt;/span&gt;
+&lt;span class="c"&gt;# ~/.virtualenvs/postmkvirtualenv&lt;/span&gt;
+
+&lt;span class="nv"&gt;libs&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt; PyQt4 sip.so PySide &lt;span class="o"&gt;)&lt;/span&gt;
+
+&lt;span class="nv"&gt;python_version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;python&lt;span class="k"&gt;$(&lt;/span&gt;python -c &lt;span class="s2"&gt;&amp;quot;import sys; print (str(sys.version_info[0])+&amp;#39;.&amp;#39;+str(sys.version_info[1]))&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;which -a &lt;span class="nv"&gt;$python_version&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="o"&gt;)&lt;/span&gt;
+
+&lt;span class="nv"&gt;get_python_lib_cmd&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;from distutils.sysconfig import get_python_lib; print (get_python_lib())&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;lib_virtualenv_path&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;python -c &lt;span class="s2"&gt;&amp;quot;$get_python_lib_cmd&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="nv"&gt;lib_system_path&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(${&lt;/span&gt;&lt;span class="nv"&gt;var&lt;/span&gt;&lt;span class="p"&gt;[-1]&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; -c &lt;span class="s2"&gt;&amp;quot;$get_python_lib_cmd&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;for &lt;/span&gt;lib in &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;libs&lt;/span&gt;&lt;span class="p"&gt;[@]&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;do&lt;/span&gt;
+ln -s &lt;span class="nv"&gt;$lib_system_path&lt;/span&gt;/&lt;span class="nv"&gt;$lib&lt;/span&gt; &lt;span class="nv"&gt;$lib_virtualenv_path&lt;/span&gt;/&lt;span class="nv"&gt;$lib&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;h3&gt;Other interesting&amp;nbsp;modules&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://matplotlib.org/"&gt;matplotlib&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;matplotlib&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://scikit-image.org/"&gt;scikit-image&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;scikit&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;image&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://scikit-learn.org"&gt;scikit-learn&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;scikit&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;learn&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="https://github.com/scikit-fuzzy/scikit-fuzzy"&gt;scikit-fuzzy&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://pandas.pydata.org/"&gt;Pandas&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;numexpr&lt;/span&gt;
+&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;h5py&lt;/span&gt;
+&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;tables&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you have problems importing tables, you might need to download and compile
+hdf5 library:
+&lt;a href="http://www.hdfgroup.org/HDF5/release/obtainsrc.html"&gt;http://www.hdfgroup.org/&lt;span class="caps"&gt;HDF5&lt;/span&gt;/release/obtainsrc.html&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;pandas&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://statsmodels.sourceforge.net/"&gt;statsmodels&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;patsy&lt;/span&gt;
+&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;statsmodels&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://pymc-devs.github.io/pymc/"&gt;pymc&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;pymc&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Speed up&amp;nbsp;execution&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://pypi.python.org/pypi/Bottleneck"&gt;bottleneck&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;bottleneck&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="https://github.com/twiecki/CythonGSL"&gt;cythongsl&lt;/a&gt;
+ &lt;a href="http://nbviewer.ipython.org/github/twiecki/CythonGSL/blob/master/examples/cython_gsl_ipythonnb.ipynb"&gt;cythongsl-demo&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;cythongsl&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Neuroscience&amp;nbsp;tools:&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://nipy.org/nibabel/"&gt;Nibabel&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;nibabel&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://nipy.org/"&gt;Nipy&lt;/a&gt;*&amp;nbsp;Dependencies:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;sphinx&lt;/span&gt; &lt;span class="n"&gt;sympy&lt;/span&gt; &lt;span class="n"&gt;networkx&lt;/span&gt; &lt;span class="n"&gt;traits&lt;/span&gt;
+
+&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;nipy&lt;/span&gt;
+
+&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;nipype&lt;/span&gt; &lt;span class="n"&gt;dipy&lt;/span&gt; &lt;span class="n"&gt;nitime&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;(*) These tools only work on Python 2.* (in time of writing Feb 8th&amp;nbsp;2014):&lt;/p&gt;
+&lt;h3&gt;References&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-
+virtualenv-for-data-analysis-on-osx/"&gt;http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-&amp;nbsp;virtualenv-for-data-analysis-on-osx/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://calvinx.com/2012/11/03/ipython-qtconsole/"&gt;http://calvinx.com/2012/11/03/ipython-qtconsole/&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://gist.github.com/alexsavio/7580457"&gt;https://gist.github.com/alexsavio/7580457&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</summary><category term="python"></category><category term="virtualenv"></category><category term="data"></category></entry></feed>

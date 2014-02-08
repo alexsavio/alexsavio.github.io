@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en_us">
+<head>
+        <meta charset="utf-8" />
+        <title>Installing common Python data analysis tools in virtualenv</title>
+        <link rel="stylesheet" href="http://alexsavio.github.io/theme/css/main.css" />
+        <link href="http://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Interlines Atom Feed" />
+        <link href="http://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Interlines RSS Feed" />
+
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+<a href="http://github.com/alexsavio">
+<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
+</a>
+        <header id="banner" class="body">
+                <h1><a href="http://alexsavio.github.io/">Interlines  <strong>Lost in spikes</strong></a></h1>
+                <nav><ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="http://www.ehu.es/ccwintco/index.php/Usuario:Alexsavio">My CV</a></li>
+                    <li class="active"><a href="http://alexsavio.github.io/category/python.html">Python</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://alexsavio.github.io/data-analysis-tools-install.html" rel="bookmark"
+           title="Permalink to Installing common Python data analysis tools in virtualenv">Installing common Python data analysis tools in&nbsp;virtualenv</a></h1>
+<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="alex_savio">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-02-08T20:44:37">
+                Published: sáb 08 febrero 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://alexsavio.github.io/author/alexandre-m-savio.html">Alexandre M. Savio</a>
+        </address>
+<p>In <a href="http://alexsavio.github.io/category/python.html">Python</a>. </p>
+<p>tags: <a href="http://alexsavio.github.io/tag/python.html">python</a><a href="http://alexsavio.github.io/tag/virtualenv.html">virtualenv</a><a href="http://alexsavio.github.io/tag/data.html">data</a></p>
+</footer><!-- /.post-info -->      <h3>First create virtual&nbsp;environment</h3>
+<div class="codehilite"><pre><span class="nx">mkvirtualenv</span> <span class="o">&lt;</span><span class="nx">env_name</span><span class="o">&gt;</span> <span class="na">-p</span> <span class="o">&lt;</span><span class="nx">path_to_python</span><span class="o">&gt;*</span>
+
+<span class="o">*&lt;</span><span class="nx">path_to_python</span><span class="o">&gt;</span> <span class="nx">can</span> <span class="nx">be</span> <span class="nx">either</span> <span class="p">/</span><span class="nx">usr</span><span class="p">/</span><span class="nx">bin</span><span class="p">/</span><span class="nx">python2</span> <span class="ow">or</span> <span class="p">/</span><span class="nx">usr</span><span class="p">/</span><span class="nx">bin</span><span class="p">/</span><span class="nx">python3</span><span class="p">,</span>
+<span class="ow">or</span> <span class="nx">whatever</span> <span class="nx">you</span> <span class="nx">need.</span>
+</pre></div>
+
+
+<h3>Install&nbsp;modules</h3>
+<p><a href="http://ipython.org/">IPython</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">ipython</span><span class="p">[</span><span class="n">all</span><span class="p">]</span>
+</pre></div>
+
+
+<p><a href="http://www.numpy.org/">Numpy</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">numpy</span>
+</pre></div>
+
+
+<p>Test&nbsp;numpy</p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">nose</span>
+
+<span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="err">&#39;</span><span class="n">import</span> <span class="n">numpy</span><span class="p">;</span> <span class="n">numpy</span><span class="p">.</span><span class="n">test</span><span class="p">()</span><span class="err">&#39;</span>
+</pre></div>
+
+
+<p><a href="http://cython.org/">Cython</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">cython</span>
+</pre></div>
+
+
+<p><a href="http://www.scipy.org/">Scipy</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">scipy</span>
+</pre></div>
+
+
+<p><a href="http://docs.python.org/3.3/library/readline.html">Readline</a></p>
+<div class="codehilite"><pre> <span class="n">easy_install</span> <span class="n">readline</span>
+</pre></div>
+
+
+<p>Other&nbsp;dependencies</p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">dateutil</span> <span class="n">sphinx</span> <span class="n">pygments</span> <span class="n">tornado</span>
+</pre></div>
+
+
+<h3>Graphical libraries for <span class="caps">GUI</span> building and IPython <span class="caps">QT</span>&nbsp;console</h3>
+<h4>You can either install them inside the virtual&nbsp;environment:</h4>
+<div class="codehilite"><pre> <span class="n">pip</span> <span class="n">install</span> <span class="n">pyside</span>
+</pre></div>
+
+
+<p>PyQt4 must be installed&nbsp;globally:</p>
+<div class="codehilite"><pre> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">pyqt4</span>
+</pre></div>
+
+
+<p>or</p>
+<div class="codehilite"><pre> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">pyqt4</span>
+</pre></div>
+
+
+<h4>We recommend installing them globally then linking from the&nbsp;virtual</h4>
+<p>environment:</p>
+<p>First install&nbsp;them:</p>
+<div class="codehilite"><pre><span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">pyside</span>
+
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">qt4</span>
+</pre></div>
+
+
+<p>or</p>
+<div class="codehilite"><pre><span class="n">sudo</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pyside</span>
+
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">qt4</span>
+</pre></div>
+
+
+<p>Then link them (with the virtualenv&nbsp;activated):</p>
+<p>In [3] we can see a script to link any library to the virtual environment (save
+it in, e.g. symlink_pyqt4_and_sip.sh or ${WORKON_HOME}/postmkvirtualenv and
+execute&nbsp;it):</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="codehilite"><pre><span class="c">#!/bin/bash</span>
+<span class="c"># This hook is run after a new virtualenv is activated.</span>
+<span class="c"># ~/.virtualenvs/postmkvirtualenv</span>
+
+<span class="nv">libs</span><span class="o">=(</span> PyQt4 sip.so PySide <span class="o">)</span>
+
+<span class="nv">python_version</span><span class="o">=</span>python<span class="k">$(</span>python -c <span class="s2">&quot;import sys; print (str(sys.version_info[0])+&#39;.&#39;+str(sys.version_info[1]))&quot;</span><span class="k">)</span>
+<span class="nv">var</span><span class="o">=(</span> <span class="k">$(</span>which -a <span class="nv">$python_version</span><span class="k">)</span> <span class="o">)</span>
+
+<span class="nv">get_python_lib_cmd</span><span class="o">=</span><span class="s2">&quot;from distutils.sysconfig import get_python_lib; print (get_python_lib())&quot;</span>
+<span class="nv">lib_virtualenv_path</span><span class="o">=</span><span class="k">$(</span>python -c <span class="s2">&quot;$get_python_lib_cmd&quot;</span><span class="k">)</span>
+<span class="nv">lib_system_path</span><span class="o">=</span><span class="k">$(${</span><span class="nv">var</span><span class="p">[-1]</span><span class="k">}</span> -c <span class="s2">&quot;$get_python_lib_cmd&quot;</span><span class="k">)</span>
+
+<span class="k">for </span>lib in <span class="k">${</span><span class="nv">libs</span><span class="p">[@]</span><span class="k">}</span>
+<span class="k">do</span>
+ln -s <span class="nv">$lib_system_path</span>/<span class="nv">$lib</span> <span class="nv">$lib_virtualenv_path</span>/<span class="nv">$lib</span>
+<span class="k">done</span>
+</pre></div>
+</td></tr></table>
+
+<h3>Other interesting&nbsp;modules</h3>
+<p><a href="http://matplotlib.org/">matplotlib</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">matplotlib</span>
+</pre></div>
+
+
+<p><a href="http://scikit-image.org/">scikit-image</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">scikit</span><span class="o">-</span><span class="n">image</span>
+</pre></div>
+
+
+<p><a href="http://scikit-learn.org">scikit-learn</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">scikit</span><span class="o">-</span><span class="n">learn</span>
+</pre></div>
+
+
+<p><a href="https://github.com/scikit-fuzzy/scikit-fuzzy">scikit-fuzzy</a></p>
+<p><a href="http://pandas.pydata.org/">Pandas</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">numexpr</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">h5py</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">tables</span>
+</pre></div>
+
+
+<p>If you have problems importing tables, you might need to download and compile
+hdf5 library:
+<a href="http://www.hdfgroup.org/HDF5/release/obtainsrc.html">http://www.hdfgroup.org/<span class="caps">HDF5</span>/release/obtainsrc.html</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">pandas</span>
+</pre></div>
+
+
+<p><a href="http://statsmodels.sourceforge.net/">statsmodels</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">patsy</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">statsmodels</span>
+</pre></div>
+
+
+<p><a href="http://pymc-devs.github.io/pymc/">pymc</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">pymc</span>
+</pre></div>
+
+
+<h3>Speed up&nbsp;execution</h3>
+<p><a href="https://pypi.python.org/pypi/Bottleneck">bottleneck</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">bottleneck</span>
+</pre></div>
+
+
+<p><a href="https://github.com/twiecki/CythonGSL">cythongsl</a>
+ <a href="http://nbviewer.ipython.org/github/twiecki/CythonGSL/blob/master/examples/cython_gsl_ipythonnb.ipynb">cythongsl-demo</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">cythongsl</span>
+</pre></div>
+
+
+<h3>Neuroscience&nbsp;tools:</h3>
+<p><a href="http://nipy.org/nibabel/">Nibabel</a></p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">nibabel</span>
+</pre></div>
+
+
+<p><a href="http://nipy.org/">Nipy</a>*&nbsp;Dependencies:</p>
+<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">sphinx</span> <span class="n">sympy</span> <span class="n">networkx</span> <span class="n">traits</span>
+
+<span class="n">pip</span> <span class="n">install</span> <span class="n">nipy</span>
+
+<span class="n">pip</span> <span class="n">install</span> <span class="n">nipype</span> <span class="n">dipy</span> <span class="n">nitime</span>
+</pre></div>
+
+
+<p>(*) These tools only work on Python 2.* (in time of writing Feb 8th&nbsp;2014):</p>
+<h3>References</h3>
+<ol>
+<li>
+<p><a href="http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-
+virtualenv-for-data-analysis-on-osx/">http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-&nbsp;virtualenv-for-data-analysis-on-osx/</a></p>
+</li>
+<li>
+<p><a href="http://calvinx.com/2012/11/03/ipython-qtconsole/">http://calvinx.com/2012/11/03/ipython-qtconsole/</a></p>
+</li>
+<li>
+<p><a href="https://gist.github.com/alexsavio/7580457">https://gist.github.com/alexsavio/7580457</a></p>
+</li>
+</ol>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://bcig.eu/">BCIG.EU</a></li>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
+
+                            <li><a href="http://twitter.com/alex_savio">twitter</a></li>
+                            <li><a href="http://github.com/alexsavio">github</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
