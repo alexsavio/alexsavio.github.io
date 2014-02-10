@@ -14,7 +14,6 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;-PyCharm is a Python &lt;span class="caps"&gt;IDE&lt;/span&gt; with code assistance and analysis&amp;nbsp;http://www.jetbrains.com/pycharm/download/index.html&lt;/p&gt;
 &lt;h2&gt;Basic usage&amp;nbsp;commands&lt;/h2&gt;
 &lt;p&gt;Create a&amp;nbsp;virtualenv:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;mkvirtualenv&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;

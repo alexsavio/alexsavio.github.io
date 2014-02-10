@@ -21,9 +21,6 @@ Summary: Create virtualenvs with virtualenvwrapper
     source ~/.bashrc
 
 
--PyCharm is a Python IDE with code assistance and analysis
-http://www.jetbrains.com/pycharm/download/index.html
-
 ## Basic usage commands
 
  Create a virtualenv:
