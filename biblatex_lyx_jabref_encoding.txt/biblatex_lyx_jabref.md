@@ -84,6 +84,11 @@ Multiple databases must be loaded by multiple \addbibresource commands.
 Please refer to the [biblatex documentation](http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf) for further options. 
 
 
+#### Set biber as the BibTex processor
+
+In  Document→Settings→Bibliography, set the Processor as biber.
+
+
 #### Load the bibliography in a note
 
 In the document, insert the BibTeX inset (Insert→List/TOC→BibTeX Bibliography... ) in a LyX note or comment, 

@@ -52,6 +52,8 @@ BibLatex on&amp;nbsp;Lyx.&lt;/p&gt;
 
 &lt;p&gt;Multiple databases must be loaded by multiple \addbibresource&amp;nbsp;commands.&lt;/p&gt;
 &lt;p&gt;Please refer to the &lt;a href="http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf"&gt;biblatex documentation&lt;/a&gt; for further&amp;nbsp;options. &lt;/p&gt;
+&lt;h4&gt;Set biber as the BibTex&amp;nbsp;processor&lt;/h4&gt;
+&lt;p&gt;In  Document→Settings→Bibliography, set the Processor as&amp;nbsp;biber.&lt;/p&gt;
 &lt;h4&gt;Load the bibliography in a&amp;nbsp;note&lt;/h4&gt;
 &lt;p&gt;In the document, insert the BibTeX inset (Insert→List/&lt;span class="caps"&gt;TOC&lt;/span&gt;→BibTeX Bibliography&amp;#8230; ) in a LyX note or comment, 
 such that LyX finds the citations, but no \bibliography command is output to&amp;nbsp;LaTeX. &lt;/p&gt;
