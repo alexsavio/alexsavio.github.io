@@ -12,7 +12,8 @@ For publishing articles with Lyx I've used Zotero, JabRef and Lyx during my PhD.
 I've always had problems with the encoding of the BibTex files and ended up
 editing them in JabRef, removing/replacing strange characters.
 
-Today a good friend indicated me [BibLatex](http://www.ctan.org/pkg/biblatex).
+Today my beloved girlfriend (are you happy now?) indicated me 
+[BibLatex](http://www.ctan.org/pkg/biblatex).
 And we saw that Lyx could be configured to use it through 
 [biber](http://biblatex-biber.sourceforge.net/).
 
