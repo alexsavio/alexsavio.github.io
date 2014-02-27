@@ -22,16 +22,120 @@
                 <nav><ul>
                     <li><a href="about.html">About</a></li>
                     <li><a href="http://www.ehu.es/ccwintco/index.php/Usuario:Alexsavio">My CV</a></li>
+                    <li><a href="http://alexsavio.github.io/category/latex.html">LaTex</a></li>
                     <li><a href="http://alexsavio.github.io/category/python.html">Python</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://alexsavio.github.io/virtualenvwrapper.html">How to create virtualenvs with&nbsp;Virtualenvwrapper</a></h1>
+                    <h1 class="entry-title"><a href="http://alexsavio.github.io/biblatex_lyx_jabref_encoding.html">Using BibLatex with Lyx and&nbsp;JabRef</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-02-27T18:11:46">
+                Published: Thu 27 February 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://alexsavio.github.io/author/alexandre-m-savio.html">Alexandre M. Savio</a>
+        </address>
+<p>In <a href="http://alexsavio.github.io/category/latex.html">LaTex</a>. </p>
+<p>tags: <a href="http://alexsavio.github.io/tag/latex.html">latex</a><a href="http://alexsavio.github.io/tag/lyx.html">lyx</a><a href="http://alexsavio.github.io/tag/bibtex.html">bibtex</a></p>
+</footer><!-- /.post-info --><h3>Introduction</h3>
+<p>For publishing articles with Lyx I&#8217;ve used Zotero, JabRef and Lyx during my PhD.
+I&#8217;ve always had problems with the encoding of the BibTex files and ended up
+editing them in JabRef, removing/replacing strange&nbsp;characters.</p>
+<p>Today a good friend indicated me <a href="http://www.ctan.org/pkg/biblatex">BibLatex</a>.
+And we saw that Lyx could be configured to use it through 
+<a href="http://biblatex-biber.sourceforge.net/">biber</a>.</p>
+<p>This is a list of steps that you should perform in order to be able to use
+BibLatex on&nbsp;Lyx.</p>
+<h3>Step 1: Reconfigure encodings in Zotero and&nbsp;JabRef</h3>
+<p>Setup Zotero to export to&nbsp;<span class="caps">UTF</span>-8.</p>
+<p>Setup JabRef to use the default encoding as&nbsp;<span class="caps">UTF</span>-8.</p>
+<h3>Step 2: Install biblatex and&nbsp;biber</h3>
+<p>In Ubuntu I installed the packages: <em>biblatex texlive-latex-extra&nbsp;texlive-bibtex-extra</em></p>
+<h3>Step 3: Create the biblatex.module&nbsp;file</h3>
+<p>Create a file named biblatex.module with the following&nbsp;content:</p>
+<div class="codehilite"><pre><span class="cp">#\DeclareLyXModule{Biblatex-citation-styles}</span>
+<span class="cp">#DescriptionBegin</span>
+<span class="cp">#A prerequisite for using the biblatex package. This module simply</span>
+<span class="cp">#enables the author/year citation styles without actually loading natbib.</span>
+<span class="cp">#Biblatex itself needs to be loaded manually. Cf.</span>
+<span class="cp">#http:</span><span class="c1">//wiki.lyx.org/BibTeX/Biblatex</span>
+<span class="cp">#DescriptionEnd</span>
+
+<span class="n">Format</span> <span class="mi">11</span>
+
+<span class="cp"># this is biblatex actually</span>
+<span class="n">Provides</span> <span class="n">natbib</span>    <span class="mi">1</span>
+</pre></div>
+
+
+<p>Put the file biblatex.module in the layouts folder in your user directory 
+(Help→About LyX tells you where you can find this directory; in the latest versions of <span class="caps">OSX</span> the correct layouts folder is in the applications&nbsp;folder).</p>
+<p>In Ubuntu it is&nbsp;~/.lyx</p>
+<p>Run Tools→Reconfigure, restart&nbsp;LyX.</p>
+<h3>Step 4: Creating the .lyx&nbsp;file</h3>
+<h4>Add the biblatex&nbsp;module</h4>
+<p>Add to &#8220;Selected&#8221; the module &#8220;Biblatex-citation-styles&#8221; from&nbsp;Document→Settings→Modules. </p>
+<h4>Load biblatex in the&nbsp;preamble</h4>
+<p>In the document preamble (Document→Settings→Preamble) you have to load biblatex manually,&nbsp;with:</p>
+<div class="codehilite"><pre><span class="err">\</span><span class="n">usepackage</span><span class="p">[</span><span class="n">natbib</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="n">numeric</span><span class="p">,</span><span class="n">backend</span><span class="o">=</span><span class="n">biber</span><span class="p">,</span><span class="n">maxnames</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">doi</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span><span class="n">bibencoding</span><span class="o">=</span><span class="n">utf8</span><span class="p">]{</span><span class="n">biblatex</span><span class="p">}</span>
+</pre></div>
+
+
+<h4>Load the bibliography in the&nbsp;preamble</h4>
+<p>Load your bibliography database in the&nbsp;preamble:</p>
+<div class="codehilite"><pre><span class="err">\</span><span class="n">addbibresource</span><span class="p">{</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">alexandre</span><span class="o">/</span><span class="n">mybibs</span><span class="p">.</span><span class="n">bib</span><span class="p">}</span>
+</pre></div>
+
+
+<p>Multiple databases must be loaded by multiple \addbibresource&nbsp;commands.</p>
+<p>Please refer to the <a href="http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf">biblatex documentation</a> for further&nbsp;options. </p>
+<h4>Load the bibliography in a&nbsp;note</h4>
+<p>In the document, insert the BibTeX inset (Insert→List/<span class="caps">TOC</span>→BibTeX Bibliography&#8230; ) in a LyX note or comment, 
+such that LyX finds the citations, but no \bibliography command is output to&nbsp;LaTeX. </p>
+<p>It does not matter which style you chose here, so you can stick with &#8220;plain&#8221;. 
+However, in order to use the citation dialog, you&#8217;ll have to choose the correct databases (i.e. those you loaded above in item&nbsp;(3)).</p>
+<p>This is only needed if you are going to use the citation dialog. I use JabRef to push the citations&nbsp;instead.</p>
+<h4>Put the printbibliography&nbsp;command</h4>
+<p>In the document, enter \printbibliography in <span class="caps">ERT</span> (TeX mode) at the place where the bibliography shall&nbsp;occur. </p>
+<h4>View the file in&nbsp;<span class="caps">PDF</span></h4>
+<p>And this should do&nbsp;it.</p>
+<h3>References</h3>
+<ol>
+<li>
+<p><a href="http://wiki.lyx.org/BibTeX/Tips">http://wiki.lyx.org/BibTeX/Tips</a></p>
+</li>
+<li>
+<p><a href="http://wiki.lyx.org/BibTeX/Biblatex">http://wiki.lyx.org/BibTeX/Biblatex</a></p>
+</li>
+<li>
+<p><a href="http://wiki.lyx.org/BibTeX/BiblatexStyles">http://wiki.lyx.org/BibTeX/BiblatexStyles</a></p>
+</li>
+<li>
+<p>The biblatex.module file: <a href="http://wiki.lyx.org/uploads/BibTeX/biblatex.module">http://wiki.lyx.org/uploads/BibTeX/biblatex.module</a></p>
+</li>
+<li>
+<p>The bibtexall script: <a href="http://wiki.lyx.org/uploads/BibTeX/bibtexall">http://wiki.lyx.org/uploads/BibTeX/bibtexall</a></p>
+</li>
+</ol>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://alexsavio.github.io/virtualenvwrapper.html" rel="bookmark"
+                           title="Permalink to How to create virtualenvs with Virtualenvwrapper">How to create virtualenvs with&nbsp;Virtualenvwrapper</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-02-08T21:16:14">
-                Published: sáb 08 febrero 2014
+                Published: Sat 08 February 2014
         </abbr>
 
         <address class="vcard author">
@@ -39,120 +143,10 @@
         </address>
 <p>In <a href="http://alexsavio.github.io/category/python.html">Python</a>. </p>
 <p>tags: <a href="http://alexsavio.github.io/tag/python.html">python</a><a href="http://alexsavio.github.io/tag/virtualenv.html">virtualenv</a><a href="http://alexsavio.github.io/tag/install.html">install</a></p>
-</footer><!-- /.post-info --><h2>Virtualenv and&nbsp;virtualenvwrapper</h2>
-<p>Install virtualenv and&nbsp;virtualenvwrapper</p>
-<div class="codehilite"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">pip</span>
-<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">virtualenv</span> <span class="n">virtualenvwrapper</span>
-</pre></div>
-
-
-<p>Virtualenvwrapper .bashrc&nbsp;setup:</p>
-<div class="codehilite"><pre><span class="n">echo</span> <span class="s">&quot;export WORKON_HOME=~/envs&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span>
-<span class="n">echo</span> <span class="s">&quot;source /usr/local/bin/virtualenvwrapper.sh&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span>
-<span class="n">echo</span> <span class="s">&quot;export PIP_REQUIRE_VIRTUALENV=true&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span>
-<span class="n">source</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span>
-</pre></div>
-
-
-<h2>Basic usage&nbsp;commands</h2>
-<p>Create a&nbsp;virtualenv:</p>
-<div class="codehilite"><pre> <span class="n">mkvirtualenv</span> <span class="o">&lt;</span><span class="n">env</span> <span class="n">name</span><span class="o">&gt;</span>
-</pre></div>
-
-
-<p>Activate a&nbsp;virtualenv:</p>
-<div class="codehilite"><pre>  <span class="n">workon</span> <span class="o">&lt;</span><span class="n">env</span> <span class="n">name</span><span class="o">&gt;</span>
-</pre></div>
-
-
-<p>Install a package in the activated&nbsp;virtualenv</p>
-<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="o">&lt;</span><span class="n">package</span> <span class="n">name</span><span class="o">&gt;</span>
-</pre></div>
-
-
-<p>Go to its directory when it is&nbsp;activated</p>
-<div class="codehilite"><pre><span class="n">cdvirtualenv</span>
-</pre></div>
-
-
-<p>Set a working directory as a project of the&nbsp;virtualenv</p>
-<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">project</span> <span class="n">dir</span><span class="o">&gt;</span>
-<span class="n">setvirtualenvproject</span> <span class="err">$</span><span class="n">VIRTUAL_ENV</span> <span class="err">$</span><span class="p">(</span><span class="n">pwd</span><span class="p">)</span>
-</pre></div>
-
-
-<p>Get a list of the Python modules and versions installed in an activated&nbsp;virtualenv</p>
-<div class="codehilite"><pre><span class="n">pip</span> <span class="n">freeze</span>
-</pre></div>
-
-
-<p>To deactivate a&nbsp;virtualenv</p>
-<div class="codehilite"><pre><span class="n">deactivate</span>
-</pre></div>
-
-
-<h4>Run ipython within the&nbsp;virtualenv:</h4>
-<div class="codehilite"><pre><span class="n">alias</span> <span class="n">ipy</span><span class="o">=</span><span class="err">\</span><span class="s">&quot;python -c &#39;import IPython;</span>
-</pre></div>
-
-
-<p>IPython.terminal.ipapp.launch_new_instance()&#8217;&#34;&nbsp;ipy</p>
-<h4>Run ipython with other&nbsp;options:</h4>
-<p>Add this to&nbsp;.bashrc:</p>
-<div class="codehilite"><pre><span class="n">alias</span> <span class="n">ipy</span><span class="o">=</span><span class="s">&quot;python -c &#39;import IPython;</span>
-</pre></div>
-
-
-<p>IPython.terminal.ipapp.launch_new_instance()&#8217;&#8221;</p>
-<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">ipyqt</span><span class="p">(){</span>
-    <span class="nx">python</span> <span class="o">-</span><span class="nx">c</span> <span class="err">&#39;</span><span class="kr">import</span> <span class="nx">IPython</span><span class="p">;</span>
-</pre></div>
-
-
-<p>IPython.start_ipython([&#8216;&#8221;&#8217;&#8220;&#8216;qtconsole&#8217;&#8221;&#8217;&#8221;&#8217;]);&#8217;&nbsp;}</p>
-<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">ipynote</span><span class="p">(){</span>
-    <span class="nx">python</span> <span class="o">-</span><span class="nx">c</span> <span class="s1">&#39;import IPython; IPython.start_ipython(</span><span class="cp">[</span><span class="s1">&#39;&quot;&#39;</span><span class="s2">&quot;&#39;notebook&#39;&quot;</span><span class="s1">&#39;&quot;&#39;</span><span class="cp">]</span><span class="s1">);&#39;</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h2>Another interesting&nbsp;option:</h2>
-<p>Download a virtualenv&nbsp;script:</p>
-<div class="codehilite"><pre><span class="n">wget</span> <span class="n">https</span><span class="o">:</span><span class="c1">//raw.github.com/pypa/virtualenv/1.9.X/virtualenv.py</span>
-</pre></div>
-
-
-<p>Give it execution&nbsp;permission:</p>
-<div class="codehilite"><pre><span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">virtualenv</span><span class="p">.</span><span class="n">py</span>
-</pre></div>
-
-
-<p>Create the&nbsp;virtualenv:</p>
-<div class="codehilite"><pre><span class="nx">.</span><span class="p">/</span><span class="nx">virtualenv.py</span> <span class="o">&lt;</span><span class="nx">env_name</span><span class="o">&gt;</span> <span class="na">-p</span> <span class="o">&lt;</span><span class="nx">path_to_python</span><span class="o">&gt;</span>
-</pre></div>
-
-
-<p>Activate:</p>
-<div class="codehilite"><pre><span class="nb">source</span> <span class="o">&lt;</span><span class="nx">env_name</span><span class="o">&gt;/</span><span class="nx">bin</span><span class="p">/</span><span class="nx">activate</span>
-</pre></div>
-
-
-<p>Python script shebang to use the&nbsp;enviroment:</p>
-<div class="codehilite"><pre><span class="s1">&#39;#!&lt;env_name&gt;/bin/python&#39;</span>
-</pre></div>
-
-
-<h2><span class="caps">REFERENCES</span>:</h2>
-<p><a href="http://www.virtualenv.org/en/latest/">http://www.virtualenv.org/en/latest/</a></p>
-<p><a href="http://virtualenvwrapper.readthedocs.org/en/latest/">http://virtualenvwrapper.readthedocs.org/en/latest/</a></p>
-<p><a href="http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html">http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html</a></p>
-<p><a href="http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-virtualenv-
-for-data-analysis-on-osx/">http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-virtualenv-&nbsp;for-data-analysis-on-osx/</a></p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>Create virtualenvs with virtualenvwrapper</p>
+                <a class="readmore" href="http://alexsavio.github.io/virtualenvwrapper.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -163,7 +157,7 @@ for-data-analysis-on-osx/">http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/
                 <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-02-08T21:16:14">
-                Published: sáb 08 febrero 2014
+                Published: Sat 08 February 2014
         </abbr>
 
         <address class="vcard author">
@@ -185,7 +179,7 @@ for-data-analysis-on-osx/">http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/
                 <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-02-08T20:44:37">
-                Published: sáb 08 febrero 2014
+                Published: Sat 08 February 2014
         </abbr>
 
         <address class="vcard author">
