@@ -5,28 +5,35 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://alexsavio.github.io/index.html</loc>
-<lastmod>2014-02-27T19:23:21-00:00</lastmod>
+<lastmod>2014-04-08T00:13:02-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://alexsavio.github.io/archives.html</loc>
-<lastmod>2014-02-27T19:23:21-00:00</lastmod>
+<lastmod>2014-04-08T00:13:02-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://alexsavio.github.io/tags.html</loc>
-<lastmod>2014-02-27T19:23:21-00:00</lastmod>
+<lastmod>2014-04-08T00:13:02-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://alexsavio.github.io/categories.html</loc>
-<lastmod>2014-02-27T19:23:21-00:00</lastmod>
+<lastmod>2014-04-08T00:13:02-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://alexsavio.github.io/numpy_scipy_mkl.html</loc>
+<lastmod>2014-04-08T22:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -68,7 +75,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://alexsavio.github.io/category/python.html</loc>
-<lastmod>2014-02-08T21:16:14-00:00</lastmod>
+<lastmod>2014-04-08T22:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -102,8 +109,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://alexsavio.github.io/tag/mongodb.html</loc>
-<lastmod>2014-02-08T21:16:14-00:00</lastmod>
+<loc>http://alexsavio.github.io/tag/numpy.html</loc>
+<lastmod>2014-04-08T22:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://alexsavio.github.io/tag/mkl.html</loc>
+<lastmod>2014-04-08T22:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -123,6 +137,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://alexsavio.github.io/tag/scipy.html</loc>
+<lastmod>2014-04-08T22:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://alexsavio.github.io/tag/bibtex.html</loc>
 <lastmod>2014-02-27T18:11:46-00:00</lastmod>
 <changefreq>daily</changefreq>
@@ -131,6 +152,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://alexsavio.github.io/tag/install.html</loc>
+<lastmod>2014-02-08T21:16:14-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://alexsavio.github.io/tag/mongodb.html</loc>
 <lastmod>2014-02-08T21:16:14-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
@@ -146,6 +174,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://alexsavio.github.io/author/alexandre-m-savio.html</loc>
 <lastmod>2014-02-27T18:11:46-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://alexsavio.github.io/author/alexandre-savio.html</loc>
+<lastmod>2014-04-08T22:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

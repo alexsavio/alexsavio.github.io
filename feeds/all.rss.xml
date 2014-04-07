@@ -1,5 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Interlines</title><link>http://alexsavio.github.io/</link><description>Lost in spikes</description><atom:link href="http://alexsavio.github.io/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 27 Feb 2014 18:11:46 +0000</lastBuildDate><item><title>Using BibLatex with Lyx and JabRef</title><link>http://alexsavio.github.io/biblatex_lyx_jabref_encoding.html</link><description>&lt;h3&gt;Introduction&lt;/h3&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Interlines</title><link>http://alexsavio.github.io/</link><description>Lost in spikes</description><atom:link href="http://alexsavio.github.io/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 08 Apr 2014 22:00:00 +0100</lastBuildDate><item><title>Compile Numpy and Scipy against Intel MKL</title><link>http://alexsavio.github.io/numpy_scipy_mkl.html</link><description>&lt;h3&gt;Install C++ Composer and &lt;span class="caps"&gt;FORTRAN&lt;/span&gt; Composer, with &lt;span class="caps"&gt;MKL&lt;/span&gt;&lt;/h3&gt;
+&lt;h6&gt;Tested on Ubuntu&amp;nbsp;13.10&lt;/h6&gt;
+&lt;h4&gt;Fill forms and download online installation shell scripts&amp;nbsp;from:&lt;/h4&gt;
+&lt;p&gt;http://software.intel.com/en-us/non-commercial-software-development&lt;/p&gt;
+&lt;h4&gt;Execute shell scripts with&amp;nbsp;sudo&lt;/h4&gt;
+&lt;p&gt;The libraries will be installed in&amp;nbsp;/opt/intel&lt;/p&gt;
+&lt;h4&gt;Once installed, add this to&amp;nbsp;~/.bashrc&lt;/h4&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;                #Intel C++ Studio
+if [ -d /opt/intel ]; 
+then
+    export INTEL_HOME=/opt/intel
+    export PATH=&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;PATH&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;:&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;INTEL_HOME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;/bin
+    export LD_LIBRARY_PATH=/opt/intel/mkl/lib/intel64:/opt/intel/lib/intel64:&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;
+fi
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Add this to&amp;nbsp;/etc/ld.so.conf.d/intel.conf:&lt;/h4&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;            &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;intel&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;intel64&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;/opt/intel/lib/intel64/irml
+/opt/intel/lib/intel64/crt&amp;nbsp;/opt/intel/mkl/lib/intel64&lt;/p&gt;
+&lt;h4&gt;Open a new&amp;nbsp;terminal.&lt;/h4&gt;
+&lt;h4&gt;Download Numpy and&amp;nbsp;Scipy:&lt;/h4&gt;
+&lt;p&gt;http://www.scipy.org/scipylib/download.html&lt;/p&gt;
+&lt;h4&gt;Modify Numpy source&amp;nbsp;code:&lt;/h4&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;            &lt;span class="n"&gt;Change&lt;/span&gt; &lt;span class="n"&gt;directory&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Create a site.cfg from the existing&amp;nbsp;one&lt;/p&gt;
+&lt;p&gt;Edit site.cfg as&amp;nbsp;follows:&lt;/p&gt;
+&lt;p&gt;Add the following lines to site.cfg in your top level NumPy directory to use Intel® &lt;span class="caps"&gt;MKL&lt;/span&gt;, if you are building on Intel 64 platform, assuming the default path for the Intel &lt;span class="caps"&gt;MKL&lt;/span&gt; installation from the Intel Parallel Studio &lt;span class="caps"&gt;XE&lt;/span&gt; 2013 or Intel Composer &lt;span class="caps"&gt;XE&lt;/span&gt; 2013&amp;nbsp;versions:&lt;/p&gt;
+&lt;p&gt;[mkl]
+library_dirs = /opt/intel/mkl/lib/intel64
+include_dirs = /opt/intel/mkl/include
+mkl_libs = mkl_rt
+lapack_libs&amp;nbsp;=&lt;/p&gt;
+&lt;p&gt;If you are building NumPy for 32 bit, please add as the&amp;nbsp;following&lt;/p&gt;
+&lt;p&gt;[mkl] 
+library_dirs = /opt/intel/mkl/lib/ia32
+include_dirs = /opt/intel/mkl/include
+mkl_libs = mkl_rt
+lapack_libs&amp;nbsp;=&lt;/p&gt;
+&lt;p&gt;Modify cc_exe in numpy/distutils/intelccompiler.py to be something&amp;nbsp;like:&lt;/p&gt;
+&lt;p&gt;self.cc_exe = &amp;#8216;icc -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp&amp;nbsp;-xhost&amp;#8217; &lt;/p&gt;
+&lt;p&gt;Here we use, -O3, optimizations for speed and enables more aggressive loop transformations such as Fusion, Block-Unroll-and-Jam, and collapsing &lt;span class="caps"&gt;IF&lt;/span&gt; statements, -openmp for OpenMP threading and -xhost option tells the compiler to generate instructions for the highest instruction set available on the compilation host processor. If you are using the &lt;span class="caps"&gt;ILP64&lt;/span&gt; interface, please add -DMKL_ILP64 compiler&amp;nbsp;flag.&lt;/p&gt;
+&lt;p&gt;Run icc &amp;#8212;help for more information on processor-specific options, and refer Intel Compiler documentation for more details on the various compiler&amp;nbsp;flags.&lt;/p&gt;
+&lt;p&gt;Modify the the Fortran compiler flags in numpy-x.x.x/numpy/distutil/fcompiler/intel.py to use the following compiler options for the Intel Fortran&amp;nbsp;Compiler:&lt;/p&gt;
+&lt;p&gt;For ia32 and&amp;nbsp;Intel64&lt;/p&gt;
+&lt;p&gt;ifort -xhost -openmp -fp-model strict&amp;nbsp;-fPIC&lt;/p&gt;
+&lt;p&gt;Modify the get_flags_opt function line to:
+    return [&amp;#8216;-xhost -openmp -fp-model&amp;nbsp;strict&amp;#8217;]&lt;/p&gt;
+&lt;p&gt;If you are using &lt;span class="caps"&gt;ILP64&lt;/span&gt; interface of Intel &lt;span class="caps"&gt;MKL&lt;/span&gt;, please add -i8 flag above.  If you are using older versions of Numpy/SciPy, please refer the new intel.py for your reference from the latest version of NumPy, which can be replaced to use the above mentioned compiler&amp;nbsp;options.&lt;/p&gt;
+&lt;h4&gt;Compile Numpy and Scipy with the following command (once for Numpy and&amp;nbsp;then&lt;/h4&gt;
+&lt;p&gt;once for&amp;nbsp;Scipy):&lt;/p&gt;
+&lt;p&gt;Remember to activate the virtual environment if you are going to use this in&amp;nbsp;one.&lt;/p&gt;
+&lt;h5&gt;For&amp;nbsp;64-bit:&lt;/h5&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;compiler&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;intelem&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;fcompiler&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;intelem&lt;/span&gt; &lt;span class="n"&gt;build_clib&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;#8212;compiler=intelem &amp;#8212;fcompiler=intelem build_ext &amp;#8212;compiler=intelem
+&amp;#8212;fcompiler=intelem&amp;nbsp;install&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;compiler&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;intelem&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;fcompiler&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;intelem&lt;/span&gt; &lt;span class="n"&gt;build_clib&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;#8212;compiler=intelem &amp;#8212;fcompiler=intelem build_ext &amp;#8212;compiler=intelem
+&amp;#8212;fcompiler=intelem&amp;nbsp;install&lt;/p&gt;
+&lt;h5&gt;For&amp;nbsp;32-bit:&lt;/h5&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;compiler&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;intel&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;fcompiler&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;intel&lt;/span&gt; &lt;span class="n"&gt;build_clib&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;#8212;compiler=intel &amp;#8212;fcompiler=intel build_ext &amp;#8212;compiler=intel &amp;#8212;fcompiler=intel&amp;nbsp;install&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;compiler&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;intelem&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;fcompiler&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;intelem&lt;/span&gt; &lt;span class="n"&gt;build_clib&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;#8212;compiler=intelem &amp;#8212;fcompiler=intelem build_ext &amp;#8212;compiler=intelem
+&amp;#8212;fcompiler=intelem&amp;nbsp;install&lt;/p&gt;
+&lt;h4&gt;Troubleshooting:&lt;/h4&gt;
+&lt;h5&gt;Compiling Scipy: &amp;#8220;Using deprecated NumPy &lt;span class="caps"&gt;API&lt;/span&gt;, disable it by&amp;nbsp;&amp;#8220;&lt;/h5&gt;
+&lt;p&gt;Maybe it is the version of &lt;span class="caps"&gt;GCC&lt;/span&gt;, try using 4.7 (worked on November&amp;nbsp;2013).&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;gcc&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;4.7&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;rm&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;gcc&lt;/span&gt;
+&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;ln&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;gcc&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;4.7&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;gcc&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Compile both Numpy and Scipy&amp;nbsp;again.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alexandre Savio</dc:creator><pubDate>Tue, 08 Apr 2014 22:00:00 +0100</pubDate><guid>tag:alexsavio.github.io,2014-04-08:numpy_scipy_mkl.html</guid><category>Numpy</category><category>Scipy</category><category>MKL</category></item><item><title>Using BibLatex with Lyx and JabRef</title><link>http://alexsavio.github.io/biblatex_lyx_jabref_encoding.html</link><description>&lt;h3&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;For publishing articles with Lyx I&amp;#8217;ve used Zotero, JabRef and Lyx during my PhD.
 I&amp;#8217;ve always had problems with the encoding of the BibTex files and ended up
 editing them in JabRef, removing/replacing strange&amp;nbsp;characters.&lt;/p&gt;
@@ -10,8 +107,8 @@ And we saw that Lyx could be configured to use it through
 &lt;p&gt;This is a list of steps that you should perform in order to be able to use
 BibLatex on&amp;nbsp;Lyx.&lt;/p&gt;
 &lt;h3&gt;Step 1: Reconfigure encodings in Zotero and&amp;nbsp;JabRef&lt;/h3&gt;
-&lt;p&gt;Setup Zotero to export to&amp;nbsp;&lt;span class="caps"&gt;UTF&lt;/span&gt;-8.&lt;/p&gt;
-&lt;p&gt;Setup JabRef to use the default encoding as&amp;nbsp;&lt;span class="caps"&gt;UTF&lt;/span&gt;-8.&lt;/p&gt;
+&lt;p&gt;Setup Zotero to export to &lt;span class="caps"&gt;UTF&lt;/span&gt;-8.&lt;/p&gt;
+&lt;p&gt;Setup JabRef to use the default encoding as &lt;span class="caps"&gt;UTF&lt;/span&gt;-8.&lt;/p&gt;
 &lt;h3&gt;Step 2: Install biblatex and&amp;nbsp;biber&lt;/h3&gt;
 &lt;p&gt;In Ubuntu I installed the packages: &lt;em&gt;biblatex texlive-latex-extra&amp;nbsp;texlive-bibtex-extra&lt;/em&gt;&lt;/p&gt;
 &lt;h3&gt;Step 3: Create the biblatex.module&amp;nbsp;file&lt;/h3&gt;
@@ -62,7 +159,7 @@ However, in order to use the citation dialog, you&amp;#8217;ll have to choose th
 &lt;p&gt;This is only needed if you are going to use the citation dialog. I use JabRef to push the citations&amp;nbsp;instead.&lt;/p&gt;
 &lt;h4&gt;Put the printbibliography&amp;nbsp;command&lt;/h4&gt;
 &lt;p&gt;In the document, enter \printbibliography in &lt;span class="caps"&gt;ERT&lt;/span&gt; (TeX mode) at the place where the bibliography shall&amp;nbsp;occur. &lt;/p&gt;
-&lt;h4&gt;View the file in&amp;nbsp;&lt;span class="caps"&gt;PDF&lt;/span&gt;&lt;/h4&gt;
+&lt;h4&gt;View the file in &lt;span class="caps"&gt;PDF&lt;/span&gt;&lt;/h4&gt;
 &lt;p&gt;And this should do&amp;nbsp;it.&lt;/p&gt;
 &lt;h3&gt;References&lt;/h3&gt;
 &lt;ol&gt;
@@ -216,7 +313,7 @@ for-data-analysis-on-osx/"&gt;http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/
 &lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;SSLify&lt;/span&gt;
 &lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Script&lt;/span&gt;
 &lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Security&lt;/span&gt;
-&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;&lt;span class="caps"&gt;WTF&lt;/span&gt;&lt;/span&gt;
+&lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;WTF&lt;/span&gt;
 &lt;span class="n"&gt;Jinja2&lt;/span&gt;
 &lt;span class="n"&gt;MarkupSafe&lt;/span&gt;
 &lt;span class="n"&gt;Pygments&lt;/span&gt;

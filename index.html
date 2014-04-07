@@ -29,7 +29,128 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://alexsavio.github.io/biblatex_lyx_jabref_encoding.html">Using BibLatex with Lyx and&nbsp;JabRef</a></h1>
+                    <h1 class="entry-title"><a href="http://alexsavio.github.io/numpy_scipy_mkl.html">Compile Numpy and Scipy against Intel <span class="caps">MKL</span></a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-04-08T22:00:00">
+                Published: Tue 08 April 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://alexsavio.github.io/author/alexandre-savio.html">Alexandre Savio</a>
+        </address>
+<p>In <a href="http://alexsavio.github.io/category/python.html">Python</a>. </p>
+<p>tags: <a href="http://alexsavio.github.io/tag/numpy.html">Numpy</a><a href="http://alexsavio.github.io/tag/scipy.html">Scipy</a><a href="http://alexsavio.github.io/tag/mkl.html">MKL</a></p>
+</footer><!-- /.post-info --><h3>Install C++ Composer and <span class="caps">FORTRAN</span> Composer, with <span class="caps">MKL</span></h3>
+<h6>Tested on Ubuntu&nbsp;13.10</h6>
+<h4>Fill forms and download online installation shell scripts&nbsp;from:</h4>
+<p>http://software.intel.com/en-us/non-commercial-software-development</p>
+<h4>Execute shell scripts with&nbsp;sudo</h4>
+<p>The libraries will be installed in&nbsp;/opt/intel</p>
+<h4>Once installed, add this to&nbsp;~/.bashrc</h4>
+<div class="codehilite"><pre>                #Intel C++ Studio
+if [ -d /opt/intel ]; 
+then
+    export INTEL_HOME=/opt/intel
+    export PATH=<span class="cp">${</span><span class="n">PATH</span><span class="cp">}</span>:<span class="cp">${</span><span class="n">INTEL_HOME</span><span class="cp">}</span>/bin
+    export LD_LIBRARY_PATH=/opt/intel/mkl/lib/intel64:/opt/intel/lib/intel64:<span class="cp">${</span><span class="n">LD_LIBRARY_PATH</span><span class="cp">}</span>
+fi
+</pre></div>
+
+
+<h4>Add this to&nbsp;/etc/ld.so.conf.d/intel.conf:</h4>
+<div class="codehilite"><pre>            <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">intel64</span>
+</pre></div>
+
+
+<p>/opt/intel/lib/intel64/irml
+/opt/intel/lib/intel64/crt&nbsp;/opt/intel/mkl/lib/intel64</p>
+<h4>Open a new&nbsp;terminal.</h4>
+<h4>Download Numpy and&nbsp;Scipy:</h4>
+<p>http://www.scipy.org/scipylib/download.html</p>
+<h4>Modify Numpy source&nbsp;code:</h4>
+<div class="codehilite"><pre>            <span class="n">Change</span> <span class="n">directory</span> <span class="n">to</span> <span class="n">numpy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span>
+</pre></div>
+
+
+<p>Create a site.cfg from the existing&nbsp;one</p>
+<p>Edit site.cfg as&nbsp;follows:</p>
+<p>Add the following lines to site.cfg in your top level NumPy directory to use Intel® <span class="caps">MKL</span>, if you are building on Intel 64 platform, assuming the default path for the Intel <span class="caps">MKL</span> installation from the Intel Parallel Studio <span class="caps">XE</span> 2013 or Intel Composer <span class="caps">XE</span> 2013&nbsp;versions:</p>
+<p>[mkl]
+library_dirs = /opt/intel/mkl/lib/intel64
+include_dirs = /opt/intel/mkl/include
+mkl_libs = mkl_rt
+lapack_libs&nbsp;=</p>
+<p>If you are building NumPy for 32 bit, please add as the&nbsp;following</p>
+<p>[mkl] 
+library_dirs = /opt/intel/mkl/lib/ia32
+include_dirs = /opt/intel/mkl/include
+mkl_libs = mkl_rt
+lapack_libs&nbsp;=</p>
+<p>Modify cc_exe in numpy/distutils/intelccompiler.py to be something&nbsp;like:</p>
+<p>self.cc_exe = &#8216;icc -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp&nbsp;-xhost&#8217; </p>
+<p>Here we use, -O3, optimizations for speed and enables more aggressive loop transformations such as Fusion, Block-Unroll-and-Jam, and collapsing <span class="caps">IF</span> statements, -openmp for OpenMP threading and -xhost option tells the compiler to generate instructions for the highest instruction set available on the compilation host processor. If you are using the <span class="caps">ILP64</span> interface, please add -DMKL_ILP64 compiler&nbsp;flag.</p>
+<p>Run icc &#8212;help for more information on processor-specific options, and refer Intel Compiler documentation for more details on the various compiler&nbsp;flags.</p>
+<p>Modify the the Fortran compiler flags in numpy-x.x.x/numpy/distutil/fcompiler/intel.py to use the following compiler options for the Intel Fortran&nbsp;Compiler:</p>
+<p>For ia32 and&nbsp;Intel64</p>
+<p>ifort -xhost -openmp -fp-model strict&nbsp;-fPIC</p>
+<p>Modify the get_flags_opt function line to:
+    return [&#8216;-xhost -openmp -fp-model&nbsp;strict&#8217;]</p>
+<p>If you are using <span class="caps">ILP64</span> interface of Intel <span class="caps">MKL</span>, please add -i8 flag above.  If you are using older versions of Numpy/SciPy, please refer the new intel.py for your reference from the latest version of NumPy, which can be replaced to use the above mentioned compiler&nbsp;options.</p>
+<h4>Compile Numpy and Scipy with the following command (once for Numpy and&nbsp;then</h4>
+<p>once for&nbsp;Scipy):</p>
+<p>Remember to activate the virtual environment if you are going to use this in&nbsp;one.</p>
+<h5>For&nbsp;64-bit:</h5>
+<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">numpy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_clib</span>
+</pre></div>
+
+
+<p>&#8212;compiler=intelem &#8212;fcompiler=intelem build_ext &#8212;compiler=intelem
+&#8212;fcompiler=intelem&nbsp;install</p>
+<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">scipy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_clib</span>
+</pre></div>
+
+
+<p>&#8212;compiler=intelem &#8212;fcompiler=intelem build_ext &#8212;compiler=intelem
+&#8212;fcompiler=intelem&nbsp;install</p>
+<h5>For&nbsp;32-bit:</h5>
+<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">numpy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intel</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intel</span> <span class="n">build_clib</span>
+</pre></div>
+
+
+<p>&#8212;compiler=intel &#8212;fcompiler=intel build_ext &#8212;compiler=intel &#8212;fcompiler=intel&nbsp;install</p>
+<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">scipy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_clib</span>
+</pre></div>
+
+
+<p>&#8212;compiler=intelem &#8212;fcompiler=intelem build_ext &#8212;compiler=intelem
+&#8212;fcompiler=intelem&nbsp;install</p>
+<h4>Troubleshooting:</h4>
+<h5>Compiling Scipy: &#8220;Using deprecated NumPy <span class="caps">API</span>, disable it by&nbsp;&#8220;</h5>
+<p>Maybe it is the version of <span class="caps">GCC</span>, try using 4.7 (worked on November&nbsp;2013).</p>
+<div class="codehilite"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">gcc</span><span class="o">-</span><span class="mf">4.7</span>
+<span class="n">sudo</span> <span class="n">rm</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">gcc</span>
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">gcc</span><span class="o">-</span><span class="mf">4.7</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">gcc</span>
+</pre></div>
+
+
+<p>Compile both Numpy and Scipy&nbsp;again.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://alexsavio.github.io/biblatex_lyx_jabref_encoding.html" rel="bookmark"
+                           title="Permalink to Using BibLatex with Lyx and JabRef">Using BibLatex with Lyx and&nbsp;JabRef</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-02-27T18:11:46">
                 Published: Thu 27 February 2014
@@ -40,94 +161,10 @@
         </address>
 <p>In <a href="http://alexsavio.github.io/category/latex.html">LaTex</a>. </p>
 <p>tags: <a href="http://alexsavio.github.io/tag/latex.html">latex</a><a href="http://alexsavio.github.io/tag/lyx.html">lyx</a><a href="http://alexsavio.github.io/tag/bibtex.html">bibtex</a></p>
-</footer><!-- /.post-info --><h3>Introduction</h3>
-<p>For publishing articles with Lyx I&#8217;ve used Zotero, JabRef and Lyx during my PhD.
-I&#8217;ve always had problems with the encoding of the BibTex files and ended up
-editing them in JabRef, removing/replacing strange&nbsp;characters.</p>
-<p>Today my beloved girlfriend (are you happy now?) indicated me 
-<a href="http://www.ctan.org/pkg/biblatex">BibLatex</a>.
-And we saw that Lyx could be configured to use it through 
-<a href="http://biblatex-biber.sourceforge.net/">biber</a>.</p>
-<p>This is a list of steps that you should perform in order to be able to use
-BibLatex on&nbsp;Lyx.</p>
-<h3>Step 1: Reconfigure encodings in Zotero and&nbsp;JabRef</h3>
-<p>Setup Zotero to export to&nbsp;<span class="caps">UTF</span>-8.</p>
-<p>Setup JabRef to use the default encoding as&nbsp;<span class="caps">UTF</span>-8.</p>
-<h3>Step 2: Install biblatex and&nbsp;biber</h3>
-<p>In Ubuntu I installed the packages: <em>biblatex texlive-latex-extra&nbsp;texlive-bibtex-extra</em></p>
-<h3>Step 3: Create the biblatex.module&nbsp;file</h3>
-<p>Create a file named biblatex.module with the following&nbsp;content:</p>
-<div class="codehilite"><pre><span class="cp">#\DeclareLyXModule{Biblatex-citation-styles}</span>
-<span class="cp">#DescriptionBegin</span>
-<span class="cp">#A prerequisite for using the biblatex package. This module simply</span>
-<span class="cp">#enables the author/year citation styles without actually loading natbib.</span>
-<span class="cp">#Biblatex itself needs to be loaded manually. Cf.</span>
-<span class="cp">#http:</span><span class="c1">//wiki.lyx.org/BibTeX/Biblatex</span>
-<span class="cp">#DescriptionEnd</span>
-
-<span class="n">Format</span> <span class="mi">11</span>
-
-<span class="cp"># this is biblatex actually</span>
-<span class="n">Provides</span> <span class="n">natbib</span>    <span class="mi">1</span>
-</pre></div>
-
-
-<p>Put the file biblatex.module in the layouts folder in your user directory 
-(Help→About LyX tells you where you can find this directory; in the latest versions of <span class="caps">OSX</span> the correct layouts folder is in the applications&nbsp;folder).</p>
-<p>In Ubuntu it is&nbsp;~/.lyx</p>
-<p>Run Tools→Reconfigure, restart&nbsp;LyX.</p>
-<h3>Step 4: Creating the .lyx&nbsp;file</h3>
-<h4>Add the biblatex&nbsp;module</h4>
-<p>Add to &#8220;Selected&#8221; the module &#8220;Biblatex-citation-styles&#8221; from&nbsp;Document→Settings→Modules. </p>
-<h4>Load biblatex in the&nbsp;preamble</h4>
-<p>In the document preamble (Document→Settings→Preamble) you have to load biblatex manually,&nbsp;with:</p>
-<div class="codehilite"><pre><span class="err">\</span><span class="n">usepackage</span><span class="p">[</span><span class="n">natbib</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="n">numeric</span><span class="p">,</span><span class="n">backend</span><span class="o">=</span><span class="n">biber</span><span class="p">,</span><span class="n">maxnames</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">doi</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span><span class="n">bibencoding</span><span class="o">=</span><span class="n">utf8</span><span class="p">]{</span><span class="n">biblatex</span><span class="p">}</span>
-</pre></div>
-
-
-<h4>Load the bibliography in the&nbsp;preamble</h4>
-<p>Load your bibliography database in the&nbsp;preamble:</p>
-<div class="codehilite"><pre><span class="err">\</span><span class="n">addbibresource</span><span class="p">{</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">alexandre</span><span class="o">/</span><span class="n">mybibs</span><span class="p">.</span><span class="n">bib</span><span class="p">}</span>
-</pre></div>
-
-
-<p>Multiple databases must be loaded by multiple \addbibresource&nbsp;commands.</p>
-<p>Please refer to the <a href="http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf">biblatex documentation</a> for further&nbsp;options. </p>
-<h4>Set biber as the BibTex&nbsp;processor</h4>
-<p>In  Document→Settings→Bibliography, set the Processor as&nbsp;biber.</p>
-<h4>Load the bibliography in a&nbsp;note</h4>
-<p>In the document, insert the BibTeX inset (Insert→List/<span class="caps">TOC</span>→BibTeX Bibliography&#8230; ) in a LyX note or comment, 
-such that LyX finds the citations, but no \bibliography command is output to&nbsp;LaTeX. </p>
-<p>It does not matter which style you chose here, so you can stick with &#8220;plain&#8221;. 
-However, in order to use the citation dialog, you&#8217;ll have to choose the correct databases (i.e. those you loaded above in item&nbsp;(3)).</p>
-<p>This is only needed if you are going to use the citation dialog. I use JabRef to push the citations&nbsp;instead.</p>
-<h4>Put the printbibliography&nbsp;command</h4>
-<p>In the document, enter \printbibliography in <span class="caps">ERT</span> (TeX mode) at the place where the bibliography shall&nbsp;occur. </p>
-<h4>View the file in&nbsp;<span class="caps">PDF</span></h4>
-<p>And this should do&nbsp;it.</p>
-<h3>References</h3>
-<ol>
-<li>
-<p><a href="http://wiki.lyx.org/BibTeX/Tips">http://wiki.lyx.org/BibTeX/Tips</a></p>
-</li>
-<li>
-<p><a href="http://wiki.lyx.org/BibTeX/Biblatex">http://wiki.lyx.org/BibTeX/Biblatex</a></p>
-</li>
-<li>
-<p><a href="http://wiki.lyx.org/BibTeX/BiblatexStyles">http://wiki.lyx.org/BibTeX/BiblatexStyles</a></p>
-</li>
-<li>
-<p>The biblatex.module file: <a href="http://wiki.lyx.org/uploads/BibTeX/biblatex.module">http://wiki.lyx.org/uploads/BibTeX/biblatex.module</a></p>
-</li>
-<li>
-<p>The bibtexall script: <a href="http://wiki.lyx.org/uploads/BibTeX/bibtexall">http://wiki.lyx.org/uploads/BibTeX/bibtexall</a></p>
-</li>
-</ol>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>Configuring BibLatex in Lyx to benefit of UTF-8 encoding</p>
+                <a class="readmore" href="http://alexsavio.github.io/biblatex_lyx_jabref_encoding.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

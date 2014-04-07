@@ -46,14 +46,14 @@
         </address>
 <p>In <a href="http://alexsavio.github.io/category/python.html">Python</a>. </p>
 <p>tags: <a href="http://alexsavio.github.io/tag/python.html">python</a><a href="http://alexsavio.github.io/tag/virtualenv.html">virtualenv</a><a href="http://alexsavio.github.io/tag/data.html">data</a></p>
-</footer><!-- /.post-info -->      <h2>First approach: compile&nbsp;<span class="caps">VTK</span></h2>
+</footer><!-- /.post-info -->      <h2>First approach: compile <span class="caps">VTK</span></h2>
 <p>Install&nbsp;WxGTK</p>
 <div class="codehilite"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">wxgtk2</span><span class="mf">.8</span>
 <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="err">$</span><span class="n">lib_system_path</span><span class="o">/</span><span class="n">wx</span><span class="o">-</span><span class="mf">2.8</span><span class="o">-</span><span class="n">gtk2</span><span class="o">-</span><span class="n">unicode</span> <span class="err">$</span><span class="n">lib_virtualenv_path</span><span class="o">/</span><span class="n">wx</span><span class="o">-</span><span class="mf">2.8</span><span class="o">-</span><span class="n">gtk2</span><span class="o">-</span><span class="n">unicode</span>
 </pre></div>
 
 
-<p>Install dev packages to compile&nbsp;<span class="caps">VTK</span></p>
+<p>Install dev packages to compile <span class="caps">VTK</span></p>
 <div class="codehilite"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">qt4</span><span class="o">-</span><span class="n">dev</span> <span class="n">ccmake</span> <span class="n">libgl1</span><span class="o">-</span><span class="n">mesa</span><span class="o">-</span><span class="n">dev</span> <span class="n">libgl1</span><span class="o">-</span><span class="n">mesa</span><span class="o">-</span><span class="n">glx</span> <span class="n">libglu1</span><span class="o">-</span><span class="n">mesa</span><span class="o">-</span><span class="n">dev</span> <span class="n">libglw1</span><span class="o">-</span><span class="n">mesa</span><span class="o">-</span><span class="n">dev</span> <span class="n">mesa</span><span class="o">-</span><span class="n">common</span><span class="o">-</span><span class="n">dev</span>
 </pre></div>
 

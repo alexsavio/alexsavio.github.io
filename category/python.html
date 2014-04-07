@@ -29,7 +29,128 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://alexsavio.github.io/virtualenvwrapper.html">How to create virtualenvs with&nbsp;Virtualenvwrapper</a></h1>
+                    <h1 class="entry-title"><a href="http://alexsavio.github.io/numpy_scipy_mkl.html">Compile Numpy and Scipy against Intel <span class="caps">MKL</span></a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-04-08T22:00:00">
+                Published: Tue 08 April 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://alexsavio.github.io/author/alexandre-savio.html">Alexandre Savio</a>
+        </address>
+<p>In <a href="http://alexsavio.github.io/category/python.html">Python</a>. </p>
+<p>tags: <a href="http://alexsavio.github.io/tag/numpy.html">Numpy</a><a href="http://alexsavio.github.io/tag/scipy.html">Scipy</a><a href="http://alexsavio.github.io/tag/mkl.html">MKL</a></p>
+</footer><!-- /.post-info --><h3>Install C++ Composer and <span class="caps">FORTRAN</span> Composer, with <span class="caps">MKL</span></h3>
+<h6>Tested on Ubuntu&nbsp;13.10</h6>
+<h4>Fill forms and download online installation shell scripts&nbsp;from:</h4>
+<p>http://software.intel.com/en-us/non-commercial-software-development</p>
+<h4>Execute shell scripts with&nbsp;sudo</h4>
+<p>The libraries will be installed in&nbsp;/opt/intel</p>
+<h4>Once installed, add this to&nbsp;~/.bashrc</h4>
+<div class="codehilite"><pre>                #Intel C++ Studio
+if [ -d /opt/intel ]; 
+then
+    export INTEL_HOME=/opt/intel
+    export PATH=<span class="cp">${</span><span class="n">PATH</span><span class="cp">}</span>:<span class="cp">${</span><span class="n">INTEL_HOME</span><span class="cp">}</span>/bin
+    export LD_LIBRARY_PATH=/opt/intel/mkl/lib/intel64:/opt/intel/lib/intel64:<span class="cp">${</span><span class="n">LD_LIBRARY_PATH</span><span class="cp">}</span>
+fi
+</pre></div>
+
+
+<h4>Add this to&nbsp;/etc/ld.so.conf.d/intel.conf:</h4>
+<div class="codehilite"><pre>            <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">intel64</span>
+</pre></div>
+
+
+<p>/opt/intel/lib/intel64/irml
+/opt/intel/lib/intel64/crt&nbsp;/opt/intel/mkl/lib/intel64</p>
+<h4>Open a new&nbsp;terminal.</h4>
+<h4>Download Numpy and&nbsp;Scipy:</h4>
+<p>http://www.scipy.org/scipylib/download.html</p>
+<h4>Modify Numpy source&nbsp;code:</h4>
+<div class="codehilite"><pre>            <span class="n">Change</span> <span class="n">directory</span> <span class="n">to</span> <span class="n">numpy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span>
+</pre></div>
+
+
+<p>Create a site.cfg from the existing&nbsp;one</p>
+<p>Edit site.cfg as&nbsp;follows:</p>
+<p>Add the following lines to site.cfg in your top level NumPy directory to use Intel® <span class="caps">MKL</span>, if you are building on Intel 64 platform, assuming the default path for the Intel <span class="caps">MKL</span> installation from the Intel Parallel Studio <span class="caps">XE</span> 2013 or Intel Composer <span class="caps">XE</span> 2013&nbsp;versions:</p>
+<p>[mkl]
+library_dirs = /opt/intel/mkl/lib/intel64
+include_dirs = /opt/intel/mkl/include
+mkl_libs = mkl_rt
+lapack_libs&nbsp;=</p>
+<p>If you are building NumPy for 32 bit, please add as the&nbsp;following</p>
+<p>[mkl] 
+library_dirs = /opt/intel/mkl/lib/ia32
+include_dirs = /opt/intel/mkl/include
+mkl_libs = mkl_rt
+lapack_libs&nbsp;=</p>
+<p>Modify cc_exe in numpy/distutils/intelccompiler.py to be something&nbsp;like:</p>
+<p>self.cc_exe = &#8216;icc -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp&nbsp;-xhost&#8217; </p>
+<p>Here we use, -O3, optimizations for speed and enables more aggressive loop transformations such as Fusion, Block-Unroll-and-Jam, and collapsing <span class="caps">IF</span> statements, -openmp for OpenMP threading and -xhost option tells the compiler to generate instructions for the highest instruction set available on the compilation host processor. If you are using the <span class="caps">ILP64</span> interface, please add -DMKL_ILP64 compiler&nbsp;flag.</p>
+<p>Run icc &#8212;help for more information on processor-specific options, and refer Intel Compiler documentation for more details on the various compiler&nbsp;flags.</p>
+<p>Modify the the Fortran compiler flags in numpy-x.x.x/numpy/distutil/fcompiler/intel.py to use the following compiler options for the Intel Fortran&nbsp;Compiler:</p>
+<p>For ia32 and&nbsp;Intel64</p>
+<p>ifort -xhost -openmp -fp-model strict&nbsp;-fPIC</p>
+<p>Modify the get_flags_opt function line to:
+    return [&#8216;-xhost -openmp -fp-model&nbsp;strict&#8217;]</p>
+<p>If you are using <span class="caps">ILP64</span> interface of Intel <span class="caps">MKL</span>, please add -i8 flag above.  If you are using older versions of Numpy/SciPy, please refer the new intel.py for your reference from the latest version of NumPy, which can be replaced to use the above mentioned compiler&nbsp;options.</p>
+<h4>Compile Numpy and Scipy with the following command (once for Numpy and&nbsp;then</h4>
+<p>once for&nbsp;Scipy):</p>
+<p>Remember to activate the virtual environment if you are going to use this in&nbsp;one.</p>
+<h5>For&nbsp;64-bit:</h5>
+<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">numpy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_clib</span>
+</pre></div>
+
+
+<p>&#8212;compiler=intelem &#8212;fcompiler=intelem build_ext &#8212;compiler=intelem
+&#8212;fcompiler=intelem&nbsp;install</p>
+<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">scipy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_clib</span>
+</pre></div>
+
+
+<p>&#8212;compiler=intelem &#8212;fcompiler=intelem build_ext &#8212;compiler=intelem
+&#8212;fcompiler=intelem&nbsp;install</p>
+<h5>For&nbsp;32-bit:</h5>
+<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">numpy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intel</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intel</span> <span class="n">build_clib</span>
+</pre></div>
+
+
+<p>&#8212;compiler=intel &#8212;fcompiler=intel build_ext &#8212;compiler=intel &#8212;fcompiler=intel&nbsp;install</p>
+<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">scipy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_clib</span>
+</pre></div>
+
+
+<p>&#8212;compiler=intelem &#8212;fcompiler=intelem build_ext &#8212;compiler=intelem
+&#8212;fcompiler=intelem&nbsp;install</p>
+<h4>Troubleshooting:</h4>
+<h5>Compiling Scipy: &#8220;Using deprecated NumPy <span class="caps">API</span>, disable it by&nbsp;&#8220;</h5>
+<p>Maybe it is the version of <span class="caps">GCC</span>, try using 4.7 (worked on November&nbsp;2013).</p>
+<div class="codehilite"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">gcc</span><span class="o">-</span><span class="mf">4.7</span>
+<span class="n">sudo</span> <span class="n">rm</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">gcc</span>
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">gcc</span><span class="o">-</span><span class="mf">4.7</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">gcc</span>
+</pre></div>
+
+
+<p>Compile both Numpy and Scipy&nbsp;again.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://alexsavio.github.io/virtualenvwrapper.html" rel="bookmark"
+                           title="Permalink to How to create virtualenvs with Virtualenvwrapper">How to create virtualenvs with&nbsp;Virtualenvwrapper</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-02-08T21:16:14">
                 Published: Sat 08 February 2014
@@ -40,120 +161,10 @@
         </address>
 <p>In <a href="http://alexsavio.github.io/category/python.html">Python</a>. </p>
 <p>tags: <a href="http://alexsavio.github.io/tag/python.html">python</a><a href="http://alexsavio.github.io/tag/virtualenv.html">virtualenv</a><a href="http://alexsavio.github.io/tag/install.html">install</a></p>
-</footer><!-- /.post-info --><h2>Virtualenv and&nbsp;virtualenvwrapper</h2>
-<p>Install virtualenv and&nbsp;virtualenvwrapper</p>
-<div class="codehilite"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">pip</span>
-<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">virtualenv</span> <span class="n">virtualenvwrapper</span>
-</pre></div>
-
-
-<p>Virtualenvwrapper .bashrc&nbsp;setup:</p>
-<div class="codehilite"><pre><span class="n">echo</span> <span class="s">&quot;export WORKON_HOME=~/envs&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span>
-<span class="n">echo</span> <span class="s">&quot;source /usr/local/bin/virtualenvwrapper.sh&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span>
-<span class="n">echo</span> <span class="s">&quot;export PIP_REQUIRE_VIRTUALENV=true&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span>
-<span class="n">source</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span>
-</pre></div>
-
-
-<h2>Basic usage&nbsp;commands</h2>
-<p>Create a&nbsp;virtualenv:</p>
-<div class="codehilite"><pre> <span class="n">mkvirtualenv</span> <span class="o">&lt;</span><span class="n">env</span> <span class="n">name</span><span class="o">&gt;</span>
-</pre></div>
-
-
-<p>Activate a&nbsp;virtualenv:</p>
-<div class="codehilite"><pre>  <span class="n">workon</span> <span class="o">&lt;</span><span class="n">env</span> <span class="n">name</span><span class="o">&gt;</span>
-</pre></div>
-
-
-<p>Install a package in the activated&nbsp;virtualenv</p>
-<div class="codehilite"><pre><span class="n">pip</span> <span class="n">install</span> <span class="o">&lt;</span><span class="n">package</span> <span class="n">name</span><span class="o">&gt;</span>
-</pre></div>
-
-
-<p>Go to its directory when it is&nbsp;activated</p>
-<div class="codehilite"><pre><span class="n">cdvirtualenv</span>
-</pre></div>
-
-
-<p>Set a working directory as a project of the&nbsp;virtualenv</p>
-<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">project</span> <span class="n">dir</span><span class="o">&gt;</span>
-<span class="n">setvirtualenvproject</span> <span class="err">$</span><span class="n">VIRTUAL_ENV</span> <span class="err">$</span><span class="p">(</span><span class="n">pwd</span><span class="p">)</span>
-</pre></div>
-
-
-<p>Get a list of the Python modules and versions installed in an activated&nbsp;virtualenv</p>
-<div class="codehilite"><pre><span class="n">pip</span> <span class="n">freeze</span>
-</pre></div>
-
-
-<p>To deactivate a&nbsp;virtualenv</p>
-<div class="codehilite"><pre><span class="n">deactivate</span>
-</pre></div>
-
-
-<h4>Run ipython within the&nbsp;virtualenv:</h4>
-<div class="codehilite"><pre><span class="n">alias</span> <span class="n">ipy</span><span class="o">=</span><span class="err">\</span><span class="s">&quot;python -c &#39;import IPython;</span>
-</pre></div>
-
-
-<p>IPython.terminal.ipapp.launch_new_instance()&#8217;&#34;&nbsp;ipy</p>
-<h4>Run ipython with other&nbsp;options:</h4>
-<p>Add this to&nbsp;.bashrc:</p>
-<div class="codehilite"><pre><span class="n">alias</span> <span class="n">ipy</span><span class="o">=</span><span class="s">&quot;python -c &#39;import IPython;</span>
-</pre></div>
-
-
-<p>IPython.terminal.ipapp.launch_new_instance()&#8217;&#8221;</p>
-<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">ipyqt</span><span class="p">(){</span>
-    <span class="nx">python</span> <span class="o">-</span><span class="nx">c</span> <span class="err">&#39;</span><span class="kr">import</span> <span class="nx">IPython</span><span class="p">;</span>
-</pre></div>
-
-
-<p>IPython.start_ipython([&#8216;&#8221;&#8217;&#8220;&#8216;qtconsole&#8217;&#8221;&#8217;&#8221;&#8217;]);&#8217;&nbsp;}</p>
-<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">ipynote</span><span class="p">(){</span>
-    <span class="nx">python</span> <span class="o">-</span><span class="nx">c</span> <span class="s1">&#39;import IPython; IPython.start_ipython(</span><span class="cp">[</span><span class="s1">&#39;&quot;&#39;</span><span class="s2">&quot;&#39;notebook&#39;&quot;</span><span class="s1">&#39;&quot;&#39;</span><span class="cp">]</span><span class="s1">);&#39;</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h2>Another interesting&nbsp;option:</h2>
-<p>Download a virtualenv&nbsp;script:</p>
-<div class="codehilite"><pre><span class="n">wget</span> <span class="n">https</span><span class="o">:</span><span class="c1">//raw.github.com/pypa/virtualenv/1.9.X/virtualenv.py</span>
-</pre></div>
-
-
-<p>Give it execution&nbsp;permission:</p>
-<div class="codehilite"><pre><span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">virtualenv</span><span class="p">.</span><span class="n">py</span>
-</pre></div>
-
-
-<p>Create the&nbsp;virtualenv:</p>
-<div class="codehilite"><pre><span class="nx">.</span><span class="p">/</span><span class="nx">virtualenv.py</span> <span class="o">&lt;</span><span class="nx">env_name</span><span class="o">&gt;</span> <span class="na">-p</span> <span class="o">&lt;</span><span class="nx">path_to_python</span><span class="o">&gt;</span>
-</pre></div>
-
-
-<p>Activate:</p>
-<div class="codehilite"><pre><span class="nb">source</span> <span class="o">&lt;</span><span class="nx">env_name</span><span class="o">&gt;/</span><span class="nx">bin</span><span class="p">/</span><span class="nx">activate</span>
-</pre></div>
-
-
-<p>Python script shebang to use the&nbsp;enviroment:</p>
-<div class="codehilite"><pre><span class="s1">&#39;#!&lt;env_name&gt;/bin/python&#39;</span>
-</pre></div>
-
-
-<h2><span class="caps">REFERENCES</span>:</h2>
-<p><a href="http://www.virtualenv.org/en/latest/">http://www.virtualenv.org/en/latest/</a></p>
-<p><a href="http://virtualenvwrapper.readthedocs.org/en/latest/">http://virtualenvwrapper.readthedocs.org/en/latest/</a></p>
-<p><a href="http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html">http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html</a></p>
-<p><a href="http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-virtualenv-
-for-data-analysis-on-osx/">http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-virtualenv-&nbsp;for-data-analysis-on-osx/</a></p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>Create virtualenvs with virtualenvwrapper</p>
+                <a class="readmore" href="http://alexsavio.github.io/virtualenvwrapper.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
