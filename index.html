@@ -64,7 +64,7 @@ fi
 </pre></div>
 
 
-<h3>5. Download Numpy and Scipy from [here]&nbsp;(http://www.scipy.org/scipylib/download.html)</h3>
+<h3>5. Download Numpy and Scipy from <a href="http://www.scipy.org/scipylib/download.html">here</a></h3>
 <h3>6. Modify Numpy source&nbsp;code:</h3>
 <ul>
 <li>
@@ -86,7 +86,7 @@ fi
 </pre></div>
 
 
-<p>If you are building NumPy for 32 bit, please add as the&nbsp;following</p>
+<p>If you are building NumPy for 32 bit, please add as the&nbsp;following:</p>
 <div class="codehilite"><pre><span class="p">[</span><span class="n">mkl</span><span class="p">]</span> 
 <span class="n">library_dirs</span> <span class="o">=</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">mkl</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ia32</span>
 <span class="n">include_dirs</span> <span class="o">=</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">mkl</span><span class="o">/</span><span class="n">include</span>
@@ -96,28 +96,43 @@ fi
 
 
 <ul>
-<li>
-<p>Modify cc_exe in numpy/distutils/intelccompiler.py to be something&nbsp;like:</p>
-<p>self.cc_exe = &#8216;icc -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp&nbsp;-xhost&#8217; </p>
-</li>
+<li>Modify cc_exe in numpy/distutils/intelccompiler.py to be something&nbsp;like:</li>
+</ul>
+<div class="codehilite"><pre>
+self.cc_exe = \'icc -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp -xhost\' 
+</div>
+
+</pre>
+
+<ul>
 <li>
 <p>Here we use, -O3, optimizations for speed and enables more aggressive loop transformations such as Fusion, Block-Unroll-and-Jam, and collapsing <span class="caps">IF</span> statements, -openmp for OpenMP threading and -xhost option tells the compiler to generate instructions for the highest instruction set available on the compilation host processor. If you are using the <span class="caps">ILP64</span> interface, please add -DMKL_ILP64 compiler&nbsp;flag.</p>
 </li>
 <li>
-<p>Run icc &#8212;help for more information on processor-specific options, and refer Intel Compiler documentation for more details on the various compiler&nbsp;flags.</p>
+<p>Run <code>icc --help</code> for more information on processor-specific options, and refer Intel Compiler documentation for more details on the various compiler&nbsp;flags.</p>
 </li>
 <li>
 <p>Modify the the Fortran compiler flags in numpy-x.x.x/numpy/distutil/fcompiler/intel.py to use the following compiler options for the Intel Fortran&nbsp;Compiler:</p>
 </li>
 <li>
 <p>For ia32 and&nbsp;Intel64</p>
-<p>ifort -xhost -openmp -fp-model strict&nbsp;-fPIC</p>
-</li>
-<li>
-<p>Modify the get_flags_opt function line&nbsp;to:</p>
-<p>return [&#8216;-xhost -openmp -fp-model&nbsp;strict&#8217;]</p>
 </li>
 </ul>
+<div class="codehilite"><pre>
+ifort -xhost -openmp -fp-model strict -fPIC
+</div>
+
+</pre>
+
+<ul>
+<li>Modify the get_flags_opt function line&nbsp;to:</li>
+</ul>
+<div class="codehilite"><pre>
+return ['-xhost -openmp -fp-model strict']
+</div>
+
+</pre>
+
 <p>If you are using <span class="caps">ILP64</span> interface of Intel <span class="caps">MKL</span>, please add -i8 flag above.  If you are using older versions of Numpy/SciPy, please refer the new intel.py for your reference from the latest version of NumPy, which can be replaced to use the above mentioned compiler&nbsp;options.</p>
 <h3>7. Compile Numpy and Scipy with the following command (once for Numpy and then once for&nbsp;Scipy):</h3>
 <p>Remember to activate the virtual environment if you are going to use this in&nbsp;one.</p>
@@ -146,13 +161,16 @@ fi
 <h3>8.&nbsp;Troubleshooting:</h3>
 <h4>8.1 Compiling Scipy: &#8220;Using deprecated NumPy <span class="caps">API</span>, disable it&nbsp;by&#8230;&#8221;</h4>
 <ul>
-<li>
-<p>Maybe it is the version of <span class="caps">GCC</span>, try using 4.7 (worked on November&nbsp;2013).</p>
-<p>sudo apt-get install gcc-4.7
- sudo rm /usr/bin/gcc
- sudo ln -s /usr/bin/gcc-4.7&nbsp;/usr/bin/gcc</p>
-</li>
+<li>Maybe it is the version of <span class="caps">GCC</span>, try using 4.7 (worked in November&nbsp;2013):</li>
 </ul>
+<div class="codehilite"><pre>
+    sudo apt-get install gcc-4.7
+    sudo rm /usr/bin/gcc
+    sudo ln -s /usr/bin/gcc-4.7 /usr/bin/gcc
+</div>
+
+</pre>
+
 <p>Compile both Numpy and Scipy&nbsp;again.</p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">

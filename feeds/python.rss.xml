@@ -45,7 +45,7 @@ fi
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;If you are building NumPy for 32 bit, please add as the&amp;nbsp;following&lt;/p&gt;
+&lt;p&gt;If you are building NumPy for 32 bit, please add as the&amp;nbsp;following:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;mkl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; 
 &lt;span class="n"&gt;library_dirs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;intel&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mkl&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ia32&lt;/span&gt;
 &lt;span class="n"&gt;include_dirs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;intel&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mkl&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;include&lt;/span&gt;
@@ -106,10 +106,10 @@ fi
 &lt;h4&gt;8.1 Compiling Scipy: &amp;#8220;Using deprecated NumPy &lt;span class="caps"&gt;API&lt;/span&gt;, disable it&amp;nbsp;by&amp;#8230;&amp;#8221;&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;Maybe it is the version of &lt;span class="caps"&gt;GCC&lt;/span&gt;, try using 4.7 (worked on November&amp;nbsp;2013).&lt;/p&gt;
+&lt;p&gt;Maybe it is the version of &lt;span class="caps"&gt;GCC&lt;/span&gt;, try using 4.7 (worked in November&amp;nbsp;2013):&lt;/p&gt;
 &lt;p&gt;sudo apt-get install gcc-4.7
- sudo rm /usr/bin/gcc
- sudo ln -s /usr/bin/gcc-4.7&amp;nbsp;/usr/bin/gcc&lt;/p&gt;
+sudo rm /usr/bin/gcc
+sudo ln -s /usr/bin/gcc-4.7&amp;nbsp;/usr/bin/gcc&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Compile both Numpy and Scipy&amp;nbsp;again.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alexandre Savio</dc:creator><pubDate>Tue, 08 Apr 2014 22:00:00 +0100</pubDate><guid>tag:alexsavio.github.io,2014-04-08:numpy_scipy_mkl.html</guid><category>Numpy</category><category>Scipy</category><category>MKL</category></item><item><title>How to create virtualenvs with Virtualenvwrapper</title><link>http://alexsavio.github.io/virtualenvwrapper.html</link><description>&lt;h2&gt;Virtualenv and&amp;nbsp;virtualenvwrapper&lt;/h2&gt;
