@@ -40,14 +40,13 @@
         </address>
 <p>In <a href="http://alexsavio.github.io/category/python.html">Python</a>. </p>
 <p>tags: <a href="http://alexsavio.github.io/tag/numpy.html">Numpy</a><a href="http://alexsavio.github.io/tag/scipy.html">Scipy</a><a href="http://alexsavio.github.io/tag/mkl.html">MKL</a></p>
-</footer><!-- /.post-info --><h3>Install C++ Composer and <span class="caps">FORTRAN</span> Composer, with <span class="caps">MKL</span></h3>
-<h6>Tested on Ubuntu&nbsp;13.10</h6>
-<h4>Fill forms and download online installation shell scripts&nbsp;from:</h4>
-<p>http://software.intel.com/en-us/non-commercial-software-development</p>
-<h4>Execute shell scripts with&nbsp;sudo</h4>
-<p>The libraries will be installed in&nbsp;/opt/intel</p>
-<h4>Once installed, add this to&nbsp;~/.bashrc</h4>
-<div class="codehilite"><pre>                #Intel C++ Studio
+</footer><!-- /.post-info --><h6>Tested on Ubuntu 13.10 and&nbsp;14.04</h6>
+<h3>1. Install C++ Composer and <span class="caps">FORTRAN</span> Composer, with <span class="caps">MKL</span></h3>
+<p>Fill forms and download online installation shell scripts from <a href="http://software.intel.com/en-us/non-commercial-software-development">here</a>.</p>
+<h3>2. Execute shell scripts with&nbsp;sudo</h3>
+<p>I will assume the libraries will be installed in&nbsp;/opt/intel.</p>
+<h3>3. Once installed, add this to&nbsp;~/.bashrc</h3>
+<div class="codehilite"><pre>#Intel C++ Studio
 if [ -d /opt/intel ]; 
 then
     export INTEL_HOME=/opt/intel
@@ -57,86 +56,99 @@ fi
 </pre></div>
 
 
-<h4>Add this to&nbsp;/etc/ld.so.conf.d/intel.conf:</h4>
-<div class="codehilite"><pre>            <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">intel64</span>
+<h3>4. Add this to&nbsp;/etc/ld.so.conf.d/intel.conf:</h3>
+<div class="codehilite"><pre><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">intel64</span>
+<span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">intel64</span><span class="o">/</span><span class="n">irml</span>
+<span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">intel64</span><span class="o">/</span><span class="n">crt</span>
+<span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">mkl</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">intel64</span>
 </pre></div>
 
 
-<p>/opt/intel/lib/intel64/irml
-/opt/intel/lib/intel64/crt&nbsp;/opt/intel/mkl/lib/intel64</p>
-<h4>Open a new&nbsp;terminal.</h4>
-<h4>Download Numpy and&nbsp;Scipy:</h4>
-<p>http://www.scipy.org/scipylib/download.html</p>
-<h4>Modify Numpy source&nbsp;code:</h4>
-<div class="codehilite"><pre>            <span class="n">Change</span> <span class="n">directory</span> <span class="n">to</span> <span class="n">numpy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span>
-</pre></div>
-
-
-<p>Create a site.cfg from the existing&nbsp;one</p>
+<h3>5. Download Numpy and Scipy from [here]&nbsp;(http://www.scipy.org/scipylib/download.html)</h3>
+<h3>6. Modify Numpy source&nbsp;code:</h3>
+<ul>
+<li>
+<p>Change directory to&nbsp;numpy-x.x.x</p>
+</li>
+<li>
+<p>Create a site.cfg from the existing&nbsp;site.cfg.examle</p>
+</li>
+<li>
 <p>Edit site.cfg as&nbsp;follows:</p>
+</li>
+</ul>
 <p>Add the following lines to site.cfg in your top level NumPy directory to use Intel® <span class="caps">MKL</span>, if you are building on Intel 64 platform, assuming the default path for the Intel <span class="caps">MKL</span> installation from the Intel Parallel Studio <span class="caps">XE</span> 2013 or Intel Composer <span class="caps">XE</span> 2013&nbsp;versions:</p>
-<p>[mkl]
-library_dirs = /opt/intel/mkl/lib/intel64
-include_dirs = /opt/intel/mkl/include
-mkl_libs = mkl_rt
-lapack_libs&nbsp;=</p>
+<div class="codehilite"><pre><span class="k">[mkl]</span>
+<span class="na">library_dirs</span> <span class="o">=</span> <span class="s">/opt/intel/mkl/lib/intel64</span>
+<span class="na">include_dirs</span> <span class="o">=</span> <span class="s">/opt/intel/mkl/include</span>
+<span class="na">mkl_libs</span> <span class="o">=</span> <span class="s">mkl_rt</span>
+<span class="na">lapack_libs</span> <span class="o">=</span>
+</pre></div>
+
+
 <p>If you are building NumPy for 32 bit, please add as the&nbsp;following</p>
-<p>[mkl] 
-library_dirs = /opt/intel/mkl/lib/ia32
-include_dirs = /opt/intel/mkl/include
-mkl_libs = mkl_rt
-lapack_libs&nbsp;=</p>
+<div class="codehilite"><pre><span class="p">[</span><span class="n">mkl</span><span class="p">]</span> 
+<span class="n">library_dirs</span> <span class="o">=</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">mkl</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ia32</span>
+<span class="n">include_dirs</span> <span class="o">=</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">mkl</span><span class="o">/</span><span class="n">include</span>
+<span class="n">mkl_libs</span> <span class="o">=</span> <span class="n">mkl_rt</span>
+<span class="n">lapack_libs</span> <span class="o">=</span>
+</pre></div>
+
+
+<ul>
+<li>
 <p>Modify cc_exe in numpy/distutils/intelccompiler.py to be something&nbsp;like:</p>
 <p>self.cc_exe = &#8216;icc -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp&nbsp;-xhost&#8217; </p>
+</li>
+<li>
 <p>Here we use, -O3, optimizations for speed and enables more aggressive loop transformations such as Fusion, Block-Unroll-and-Jam, and collapsing <span class="caps">IF</span> statements, -openmp for OpenMP threading and -xhost option tells the compiler to generate instructions for the highest instruction set available on the compilation host processor. If you are using the <span class="caps">ILP64</span> interface, please add -DMKL_ILP64 compiler&nbsp;flag.</p>
+</li>
+<li>
 <p>Run icc &#8212;help for more information on processor-specific options, and refer Intel Compiler documentation for more details on the various compiler&nbsp;flags.</p>
+</li>
+<li>
 <p>Modify the the Fortran compiler flags in numpy-x.x.x/numpy/distutil/fcompiler/intel.py to use the following compiler options for the Intel Fortran&nbsp;Compiler:</p>
+</li>
+<li>
 <p>For ia32 and&nbsp;Intel64</p>
 <p>ifort -xhost -openmp -fp-model strict&nbsp;-fPIC</p>
-<p>Modify the get_flags_opt function line to:
-    return [&#8216;-xhost -openmp -fp-model&nbsp;strict&#8217;]</p>
+</li>
+<li>
+<p>Modify the get_flags_opt function line&nbsp;to:</p>
+<p>return [&#8216;-xhost -openmp -fp-model&nbsp;strict&#8217;]</p>
+</li>
+</ul>
 <p>If you are using <span class="caps">ILP64</span> interface of Intel <span class="caps">MKL</span>, please add -i8 flag above.  If you are using older versions of Numpy/SciPy, please refer the new intel.py for your reference from the latest version of NumPy, which can be replaced to use the above mentioned compiler&nbsp;options.</p>
-<h4>Compile Numpy and Scipy with the following command (once for Numpy and&nbsp;then</h4>
-<p>once for&nbsp;Scipy):</p>
+<h3>7. Compile Numpy and Scipy with the following command (once for Numpy and then once for&nbsp;Scipy):</h3>
 <p>Remember to activate the virtual environment if you are going to use this in&nbsp;one.</p>
-<h5>For&nbsp;64-bit:</h5>
+<h4>7.1 For&nbsp;64-bit:</h4>
 <div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">numpy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
-<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_clib</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_clib</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_ext</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">install</span>
+
+<span class="n">cd</span> <span class="o">&lt;</span><span class="n">scipy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_clib</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_ext</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">install</span>
 </pre></div>
 
 
-<p>&#8212;compiler=intelem &#8212;fcompiler=intelem build_ext &#8212;compiler=intelem
-&#8212;fcompiler=intelem&nbsp;install</p>
-<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">scipy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
-<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_clib</span>
-</pre></div>
-
-
-<p>&#8212;compiler=intelem &#8212;fcompiler=intelem build_ext &#8212;compiler=intelem
-&#8212;fcompiler=intelem&nbsp;install</p>
-<h5>For&nbsp;32-bit:</h5>
+<h4>7.2 For&nbsp;32-bit:</h4>
 <div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">numpy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
-<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intel</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intel</span> <span class="n">build_clib</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intel</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intel</span> <span class="n">build_clib</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intel</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intel</span> <span class="n">build_ext</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intel</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intel</span> <span class="n">install</span>
+
+<span class="n">cd</span> <span class="o">&lt;</span><span class="n">scipy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
+<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_clib</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_ext</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">install</span>
 </pre></div>
 
 
-<p>&#8212;compiler=intel &#8212;fcompiler=intel build_ext &#8212;compiler=intel &#8212;fcompiler=intel&nbsp;install</p>
-<div class="codehilite"><pre><span class="n">cd</span> <span class="o">&lt;</span><span class="n">scipy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span>
-<span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">intelem</span> <span class="o">--</span><span class="n">fcompiler</span><span class="o">=</span><span class="n">intelem</span> <span class="n">build_clib</span>
-</pre></div>
-
-
-<p>&#8212;compiler=intelem &#8212;fcompiler=intelem build_ext &#8212;compiler=intelem
-&#8212;fcompiler=intelem&nbsp;install</p>
-<h4>Troubleshooting:</h4>
-<h5>Compiling Scipy: &#8220;Using deprecated NumPy <span class="caps">API</span>, disable it by&nbsp;&#8220;</h5>
+<h3>8.&nbsp;Troubleshooting:</h3>
+<h4>8.1 Compiling Scipy: &#8220;Using deprecated NumPy <span class="caps">API</span>, disable it by&nbsp;&#8220;</h4>
+<ul>
+<li>
 <p>Maybe it is the version of <span class="caps">GCC</span>, try using 4.7 (worked on November&nbsp;2013).</p>
-<div class="codehilite"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">gcc</span><span class="o">-</span><span class="mf">4.7</span>
-<span class="n">sudo</span> <span class="n">rm</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">gcc</span>
-<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">gcc</span><span class="o">-</span><span class="mf">4.7</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">gcc</span>
-</pre></div>
-
-
+<p>sudo apt-get install gcc-4.7
+sudo rm /usr/bin/gcc
+sudo ln -s /usr/bin/gcc-4.7&nbsp;/usr/bin/gcc</p>
+</li>
+</ul>
 <p>Compile both Numpy and Scipy&nbsp;again.</p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
