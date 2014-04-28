@@ -13,14 +13,14 @@ TIMEZONE = 'Europe/London'
 DEFAULT_LANG = u'en_US'
 
 #THEME = '../themes/pelican-bootstrap3'
-THEME = '../pelican/themes/notmyidea'
+THEME = 'themes/notmyidea'
 
 PDF_GENERATOR = True
 
 OUTPUT_PATH = '../output'
 DELETE_OUTPUT_DIRECTORY = True
 
-PLUGIN_PATH = '../plugins'
+PLUGIN_PATH = 'plugins'
 PLUGINS = ['assets', 'sitemap', 'code_include', 'ical', 
            'liquid_tags', 'optimize_images', 'summary', 'thumbnailer']
 
@@ -109,5 +109,5 @@ MARKUP = ('rst', 'md', 'ipynb')
 OUTPUT_SOURCES = 'True'
 OUTPUT_SOURCES_EXTENSION = '.txt'
 
-TYPOGRIFY = False
+TYPOGRIFY = True
 
