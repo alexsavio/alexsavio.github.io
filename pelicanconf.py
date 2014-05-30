@@ -18,7 +18,7 @@ THEME = 'themes/notmyidea'
 PDF_GENERATOR = True
 
 OUTPUT_PATH = '../output'
-DELETE_OUTPUT_DIRECTORY = True
+DELETE_OUTPUT_DIRECTORY = False
 
 PLUGIN_PATH = 'plugins'
 PLUGINS = ['assets', 'sitemap', 'code_include', 'ical', 
