@@ -31,6 +31,6 @@ local **upstream** branch and do work that will go upstream there.
 
 #### References
 
-[1]http://robots.thoughtbot.com/keeping-a-github-fork-updated
+[1]<http://robots.thoughtbot.com/keeping-a-github-fork-updated>
  
  
