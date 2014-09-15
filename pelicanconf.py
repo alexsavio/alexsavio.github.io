@@ -2,27 +2,41 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
+import os
+
 AUTHOR = u'Alexandre M. S.'
 SITENAME = u'Interlines'
 SITESUBTITLE = u'Lost in spikes'
 #SITEURL = 'http://localhost:8000'
 SITEURL = 'http://alexsavio.github.io'
 
-TIMEZONE = 'Europe/London'
+TIMEZONE = 'Europe/Paris'
 
 DEFAULT_LANG = u'en_US'
 
 #THEME = '../themes/pelican-bootstrap3'
 THEME = 'themes/notmyidea'
+#THEME = 'themes/pelican-elegant-1.3'
+#THEME = 'themes/pure'
 
 PDF_GENERATOR = True
 
 OUTPUT_PATH = '../output'
 DELETE_OUTPUT_DIRECTORY = False
 
-PLUGIN_PATH = 'plugins'
-PLUGINS = ['assets', 'sitemap', 'code_include', 'ical', 
-           'liquid_tags', 'optimize_images', 'summary', 'thumbnailer']
+PLUGIN_PATHS = [os.path.join('.', 'plugins')]
+PLUGINS = ['assets', 
+           'sitemap', 
+           'code_include', 
+           'ical', 
+           'gravatar', 
+           'feed_summary',
+           'read_more_link', 
+#           'liquid_tags', 
+           'optimize_images', 
+           'summary', 
+           'thumbnailer', 
+           'github_activity']
 
 SITEMAP = {
     'format': 'xml',
@@ -111,3 +125,4 @@ OUTPUT_SOURCES_EXTENSION = '.txt'
 
 TYPOGRIFY = True
 
+GITHUB_ACTIVITY_MAX_ENTRIES = 5

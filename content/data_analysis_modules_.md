@@ -10,14 +10,14 @@ Tested on Ubuntu 13.10 and 14.04.
 
 ### Install needed packages:
 
-   sudo apt-get install python-pip python-dev
+    sudo apt-get install python-pip python-dev
 
-   sudo pip install virtualenv virtualenvwrapper
+    sudo pip install virtualenv virtualenvwrapper
 
-   echo "export WORKON_HOME=~/envs" >> ~/.bashrc
-   echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
-   echo "export PIP_REQUIRE_VIRTUALENV=true" >> ~/.bashrc
-   source ~/.bashrc
+    echo "export WORKON_HOME=~/envs" >> ~/.bashrc
+    echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
+    echo "export PIP_REQUIRE_VIRTUALENV=true" >> ~/.bashrc
+    source ~/.bashrc
 
 ### Create a virtual environment
 
@@ -58,7 +58,7 @@ Tested on Ubuntu 13.10 and 14.04.
 
     sudo apt-get install libncurses5-dev
 
-     pip install readline
+    pip install readline
 
  Other dependencies
 
@@ -72,22 +72,22 @@ Tested on Ubuntu 13.10 and 14.04.
 
  PyQt4 must be installed globally:
 
-     sudo apt-get install python3-pyqt4 python3-sip
+     sudo apt-get install python3-pyqt4 python3-sip python-qt4-dev
 
  or
 
-     sudo apt-get install python-pyqt4 python-sip
+     sudo apt-get install python-pyqt4 python-sip python-qt4-dev
 
 
 #### I recommend installing them globally then linking from the virtual environment:
 
  First install them:
 
-    sudo apt-get install python3-qt4 python3-pyside python3-sip
+    sudo apt-get install python3-pyqt4 python3-pyside python3-sip
 
  or
 
-    sudo apt-get install python-qt4 python-pyside python-sip
+    sudo apt-get install python-qt4 python-pyside python-sip python-qt4-dev
 
  Then link them (with the virtualenv activated):
 

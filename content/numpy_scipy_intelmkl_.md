@@ -106,8 +106,8 @@ Remember to activate the virtual environment if you are going to use this in one
     --compiler=intel --fcompiler=intel build_ext --compiler=intel --fcompiler=intel install
 
     cd <scipy-x.x.x>
-    python setup.py config --compiler=intelem --fcompiler=intelem build_clib \
-    --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install
+    python setup.py config --compiler=intel --fcompiler=intel build_clib \
+    --compiler=intel --fcompiler=intel build_ext --compiler=intel --fcompiler=intel install
 
 ### 8. Troubleshooting:
 
