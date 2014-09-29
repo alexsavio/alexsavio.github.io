@@ -74,7 +74,7 @@ LINKS =  (('BCIG.EU', 'http://bcig.eu/'),
 
 # Social widget
 SOCIAL = (('Twitter', 'twitter-square', 'https://twitter.com/alex_savio'),
-        ('GitHub', 'github', 'https://github.com/alexsavio'))
+          ('GitHub', 'github', 'https://github.com/alexsavio'))
 
 TWITTER_USERNAME = 'alex_savio'
 GITHUB_URL = 'http://github.com/alexsavio'
@@ -114,7 +114,7 @@ PYGMENTS_RST_OPTIONS = {'classprefix': 'pgcss', 'linenos': 'table'}
 
 #
 MENUITEMS = [#('About', 'about.html'),
-             ('About', 'http://www.ehu.es/ccwintco/index.php/Usuario:Alexsavio')]
+             ('About Me', 'http://www.ehu.es/ccwintco/index.php/Usuario:Alexsavio')]
 
 DATE_FORMATS = {
     'en_US': '%a, %d %b %Y',
@@ -123,7 +123,7 @@ DATE_FORMATS = {
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = False
 
-DISPLAY_PAGES_ON_MENU = False
+DISPLAY_PAGES_ON_MENU = True
 MD_EXTENSIONS = ['codehilite','extra']
 MARKUP = ('rst', 'md', 'ipynb')
 
