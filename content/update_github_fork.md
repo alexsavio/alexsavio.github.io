@@ -4,6 +4,7 @@ Category: Software
 Tags: git, unix
 Slug: keep_github_fork_updated
 Author: Alexandre M. Savio
+Email: alexsavio@gmail.com
 Summary: How to keep a GitHub fork updated
  
 Keep a forked repository of **git/git** like **alexsavio/git** updated:

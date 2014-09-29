@@ -20,8 +20,8 @@ DEFAULT_LANG = u'en_US'
 #THEME = 'themes/notmyidea'
 THEME = 'themes/purecollab'
 COVER_IMG_URL = 'imgs/blog_wallpaper.jpg'
-PROFILE_IMAGE_URL = 'imgs/summer_profile.png'
-TAGLINE = 'C/C++ developer and Python enthusiast on Neuroscience and Medical Imaging'
+PROFILE_IMAGE_URL = 'imgs/logo_alone.png'
+TAGLINE = 'C/C++ developer, Python enthusiast and SysAdmin doing Data Analysis, Neuroscience and Medical Imaging'
 #THEME = 'themes/pelican-elegant-1.3'
 #THEME = 'themes/pure'
 
@@ -73,8 +73,8 @@ LINKS =  (('BCIG.EU', 'http://bcig.eu/'),
           ('Python.org', 'http://python.org/'))
 
 # Social widget
-SOCIAL = (('twitter-square', 'http://twitter.com/alex_savio'),
-          ('github', 'http://github.com/alexsavio'))
+SOCIAL = (('Twitter', 'twitter-square', 'https://twitter.com/alex_savio'),
+        ('GitHub', 'github', 'https://github.com/alexsavio'))
 
 TWITTER_USERNAME = 'alex_savio'
 GITHUB_URL = 'http://github.com/alexsavio'
@@ -113,8 +113,8 @@ STATIC_PATHS = [
 PYGMENTS_RST_OPTIONS = {'classprefix': 'pgcss', 'linenos': 'table'}
 
 #
-MENUITEMS = [('About', 'about.html'),
-             ('My CV', 'http://www.ehu.es/ccwintco/index.php/Usuario:Alexsavio')]
+MENUITEMS = [#('About', 'about.html'),
+             ('About', 'http://www.ehu.es/ccwintco/index.php/Usuario:Alexsavio')]
 
 DATE_FORMATS = {
     'en_US': '%a, %d %b %Y',
