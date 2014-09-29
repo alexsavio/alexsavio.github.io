@@ -4,6 +4,7 @@ Category: Python
 Tags: python, virtualenv, data
 Slug: data-analysis-tools-install
 Author: Alexandre M. Savio
+Email: alexsavio@gmail.com
 Summary: Installing Python data analysis tools 
 
 Tested on Ubuntu 13.10 and 14.04.

@@ -4,6 +4,7 @@ Category: Python
 Tags: Numpy, Scipy, MKL
 Slug: numpy_scipy_mkl
 Author: Alexandre Savio
+Email: alexsavio@gmail.com
 Summary: Numpy and Scipy on Intel MKL
 
 ###### Tested on Ubuntu 13.10 and 14.04

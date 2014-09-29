@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
+
 from __future__ import unicode_literals
 
 import os
+import os.path as op
 
-AUTHOR = u'Alexandre M. S.'
+AUTHOR = u'Alexandre Manhães Savio'
 SITENAME = u'Interlines'
 SITESUBTITLE = u'Lost in spikes'
 #SITEURL = 'http://localhost:8000'
@@ -15,7 +17,11 @@ TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en_US'
 
 #THEME = '../themes/pelican-bootstrap3'
-THEME = 'themes/notmyidea'
+#THEME = 'themes/notmyidea'
+THEME = 'themes/purecollab'
+COVER_IMG_URL = 'imgs/blog_wallpaper.jpg'
+PROFILE_IMAGE_URL = 'imgs/summer_profile.png'
+TAGLINE = 'C/C++ developer and Python enthusiast on Neuroscience and Medical Imaging'
 #THEME = 'themes/pelican-elegant-1.3'
 #THEME = 'themes/pure'
 
@@ -24,18 +30,19 @@ PDF_GENERATOR = True
 OUTPUT_PATH = '../output'
 DELETE_OUTPUT_DIRECTORY = False
 
-PLUGIN_PATHS = [os.path.join('.', 'plugins')]
-PLUGINS = ['assets', 
-           'sitemap', 
-           'code_include', 
-           'ical', 
-           'gravatar', 
+PLUGIN_PATHS = [op.join(op.dirname(op.realpath(__file__)), 'plugins')]
+PLUGINS = ['assets',
+           'sitemap',
+           'code_include',
+           'ical',
+           'gravatar',
            'feed_summary',
-           'read_more_link', 
-#           'liquid_tags', 
-           'optimize_images', 
-           'summary', 
-           'thumbnailer', 
+           'read_more_link',
+           'render_math',
+#           'liquid_tags',
+           'optimize_images',
+           'summary',
+           'thumbnailer',
            'github_activity']
 
 SITEMAP = {
@@ -66,7 +73,7 @@ LINKS =  (('BCIG.EU', 'http://bcig.eu/'),
           ('Python.org', 'http://python.org/'))
 
 # Social widget
-SOCIAL = (('twitter', 'http://twitter.com/alex_savio'),
+SOCIAL = (('twitter-square', 'http://twitter.com/alex_savio'),
           ('github', 'http://github.com/alexsavio'))
 
 TWITTER_USERNAME = 'alex_savio'
@@ -74,7 +81,7 @@ GITHUB_URL = 'http://github.com/alexsavio'
 GITHUB_ACTIVITY_FEED = 'https://github.com/alexsavio.atom'
 
 #PAGINATION
-DEFAULT_PAGINATION = 5
+DEFAULT_PAGINATION = 10
 #PAGINATION_PATTERNS = (
 #    (1, '{base_name}/', '{base_name}/index.html'),
 #    (2, '{base_name}/page/{number}/', '{base_name}/page/{number}/index.html'),

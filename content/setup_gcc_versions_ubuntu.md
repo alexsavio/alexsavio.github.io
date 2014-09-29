@@ -4,6 +4,7 @@ Category: Ubuntu
 Tags: ubuntu, gcc, config, update-alternatives
 Slug: setup-gcc-versions
 Author: Alexandre M. Savio
+Email: alexsavio@gmail.com
 Summary: How to set up different versions of GCC
 
 

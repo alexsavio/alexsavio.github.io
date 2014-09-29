@@ -4,6 +4,7 @@ Category: LaTex
 Tags: latex, lyx, bibtex
 Slug: biblatex_lyx_jabref_encoding
 Author: Alexandre M. Savio
+Email: alexsavio@gmail.com
 Summary: Configuring BibLatex in Lyx to benefit of UTF-8 encoding
 
 ### Introduction

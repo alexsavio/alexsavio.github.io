@@ -4,6 +4,7 @@ Category: Python
 Tags: python, virtualenv, web, mongodb, eve
 Slug: web virtualenv
 Author: Alexandre M. Savio
+Email: alexsavio@gmail.com
 Summary: Create a virtualenv with web development framework Flask
 
 ## Installing Web development frameworks

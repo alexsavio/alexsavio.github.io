@@ -4,6 +4,7 @@ Category: Python
 Tags: python, virtualenv, install
 Slug: virtualenvwrapper
 Author: Alexandre M. Savio
+Email: alexsavio@gmail.com
 Summary: Create virtualenvs with virtualenvwrapper
 
 ## Virtualenv and virtualenvwrapper
