@@ -114,7 +114,7 @@ PYGMENTS_RST_OPTIONS = {'classprefix': 'pgcss', 'linenos': 'table'}
 
 #
 MENUITEMS = [#('About', 'about.html'),
-             ('About Me', 'http://www.ehu.es/ccwintco/index.php/Usuario:Alexsavio')]
+            ('About Me', 'http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio')]
 
 DATE_FORMATS = {
     'en_US': '%a, %d %b %Y',
