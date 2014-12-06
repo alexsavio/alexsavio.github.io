@@ -1,7 +1,7 @@
 Title: Compile Numpy and Scipy against Intel MKL
 Date: 2014-04-08 22:00
 Category: Python
-Tags: Numpy, Scipy, MKL
+Tags: Numpy, Scipy, MKL, Python, OpenBLAS
 Slug: numpy_scipy_mkl
 Author: Alexandre Savio
 Email: alexsavio@gmail.com
@@ -13,7 +13,7 @@ Summary: Numpy and Scipy on Intel MKL
 
   Fill forms and download online installation shell scripts from [here](http://software.intel.com/en-us/non-commercial-software-development).
 
-#### Note
+#### OpenBLAS Note
 
   If you want to use OpenBLAS as well, install it and follow the OpenBLAS notes along this tutorial.
   This has not been tested yet.
