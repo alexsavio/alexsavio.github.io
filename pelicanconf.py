@@ -39,11 +39,14 @@ PLUGINS = ['assets',
            'feed_summary',
            'read_more_link',
            'render_math',
-#           'liquid_tags',
+           'liquid_tags',
            'optimize_images',
            'summary',
            'thumbnailer',
-           'github_activity']
+           'github_activity',
+           'better_codeblock_line_numbering',
+           'dateish',
+           ]
 
 SITEMAP = {
     'format': 'xml',
@@ -124,7 +127,7 @@ DATE_FORMATS = {
 RELATIVE_URLS = False
 
 DISPLAY_PAGES_ON_MENU = True
-MD_EXTENSIONS = ['codehilite','extra']
+MD_EXTENSIONS = ['codehilite(css_class=highlight)', 'extra']
 MARKUP = ('rst', 'md', 'ipynb')
 
 OUTPUT_SOURCES = 'True'
