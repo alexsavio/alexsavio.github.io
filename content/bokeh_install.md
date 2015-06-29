@@ -30,7 +30,8 @@ There is a great gallery here: http://bokeh.pydata.org/docs/gallery.html#gallery
 
 ### Python 3.4
 
-The current version of gevent at https://github.com/gevent/gevent is not compatible with Python 3 yet. Luckily there is a fork of gevent patched to work with Python 3:
+The current version of gevent at https://github.com/gevent/gevent is not compatible with Python 3 yet.
+Luckily there is a fork of gevent patched to work with Python 3:
 
     git clone https://github.com/fantix/gevent.git
     cd gevent
@@ -76,7 +77,7 @@ This will build the BokehJS sources without concatenating and optimizing into st
 
     grunt build
 
-At this point BokehJS can be be used together with require.js as an AMD module.
+At this point you can use BokehJS together with require.js as an AMD module.
 
 # Install Bokeh
 

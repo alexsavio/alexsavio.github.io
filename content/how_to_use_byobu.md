@@ -21,7 +21,7 @@ Byobu is an enhancement that connects to and uses Screen or tmux (you choose), b
 
 ## Installing Byobu
 
-In Ubuntu: 
+In Ubuntu:
 
     :::bash
     apt-get install byobu.
@@ -44,7 +44,7 @@ Else take a look at <http://byobu.co/downloads.html>
 
 Feel free to change anything.
 
-The important setting to change is: "*Byobu currently launches at login (toggle on)*". Select that and press return. 
+The important setting to change is: "*Byobu currently launches at login (toggle on)*". Select that and press return.
 
 Now you can go back to the menu and exit byobu-config (tab to the exit choice and hit return).
 
@@ -59,7 +59,7 @@ Now you can go back to the menu and exit byobu-config (tab to the exit choice an
 
 ## Hotkeys
 
-Byobu has easy keybindings that utilize the function keys:
+Byobu has easy keybindings that use the function keys:
 
 * **F2**: Create a new window
 * **F3**: Move to previous window
@@ -82,11 +82,11 @@ Perform a short demo. Issue the command:
 
 Now exit the session by pressing **F6** to detach from Byobu and then run: *exit*.
 
-Now SSH back into your machine. 
-You can notice that the *echo hello* command is still on the screen. 
+Now SSH back into your machine.
+You can notice that the *echo hello* command is still on the screen.
 
-Detaching does not end your session, it gives you access to another session. 
-That means you can log in, run a long running task, and then detach and come back later when the task is done.
+Detaching does not end your session, it gives you access to another session.
+That means you can log in, run a long running task, and then detach and come back later when you;ve finished the task.
 
 
 

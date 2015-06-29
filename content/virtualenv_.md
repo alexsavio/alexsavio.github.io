@@ -36,7 +36,7 @@ Summary: Create virtualenvs with virtualenvwrapper
 
     pip install <package name>
 
- Go to its directory when it is activated
+ Go to its directory after activating it
 
     cdvirtualenv
 

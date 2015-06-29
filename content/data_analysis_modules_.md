@@ -1,11 +1,11 @@
 Title: Installing common Python data analysis tools in virtualenv
-Date: 2014-04-26 18:38:37 
+Date: 2014-04-26 18:38:37
 Category: Python
 Tags: python, virtualenv, data
 Slug: data-analysis-tools-install
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
-Summary: Installing Python data analysis tools 
+Summary: Installing Python data analysis tools
 
 Tested on Ubuntu 13.10 and 14.04.
 
@@ -71,7 +71,7 @@ Tested on Ubuntu 13.10 and 14.04.
 
      pip install pyside
 
- PyQt4 must be installed globally:
+ You must install PyQt4 globally:
 
      sudo apt-get install python3-pyqt4 python3-sip python-qt4-dev
 
@@ -97,7 +97,7 @@ it in, e.g. symlink_pyqt4_and_sip.sh or ${WORKON_HOME}/postmkvirtualenv and
 execute it):
 
     #!/bin/bash
-    # This hook is run after a new virtualenv is activated.
+    # This hook is executed after a new virtualenv is activated.
     # ~/.virtualenvs/postmkvirtualenv
 
     function find_real_lib {
@@ -108,7 +108,7 @@ execute it):
             if [ -e $libdir/$libname ]; then
                 eval "$3=$libdir/$libname"
                 return 0
-            fi 
+            fi
         done
         return 1
     }

@@ -117,10 +117,11 @@ PYGMENTS_RST_OPTIONS = {'classprefix': 'pgcss', 'linenos': 'table'}
 
 #
 MENUITEMS = [#('About', 'about.html'),
-            ('About Me', 'http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio')]
+            ('About Me', 'http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio'),
+            ('Surf-Forecast', 'http://www.surf-forecast.com/breaks/Zarautz/forecasts/latest')]
 
 DATE_FORMATS = {
-    'en_US': '%a, %d %b %Y',
+    'en_US': '%a, %b %d %Y',
 }
 
 # Uncomment following line if you want document-relative URLs when developing

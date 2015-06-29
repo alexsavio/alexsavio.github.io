@@ -16,7 +16,7 @@ Summary: Numpy and Scipy on Intel MKL
 #### OpenBLAS Note
 
   If you want to use OpenBLAS as well, install it and follow the OpenBLAS notes along this tutorial.
-  This has not been tested yet.
+  I haven't tested this yet.
 
   But first, install it:
 
@@ -29,7 +29,7 @@ Summary: Numpy and Scipy on Intel MKL
 
 ### 2. Execute shell scripts with sudo
 
-   I will assume the libraries will be installed in /opt/intel.
+   I will assume you'll install the libraries in /opt/intel.
 
 ### 3. Once installed, add this to ~/.bashrc
 
@@ -51,7 +51,7 @@ Summary: Numpy and Scipy on Intel MKL
 
 ### 5. Download Numpy and Scipy from [here](http://www.scipy.org/scipylib/download.html)
 
-### 6. Modify Numpy source code:
+### 6. Change Numpy source code:
 
 Change directory to numpy-x.x.x
 
@@ -75,28 +75,28 @@ If you are building NumPy for 32 bit, please add as the following:
     mkl_libs = mkl_rt
     lapack_libs =
 
-Modify cc_exe in numpy/distutils/intelccompiler.py to be something like:
+Change cc_exe in numpy/distutils/intelccompiler.py to be something like:
 
     :::python
     self.cc_exe = \'icc -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp -xhost\'
 
 Here we use, -O3, optimizations for speed and enables more aggressive loop transformations such as Fusion, Block-Unroll-and-Jam, and collapsing IF statements, -openmp for OpenMP threading and -xhost option tells the compiler to generate instructions for the highest instruction set available on the compilation host processor. If you are using the ILP64 interface, please add -DMKL_ILP64 compiler flag.
 
-Run <code>icc --help</code> for more information on processor-specific options, and refer Intel Compiler documentation for more details on the various compiler flags.
+Run <code>icc --help</code> for more information on processor-specific options, and refer Intel Compiler documentation for more details on the compiler flags.
 
-Modify the the Fortran compiler flags in numpy-x.x.x/numpy/distutil/fcompiler/intel.py to use the following compiler options for the Intel Fortran Compiler:
+Change the Fortran compiler flags in numpy-x.x.x/numpy/distutil/fcompiler/intel.py to use the following compiler options for the Intel Fortran Compiler:
 
 For ia32 and Intel64
 
     :::bash
     ifort -xhost -openmp -fp-model strict -fPIC
 
-Modify the get_flags_opt function line to:
+Change the get_flags_opt function line to:
 
     :::python
     return ['-xhost -openmp -fp-model strict']
 
-If you are using ILP64 interface of Intel MKL, please add -i8 flag above.  If you are using older versions of Numpy/SciPy, please refer the new intel.py for your reference from the latest version of NumPy, which can be replaced to use the above mentioned compiler options.
+If you are using ILP64 interface of Intel MKL, please add -i8 flag above.  If you are using older versions of Numpy/SciPy, please refer the new intel.py for your reference from the latest version of NumPy, which you can replace to use the above mentioned compiler options.
 
 
 #### OpenBLAS Note
@@ -147,7 +147,7 @@ Remember to activate the virtual environment if you are going to use this in one
 
 #### 9.1 Compiling Scipy: "Using deprecated NumPy API, disable it by..."
 
-Maybe it is the version of GCC, try using 4.7 (worked in November 2013):
+Thi may be because of the version of GCC, try using 4.7 (worked in November 2013):
 
     :::bash
     sudo apt-get install gcc-4.7
