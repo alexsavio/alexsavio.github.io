@@ -33,7 +33,7 @@ DELETE_OUTPUT_DIRECTORY = False
 PLUGIN_PATHS = [op.join(op.dirname(op.realpath(__file__)), 'plugins')]
 PLUGINS = ['assets',
            'sitemap',
-           'code_include',
+#           'code_include',
            'ical',
            'gravatar',
            'feed_summary',
@@ -117,9 +117,9 @@ PYGMENTS_RST_OPTIONS = {'classprefix': 'pgcss', 'linenos': 'table'}
 
 #
 MENUITEMS = [#('About', 'about.html'),
-            ('About Me', 'http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio'),
+            ('About Me',      'http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio'),
+            ('ORCID',         'http://orcid.org/0000-0002-6608-6885'),
             ('Surf-Forecast', 'http://www.surf-forecast.com/breaks/Zarautz/forecasts/latest')]
-
 DATE_FORMATS = {
     'en_US': '%a, %b %d %Y',
 }

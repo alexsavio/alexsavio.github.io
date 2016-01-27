@@ -7,16 +7,16 @@ PELICAN=${PELICAN:-pelican}
 PELICANOPTS=
 
 BASEDIR=$(pwd)
-INPUTDIR=$BASEDIR/content
-OUTPUTDIR=$BASEDIR/output
-CONFFILE=$BASEDIR/pelicanconf.py
+INPUTDIR="$BASEDIR/content"
+OUTPUTDIR="$BASEDIR/../output"
+CONFFILE="$BASEDIR/pelicanconf.py"
 
 ###
 # Don't change stuff below here unless you are sure
 ###
 
-SRV_PID=$BASEDIR/srv.pid
-PELICAN_PID=$BASEDIR/pelican.pid
+SRV_PID="$BASEDIR/srv.pid"
+PELICAN_PID="$BASEDIR/pelican.pid"
 
 function usage(){
   echo "usage: $0 (stop) (start) (restart) [port]"
@@ -32,7 +32,7 @@ function alive() {
 }
 
 function shut_down(){
-  PID=$(cat $SRV_PID)
+  PID=$(cat "$SRV_PID")
   if [[ $? -eq 0 ]]; then
     if alive $PID; then
       echo "Stopping HTTP server"
@@ -40,12 +40,12 @@ function shut_down(){
     else
       echo "Stale PID, deleting"
     fi
-    rm $SRV_PID
+    rm "$SRV_PID"
   else
     echo "HTTP server PIDFile not found"
   fi
 
-  PID=$(cat $PELICAN_PID)
+  PID=$(cat "$PELICAN_PID")
   if [[ $? -eq 0 ]]; then
     if alive $PID; then
       echo "Killing Pelican"
@@ -53,7 +53,7 @@ function shut_down(){
     else
       echo "Stale PID, deleting"
     fi
-    rm $PELICAN_PID
+    rm "$PELICAN_PID"
   else
     echo "Pelican PIDFile not found"
   fi
@@ -63,20 +63,20 @@ function start_up(){
   local port=$1
   echo "Starting up Pelican and HTTP server"
   shift
-  $PELICAN --debug --autoreload -r $INPUTDIR -o $OUTPUTDIR -s $CONFFILE $PELICANOPTS &
+  echo "$PELICAN" --debug --autoreload -o "$OUTPUTDIR" -s "$CONFFILE" "$PELICANOPTS" "$INPUTDIR" &
   pelican_pid=$!
-  echo $pelican_pid > $PELICAN_PID
-  cd $OUTPUTDIR
+  echo $pelican_pid > "$PELICAN_PID"
+  cd "$OUTPUTDIR"
   $PY -m pelican.server $port &
   srv_pid=$!
-  echo $srv_pid > $SRV_PID
-  cd $BASEDIR
+  echo $srv_pid > "$SRV_PID"
+  cd "$BASEDIR"
   sleep 1
   if ! alive $pelican_pid ; then
     echo "Pelican didn't start. Is the Pelican package installed?"
     return 1
   elif ! alive $srv_pid ; then
-    echo "The HTTP server didn't start. Is there another service using port 8000?"
+    echo "The HTTP server didn't start. Is there another service using port" $port "?"
     return 1
   fi
   echo 'Pelican and HTTP server processes now running in background.'

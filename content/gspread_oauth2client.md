@@ -6,6 +6,7 @@ Slug: gspread_oauth2client_intro
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
 Summary: How to access Google spreadsheets using the Python module gspread and the OAuth2Client authorization system.
+Status: draft
 
 
 Jump to [the Materials and Methods section](#materials) if you don't want to read the introduction.
