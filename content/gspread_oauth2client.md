@@ -90,9 +90,8 @@ from oauth2client.service_account import ServiceAccountCredentials
 json_key = 'gspread-test.json'
 scope = ['https://spreadsheets.google.com/feeds']
 
- credentials = ServiceAccountCredentials.from_json_keyfile_name(google_api_key_file, scope)
+credentials = ServiceAccountCredentials.from_json_keyfile_name(google_api_key_file, scope)
 
-credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'], scope)
 gc = gspread.authorize(credentials)
 
 wks = gc.open("Where is the money Lebowski?").sheet1
