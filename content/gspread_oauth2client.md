@@ -1,12 +1,12 @@
 Title: Access Google Spreadsheets using gspread and OAuth2Client
 Date: 2015-05-14 19:11:46
+Modified: 2016-03-29 13:30:00
 Category: Python
 Tags: python, gspread, google, authentication
 Slug: gspread_oauth2client_intro
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
 Summary: How to access Google spreadsheets using the Python module gspread and the OAuth2Client authorization system.
-Status: draft
 
 
 Jump to [the Materials and Methods section](#materials) if you don't want to read the introduction.
@@ -84,12 +84,13 @@ After saving `gspread-test.json` you need to **share your document with the give
 This is a snippet of how to obtain the data of a spreadsheet given its name in the variable `wks`.
 
 ```python
-import json
 import gspread
-from oauth2client.client import SignedJwtAssertionCredentials
+from oauth2client.service_account import ServiceAccountCredentials
 
-json_key = json.load(open('gspread-test.json'))
+json_key = 'gspread-test.json'
 scope = ['https://spreadsheets.google.com/feeds']
+
+ credentials = ServiceAccountCredentials.from_json_keyfile_name(google_api_key_file, scope)
 
 credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'], scope)
 gc = gspread.authorize(credentials)
@@ -102,7 +103,7 @@ The `gc` object is a `gspread.client.Client`, check its main functionality [here
  You can find [here](http://gspread.readthedocs.org/en/latest/index.html#models) the main functionality of `wks` is a GS class.
 
 <a id="install-crypto"></a>
-**Note:** You must create the signed JWTs using `SignedJwtAssertionCredentials` from `oauth2client.client`.
+**Note:** You must create the signed credentials using `ServiceAccountCredentials` from `oauth2client.service_account`.
 This class requires either `PyOpenSSL`, or `PyCrypto 2.6` or later. If you are getting `CryptoUnavailableError` when trying to create your signed credentials, install [PyOpenSSL](https://github.com/pyca/pyopenssl) or [PyCrypto](https://github.com/dlitz/pycrypto), e.g.:
 
     pip install pycrypto
