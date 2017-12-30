@@ -80,6 +80,16 @@ clean-pyc:
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pychache__' -exec rm -rf {} +
 
+cleanall: clean clean-py
+
+upgrade:
+	cd plugins
+	git pull
+	git submodule update --recursive --remote
+	cd themes
+	git pull
+	git submodule update --recursive --remote
+
 regenerate:
 	$(PELICAN) -r "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
