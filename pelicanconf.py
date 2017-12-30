@@ -21,7 +21,7 @@ DEFAULT_LANG = u'en_US'
 THEME = 'themes/purecollab'
 COVER_IMG_URL = 'imgs/blog_wallpaper.jpg'
 PROFILE_IMAGE_URL = 'imgs/logo_alone.svg'
-TAGLINE = 'C/C++ developer, Python enthusiast and SysAdmin doing Data Analysis, Neuroscience and Medical Imaging'
+TAGLINE = 'Software Engineer. IoT, DevOps, neuroimaging, machine-learning, Python and C/C++ coder. ACPySS  and EuroPython.'
 #THEME = 'themes/pelican-elegant-1.3'
 #THEME = 'themes/pure'
 
@@ -98,6 +98,7 @@ PATH = 'content'
 STATIC_PATHS = [
     'imgs',
     'extra/robots.txt',
+    'keybase.txt',
     '.nojekyll',]
 
 #EXTRA_PATH_METADATA = {
@@ -128,7 +129,7 @@ DATE_FORMATS = {
 RELATIVE_URLS = False
 
 DISPLAY_PAGES_ON_MENU = True
-MD_EXTENSIONS = ['codehilite(css_class=highlight)', 'extra']
+MARKDOWN = ['codehilite(css_class=highlight)', 'extra']
 MARKUP = ('rst', 'md', 'ipynb')
 
 OUTPUT_SOURCES = 'True'
