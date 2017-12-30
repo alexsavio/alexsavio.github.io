@@ -129,7 +129,16 @@ DATE_FORMATS = {
 RELATIVE_URLS = False
 
 DISPLAY_PAGES_ON_MENU = True
-MARKDOWN = ['codehilite(css_class=highlight)', 'extra']
+
+MARKDOWN = {
+    'extension_configs': {
+        'markdown.extensions.codehilite': {'css_class': 'highlight'},
+        'markdown.extensions.extra': {},
+        'markdown.extensions.meta': {},
+    },
+    'output_format': 'html5',
+}
+
 MARKUP = ('rst', 'md', 'ipynb')
 
 OUTPUT_SOURCES = 'True'
