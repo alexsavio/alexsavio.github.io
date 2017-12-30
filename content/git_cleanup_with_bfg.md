@@ -5,7 +5,7 @@ Tags: git, clean, trash
 Slug: git-cleanup-bfg
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
-Summary: Cleaning up the history of a git repository
+Summary: Remove large blobs from your git repository history
 
 ### Introduction
 
