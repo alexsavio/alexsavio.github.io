@@ -55,7 +55,9 @@ docs/_build/
 
 #PyCharm stuff
 .idea
+.ropeproject
+.venv
+cache/
 
-# PyBuilder
-target/
-
+*.pid
+output

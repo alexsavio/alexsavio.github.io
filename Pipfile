@@ -1,0 +1,37 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+HTMLParser = "*"
+"Jinja2" = "*"
+Markdown = "*"
+MarkupSafe = "*"
+Pillow = "*"
+Pygments = "*"
+Sphinx = "*"
+Unidecode = "*"
+argparse = "*"
+"beautifulsoup4" = "*"
+blinker = "*"
+cssmin = "*"
+cssprefixer = "*"
+cssutils = "*"
+docutils = "*"
+ecdsa = "*"
+feedgenerator = "*"
+feedparser = "*"
+ghp-import = "*"
+lxml = "*"
+paramiko = "*"
+pdfrw = "*"
+pelican = "*"
+pretty = "*"
+pycrypto = "*"
+smartypants = "*"
+typogrify = "*"
+webassets = "*"
+icalendar = "*"
+
+[dev-packages]

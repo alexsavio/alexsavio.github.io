@@ -4,7 +4,7 @@ PELICANOPTS=
 
 BASEDIR=$(CURDIR)
 INPUTDIR=$(BASEDIR)/content
-OUTPUTDIR=$(BASEDIR)/../output
+OUTPUTDIR=$(BASEDIR)/output
 CONFFILE=$(BASEDIR)/pelicanconf.py
 PUBLISHCONF=$(BASEDIR)/publishconf.py
 
@@ -14,7 +14,7 @@ FTP_TARGET_DIR=/
 
 SSH_HOST=localhost
 SSH_PORT=22
-SSH_USER=alexandre
+SSH_USER=root
 SSH_TARGET_DIR=/var/www
 
 S3_BUCKET=my_s3_bucket
@@ -62,86 +62,63 @@ help:
 	@echo '                                                                          '
 
 html:
-	$(PELICAN) "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
+	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
 
 clean:
-	[ ! -d "$(OUTPUTDIR)" ] || rm -rf "$(OUTPUTDIR)"
-
-clean-py: clean-build clean-pyc
-
-clean-build:
-	rm -fr build/
-	rm -fr dist/
-	rm -fr *.egg-info
-
-clean-pyc:
-	find . -name '*.pyc' -exec rm -f {} +
-	find . -name '*.pyo' -exec rm -f {} +
-	find . -name '*~' -exec rm -f {} +
-	find . -name '__pychache__' -exec rm -rf {} +
-
-cleanall: clean clean-py
-
-upgrade:
-	cd plugins
-	git pull
-	git submodule update --recursive --remote
-	cd themes
-	git pull
-	git submodule update --recursive --remote
+	[ ! -d $(OUTPUTDIR) ] || rm -rf $(OUTPUTDIR)
 
 regenerate:
-	$(PELICAN) -r "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
+	$(PELICAN) -r $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
 
 serve:
 ifdef PORT
-	cd "$(OUTPUTDIR)" && $(PY) -m pelican.server $(PORT)
+	cd $(OUTPUTDIR) && $(PY) -m pelican.server $(PORT)
 else
-	cd "$(OUTPUTDIR)" && $(PY) -m pelican.server
+	cd $(OUTPUTDIR) && $(PY) -m pelican.server
 endif
 
 serve-global:
 ifdef SERVER
-	cd "$(OUTPUTDIR)" && $(PY) -m pelican.server 80 $(SERVER)
+	cd $(OUTPUTDIR) && $(PY) -m pelican.server 80 $(SERVER)
 else
-	cd "$(OUTPUTDIR)" && $(PY) -m pelican.server 80 0.0.0.0
+	cd $(OUTPUTDIR) && $(PY) -m pelican.server 80 0.0.0.0
 endif
 
 
 devserver:
 ifdef PORT
-	"$(BASEDIR)/develop_server.sh" restart $(PORT)
+	$(BASEDIR)/develop_server.sh restart $(PORT)
 else
-	"$(BASEDIR)/develop_server.sh" restart
+	$(BASEDIR)/develop_server.sh restart
 endif
 
 stopserver:
-	"$(BASEDIR)/develop_server.sh" stop
+	$(BASEDIR)/develop_server.sh stop
 	@echo 'Stopped Pelican and SimpleHTTPServer processes running in background.'
 
 publish:
-	$(PELICAN) "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(PUBLISHCONF)" $(PELICANOPTS)
+	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
 
 ssh_upload: publish
-	scp -P $(SSH_PORT) -r "$(OUTPUTDIR)/*" $(SSH_USER)@$(SSH_HOST):$(SSH_TARGET_DIR)
+	scp -P $(SSH_PORT) -r $(OUTPUTDIR)/* $(SSH_USER)@$(SSH_HOST):$(SSH_TARGET_DIR)
 
 rsync_upload: publish
-	rsync -e "ssh -p $(SSH_PORT)" -P -rvzc --delete "$(OUTPUTDIR)/" $(SSH_USER)@$(SSH_HOST):$(SSH_TARGET_DIR) --cvs-exclude
+	rsync -e "ssh -p $(SSH_PORT)" -P -rvzc --delete $(OUTPUTDIR)/ $(SSH_USER)@$(SSH_HOST):$(SSH_TARGET_DIR) --cvs-exclude
 
 dropbox_upload: publish
-	cp -r "$(OUTPUTDIR)/*" "$(DROPBOX_DIR)"
+	cp -r $(OUTPUTDIR)/* $(DROPBOX_DIR)
 
 ftp_upload: publish
-	lftp ftp://$(FTP_USER)@$(FTP_HOST) -e "mirror -R "$(OUTPUTDIR)" $(FTP_TARGET_DIR) ; quit"
+	lftp ftp://$(FTP_USER)@$(FTP_HOST) -e "mirror -R $(OUTPUTDIR) $(FTP_TARGET_DIR) ; quit"
 
 s3_upload: publish
-        s3cmd sync "$(OUTPUTDIR)/" s3://$(S3_BUCKET) --acl-public --delete-removed --guess-mime-type
+	s3cmd sync $(OUTPUTDIR)/ s3://$(S3_BUCKET) --acl-public --delete-removed --guess-mime-type --no-mime-magic --no-preserve
 
 cf_upload: publish
-	cd "$(OUTPUTDIR)" && swift -v -A https://auth.api.rackspacecloud.com/v1.0 -U $(CLOUDFILES_USERNAME) -K $(CLOUDFILES_API_KEY) upload -c $(CLOUDFILES_CONTAINER) .
+	cd $(OUTPUTDIR) && swift -v -A https://auth.api.rackspacecloud.com/v1.0 -U $(CLOUDFILES_USERNAME) -K $(CLOUDFILES_API_KEY) upload -c $(CLOUDFILES_CONTAINER) .
 
 github: publish
-	ghp-import -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) "$(OUTPUTDIR)"
+	ghp-import -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) $(OUTPUTDIR)
 	git push origin $(GITHUB_PAGES_BRANCH)
 
-.PHONY: html help clean regenerate serve serve-global devserver publish ssh_upload rsync_upload dropbox_upload ftp_upload s3_upload cf_upload github
+.PHONY: html help clean regenerate serve serve-global devserver stopserver publish ssh_upload rsync_upload dropbox_upload ftp_upload s3_upload cf_upload github

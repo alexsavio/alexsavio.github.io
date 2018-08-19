@@ -9,25 +9,20 @@ import os.path as op
 AUTHOR = u'Alexandre Manhães Savio'
 SITENAME = u'Interlines'
 SITESUBTITLE = u'Lost in spikes'
-#SITEURL = 'http://localhost:8000'
-SITEURL = 'http://alexsavio.github.io'
+SITEURL = 'https://alexsavio.github.io'
 
 TIMEZONE = 'Europe/Paris'
 
 DEFAULT_LANG = u'en_US'
 
-#THEME = '../themes/pelican-bootstrap3'
-#THEME = 'themes/notmyidea'
 THEME = 'themes/purecollab'
 COVER_IMG_URL = 'imgs/blog_wallpaper.jpg'
 PROFILE_IMAGE_URL = 'imgs/logo_alone.svg'
 TAGLINE = 'Software Engineer. IoT, DevOps, neuroimaging, machine-learning, Python and C/C++ coder. ACPySS  and EuroPython.'
-#THEME = 'themes/pelican-elegant-1.3'
-#THEME = 'themes/pure'
 
 PDF_GENERATOR = True
 
-OUTPUT_PATH = '../output'
+OUTPUT_PATH = 'output'
 DELETE_OUTPUT_DIRECTORY = False
 
 PLUGIN_PATHS = [op.join(op.dirname(op.realpath(__file__)), 'plugins')]
@@ -71,8 +66,7 @@ FEED_ALL_RSS = u'feeds/all.rss.xml'
 CATEGORY_FEED_RSS = u'feeds/%s.rss.xml'
 
 # Blogroll
-LINKS =  (('BCIG.EU', 'http://bcig.eu/'),
-          ('Pelican', 'http://getpelican.com/'),
+LINKS =  (('Pelican', 'http://getpelican.com/'),
           ('Python.org', 'http://python.org/'))
 
 # Social widget
@@ -80,7 +74,7 @@ SOCIAL = (('Twitter', 'twitter-square', 'https://twitter.com/alex_savio'),
           ('GitHub', 'github', 'https://github.com/alexsavio'))
 
 TWITTER_USERNAME = 'alex_savio'
-GITHUB_URL = 'http://github.com/alexsavio'
+GITHUB_URL = 'https://github.com/alexsavio'
 GITHUB_ACTIVITY_FEED = 'https://github.com/alexsavio.atom'
 
 #PAGINATION
@@ -118,9 +112,9 @@ PYGMENTS_RST_OPTIONS = {'classprefix': 'pgcss', 'linenos': 'table'}
 
 #
 MENUITEMS = [#('About', 'about.html'),
-            ('About Me',      'http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio'),
-            ('ORCID',         'http://orcid.org/0000-0002-6608-6885'),
-            ('Surf-Forecast', 'http://www.surf-forecast.com/breaks/Zarautz/forecasts/latest')]
+            ('About Me',      'https://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio'),
+            ('ORCID',         'https://orcid.org/0000-0002-6608-6885'),
+            ('Surf-Forecast', 'https://www.surf-forecast.com/breaks/Zarautz/forecasts/latest')]
 DATE_FORMATS = {
     'en_US': '%a, %b %d %Y',
 }
