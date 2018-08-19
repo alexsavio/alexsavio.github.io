@@ -112,7 +112,7 @@ PYGMENTS_RST_OPTIONS = {'classprefix': 'pgcss', 'linenos': 'table'}
 
 #
 MENUITEMS = [#('About', 'about.html'),
-            ('About Me',      'https://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio'),
+            ('About Me',      'http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio'),
             ('ORCID',         'https://orcid.org/0000-0002-6608-6885'),
             ('Surf-Forecast', 'https://www.surf-forecast.com/breaks/Zarautz/forecasts/latest')]
 DATE_FORMATS = {
