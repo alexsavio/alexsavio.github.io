@@ -67,7 +67,16 @@ Any line of the commit message cannot be longer 100 characters!
 This allows the message to be easier to read on GitHub as well as in various git tools.
 
 ##### Type
-The <type> describes the generic objective of the commit, use the same types used for branches.
+The <type> describes the generic objective of the commit, use the same types used for branches. I will repeat them here:
+
+- **feat**: a new feature,
+- **fix**: a bug fix,
+- **docs**: documentation only changes (in or out of the code),
+- **tests**: new tests or fixes in tests,
+- **refactor**: code change that neither fixes a bug or adds a feature,
+- **style**: code changes that neither,
+- **chore**: Changes to the build process or auxiliary tools for the project maintenance,
+- **perf**: A code change that improves performance.
 
 ##### Scope
 The <scope> could be anything specifying place of the commit change. A scope should be a part of the project that the stakeholders understand.
