@@ -7,7 +7,7 @@ python:
 
 branches:
   only:
-  - develop
+  - dev
 
 install:
   - make install-ci
@@ -22,7 +22,7 @@ deploy:
   local_dir: ./output
   target_branch: master
   on:
-    branch: develop
+    branch: dev
 
 notifications:
    email:
