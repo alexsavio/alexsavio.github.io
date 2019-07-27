@@ -1,0 +1,30 @@
+dist: bionic
+language: python
+sudo: false
+
+python:
+  - "3.7"
+
+branches:
+  only:
+  - develop
+
+install:
+  - make install-ci
+script:
+  - make html
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  local_dir: ./output
+  target_branch: master
+  on:
+    branch: develop
+
+notifications:
+   email:
+       on_success: change
+       on_failure: always

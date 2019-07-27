@@ -26,52 +26,56 @@ OUTPUT_PATH = 'output'
 DELETE_OUTPUT_DIRECTORY = False
 
 PLUGIN_PATHS = [op.join(op.dirname(op.realpath(__file__)), 'plugins')]
-PLUGINS = ['assets',
-           'sitemap',
-#           'code_include',
-           'ical',
-           'gravatar',
-           'feed_summary',
-           'read_more_link',
-           'render_math',
-           'liquid_tags',
-           'optimize_images',
-           'summary',
-           'thumbnailer',
-           'github_activity',
-           'better_codeblock_line_numbering',
-           'dateish',
-           ]
+PLUGINS = [
+    'assets',
+               'sitemap',
+    #           'code_include',
+               'ical',
+               'gravatar',
+               'feed_summary',
+               'read_more_link',
+               'render_math',
+               'liquid_tags',
+               'optimize_images',
+               'summary',
+               'thumbnailer',
+               'github_activity',
+               'better_codeblock_line_numbering',
+               'dateish',
+]
 
 SITEMAP = {
     'format': 'xml',
     'priorities': {
         'articles': 0.5,
         'indexes': 0.5,
-        'pages': 0.5
+        'pages': 0.5,
     },
     'changefreqs': {
         'articles': 'daily',
         'indexes': 'daily',
-        'pages': 'monthly'
-    }
+        'pages': 'monthly',
+    },
 }
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = u'feeds/all.atom.xml'
-CATEGORY_FEED_ATOM = u'feeds/%s.atom.xml'
-#TRANSLATION_FEED_ATOM = None
+CATEGORY_FEED_ATOM = u'feeds/{slug}.atom.xml'
 
 FEED_ALL_RSS = u'feeds/all.rss.xml'
-CATEGORY_FEED_RSS = u'feeds/%s.rss.xml'
+CATEGORY_FEED_RSS = u'feeds/{slug}.rss.xml'
 
 # Blogroll
-LINKS =  (('Pelican', 'http://getpelican.com/'),
-          ('Python.org', 'http://python.org/'))
+LINKS =  (
+    ('Pelican', 'http://getpelican.com/'),
+    ('Python.org', 'http://python.org/'),
+)
 
 # Social widget
-SOCIAL = (('Twitter', 'twitter-square', 'https://twitter.com/alex_savio'),
-          ('GitHub', 'github', 'https://github.com/alexsavio'))
+SOCIAL = (
+    ('Twitter', 'twitter-square', 'https://twitter.com/alex_savio'),
+    ('GitHub', 'github', 'https://github.com/alexsavio'),
+)
 
 TWITTER_USERNAME = 'alex_savio'
 GITHUB_URL = 'https://github.com/alexsavio'
@@ -93,7 +97,8 @@ STATIC_PATHS = [
     'imgs',
     'extra/robots.txt',
     'keybase.txt',
-    '.nojekyll',]
+    '.nojekyll',
+]
 
 #EXTRA_PATH_METADATA = {
 #    'extra/robots.txt': {'path': 'robots.txt'},
@@ -114,7 +119,8 @@ PYGMENTS_RST_OPTIONS = {'classprefix': 'pgcss', 'linenos': 'table'}
 MENUITEMS = [#('About', 'about.html'),
             ('About Me',      'http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio'),
             ('ORCID',         'https://orcid.org/0000-0002-6608-6885'),
-            ('Surf-Forecast', 'https://www.surf-forecast.com/breaks/Zarautz/forecasts/latest')]
+            ('Surf-Forecast', 'http://www.surf-forecast.com/breaks/Zarautz'),
+]
 DATE_FORMATS = {
     'en_US': '%a, %b %d %Y',
 }
