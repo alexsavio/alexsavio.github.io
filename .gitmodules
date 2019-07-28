@@ -1,7 +1,7 @@
 [submodule "themes"]
 	path = themes
-	url = https://github.com/getpelican/pelican-themes.git
+	url = https://github.com/getpelican/pelican-themes
 
 [submodule "plugins"]
 	path = plugins
-	url = https://github.com/getpelican/pelican-plugins.git
+	url = https://github.com/getpelican/pelican-plugins
