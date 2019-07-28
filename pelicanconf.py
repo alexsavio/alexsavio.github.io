@@ -9,7 +9,7 @@ import os.path as op
 AUTHOR = u'Alexandre Manhães Savio'
 SITENAME = u'Interlines'
 SITESUBTITLE = u'Lost in spikes'
-SITEURL = 'https://alexsavio.github.io'
+SITEURL = 'https://alexsav.io'
 
 TIMEZONE = 'Europe/Paris'
 
@@ -28,20 +28,20 @@ DELETE_OUTPUT_DIRECTORY = False
 PLUGIN_PATHS = [op.join(op.dirname(op.realpath(__file__)), 'plugins')]
 PLUGINS = [
     'assets',
-               'sitemap',
-    #           'code_include',
-               'ical',
-               'gravatar',
-               'feed_summary',
-               'read_more_link',
-               'render_math',
-               'liquid_tags',
-               'optimize_images',
-               'summary',
-               'thumbnailer',
-               'github_activity',
-               'better_codeblock_line_numbering',
-               'dateish',
+    'sitemap',
+    'code_include',
+    'ical',
+    'gravatar',
+    'feed_summary',
+    'read_more_link',
+    'render_math',
+    'liquid_tags',
+    'optimize_images',
+    'summary',
+    'thumbnailer',
+    'github_activity',
+    'better_codeblock_line_numbering',
+    'dateish',
 ]
 
 SITEMAP = {
@@ -73,8 +73,8 @@ LINKS =  (
 
 # Social widget
 SOCIAL = (
-    ('Twitter', 'twitter-square', 'https://twitter.com/alex_savio'),
-    ('GitHub', 'github', 'https://github.com/alexsavio'),
+    ('twitter-square', 'https://twitter.com/alex_savio'),
+    ('github', 'https://github.com/alexsavio'),
 )
 
 TWITTER_USERNAME = 'alex_savio'
@@ -97,14 +97,7 @@ STATIC_PATHS = [
     'imgs',
     'extra/robots.txt',
     'keybase.txt',
-    '.nojekyll',
 ]
-
-#EXTRA_PATH_METADATA = {
-#    'extra/robots.txt': {'path': 'robots.txt'},
-#    }
-#ARTICLE_URL = 'posts/{date:%Y}/{date:%b}/{date:%d}/{slug}/'
-#ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/{date:%d}/{slug}/index.html'
 
 
 #TEMPLATE_PAGES = {'pages/about.md': 'about.html',}
@@ -112,13 +105,11 @@ STATIC_PATHS = [
 #                  'pages/contact.html': 'contact.html'}
 
 # code blocks with line numbers
-#PYGMENTS_RST_OPTIONS = {'linenos': 'table'}
 PYGMENTS_RST_OPTIONS = {'classprefix': 'pgcss', 'linenos': 'table'}
 
-#
 MENUITEMS = [#('About', 'about.html'),
-            ('About Me',      'http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio'),
-            ('ORCID',         'https://orcid.org/0000-0002-6608-6885'),
+            ('About Me', 'http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio'),
+            ('ORCID', 'https://orcid.org/0000-0002-6608-6885'),
             ('Surf-Forecast', 'http://www.surf-forecast.com/breaks/Zarautz'),
 ]
 DATE_FORMATS = {

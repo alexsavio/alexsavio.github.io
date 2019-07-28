@@ -3,7 +3,7 @@ Date: 2014-04-08 22:00
 Category: Python
 Tags: Numpy, Scipy, MKL, Python, OpenBLAS
 Slug: numpy_scipy_mkl
-Author: Alexandre Savio
+Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
 Summary: Numpy and Scipy on Intel MKL
 
