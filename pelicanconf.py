@@ -15,7 +15,7 @@ TIMEZONE = 'Europe/Paris'
 
 DEFAULT_LANG = u'en_US'
 
-THEME = 'themes/purecollab'
+THEME = 'themes/pure'
 COVER_IMG_URL = 'imgs/blog_wallpaper.jpeg'
 PROFILE_IMAGE_URL = 'imgs/neurita.png'
 TAGLINE = 'Software Engineer. IoT, DevOps, neuroimaging, machine-learning, Python and C/C++ coder. ACPySS  and EuroPython.'
