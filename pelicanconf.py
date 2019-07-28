@@ -9,7 +9,7 @@ import os.path as op
 AUTHOR = u'Alexandre Manhães Savio'
 SITENAME = u'Interlines'
 SITESUBTITLE = u'Lost in spikes'
-SITEURL = 'https://alexsav.io'
+SITEURL = 'https://alexsavio.github.io'
 
 TIMEZONE = 'Europe/Paris'
 
