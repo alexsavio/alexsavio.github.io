@@ -1,6 +1,5 @@
 dist: bionic
 language: python
-sudo: false
 
 python:
   - "3.7"
@@ -8,6 +7,12 @@ python:
 branches:
   only:
   - dev
+
+before_install:
+  - sudo apt-get install -y optipng
+addons:
+  apt:
+    update: true
 
 install:
   - make install-ci
