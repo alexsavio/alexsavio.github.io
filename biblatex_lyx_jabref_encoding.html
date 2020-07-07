@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interlines, Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.">
+
+        <link rel="alternate"  href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" title="Interlines Full Atom Feed"/>
+        <link rel="alternate" href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" title="Interlines Full RSS Feed"/>
+
+        <title>Using BibLatex with Lyx and JabRef // Interlines // Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.</title>
+
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pure.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pygments.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".content").fitVids();
+        });
+    </script>
+</head>
+
+<body>
+<div class="pure-g-r" id="layout">
+    <div class="sidebar sidebar-article pure-u">
+        <header class="header-article">
+            <hgroup>
+                <a href="https://alexsavio.github.io/author/alexandre-m-savio.html" title="See posts by Alexandre M. Savio">
+                        <img class="avatar" alt="Alexandre M. Savio" src="https://www.gravatar.com/avatar/252ab7f3e2ebf905115dee137696bb1e">
+                </a>
+                <h2 class="article-info">Alexandre M. Savio</h2>
+                <small class="about-author"></small>
+                <h5>Published</h5>
+                <p>Thu 27 February 2014</p>
+                <a href="/">&larr;Home</a>
+            </hgroup>
+        </header>
+    </div>
+    <div class="pure-u">
+        <div class="content">
+            <section class="post">
+                <header class="post-header">
+                    <h1>Using BibLatex with Lyx and&nbsp;JabRef</h1>
+                        <p class="post-meta">
+                            // under                                 <a class="post-category" href="https://alexsavio.github.io/tag/latex.html">latex</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/lyx.html">lyx</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/bibtex.html">bibtex</a>
+                        </p>
+                </header>
+            </section>
+            <h3>Introduction</h3>
+<p>For publishing articles with Lyx I&#8217;ve used Zotero, JabRef and Lyx during my PhD.
+I&#8217;ve always had problems with the encoding of the BibTex files and ended up
+editing them in JabRef, removing/replacing strange&nbsp;characters.</p>
+<p>Today my beloved girlfriend (are you happy now?) indicated me
+<a href="http://www.ctan.org/pkg/biblatex">BibLatex</a>.
+She showed me that we can configure Lyx to use it through
+<a href="http://biblatex-biber.sourceforge.net/">biber</a>.</p>
+<p>This is a list of steps that you should perform to be able to use BibLatex on&nbsp;Lyx.</p>
+<h3>Step 1: Reconfigure encodings in Zotero and&nbsp;JabRef</h3>
+<p>Setup Zotero to export to <span class="caps">UTF</span>-8.</p>
+<p>Setup JabRef to use the default encoding as <span class="caps">UTF</span>-8.</p>
+<h3>Step 2: Install biblatex and&nbsp;biber</h3>
+<p>In Ubuntu I installed the packages: <em>biblatex texlive-latex-extra&nbsp;texlive-bibtex-extra</em></p>
+<h3>Step 3: Create the biblatex.module&nbsp;file</h3>
+<p>Create a file named biblatex.module with the following&nbsp;content:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">#</span><span class="err">\</span><span class="n">DeclareLyXModule</span><span class="err">{</span><span class="n">Biblatex</span><span class="o">-</span><span class="n">citation</span><span class="o">-</span><span class="n">styles</span><span class="err">}</span></span>
+<span class="code-line"><span class="o">#</span><span class="n">DescriptionBegin</span></span>
+<span class="code-line"><span class="o">#</span><span class="n">A</span> <span class="n">prerequisite</span> <span class="k">for</span> <span class="k">using</span> <span class="n">the</span> <span class="n">biblatex</span> <span class="n">package</span><span class="p">.</span> <span class="n">This</span> <span class="n">module</span></span>
+<span class="code-line"><span class="o">#</span><span class="n">enables</span> <span class="n">the</span> <span class="n">author</span><span class="o">/</span><span class="k">year</span> <span class="n">citation</span> <span class="n">styles</span> <span class="k">without</span> <span class="n">actually</span> <span class="n">loading</span> <span class="n">natbib</span><span class="p">.</span></span>
+<span class="code-line"><span class="o">#</span><span class="n">Biblatex</span> <span class="n">itself</span> <span class="n">needs</span> <span class="k">to</span> <span class="n">be</span> <span class="n">loaded</span> <span class="n">manually</span><span class="p">.</span> <span class="n">Cf</span><span class="p">.</span></span>
+<span class="code-line"><span class="o">#</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">wiki</span><span class="p">.</span><span class="n">lyx</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">BibTeX</span><span class="o">/</span><span class="n">Biblatex</span></span>
+<span class="code-line"><span class="o">#</span><span class="n">DescriptionEnd</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="n">Format</span> <span class="mi">11</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">#</span> <span class="n">this</span> <span class="k">is</span> <span class="n">biblatex</span> <span class="n">actually</span></span>
+<span class="code-line"><span class="n">Provides</span> <span class="n">natbib</span>    <span class="mi">1</span></span>
+</pre></div>
+
+
+<p>Put the file biblatex.module in the layouts folder in your user directory
+(Help→About LyX tells you where you can find this directory; in the latest versions of <span class="caps">OSX</span> the correct layouts folder is in the applications&nbsp;folder).</p>
+<p>In Ubuntu:&nbsp;~/.lyx</p>
+<p>Run Tools→Reconfigure, restart&nbsp;LyX.</p>
+<h3>Step 4: Creating the .lyx&nbsp;file</h3>
+<h4>Add the biblatex&nbsp;module</h4>
+<p>Add to &#8220;Selected&#8221; the module &#8220;Biblatex-citation-styles&#8221; from&nbsp;Document→Settings→Modules.</p>
+<h4>Load biblatex in the&nbsp;preamble</h4>
+<p>In the document preamble (Document→Settings→Preamble) you have to load biblatex manually,&nbsp;with:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">\usepackage[natbib=true,style=numeric,backend=biber,maxnames=1, doi=true, url=false,bibencoding=utf8]{biblatex}</span></span>
+</pre></div>
+
+
+<h4>Load the bibliography in the&nbsp;preamble</h4>
+<p>Load your bibliography database in the&nbsp;preamble:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">\addbibresource{/home/alexandre/mybibs.bib}</span></span>
+</pre></div>
+
+
+<p>You must load the databases must using \addbibresource&nbsp;commands.</p>
+<p>Please refer to the <a href="http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf">biblatex documentation</a> for further&nbsp;options.</p>
+<h4>Set biber as the BibTex&nbsp;processor</h4>
+<p>In  Document→Settings→Bibliography, set the Processor as&nbsp;biber.</p>
+<h4>Load the bibliography in a&nbsp;note</h4>
+<p>In the document, insert the BibTeX inset (Insert→List/<span class="caps">TOC</span>→BibTeX Bibliography&#8230; ) in a LyX note or comment,
+such that LyX finds the citations, but no \bibliography command is output to&nbsp;LaTeX.</p>
+<p>It does not matter which style you chose here, so you can stick with &#8220;plain&#8221;.
+To use the citation dialog, you&#8217;ll have to choose the correct databases (i.e. those you loaded above in item&nbsp;(3)).</p>
+<p>You must do this if you are going to use the citation dialog. I use JabRef to push the citations&nbsp;instead.</p>
+<h4>Put the printbibliography&nbsp;command</h4>
+<p>In the document, enter \printbibliography in <span class="caps">ERT</span> (TeX mode) at the place where you want the bibliography to&nbsp;appear.</p>
+<h4>View the file in <span class="caps">PDF</span></h4>
+<p>And this should do&nbsp;it.</p>
+<h3>References</h3>
+<ol>
+<li>
+<p><a href="http://wiki.lyx.org/BibTeX/Tips">http://wiki.lyx.org/BibTeX/Tips</a></p>
+</li>
+<li>
+<p><a href="http://wiki.lyx.org/BibTeX/Biblatex">http://wiki.lyx.org/BibTeX/Biblatex</a></p>
+</li>
+<li>
+<p><a href="http://wiki.lyx.org/BibTeX/BiblatexStyles">http://wiki.lyx.org/BibTeX/BiblatexStyles</a></p>
+</li>
+<li>
+<p>The biblatex.module file: <a href="http://wiki.lyx.org/uploads/BibTeX/biblatex.module">http://wiki.lyx.org/uploads/BibTeX/biblatex.module</a></p>
+</li>
+<li>
+<p>The bibtexall script: <a href="http://wiki.lyx.org/uploads/BibTeX/bibtexall">http://wiki.lyx.org/uploads/BibTeX/bibtexall</a></p>
+</li>
+</ol>
+            <div class="hr"></div>
+            <a href="#" class="go-top">Go Top</a>
+<footer class="footer">
+    <p>&copy; Interlines &ndash;
+        Built with <a href="https://github.com/PurePelicanTheme/pure">Pure Theme</a>
+        for <a href="http://blog.getpelican.com/">Pelican</a>
+    </p>
+</footer>        </div>
+    </div>
+</div>
+    <script>
+        var $top = $('.go-top');
+
+        // Show or hide the sticky footer button
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $top.fadeIn(200);
+            } else {
+                $top.fadeOut(200);
+            }
+        });
+
+        // Animate the scroll to top
+        $top.click(function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 300);
+        })
+
+        // Makes sure that the href="#" attached to the <a> elements
+        // don't scroll you back up the page.
+        $('body').on('click', 'a[href="#"]', function(event) {
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>

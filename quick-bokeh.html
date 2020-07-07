@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interlines, Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.">
+
+        <link rel="alternate"  href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" title="Interlines Full Atom Feed"/>
+        <link rel="alternate" href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" title="Interlines Full RSS Feed"/>
+
+        <title>Install Bokeh from sources // Interlines // Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.</title>
+
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pure.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pygments.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".content").fitVids();
+        });
+    </script>
+</head>
+
+<body>
+<div class="pure-g-r" id="layout">
+    <div class="sidebar sidebar-article pure-u">
+        <header class="header-article">
+            <hgroup>
+                <a href="https://alexsavio.github.io/author/alexandre-m-savio.html" title="See posts by Alexandre M. Savio">
+                        <img class="avatar" alt="Alexandre M. Savio" src="https://www.gravatar.com/avatar/252ab7f3e2ebf905115dee137696bb1e">
+                </a>
+                <h2 class="article-info">Alexandre M. Savio</h2>
+                <small class="about-author"></small>
+                <h5>Published</h5>
+                <p>Tue 11 November 2014</p>
+                <a href="/">&larr;Home</a>
+            </hgroup>
+        </header>
+    </div>
+    <div class="pure-u">
+        <div class="content">
+            <section class="post">
+                <header class="post-header">
+                    <h1>Install Bokeh from&nbsp;sources</h1>
+                        <p class="post-meta">
+                            // under                                 <a class="post-category" href="https://alexsavio.github.io/tag/python.html">python</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/plots.html">plots</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/install.html">install</a>
+                        </p>
+                </header>
+            </section>
+            <h1>Introduction</h1>
+<p>Bokeh is a Python interactive visualization library that targets modern web browsers for presentation. You can find its home at&nbsp;http://bokeh.pydata.org/</p>
+<p>There is a great gallery here:&nbsp;http://bokeh.pydata.org/docs/gallery.html#gallery</p>
+<h1>Requirements</h1>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">sudo apt-get install nodejs npm redis-server</span></span>
+</pre></div>
+
+
+<p><strong>Note:</strong> activate your virtualenv now, if you&nbsp;wish.</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install numpy</span></span>
+<span class="code-line"><span class="err">pip install flask redis requests pandas wsaccel ujson cython</span></span>
+</pre></div>
+
+
+<h2>gevent</h2>
+<h3>Python&nbsp;2.7</h3>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install gevent</span></span>
+</pre></div>
+
+
+<h3>Python&nbsp;3.4</h3>
+<p>The current version of gevent at https://github.com/gevent/gevent is not compatible with Python 3 yet.
+Luckily there is a fork of gevent patched to work with Python&nbsp;3:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">fantix</span><span class="o">/</span><span class="n">gevent</span><span class="p">.</span><span class="n">git</span></span>
+<span class="code-line"><span class="n">cd</span> <span class="n">gevent</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">install</span></span>
+</pre></div>
+
+
+<h2>gevent-websocket</h2>
+<h3>Python&nbsp;2.7</h3>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install gevent-websocket</span></span>
+</pre></div>
+
+
+<h3>Python&nbsp;3.4</h3>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">hg clone https://bitbucket.org/Jeffrey/gevent-websocket</span></span>
+<span class="code-line"><span class="err">cd gevent-websocket</span></span>
+<span class="code-line"><span class="err">python setup.py install</span></span>
+</pre></div>
+
+
+<h1>Clone Bokeh&nbsp;repository</h1>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">git clone https://github.com/bokeh/bokeh.git</span></span>
+</pre></div>
+
+
+<h2>BokehJS</h2>
+<h3>Requirements</h3>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">cd bokeh/bokehjs</span></span>
+<span class="code-line"><span class="err">npm install</span></span>
+</pre></div>
+
+
+<h3>Install Grunt, the javascript task&nbsp;runner</h3>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">sudo npm install -g grunt-cli</span></span>
+</pre></div>
+
+
+<h3>Deploy</h3>
+<p>Generate the compiled and optimized BokehJS libraries, and deploy them to the build&nbsp;subdirectory.</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">grunt deploy</span></span>
+</pre></div>
+
+
+<h3>Build</h3>
+<p>This will build the BokehJS sources without concatenating and optimizing into standalone&nbsp;libraries.</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">grunt build</span></span>
+</pre></div>
+
+
+<p>At this point you can use BokehJS together with require.js as an <span class="caps">AMD</span>&nbsp;module.</p>
+<h1>Install&nbsp;Bokeh</h1>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">cd &lt;wherever_is&gt;/bokeh</span></span>
+<span class="code-line"><span class="err">python setup.py install</span></span>
+</pre></div>
+
+
+<p>This instruction will first ask if you want (1) a newly built BokehJS or (2) the build you just did in the <strong>bokehjs</strong> folder. Choose&nbsp;2.</p>
+<h1>Documentation</h1>
+<h2>Requirements</h2>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install docutils sphinx sphinxcontrib-napoleon sphinx_bootstrap_theme sphinxcontrib-httpdomain</span></span>
+</pre></div>
+
+
+<h2>Download sample&nbsp;data</h2>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;import bokeh; bokeh.sampledata.download()&#39;</span></span>
+</pre></div>
+
+
+<h2>Build&nbsp;html</h2>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">cd &lt;wherever_is&gt;/bokeh/sphinx</span></span>
+<span class="code-line"><span class="err">make html</span></span>
+</pre></div>
+
+
+<h3>References</h3>
+<ol>
+<li><a href="http://bokeh.pydata.org/docs/installation.html">http://bokeh.pydata.org/docs/installation.html</a></li>
+</ol>
+            <div class="hr"></div>
+            <a href="#" class="go-top">Go Top</a>
+<footer class="footer">
+    <p>&copy; Interlines &ndash;
+        Built with <a href="https://github.com/PurePelicanTheme/pure">Pure Theme</a>
+        for <a href="http://blog.getpelican.com/">Pelican</a>
+    </p>
+</footer>        </div>
+    </div>
+</div>
+    <script>
+        var $top = $('.go-top');
+
+        // Show or hide the sticky footer button
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $top.fadeIn(200);
+            } else {
+                $top.fadeOut(200);
+            }
+        });
+
+        // Animate the scroll to top
+        $top.click(function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 300);
+        })
+
+        // Makes sure that the href="#" attached to the <a> elements
+        // don't scroll you back up the page.
+        $('body').on('click', 'a[href="#"]', function(event) {
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>

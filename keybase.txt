@@ -1,0 +1,75 @@
+==================================================================
+https://keybase.io/alexsavio
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://alexsavio.github.io
+  * I am alexsavio (https://keybase.io/alexsavio) on keybase.
+  * I have a public key with fingerprint 85F7 B4AC 2719 E0E6 C537  8E06 62A4 1CC0 45A2 9DF7
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0120cd1c95fee7c1dc6b219ee5a7961e482c0852d4fdaecbd0f9efac3bdd1bd47f500a",
+            "fingerprint": "85f7b4ac2719e0e6c5378e0662a41cc045a29df7",
+            "host": "keybase.io",
+            "key_id": "62a41cc045a29df7",
+            "kid": "0101e0907abd54abaf3330f1813b8f551d9ee7c05e18ea38f5252738a5279dd886820a",
+            "uid": "2d388454d1d9c2da77331e3339425f19",
+            "username": "alexsavio"
+        },
+        "service": {
+            "hostname": "alexsavio.github.io",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1473149600,
+    "expire_in": 157680000,
+    "prev": "ae92276c268df1eaa710343acc354d66b81d146f0420e9bd9b6b1a8192bc6ed3",
+    "seqno": 7,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+owFtUn1MVWUcvlwMJ+4mhIEZSBwbFRKe93yfO0moMWJGsygJHbu857zvuffI5d7L
+/RJSLGk1vxIChELBFESXtglulR9DRCo0rgaEEMaE/FhEIYgT+Vh2LuU/rX/e395n
+z/PseX77lRoCdfoAqT6yJeVQzWTAD8OSLvPyu/WbCcmOCgnjZiIXzw1sRdjlNuWq
+iDASJKBIGQFZZBWMeRkgmZMoIGLMQl7kAGYESiYFlkKMgiCWJUQqIlagTEsIAQkx
+vMKSJCTiCUW1mbHT4VRtbs1WYBVeYqBM8ZoXiTmZpXkBkxxHQQbIMsmwkBKRwmtC
+i93lV2jhJOjCCapdw7SPaS7e//Af5SYBJkWShxJiGShBhaZpUgECoCVBYVmARH8f
+ksVAwJDWIIqleFqA2isiJAicQM3l9szZUYgWBIZlkKaTKQR5nqYB1ixFhmIVIPqJ
+Luy0wTyssaEVF7igV4taFE9osFeVsX+z/ir/pSSYVbfFI/3Ty+G0u+2y3aoRLG63
+w2X0G7gLHX7FJiyZ/vUySaoNafvUFF7sdKl2G2EEGlN2q35zwPA0YESOJOMJXOBQ
+ndik+hkszwkk6UcdTuwljDkExCJF8ZxMcQJSAIaQByTN0FCWaa0rx0kCQIDhFJKh
+SCxKSJQ4CUABiJQkcxjRhL9evs1OGHktJzRrMV2q2QbdHicmioJ36CPn6QL0uqDH
+9P5L0wUvCHl0fkFHFj20DUQuMa2r7f3idFTPosQjcX2W0fqPuma/e9DwV2myr++z
+b3/efWB9U5l11Y0Fp/5Mqiy52mm4uSXrsKXw9cF65b5vaUtLeW1Eyo7U6pqB867o
+H+Oq3yrZF5gUNL7H0BRiXuLJTp/3/TtJ0RUH84YC02PbVtaeffDhstDcsp3qTx3E
+Ew1xlPPsL2HvGZxHe+iO6Va0uGBoe/YdpeFMb6Fu9Ymr0zOWS2FTdYkXLsQZqN2m
+iCfvbexeO5+49SXP16V1v9ocsKw5I2Lf86HJ22AsWLO6TJj4anSYafog/reNOfog
+g3WreDBz4eNxjSMNKbf1x8OiQNM3m3xtzxY+FXM9o8PncyTaFddtW3/83ZWHQoNT
+y/On0rxiZ/7w8r7+9A26KvedPQ/nT8c6W7k/RqP1xTqfMPtioLd3Q+pU9PjeytFp
+fea1mWNrSmv2f/rCbHHMKxfPobGbVeW/et7cfq5y7ZVGXPrMc3u76tvTVnQnJ9zf
+RSxsOzqZrYavP26pa61ueC1jdGjgDbox63CPHF2VkXVpZCL38/aXmtWxt9+PEZ4+
+uXVsYmasIhhvOz0e1Np58kDvzhByy6S3LKWpOKWCDb8eTifVcrcSs2t7U2eWX76L
+mALbqi7mk5KMG9lFo5Z7I1Ffp6+4ONh47Eye4cr5xesG+67lFPdbl3om+f01v2e2
+n2j/+OVTPfnY/Dc=
+=qFiL
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/alexsavio
+
+==================================================================
+

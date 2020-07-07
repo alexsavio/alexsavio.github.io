@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interlines, Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.">
+
+        <link rel="alternate"  href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" title="Interlines Full Atom Feed"/>
+        <link rel="alternate" href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" title="Interlines Full RSS Feed"/>
+
+        <title>Installing Mayavi2 // Interlines // Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.</title>
+
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pure.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pygments.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".content").fitVids();
+        });
+    </script>
+</head>
+
+<body>
+<div class="pure-g-r" id="layout">
+    <div class="sidebar sidebar-article pure-u">
+        <header class="header-article">
+            <hgroup>
+                <a href="https://alexsavio.github.io/author/alexandre-m-savio.html" title="See posts by Alexandre M. Savio">
+                </a>
+                <h2 class="article-info">Alexandre M. Savio</h2>
+                <small class="about-author"></small>
+                <h5>Published</h5>
+                <p>Sat 08 February 2014</p>
+                <a href="/">&larr;Home</a>
+            </hgroup>
+        </header>
+    </div>
+    <div class="pure-u">
+        <div class="content">
+            <section class="post">
+                <header class="post-header">
+                    <h1>Installing&nbsp;Mayavi2</h1>
+                        <p class="post-meta">
+                            // under                                 <a class="post-category" href="https://alexsavio.github.io/tag/python.html">python</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/virtualenv.html">virtualenv</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/data.html">data</a>
+                        </p>
+                </header>
+            </section>
+            <h2>First approach: compile <span class="caps">VTK</span></h2>
+<p>Install&nbsp;WxGTK</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">sudo apt-get install python-wxgtk2.8</span></span>
+<span class="code-line"><span class="err">ln -s $lib_system_path/wx-2.8-gtk2-unicode $lib_virtualenv_path/wx-2.8-gtk2-unicode</span></span>
+</pre></div>
+
+
+<p>Install dev packages to compile <span class="caps">VTK</span></p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">sudo apt-get install python-qt4-dev ccmake libgl1-mesa-dev libgl1-mesa-glx libglu1-mesa-dev libglw1-mesa-dev mesa-common-dev</span></span>
+</pre></div>
+
+
+<p>Download <span class="caps">VTK</span> from sources and build with&nbsp;CMake</p>
+<p><a href="http://www.vtk.org/files/release/5.10/vtk-5.10.1.tar.gz">VTk5.10.1</a></p>
+<p>Configure it to install the python libraries and module in your&nbsp;virtualenv.</p>
+<p>Activate your virtualenv and install Envisage and&nbsp;Mayavi</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install envisage</span></span>
+<span class="code-line"><span class="err">pip install mayavi</span></span>
+</pre></div>
+
+
+<p>## Or install from the packages and remove the no-global-site-packages file from the&nbsp;virtualenv.</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">sudo apt-get install python-vtk</span></span>
+</pre></div>
+
+
+<p>Activate your virtualenv and install Envisage and&nbsp;Mayavi</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install envisage</span></span>
+<span class="code-line"><span class="err">rm $VIRTUAL_ENV/lib/python2.7/no-global-site-packages.txt</span></span>
+<span class="code-line"><span class="err">pip install mayavi</span></span>
+</pre></div>
+
+
+<h3>References</h3>
+<ol>
+<li>
+<p>https://github.com/enthought/traits/tree/master</p>
+</li>
+<li>
+<p><a href="http://calvinx.com/2012/11/03/ipython-qtconsole/">http://calvinx.com/2012/11/03/ipython-qtconsole/</a></p>
+</li>
+<li>
+<p><a href="https://gist.github.com/alexsavio/7580457">https://gist.github.com/alexsavio/7580457</a></p>
+</li>
+<li>
+<p><a href="http://davematthew.blogspot.com.es/2013/10/installing-matplotlib-and-mayavi-on-mac.html">http://davematthew.blogspot.com.es/2013/10/installing-matplotlib-and-mayavi-on-mac.html</a></p>
+</li>
+</ol>
+            <div class="hr"></div>
+            <a href="#" class="go-top">Go Top</a>
+<footer class="footer">
+    <p>&copy; Interlines &ndash;
+        Built with <a href="https://github.com/PurePelicanTheme/pure">Pure Theme</a>
+        for <a href="http://blog.getpelican.com/">Pelican</a>
+    </p>
+</footer>        </div>
+    </div>
+</div>
+    <script>
+        var $top = $('.go-top');
+
+        // Show or hide the sticky footer button
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $top.fadeIn(200);
+            } else {
+                $top.fadeOut(200);
+            }
+        });
+
+        // Animate the scroll to top
+        $top.click(function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 300);
+        })
+
+        // Makes sure that the href="#" attached to the <a> elements
+        // don't scroll you back up the page.
+        $('body').on('click', 'a[href="#"]', function(event) {
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interlines, Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.">
+
+        <link rel="alternate"  href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" title="Interlines Full Atom Feed"/>
+        <link rel="alternate" href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" title="Interlines Full RSS Feed"/>
+
+        <title>How to create a virtualenv for web development for Eve and MongoDB // Interlines // Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.</title>
+
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pure.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pygments.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".content").fitVids();
+        });
+    </script>
+</head>
+
+<body>
+<div class="pure-g-r" id="layout">
+    <div class="sidebar sidebar-article pure-u">
+        <header class="header-article">
+            <hgroup>
+                <a href="https://alexsavio.github.io/author/alexandre-m-savio.html" title="See posts by Alexandre M. Savio">
+                        <img class="avatar" alt="Alexandre M. Savio" src="https://www.gravatar.com/avatar/252ab7f3e2ebf905115dee137696bb1e">
+                </a>
+                <h2 class="article-info">Alexandre M. Savio</h2>
+                <small class="about-author"></small>
+                <h5>Published</h5>
+                <p>Sat 08 February 2014</p>
+                <a href="/">&larr;Home</a>
+            </hgroup>
+        </header>
+    </div>
+    <div class="pure-u">
+        <div class="content">
+            <section class="post">
+                <header class="post-header">
+                    <h1>How to create a virtualenv for web development for Eve and&nbsp;MongoDB</h1>
+                        <p class="post-meta">
+                            // under                                 <a class="post-category" href="https://alexsavio.github.io/tag/python.html">python</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/virtualenv.html">virtualenv</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/web.html">web</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/mongodb.html">mongodb</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/eve.html">eve</a>
+                        </p>
+                </header>
+            </section>
+            <h2>Installing Web development&nbsp;frameworks</h2>
+<p>Create virtualenv for Sands (python&nbsp;2.7.5)</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">mkvirtualenv -p /usr/bin/python2.7 myweb</span></span>
+</pre></div>
+
+
+<p>Note that you are using the virtualenv: (myweb) in the beggining of the shell&nbsp;line.</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">ipython</span><span class="o">[</span><span class="n">all</span><span class="o">]</span><span class="w"></span></span>
+</pre></div>
+
+
+<h4>First set of tools (en&nbsp;masse):</h4>
+<p>Create&nbsp;requirements.txt:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">Cerberus</span></span>
+<span class="code-line"><span class="err">Eve</span></span>
+<span class="code-line"><span class="err">Events</span></span>
+<span class="code-line"><span class="err">Flask</span></span>
+<span class="code-line"><span class="err">Flask-Bootstrap</span></span>
+<span class="code-line"><span class="err">Flask-Login</span></span>
+<span class="code-line"><span class="err">Flask-Mail</span></span>
+<span class="code-line"><span class="err">Flask-MongoRest</span></span>
+<span class="code-line"><span class="err">Flask-Principal</span></span>
+<span class="code-line"><span class="err">Flask-PyMongo</span></span>
+<span class="code-line"><span class="err">Flask-Restless</span></span>
+<span class="code-line"><span class="err">Flask-SSLify</span></span>
+<span class="code-line"><span class="err">Flask-Script</span></span>
+<span class="code-line"><span class="err">Flask-Security</span></span>
+<span class="code-line"><span class="err">Flask-WTF</span></span>
+<span class="code-line"><span class="err">Jinja2</span></span>
+<span class="code-line"><span class="err">MarkupSafe</span></span>
+<span class="code-line"><span class="err">Pygments</span></span>
+<span class="code-line"><span class="err">Sphinx</span></span>
+<span class="code-line"><span class="err">Werkzeug</span></span>
+<span class="code-line"><span class="err">argparse</span></span>
+<span class="code-line"><span class="err">docutils</span></span>
+<span class="code-line"><span class="err">httpretty</span></span>
+<span class="code-line"><span class="err">itsdangerous</span></span>
+<span class="code-line"><span class="err">mongoengine</span></span>
+<span class="code-line"><span class="err">fake-factory</span></span>
+<span class="code-line"><span class="err">nose</span></span>
+<span class="code-line"><span class="err">py-bcrypt</span></span>
+<span class="code-line"><span class="err">pymongo</span></span>
+<span class="code-line"><span class="err">python-dateutil</span></span>
+<span class="code-line"><span class="err">requests</span></span>
+<span class="code-line"><span class="err">six</span></span>
+<span class="code-line"><span class="err">tornado</span></span>
+<span class="code-line"><span class="err">urllib3</span></span>
+<span class="code-line"><span class="err">wsgiref</span></span>
+<span class="code-line"><span class="err">ujson</span></span>
+</pre></div>
+
+
+<p>To install all modules in&nbsp;requirements.txt:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install -r requirements.txt</span></span>
+</pre></div>
+
+
+<h4>Other options: simpler, maybe&nbsp;faster</h4>
+<p><a href="http://flask-pymongo.readthedocs.org/en/latest/">http://flask-pymongo.readthedocs.org/en/latest/</a></p>
+<p><a href="http://pythonhosted.org/Flask-Classy/">http://pythonhosted.org/Flask-Classy/</a></p>
+<p><a href="http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world">http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world</a></p>
+<h4>Python-Eve seems to be a good solution after&nbsp;all:</h4>
+<p><a href="http://python-eve.org/index.html">http://python-eve.org/index.html</a></p>
+<p><a href="http://blog.python-eve.org/eve-docs">http://blog.python-eve.org/eve-docs</a></p>
+            <div class="hr"></div>
+            <a href="#" class="go-top">Go Top</a>
+<footer class="footer">
+    <p>&copy; Interlines &ndash;
+        Built with <a href="https://github.com/PurePelicanTheme/pure">Pure Theme</a>
+        for <a href="http://blog.getpelican.com/">Pelican</a>
+    </p>
+</footer>        </div>
+    </div>
+</div>
+    <script>
+        var $top = $('.go-top');
+
+        // Show or hide the sticky footer button
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $top.fadeIn(200);
+            } else {
+                $top.fadeOut(200);
+            }
+        });
+
+        // Animate the scroll to top
+        $top.click(function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 300);
+        })
+
+        // Makes sure that the href="#" attached to the <a> elements
+        // don't scroll you back up the page.
+        $('body').on('click', 'a[href="#"]', function(event) {
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>

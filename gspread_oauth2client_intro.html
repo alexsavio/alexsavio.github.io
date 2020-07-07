@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interlines, Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.">
+
+        <link rel="alternate"  href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" title="Interlines Full Atom Feed"/>
+        <link rel="alternate" href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" title="Interlines Full RSS Feed"/>
+
+        <title>Access Google Spreadsheets using gspread and OAuth2Client // Interlines // Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.</title>
+
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pure.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pygments.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".content").fitVids();
+        });
+    </script>
+</head>
+
+<body>
+<div class="pure-g-r" id="layout">
+    <div class="sidebar sidebar-article pure-u">
+        <header class="header-article">
+            <hgroup>
+                <a href="https://alexsavio.github.io/author/alexandre-m-savio.html" title="See posts by Alexandre M. Savio">
+                        <img class="avatar" alt="Alexandre M. Savio" src="https://www.gravatar.com/avatar/252ab7f3e2ebf905115dee137696bb1e">
+                </a>
+                <h2 class="article-info">Alexandre M. Savio</h2>
+                <small class="about-author"></small>
+                <h5>Published</h5>
+                <p>Thu 14 May 2015</p>
+                <a href="/">&larr;Home</a>
+            </hgroup>
+        </header>
+    </div>
+    <div class="pure-u">
+        <div class="content">
+            <section class="post">
+                <header class="post-header">
+                    <h1>Access Google Spreadsheets using gspread and&nbsp;OAuth2Client</h1>
+                        <p class="post-meta">
+                            // under                                 <a class="post-category" href="https://alexsavio.github.io/tag/python.html">python</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/gspread.html">gspread</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/google.html">google</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/authentication.html">authentication</a>
+                        </p>
+                </header>
+            </section>
+            <p>Jump to <a href="#materials">the Materials and Methods section</a> if you don&#8217;t want to read the&nbsp;introduction.</p>
+<p>This post presents a way of accessing Google Spreadsheets(<span class="caps">GS</span>) and securely distributing Python source code that  uses <span class="caps">GS</span>.</p>
+<h2>Introduction</h2>
+<p><a href="https://docs.google.com/spreadsheets/">Google spreadsheets</a>(<span class="caps">GS</span>) are useful for fast deployment of simple
+forms on the web as well as share and collaborate on simple data structures with other&nbsp;people.</p>
+<p>Not everybody has enough experience with the sheet cell functionalities and the small devils of the spreadsheet world. You may find yourself trapped on the <a href="https://support.google.com/docs">Google Docs help</a> or looking for that non-existent function in the <a href="https://support.google.com/docs/table/25273?hl=en"><span class="caps">GS</span> reference</a> trying to program more complex data processes. In those cases I feel the urge to unleash the power of Python over the&nbsp;data.</p>
+<p>There are ways of doing that through the Official Google Spreasheet <span class="caps">API</span>. The <span class="caps">API</span> is flexible but can take a considerable amount of work if your idea is &#8220;just&#8221; accessing the data of the spreadsheets and doing a few operations on&nbsp;them.</p>
+<p>To leverage all the <span class="caps">API</span> work and help us all there is <a href="https://github.com/burnash/gspread">gspread</a>, which wraps up the <span class="caps">API</span> and makes clear and pragmatic functions&nbsp;sprout.</p>
+<h3>How to authenticate through&nbsp;gspread</h3>
+<p>Initially the authentication method to use gpsread was using username and password pair. This is a problem when you need to share your application with other people. You can&#8217;t share your passwords, create user accounts for every user of your application or even, you would have to share your common document to every user you&nbsp;have.</p>
+<p>In these situations ideally your application should prove its own identity to the <span class="caps">API</span>, but no user consent should be necessary. Similarly, in enterprise scenarios, your application could request delegated access to some resources. This is a possible scenario where OAuth2.0 comes to save&nbsp;you.</p>
+<h3>OAuth2.0 authorization&nbsp;framework</h3>
+<p>The <a href="http://en.wikipedia.org/wiki/OAuth">OAuth2.0 authorization framework</a> is being adopted by many web services as a secure way for 3rd-parties to deploy software that use their APIs. It is well summarized <a href="https://developers.google.com/identity/protocols/OAuth2#serviceaccount">here</a>.</p>
+<p>As the <a href="http://tools.ietf.org/html/rfc6749">OAuth2.0 <span class="caps">RFC</span></a>&nbsp;says:</p>
+<p><em>The OAuth 2.0 authorization framework enables a third-party
+application to obtain limited access to an <span class="caps">HTTP</span> service, either on
+behalf of a resource owner by orchestrating an approval interaction
+between the resource owner and the <span class="caps">HTTP</span> service, or by allowing the
+third-party application to obtain access on its own behalf.  This
+specification replaces and obsoletes the OAuth 1.0 protocol described
+in <span class="caps">RFC</span>&nbsp;5849.</em></p>
+<p><a href="https://developers.google.com/identity/protocols/OAuth2">Google has adopted OAuth 2.0</a> for his APIs and web services. They also created a Python module for accessing resources protected by OAuth 2.0 called <a href="https://github.com/google/oauth2client">oauth2client</a>.</p>
+<p>Check <a href="https://developers.google.com/identity/protocols/OAuth2ServiceAccount">here</a> to understand more how the authorization process works or how you can use&nbsp;it.</p>
+<h2>Materials and Methods<a id="materials"></a></h2>
+<h3>Installation</h3>
+<p>The simplest tool to install the needed modules is <code>pip</code>:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install gspread oauth2client</span></span>
+</pre></div>
+
+
+<p>Following the <a href="#install-crypto">note</a>, you would also want to install <code>pycrypto</code> or <code>pyopenssl</code>,&nbsp;e.g.:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install pycrypto</span></span>
+</pre></div>
+
+
+<h3>Experiment</h3>
+<h3>Create signed <span class="caps">JSON</span> Web Tokens&nbsp;(JWTs)</h3>
+<p>The gspread documentation explains how to create Google OAuth2.0 <span class="caps">JSON</span> Web Tokens (JWTs) <a href="http://gspread.readthedocs.org/en/latest/oauth2.html">here</a>.</p>
+<p>Follow his full instructions on the <a href="https://console.developers.google.com/project">Google Developers Console</a> web site to create a service account Client <span class="caps">ID</span> <span class="caps">JSON</span> file. I will call the file <code>gspread-test.json</code> from now&nbsp;on.</p>
+<p>After saving <code>gspread-test.json</code> you need to <strong>share your document with the given email in the <code>client_email</code> field</strong> of the file. Otherwise you’ll get a <code>SpreadsheetNotFound</code> exception when trying to open&nbsp;it.</p>
+<p><strong>Note</strong>: The resulting <span class="caps">JSON</span> file is a secure authorization key for any spreadsheet you may want to. For this reason you should hide this file should as it could be used to do nasty things against your spreadsheets. Please follow more comments on this in the <a href="#discussion">discussion</a>&nbsp;section.</p>
+<h3>Sign your JWTs for&nbsp;credentials</h3>
+<p>This is a snippet of how to obtain the data of a spreadsheet given its name in the variable <code>wks</code>.</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="kn">import</span> <span class="nn">gspread</span></span>
+<span class="code-line"><span class="kn">from</span> <span class="nn">oauth2client.service_account</span> <span class="kn">import</span> <span class="n">ServiceAccountCredentials</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="n">json_key</span> <span class="o">=</span> <span class="s1">&#39;gspread-test.json&#39;</span></span>
+<span class="code-line"><span class="n">scope</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://spreadsheets.google.com/feeds&#39;</span><span class="p">]</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="n">credentials</span> <span class="o">=</span> <span class="n">ServiceAccountCredentials</span><span class="o">.</span><span class="n">from_json_keyfile_name</span><span class="p">(</span><span class="n">google_api_key_file</span><span class="p">,</span> <span class="n">scope</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="n">gc</span> <span class="o">=</span> <span class="n">gspread</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">credentials</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="n">wks</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;Where is the money Lebowski?&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sheet1</span></span>
+</pre></div>
+
+
+<p>The <code>gc</code> object is a <code>gspread.client.Client</code>, check its main functionality <a href="http://gspread.readthedocs.org/en/latest/index.html#main-interface">here</a>.</p>
+<p>You can find <a href="http://gspread.readthedocs.org/en/latest/index.html#models">here</a> the main functionality of <code>wks</code> is a <span class="caps">GS</span>&nbsp;class.</p>
+<p><a id="install-crypto"></a>
+<strong>Note:</strong> You must create the signed credentials using <code>ServiceAccountCredentials</code> from <code>oauth2client.service_account</code>.
+This class requires either <code>PyOpenSSL</code>, or <code>PyCrypto 2.6</code> or later. If you are getting <code>CryptoUnavailableError</code> when trying to create your signed credentials, install <a href="https://github.com/pyca/pyopenssl">PyOpenSSL</a> or <a href="https://github.com/dlitz/pycrypto">PyCrypto</a>,&nbsp;e.g.:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install pycrypto</span></span>
+</pre></div>
+
+
+<h3>Results</h3>
+<p>Have a look at the possibilities you have with gspread <a href="https://github.com/burnash/gspread#more-examples">here</a>.</p>
+<p>Some examples&nbsp;here:</p>
+<h4>Opening a&nbsp;Spreadsheet</h4>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1"># You can open a spreadsheet by its title as it appears in Google Docs</span></span>
+<span class="code-line"><span class="n">sh</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;My poor gym results&quot;</span><span class="p">)</span> <span class="c1"># &lt;-- Look ma, no keys!</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1"># If you want to be specific, use a key (which you can extract from</span></span>
+<span class="code-line"><span class="c1"># the spreadsheet&#39;s url)</span></span>
+<span class="code-line"><span class="n">sht1</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="s1">&#39;0BmgG6nO_6dprdS1MN3d3MkdPa142WFRrdnRRUWl1UFE&#39;</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1"># Or, if you feel lazy to extract that key, paste the entire url</span></span>
+<span class="code-line"><span class="n">sht2</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">open_by_url</span><span class="p">(</span><span class="s1">&#39;https://docs.google.com/spreadsheet/ccc?key=0Bm...FE&amp;hl&#39;</span><span class="p">)</span></span>
+</pre></div>
+
+
+<h4>Selecting a&nbsp;worksheet</h4>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1"># Select worksheet by index. Worksheet indexes start from zero</span></span>
+<span class="code-line"><span class="n">worksheet</span> <span class="o">=</span> <span class="n">sh</span><span class="o">.</span><span class="n">get_worksheet</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1"># By title</span></span>
+<span class="code-line"><span class="n">worksheet</span> <span class="o">=</span> <span class="n">sh</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s2">&quot;January&quot;</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1"># Most common case: Sheet1</span></span>
+<span class="code-line"><span class="n">worksheet</span> <span class="o">=</span> <span class="n">sh</span><span class="o">.</span><span class="n">sheet1</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1"># Get a list of all worksheets</span></span>
+<span class="code-line"><span class="n">worksheet_list</span> <span class="o">=</span> <span class="n">sh</span><span class="o">.</span><span class="n">worksheets</span><span class="p">()</span></span>
+</pre></div>
+
+
+<h4>Creating a&nbsp;worksheet</h4>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="n">worksheet</span> <span class="o">=</span> <span class="n">wks</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;A worksheet&quot;</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="s2">&quot;100&quot;</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="s2">&quot;20&quot;</span><span class="p">)</span></span>
+</pre></div>
+
+
+<h4>Getting a cell&nbsp;value</h4>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1"># With label</span></span>
+<span class="code-line"><span class="n">val</span> <span class="o">=</span> <span class="n">worksheet</span><span class="o">.</span><span class="n">acell</span><span class="p">(</span><span class="s1">&#39;B1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1"># With coords</span></span>
+<span class="code-line"><span class="n">val</span> <span class="o">=</span> <span class="n">worksheet</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">value</span></span>
+</pre></div>
+
+
+<h4>Getting all values from a worksheet as a list of&nbsp;lists</h4>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="n">list_of_lists</span> <span class="o">=</span> <span class="n">worksheet</span><span class="o">.</span><span class="n">get_all_values</span><span class="p">()</span></span>
+</pre></div>
+
+
+<h3>Discussion<a id="discussion"></a></h3>
+<p>Regarding security issues, it is not clear to me how we should &#8216;hide&#8217; the <span class="caps">JSON</span> key information in case we needed to distribute the Python applications created. In a compiled language it would be possible to put the content in a file, obfuscate it, encrypt it and then compile it. Of course we could do this on Python using, for instance, Cython, but I would like something simpler and I think there isn&#8217;t one.
+<em>If you have any suggestion on how to do this in a pure Python package, please send me an&nbsp;email.</em></p>
+<h3>Links</h3>
+<ol>
+<li>
+<p><a href="https://docs.google.com/spreadsheets/">https://docs.google.com/spreadsheets/</a></p>
+</li>
+<li>
+<p><a href="https://support.google.com/docs">https://support.google.com/docs</a></p>
+</li>
+<li>
+<p><a href="https://support.google.com/docs/table/25273?hl=en">https://support.google.com/docs/table/25273?hl=en</a></p>
+</li>
+<li>
+<p><a href="https://github.com/burnash/gspread">https://github.com/burnash/gspread</a></p>
+</li>
+<li>
+<p><a href="http://en.wikipedia.org/wiki/OAuth">http://en.wikipedia.org/wiki/OAuth</a></p>
+</li>
+<li>
+<p><a href="https://developers.google.com/identity/protocols/OAuth2#serviceaccount">https://developers.google.com/identity/protocols/OAuth2#serviceaccount</a></p>
+</li>
+<li>
+<p><a href="http://tools.ietf.org/html/rfc6749">http://tools.ietf.org/html/rfc6749</a></p>
+</li>
+<li>
+<p><a href="https://developers.google.com/identity/protocols/OAuth2">https://developers.google.com/identity/protocols/OAuth2</a></p>
+</li>
+<li>
+<p><a href="https://github.com/google/oauth2client">https://github.com/google/oauth2client</a></p>
+</li>
+<li>
+<p><a href="https://developers.google.com/identity/protocols/OAuth2ServiceAccount">https://developers.google.com/identity/protocols/OAuth2ServiceAccount</a></p>
+</li>
+<li>
+<p><a href="http://gspread.readthedocs.org/en/latest/oauth2.html">http://gspread.readthedocs.org/en/latest/oauth2.html</a></p>
+</li>
+<li>
+<p><a href="https://console.developers.google.com/project">https://console.developers.google.com/project</a></p>
+</li>
+<li>
+<p><a href="http://gspread.readthedocs.org/en/latest/index.html#main-interface">http://gspread.readthedocs.org/en/latest/index.html#main-interface</a></p>
+</li>
+<li>
+<p><a href="http://gspread.readthedocs.org/en/latest/index.html#models">http://gspread.readthedocs.org/en/latest/index.html#models</a></p>
+</li>
+<li>
+<p><a href="https://github.com/pyca/pyopenssl">https://github.com/pyca/pyopenssl</a></p>
+</li>
+<li>
+<p><a href="https://github.com/dlitz/pycrypto">https://github.com/dlitz/pycrypto</a></p>
+</li>
+<li>
+<p><a href="https://github.com/burnash/gspread#more-examples">https://github.com/burnash/gspread#more-examples</a></p>
+</li>
+</ol>
+            <div class="hr"></div>
+            <a href="#" class="go-top">Go Top</a>
+<footer class="footer">
+    <p>&copy; Interlines &ndash;
+        Built with <a href="https://github.com/PurePelicanTheme/pure">Pure Theme</a>
+        for <a href="http://blog.getpelican.com/">Pelican</a>
+    </p>
+</footer>        </div>
+    </div>
+</div>
+    <script>
+        var $top = $('.go-top');
+
+        // Show or hide the sticky footer button
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $top.fadeIn(200);
+            } else {
+                $top.fadeOut(200);
+            }
+        });
+
+        // Animate the scroll to top
+        $top.click(function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 300);
+        })
+
+        // Makes sure that the href="#" attached to the <a> elements
+        // don't scroll you back up the page.
+        $('body').on('click', 'a[href="#"]', function(event) {
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>

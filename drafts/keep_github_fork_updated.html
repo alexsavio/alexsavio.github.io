@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interlines, Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.">
+
+        <link rel="alternate"  href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" title="Interlines Full Atom Feed"/>
+        <link rel="alternate" href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" title="Interlines Full RSS Feed"/>
+
+        <title>How to keep a GitHub fork updated // Interlines // Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.</title>
+
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pure.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pygments.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".content").fitVids();
+        });
+    </script>
+</head>
+
+<body>
+<div class="pure-g-r" id="layout">
+    <div class="sidebar sidebar-article pure-u">
+        <header class="header-article">
+            <hgroup>
+                <a href="https://alexsavio.github.io/author/alexandre-m-savio.html" title="See posts by Alexandre M. Savio">
+                        <img class="avatar" alt="Alexandre M. Savio" src="https://www.gravatar.com/avatar/252ab7f3e2ebf905115dee137696bb1e">
+                </a>
+                <h2 class="article-info">Alexandre M. Savio</h2>
+                <small class="about-author"></small>
+                <h5>Published</h5>
+                <p>Fri 30 May 2014</p>
+                <a href="/">&larr;Home</a>
+            </hgroup>
+        </header>
+    </div>
+    <div class="pure-u">
+        <div class="content">
+            <section class="post">
+                <header class="post-header">
+                    <h1>How to keep a GitHub fork&nbsp;updated</h1>
+                        <p class="post-meta">
+                            // under                                 <a class="post-category" href="https://alexsavio.github.io/tag/git.html">git</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/unix.html">unix</a>
+                        </p>
+                </header>
+            </section>
+            <p>Keep a forked repository of <strong>git/git</strong> like <strong>alexsavio/git</strong>&nbsp;updated:</p>
+<h3>Clone the forked&nbsp;repo</h3>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">git clone git@github.com:alexsavio/git.git</span></span>
+<span class="code-line"><span class="err">cd git</span></span>
+<span class="code-line"><span class="err">git remote add upstream git@github.com:git/git.git</span></span>
+</pre></div>
+
+
+<h3>Update&nbsp;it</h3>
+<p>To update the forked repo from the local <strong>master</strong>&nbsp;branch:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">git fetch upstream</span></span>
+<span class="code-line"><span class="err">git rebase upstream/master</span></span>
+</pre></div>
+
+
+<h3>Commit rights&nbsp;upstream?</h3>
+<p>If you also have commit rights to the upstream repo, you can create a
+local <strong>upstream</strong> branch and do work that will go upstream&nbsp;there.</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">git checkout -b upstream upstream/master</span></span>
+</pre></div>
+
+
+<h4>References</h4>
+<p>[1]<a href="http://robots.thoughtbot.com/keeping-a-github-fork-updated">http://robots.thoughtbot.com/keeping-a-github-fork-updated</a></p>
+            <div class="hr"></div>
+            <a href="#" class="go-top">Go Top</a>
+<footer class="footer">
+    <p>&copy; Interlines &ndash;
+        Built with <a href="https://github.com/PurePelicanTheme/pure">Pure Theme</a>
+        for <a href="http://blog.getpelican.com/">Pelican</a>
+    </p>
+</footer>        </div>
+    </div>
+</div>
+    <script>
+        var $top = $('.go-top');
+
+        // Show or hide the sticky footer button
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $top.fadeIn(200);
+            } else {
+                $top.fadeOut(200);
+            }
+        });
+
+        // Animate the scroll to top
+        $top.click(function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 300);
+        })
+
+        // Makes sure that the href="#" attached to the <a> elements
+        // don't scroll you back up the page.
+        $('body').on('click', 'a[href="#"]', function(event) {
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>

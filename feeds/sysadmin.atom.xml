@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Interlines - SysAdmin</title><link href="https://alexsavio.github.io/" rel="alternate"></link><link href="https://alexsavio.github.io/feeds/sysadmin.atom.xml" rel="self"></link><id>https://alexsavio.github.io/</id><updated>2014-07-06T10:00:00+02:00</updated><subtitle>Lost in spikes</subtitle><entry><title>How to use Byobu</title><link href="https://alexsavio.github.io/how-to-byobu.html" rel="alternate"></link><published>2014-07-06T10:00:00+02:00</published><updated>2014-07-06T10:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-07-06:/how-to-byobu.html</id><summary type="html">&lt;p&gt;A short manual for Byobu and a list of its&amp;nbsp;advantages.&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="http://byobu.co"&gt;Byobu&lt;/a&gt;, in the same way as &lt;a href="http://tmux.sourceforge.net/"&gt;tmux&lt;/a&gt;, allows to
+manage many terminals through just one. In summary, it is a terminal-based terminal multiplexer and session&amp;nbsp;manager.&lt;/p&gt;
+&lt;p&gt;It can be very helpful when working with a server through &lt;span class="caps"&gt;SSH&lt;/span&gt;. Instead of opening a terminal
+and connecting to your server every time you nedd another terminal, you can
+setup your server to run Byobu or tmux at the beginning of your session and have as many terminals as you need. Byobu also keeps terminal sessions alive after detaching from&amp;nbsp;them.&lt;/p&gt;
+&lt;p&gt;Byobu is an enhancement that connects to and uses Screen or tmux (you choose), but offers useful statistics and easy-to-use hotkeys for the basic&amp;nbsp;commands.&lt;/p&gt;
+&lt;h2&gt;Installing&amp;nbsp;Byobu&lt;/h2&gt;
+&lt;p&gt;In&amp;nbsp;Ubuntu:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;apt-get install byobu.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Else take a look at &lt;a href="http://byobu.co/downloads.html"&gt;http://byobu.co/downloads.html&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Start&amp;nbsp;Byobu&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;byobu&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Configure Ubuntu to run Byobu from the&amp;nbsp;beginning&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;byobu-config&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Feel free to change&amp;nbsp;anything.&lt;/p&gt;
+&lt;p&gt;The important setting to change is: &amp;#8220;&lt;em&gt;Byobu currently launches at login (toggle on)&lt;/em&gt;&amp;#8220;. Select that and press&amp;nbsp;return.&lt;/p&gt;
+&lt;p&gt;Now you can go back to the menu and exit byobu-config (tab to the exit choice and hit&amp;nbsp;return).&lt;/p&gt;
+&lt;h2&gt;Resume previous&amp;nbsp;sessions&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;byobu –r session_title&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Hotkeys&lt;/h2&gt;
+&lt;p&gt;Byobu has easy keybindings that use the function&amp;nbsp;keys:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;F2&lt;/strong&gt;: Create a new&amp;nbsp;window&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F3&lt;/strong&gt;: Move to previous&amp;nbsp;window&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F4&lt;/strong&gt;: Move to next&amp;nbsp;window&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F5&lt;/strong&gt;: Reload&amp;nbsp;profile&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F6&lt;/strong&gt;: Detach from this&amp;nbsp;session&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F7&lt;/strong&gt;: Enter copy/scrollback&amp;nbsp;mode&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F8&lt;/strong&gt;: Re-title a&amp;nbsp;window&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F9&lt;/strong&gt;: Configuration Menu, can also be summoned by &lt;strong&gt;Ctrl+a&lt;/strong&gt;, &lt;strong&gt;Ctrl+@&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F12&lt;/strong&gt;: Lock current&amp;nbsp;session&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;How detaching works or How to maintain a&amp;nbsp;session&lt;/h2&gt;
+&lt;p&gt;Perform a short demo. Issue the&amp;nbsp;command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; hello&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now exit the session by pressing &lt;strong&gt;F6&lt;/strong&gt; to detach from Byobu and then run: &lt;em&gt;exit&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Now &lt;span class="caps"&gt;SSH&lt;/span&gt; back into your machine.
+You can notice that the &lt;em&gt;echo hello&lt;/em&gt; command is still on the&amp;nbsp;screen.&lt;/p&gt;
+&lt;p&gt;Detaching does not end your session, it gives you access to another session.
+That means you can log in, run a long running task, and then detach and come back later when you;ve finished the&amp;nbsp;task.&lt;/p&gt;
+&lt;h2&gt;Note for vim&amp;nbsp;users:&lt;/h2&gt;
+&lt;p&gt;You might find now a strange behaviour when using &lt;strong&gt;Ctrl-Left&lt;/strong&gt; and &lt;strong&gt;Ctrl-Right&lt;/strong&gt; keys to skip words using vim and also other&amp;nbsp;programs.&lt;/p&gt;
+&lt;p&gt;The best solution I found&amp;nbsp;was:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;:set term=xterm&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.vim/vimrc&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;blockquote&gt;&lt;/blockquote&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;unbind-key -n C-Left&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/keybindings.tmux&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;unbind-key -n C-Right&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/keybindings.tmux&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;blockquote&gt;&lt;/blockquote&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;set-window-option -g xterm-keys on&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/.tmux.conf&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;set -g terminal-overrides &amp;#39;xterm*:smcup@:rmcup@&amp;#39;&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/.tmux.conf&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;References&lt;/h3&gt;
+&lt;p&gt;[1] &lt;a href="http://www.saltycrane.com/blog/2012/10/how-start-long-running-process-screen-and-detach-it/"&gt;http://www.saltycrane.com/blog/2012/10/how-start-long-running-process-screen-and-detach-it/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2] &lt;a href="http://tmux.sourceforge.net/"&gt;http://tmux.sourceforge.net/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[3] &lt;a href="http://byobu.co/documentation.html"&gt;http://byobu.co/documentation.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[4] &lt;a href="http://www.howtogeek.com/58487/how-to-easily-multitask-in-a-linux-terminal-with-byobu/"&gt;http://www.howtogeek.com/58487/how-to-easily-multitask-in-a-linux-terminal-with-byobu/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[5] &lt;a href="http://blog.smartlogicsolutions.com/2010/01/22/ubuntu-byobu-landscape/"&gt;http://blog.smartlogicsolutions.com/2010/01/22/ubuntu-byobu-landscape/&lt;/a&gt;&lt;/p&gt;</content><category term="SysAdmin"></category><category term="terminal"></category><category term="config"></category><category term="ssh"></category><category term="multi-tasking"></category></entry></feed>

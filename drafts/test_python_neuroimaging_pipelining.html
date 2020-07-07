@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interlines, Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.">
+
+        <link rel="alternate"  href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" title="Interlines Full Atom Feed"/>
+        <link rel="alternate" href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" title="Interlines Full RSS Feed"/>
+
+        <title>Testing Python pipelining modules for a simple neuroimaging task // Interlines // Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.</title>
+
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pure.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pygments.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".content").fitVids();
+        });
+    </script>
+</head>
+
+<body>
+<div class="pure-g-r" id="layout">
+    <div class="sidebar sidebar-article pure-u">
+        <header class="header-article">
+            <hgroup>
+                <a href="https://alexsavio.github.io/author/alexandre-m-savio.html" title="See posts by Alexandre M. Savio">
+                        <img class="avatar" alt="Alexandre M. Savio" src="https://www.gravatar.com/avatar/252ab7f3e2ebf905115dee137696bb1e">
+                </a>
+                <h2 class="article-info">Alexandre M. Savio</h2>
+                <small class="about-author"></small>
+                <h5>Published</h5>
+                <p>Fri 28 August 2015</p>
+                <a href="/">&larr;Home</a>
+            </hgroup>
+        </header>
+    </div>
+    <div class="pure-u">
+        <div class="content">
+            <section class="post">
+                <header class="post-header">
+                    <h1>Testing Python pipelining modules for a simple neuroimaging&nbsp;task</h1>
+                        <p class="post-meta">
+                            // under                                 <a class="post-category" href="https://alexsavio.github.io/tag/python.html">python</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/neuroimage.html">neuroimage</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/pipeline.html">pipeline</a>
+                        </p>
+                </header>
+            </section>
+            <h2>Introduction</h2>
+<p>Current neuroimaging software offer users an incredible opportunity to analyze data using a variety of different algorithms.
+However, this has resulted in a heterogeneous collection of specialized applications without transparent interoperability or a uniform operating interface. In addition, the growth of the datasets makes the use of a computer cluster indispensable, which creates the need of task-dependency checks for finer grain parallel task splitting for easier&nbsp;automatization.</p>
+<p>I have programmed brain magnetic resonance image (<span class="caps">MRI</span>) processing pipelines and tasks in Bash, Matlab, R and Python. Most of them were hard coded, most of the code base is hardly reproducible and not reusable.
+In summary, I&#8217;m looking for an existing or a good module that allows to define pipelines made of Python functions and command line call tasks and run it in a computer cluster or a multi-core workstation with automatic task-dependency checks. Preferably on Python &gt;=&nbsp;3.4.</p>
+<p><strong>Note:</strong> <em>I will be updating this post adding more&nbsp;experiments.</em></p>
+<h2>Materials</h2>
+<p>I will use a public available database that I will name <a href="http://fcon_1000.projects.nitrc.org/indi/retro/cobre.html"><span class="caps">COBRE</span></a>.
+This database consist of raw anatomical (T1) and functional (fMRI) <span class="caps">MR</span> data from 72 patients with Schizophrenia and 75 healthy controls (ages ranging from 18 to 65 in each group). For further reference, I have it downloaded in <code>~/data/cobre</code>.</p>
+<h3>Method</h3>
+<p>The experiment I want to try is a non-linear registration using <span class="caps">FSL</span> <a href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FLIRT"><span class="caps">FLIRT</span></a> and <a href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FNIRT"><span class="caps">FNIRT</span></a>. I want to keep the registration results as well as the linear and non-linear transformation matrices for further&nbsp;processes.</p>
+<p>This experiment allows to check important details about the modules under test:
+ - task dependency checking,
+ - multiple outputs aware,
+ - control of the resulting files&nbsp;location.</p>
+<h4>Bash&nbsp;shell</h4>
+<p>A sequential way to execute this task in shell would be&nbsp;this:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="ch">#!/bin/bash</span></span>
+<span class="code-line"><span class="nv">d</span><span class="o">=</span>~/data/cobre</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="nv">in</span><span class="o">=</span>anat.nii.gz</span>
+<span class="code-line"><span class="nv">FNIRT_CFG</span><span class="o">=</span><span class="si">${</span><span class="nv">d</span><span class="si">}</span>/T1_2_MNI152_2mm.cnf</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="nb">cd</span> <span class="nv">$d</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="nv">lst</span><span class="o">=</span><span class="sb">`</span>find -name <span class="si">${</span><span class="nv">in</span><span class="si">}</span><span class="sb">`</span></span>
+<span class="code-line"><span class="k">for</span> i in <span class="nv">$lst</span><span class="p">;</span> <span class="k">do</span></span>
+<span class="code-line"> <span class="nv">wd</span><span class="o">=</span><span class="sb">`</span>dirname <span class="nv">$i</span><span class="sb">`</span></span>
+<span class="code-line"> <span class="nb">cd</span> <span class="si">${</span><span class="nv">wd</span><span class="si">}</span></span>
+<span class="code-line"> <span class="nb">echo</span> <span class="si">${</span><span class="nv">wd</span><span class="si">}</span></span>
+<span class="code-line"></span>
+<span class="code-line"> flirt -ref /usr/share/fsl/4.1/data/standard/MNI152_T1_2mm -in anat -omat anat.to.MNI.mat -out anat_flirted</span>
+<span class="code-line"> fnirt --in<span class="o">=</span>anat.nii --aff<span class="o">=</span>anat.to.MNI.mat --config<span class="o">=</span><span class="si">${</span><span class="nv">FNIRT_CFG</span><span class="si">}</span> --cout<span class="o">=</span>anat.to.MNI_field --iout<span class="o">=</span>anat_fnirted</span>
+<span class="code-line"> applywarp --ref<span class="o">=</span>/usr/share/fsl/data/standard/MNI152_T1_2mm --in<span class="o">=</span>anat --warp<span class="o">=</span>anat.to.MNI_field.nii.gz --out<span class="o">=</span>wanat.nii.gz</span>
+<span class="code-line"></span>
+<span class="code-line"> <span class="nb">cd</span> <span class="si">${</span><span class="nv">d</span><span class="si">}</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="k">done</span></span>
+</pre></div>
+
+
+<p>This is quick, right? But this just provides application specific scalability, and is not easy to port across different&nbsp;architectures.</p>
+<p>This could be parallelized using <code>fsl_sub</code>, a tool provided by <span class="caps">FSL</span>. It is compatible with <span class="caps">SGE</span>, <span class="caps">PBS</span> and HTCondor. The latter using <a href="https://github.com/octomike/fsl_overlay/blob/master/fsl_sub">patched versions</a> that take advantage of the HTCondor <code>qsub</code> emulation. Given that you have a scheduler set up, enabling <code>fsl_sub</code> is as simple as appending <code>fsl_sub</code> to the beginning of each task call in the previous&nbsp;code.</p>
+<p>The difficulties you will find with parallelizing this in Bash would be:
+1. you may need the whole pipeline to be atomic, run one step at a time or add some kind of task-dependency control,
+2. the parametrization of the tasks are hardcoded within the pipeline,
+3. debugging the pipeline execution will need posterior checking of execution logs,
+4. re-using the pipeline for further experiments would require recoding,&nbsp;etc.</p>
+<p>Please note that the location of the resulting files is also important for&nbsp;me.</p>
+<h3>Selection</h3>
+<p>I based my search on this list of pipeline modules:&nbsp;https://github.com/pditommaso/awesome-pipeline.</p>
+<p>In the next paragraphs I present a list of requirements and desired additions for the modules and a list of the&nbsp;candidates.</p>
+<h4>Requirements</h4>
+<ul>
+<li>Executable in a computer&nbsp;cluster.</li>
+<li>Automatic task dependency&nbsp;checks.</li>
+<li>Easy to include/program new&nbsp;tasks.</li>
+<li>Tasks can do command line&nbsp;calls.</li>
+<li>Must run the pipelines in more than one open source batch scheduler system, including one of:<ul>
+<li><a href="https://research.cs.wisc.edu/htcondor/">HTCondor</a>,</li>
+<li><a href="https://arc.liv.ac.uk/trac/SGE">Son of Grid Engine</a>,</li>
+<li><a href="http://gridscheduler.sourceforge.net">Open Grid Scheduler</a>,</li>
+<li><a href="http://www.adaptivecomputing.com/products/open-source/torque/"><span class="caps">TORQUE</span></a>&nbsp;or</li>
+<li><a href="http://www.celeryproject.org/">Celery</a>.</li>
+</ul>
+</li>
+</ul>
+<h4>Appreciated&nbsp;additions</h4>
+<ul>
+<li>Being usable from Python 3 in <span class="caps">GNU</span>/Linux and Mac <span class="caps">OS</span>.</li>
+<li>Workflow graph&nbsp;visualization.</li>
+<li>Preferred schedulers: <a href="https://research.cs.wisc.edu/htcondor">HTCondor</a> or <a href="http://www.celeryproject.org/">Celery</a>.</li>
+<li>Graphical interface for monitoring tasks and&nbsp;nodes.</li>
+<li>Capacity of resuming the pipeline from an intermediate point, recovering from an&nbsp;error.</li>
+<li>Compatible with <a href="http://www.drmaa.org/"><code>drmaa</code></a>.</li>
+</ul>
+<h4>Candidates</h4>
+<h5>1. <a href="https://github.com/nipy/nipype">Nipype</a></h5>
+<p>Nipype is <strong>the</strong> neuroimaging pipelining module in Python. It &#8220;<em>provides a uniform interface to existing neuroimaging software and facilitates interaction between these packages within a single workflow</em>&#8220;.</p>
+<p>According to its website, it allows you to:
+- interact with tools from different software packages
+- combine processing steps from different software packages
+- develop new workflows faster by reusing common steps from old ones
+- process data faster by running it in parallel on many cores/machines
+- make your research easily reproducible
+- share your processing workflows with the&nbsp;community</p>
+<p>Nipype is a great module, I have been observing it for a long time. I tried it every time I started a new project, but never got the results how I needed. I used <a href="http://fcp-indi.github.io/">C-<span class="caps">PAC</span></a> (based on nipype) for processing <span class="caps">COBRE</span>, but it is for fMRI&nbsp;only.</p>
+<ul>
+<li><strong>Pros:</strong></li>
+<li>Already includes an interface for all the essential neuroimaging tools I&nbsp;need.</li>
+<li>Very well&nbsp;tested.</li>
+</ul>
+<p>I suspect that most of the readers would say: &#8220;<em>Why don&#8217;t you use nypipe and that&#8217;s it?!</em>&#8220;.
+New workflow definition modules are appearing either from companies (Luigi, Airflow) and from other research areas, specially genetic sequency analysis (Ruffus, Cosmos). These modules offer better Workflow definition design <span class="caps">API</span> than NiPype, at first sight they seem as powerful, but simpler and less&nbsp;wordy.</p>
+<h5><a href="https://github.com/spotify/luigi">Luigi</a></h5>
+<p>Luigi is a Python module that helps you build complex pipelines of batch jobs. It handles dependency resolution, workflow management, visualization etc. It also comes with Hadoop support built&nbsp;in.</p>
+<ul>
+<li>
+<p><strong>Pros:</strong>&nbsp;-</p>
+</li>
+<li>
+<p><strong>Cons:</strong>&nbsp;-</p>
+</li>
+</ul>
+<h5><a href="http://www.ruffus.org.uk/">Ruffus</a></h5>
+<h5><a href="https://cosmos.hms.harvard.edu/documentation/index.html">Cosmos</a></h5>
+<h5><a href="https://github.com/airbnb/airflow">Airflow</a></h5>
+<h5><a href="http://docs.stackstorm.com/actionchain.html">ActionChain</a></h5>
+<h5><a href="http://ccl.cse.nd.edu/software/makeflow/">MakeFlow</a></h5>
+<h5><a href="http://www.nextflow.io">NextFlow</a></h5>
+<h5><a href="https://bitbucket.org/johanneskoester/snakemake/wiki/browse/">SnakeMake</a></h5>
+<h5><a href="">Common Workflow&nbsp;Language</a></h5>
+<h4>Winners</h4>
+<h3>The&nbsp;implementations</h3>
+<h4>Nipype</h4>
+<h4>Ruffus</h4>
+<h4>Airflow</h4>
+<h4><span class="caps">CWL</span>+Ruffus</h4>
+<h4>Luigi</h4>
+<h4><a href="http://swift-lang.org">Swift</a></h4>
+<h4><a href="http://wiki.ci.uchicago.edu/CNARI"><span class="caps">CNARI</span></a></h4>
+<h4><a href="http://worldmake.org">WorldMake</a></h4>
+<h4><a href="http://www.taverna.org.uk/">Taverna</a></h4>
+<p>http://stanford.edu/~mwaskom/software/lyman/workflow.html#process-the-data</p>
+<p>http://mia.sourceforge.net/</p>
+<p>http://fcp-indi.github.io/</p>
+<h3>Execution&nbsp;times</h3>
+<h2>Conclusion</h2>
+<h2>References</h2>
+<ul>
+<li>https://github.com/pditommaso/awesome-pipeline</li>
+<li>Gorgolewski K, Burns <span class="caps">CD</span>, Madison C, Clark D, Halchenko <span class="caps">YO</span>, Waskom <span class="caps">ML</span>, Ghosh <span class="caps">SS</span>. (2011). Nipype: a flexible, lightweight and extensible neuroimaging data processing framework in Python. Front. Neuroinform.&nbsp;5:13.</li>
+<li>https://github.com/nipy/nipype</li>
+<li>https://github.com/spotify/luigi</li>
+<li>https://github.com/airbnb/airflow</li>
+<li>https://cosmos.hms.harvard.edu/documentation/index.html</li>
+<li>https://bitbucket.org/johanneskoester/snakemake/wiki/browse/</li>
+<li>https://github.com/pinterest/pinball</li>
+<li>https://github.com/Illumina/pyflow</li>
+<li>https://github.com/rabix/rabix</li>
+<li>https://github.com/soravux/scoop/</li>
+<li>http://opensource.nibr.com/yap/</li>
+<li>http://worldmake.org</li>
+<li>http://www.ruffus.org.uk/</li>
+<li>https://github.com/common-workflow-language/common-workflow-language/tree/master/reference/</li>
+</ul>
+            <div class="hr"></div>
+            <a href="#" class="go-top">Go Top</a>
+<footer class="footer">
+    <p>&copy; Interlines &ndash;
+        Built with <a href="https://github.com/PurePelicanTheme/pure">Pure Theme</a>
+        for <a href="http://blog.getpelican.com/">Pelican</a>
+    </p>
+</footer>        </div>
+    </div>
+</div>
+    <script>
+        var $top = $('.go-top');
+
+        // Show or hide the sticky footer button
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $top.fadeIn(200);
+            } else {
+                $top.fadeOut(200);
+            }
+        });
+
+        // Animate the scroll to top
+        $top.click(function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 300);
+        })
+
+        // Makes sure that the href="#" attached to the <a> elements
+        // don't scroll you back up the page.
+        $('body').on('click', 'a[href="#"]', function(event) {
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>

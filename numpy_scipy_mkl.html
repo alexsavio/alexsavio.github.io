@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interlines, Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.">
+
+        <link rel="alternate"  href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" title="Interlines Full Atom Feed"/>
+        <link rel="alternate" href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" title="Interlines Full RSS Feed"/>
+
+        <title>Compile Numpy and Scipy against Intel MKL // Interlines // Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.</title>
+
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pure.css">
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pygments.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".content").fitVids();
+        });
+    </script>
+</head>
+
+<body>
+<div class="pure-g-r" id="layout">
+    <div class="sidebar sidebar-article pure-u">
+        <header class="header-article">
+            <hgroup>
+                <a href="https://alexsavio.github.io/author/alexandre-m-savio.html" title="See posts by Alexandre M. Savio">
+                        <img class="avatar" alt="Alexandre M. Savio" src="https://www.gravatar.com/avatar/252ab7f3e2ebf905115dee137696bb1e">
+                </a>
+                <h2 class="article-info">Alexandre M. Savio</h2>
+                <small class="about-author"></small>
+                <h5>Published</h5>
+                <p>Tue 08 April 2014</p>
+                <a href="/">&larr;Home</a>
+            </hgroup>
+        </header>
+    </div>
+    <div class="pure-u">
+        <div class="content">
+            <section class="post">
+                <header class="post-header">
+                    <h1>Compile Numpy and Scipy against Intel <span class="caps">MKL</span></h1>
+                        <p class="post-meta">
+                            // under                                 <a class="post-category" href="https://alexsavio.github.io/tag/numpy.html">Numpy</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/scipy.html">Scipy</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/mkl.html">MKL</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/python.html">Python</a>
+                                <a class="post-category" href="https://alexsavio.github.io/tag/openblas.html">OpenBLAS</a>
+                        </p>
+                </header>
+            </section>
+            <h6>Tested on Ubuntu 13.10 and&nbsp;14.04</h6>
+<h3>1. Install C++ Composer and <span class="caps">FORTRAN</span> Composer, with <span class="caps">MKL</span></h3>
+<p>Fill forms and download online installation shell scripts from <a href="http://software.intel.com/en-us/non-commercial-software-development">here</a>.</p>
+<h4>OpenBLAS&nbsp;Note</h4>
+<p>If you want to use OpenBLAS as well, install it and follow the OpenBLAS notes along this tutorial.
+  I haven&#8217;t tested this&nbsp;yet.</p>
+<p>But first, install&nbsp;it:</p>
+<div class="highlight"><pre><span class="code-line"><span></span>git clone git://github.com/xianyi/OpenBLAS</span>
+<span class="code-line"><span class="nb">cd</span> OpenBLAS <span class="o">&amp;&amp;</span> make <span class="nv">FC</span><span class="o">=</span>gfortran</span>
+<span class="code-line">sudo make <span class="nv">PREFIX</span><span class="o">=</span>/opt/OpenBLAS install</span>
+<span class="code-line">sudo ldconfig</span>
+</pre></div>
+
+
+<h3>2. Execute shell scripts with&nbsp;sudo</h3>
+<p>I will assume you&#8217;ll install the libraries in&nbsp;/opt/intel.</p>
+<h3>3. Once installed, add this to&nbsp;~/.bashrc</h3>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1">#Intel C++ Studio</span></span>
+<span class="code-line"><span class="k">if</span> <span class="o">[</span> -d /opt/intel <span class="o">]</span><span class="p">;</span></span>
+<span class="code-line"><span class="k">then</span></span>
+<span class="code-line">    <span class="nb">export</span> <span class="nv">INTEL_HOME</span><span class="o">=</span>/opt/intel</span>
+<span class="code-line">    <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span>:<span class="si">${</span><span class="nv">INTEL_HOME</span><span class="si">}</span>/bin</span>
+<span class="code-line">    <span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/opt/intel/mkl/lib/intel64:/opt/intel/lib/intel64:<span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}</span></span>
+<span class="code-line"><span class="k">fi</span></span>
+</pre></div>
+
+
+<h3>4. Add this to&nbsp;/etc/ld.so.conf.d/intel.conf:</h3>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">/opt/intel/lib/intel64</span></span>
+<span class="code-line"><span class="err">/opt/intel/lib/intel64/irml</span></span>
+<span class="code-line"><span class="err">/opt/intel/lib/intel64/crt</span></span>
+<span class="code-line"><span class="err">/opt/intel/mkl/lib/intel64</span></span>
+</pre></div>
+
+
+<h3>5. Download Numpy and Scipy from <a href="http://www.scipy.org/scipylib/download.html">here</a></h3>
+<h3>6. Change Numpy source&nbsp;code:</h3>
+<p>Change directory to&nbsp;numpy-x.x.x</p>
+<p>Create a site.cfg from the existing&nbsp;site.cfg.examle</p>
+<p>Edit site.cfg as&nbsp;follows:</p>
+<p>Add the following lines to site.cfg in your top level NumPy directory to use Intel® <span class="caps">MKL</span>, if you are building on Intel 64 platform, assuming the default path for the Intel <span class="caps">MKL</span> installation from the Intel Parallel Studio <span class="caps">XE</span> 2013 or Intel Composer <span class="caps">XE</span> 2013&nbsp;versions:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="k">[mkl]</span></span>
+<span class="code-line"><span class="na">library_dirs</span> <span class="o">=</span> <span class="s">/opt/intel/mkl/lib/intel64</span></span>
+<span class="code-line"><span class="na">include_dirs</span> <span class="o">=</span> <span class="s">/opt/intel/mkl/include</span></span>
+<span class="code-line"><span class="na">mkl_libs</span> <span class="o">=</span> <span class="s">mkl_rt</span></span>
+<span class="code-line"><span class="na">lapack_libs</span> <span class="o">=</span></span>
+</pre></div>
+
+
+<p>If you are building NumPy for 32 bit, please add as the&nbsp;following:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="k">[mkl]</span></span>
+<span class="code-line"><span class="na">library_dirs</span> <span class="o">=</span> <span class="s">/opt/intel/mkl/lib/ia32</span></span>
+<span class="code-line"><span class="na">include_dirs</span> <span class="o">=</span> <span class="s">/opt/intel/mkl/include</span></span>
+<span class="code-line"><span class="na">mkl_libs</span> <span class="o">=</span> <span class="s">mkl_rt</span></span>
+<span class="code-line"><span class="na">lapack_libs</span> <span class="o">=</span></span>
+</pre></div>
+
+
+<p>Change cc_exe in numpy/distutils/intelccompiler.py to be something&nbsp;like:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="bp">self</span><span class="o">.</span><span class="n">cc_exe</span> <span class="o">=</span> \<span class="s1">&#39;icc -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp -xhost</span><span class="se">\&#39;</span></span>
+</pre></div>
+
+
+<p>Here we use, -O3, optimizations for speed and enables more aggressive loop transformations such as Fusion, Block-Unroll-and-Jam, and collapsing <span class="caps">IF</span> statements, -openmp for OpenMP threading and -xhost option tells the compiler to generate instructions for the highest instruction set available on the compilation host processor. If you are using the <span class="caps">ILP64</span> interface, please add -DMKL_ILP64 compiler&nbsp;flag.</p>
+<p>Run <code>icc --help</code> for more information on processor-specific options, and refer Intel Compiler documentation for more details on the compiler&nbsp;flags.</p>
+<p>Change the Fortran compiler flags in numpy-x.x.x/numpy/distutil/fcompiler/intel.py to use the following compiler options for the Intel Fortran&nbsp;Compiler:</p>
+<p>For ia32 and&nbsp;Intel64</p>
+<div class="highlight"><pre><span class="code-line"><span></span>ifort -xhost -openmp -fp-model strict -fPIC</span>
+</pre></div>
+
+
+<p>Change the get_flags_opt function line&nbsp;to:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="k">return</span> <span class="p">[</span><span class="s1">&#39;-xhost -openmp -fp-model strict&#39;</span><span class="p">]</span></span>
+</pre></div>
+
+
+<p>If you are using <span class="caps">ILP64</span> interface of Intel <span class="caps">MKL</span>, please add -i8 flag above.  If you are using older versions of Numpy/SciPy, please refer the new intel.py for your reference from the latest version of NumPy, which you can replace to use the above mentioned compiler&nbsp;options.</p>
+<h4>OpenBLAS&nbsp;Note</h4>
+<p>To use OpenBLAS, uncomment the following lines and correct the&nbsp;paths:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="k">[openblas]</span></span>
+<span class="code-line"><span class="na">libraries</span> <span class="o">=</span> <span class="s">openblas</span></span>
+<span class="code-line"><span class="na">library_dirs</span> <span class="o">=</span> <span class="s">/opt/OpenBLAS/lib</span></span>
+<span class="code-line"><span class="na">include_dirs</span> <span class="o">=</span> <span class="s">/opt/OpenBLAS/include</span></span>
+</pre></div>
+
+
+<h3>7. Check your&nbsp;config</h3>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">cd &lt;numpy-x.x.x&gt;</span></span>
+<span class="code-line"><span class="err">python setup.py config</span></span>
+</pre></div>
+
+
+<p>You should see the <span class="caps">MKL</span> library paths, and OpenBLAS if you enabled&nbsp;it.</p>
+<h3>8. Compile Numpy and Scipy with the following command (once for Numpy and then once for&nbsp;Scipy):</h3>
+<p>Remember to activate the virtual environment if you are going to use this in&nbsp;one.</p>
+<h4>8.1 For&nbsp;64-bit:</h4>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="nb">cd</span> &lt;numpy-x.x.x&gt;</span>
+<span class="code-line">python setup.py config --compiler<span class="o">=</span>intelem --fcompiler<span class="o">=</span>intelem build_clib <span class="se">\</span></span>
+<span class="code-line">--compiler<span class="o">=</span>intelem --fcompiler<span class="o">=</span>intelem build_ext --compiler<span class="o">=</span>intelem --fcompiler<span class="o">=</span>intelem install</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="nb">cd</span> &lt;scipy-x.x.x&gt;</span>
+<span class="code-line">python setup.py config --compiler<span class="o">=</span>intelem --fcompiler<span class="o">=</span>intelem build_clib <span class="se">\</span></span>
+<span class="code-line">--compiler<span class="o">=</span>intelem --fcompiler<span class="o">=</span>intelem build_ext --compiler<span class="o">=</span>intelem --fcompiler<span class="o">=</span>intelem install</span>
+</pre></div>
+
+
+<h4>8.2 For&nbsp;32-bit:</h4>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="nb">cd</span> &lt;numpy-x.x.x&gt;</span>
+<span class="code-line">python setup.py config --compiler<span class="o">=</span>intel --fcompiler<span class="o">=</span>intel build_clib <span class="se">\</span></span>
+<span class="code-line">--compiler<span class="o">=</span>intel --fcompiler<span class="o">=</span>intel build_ext --compiler<span class="o">=</span>intel --fcompiler<span class="o">=</span>intel install</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="nb">cd</span> &lt;scipy-x.x.x&gt;</span>
+<span class="code-line">python setup.py config --compiler<span class="o">=</span>intel --fcompiler<span class="o">=</span>intel build_clib <span class="se">\</span></span>
+<span class="code-line">--compiler<span class="o">=</span>intel --fcompiler<span class="o">=</span>intel build_ext --compiler<span class="o">=</span>intel --fcompiler<span class="o">=</span>intel install</span>
+</pre></div>
+
+
+<h3>9.&nbsp;Troubleshooting:</h3>
+<h4>9.1 Compiling Scipy: &#8220;Using deprecated NumPy <span class="caps">API</span>, disable it&nbsp;by&#8230;&#8221;</h4>
+<p>Thi may be because of the version of <span class="caps">GCC</span>, try using 4.7 (worked in November&nbsp;2013):</p>
+<div class="highlight"><pre><span class="code-line"><span></span>sudo apt-get install gcc-4.7</span>
+<span class="code-line">sudo rm /usr/bin/gcc</span>
+<span class="code-line">sudo ln -s /usr/bin/gcc-4.7 /usr/bin/gcc</span>
+</pre></div>
+
+
+<p>Compile both Numpy and Scipy&nbsp;again.</p>
+<h3>10.&nbsp;Testing</h3>
+<p>You can test OpenBLAS with the following code (got from <a href="https://gist.github.com/osdf/">https://gist.github.com/osdf/</a>):</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="ch">#!/usr/bin/env python</span></span>
+<span class="code-line"><span class="kn">import</span> <span class="nn">numpy</span></span>
+<span class="code-line"><span class="kn">import</span> <span class="nn">sys</span></span>
+<span class="code-line"><span class="kn">import</span> <span class="nn">timeit</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="k">try</span><span class="p">:</span></span>
+<span class="code-line">    <span class="kn">import</span> <span class="nn">numpy.core._dotblas</span></span>
+<span class="code-line">    <span class="nb">print</span> <span class="s1">&#39;FAST BLAS&#39;</span></span>
+<span class="code-line"><span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span></span>
+<span class="code-line">    <span class="nb">print</span> <span class="s1">&#39;slow blas&#39;</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="nb">print</span> <span class="s2">&quot;version:&quot;</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">__version__</span></span>
+<span class="code-line"><span class="nb">print</span> <span class="s2">&quot;maxint:&quot;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">maxint</span></span>
+<span class="code-line"><span class="nb">print</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="n">x</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">1000</span><span class="p">,</span><span class="mi">1000</span><span class="p">))</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="n">setup</span> <span class="o">=</span> <span class="s2">&quot;import numpy; x = numpy.random.random((1000,1000))&quot;</span></span>
+<span class="code-line"><span class="n">count</span> <span class="o">=</span> <span class="mi">5</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="n">t</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">Timer</span><span class="p">(</span><span class="s2">&quot;numpy.dot(x, x.T)&quot;</span><span class="p">,</span> <span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">)</span></span>
+<span class="code-line"><span class="nb">print</span> <span class="s2">&quot;dot:&quot;</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="n">count</span><span class="p">)</span><span class="o">/</span><span class="n">count</span><span class="p">,</span> <span class="s2">&quot;sec&quot;</span></span>
+</pre></div>
+
+
+<h3>References</h3>
+<ol>
+<li>
+<p><a href="https://software.intel.com/en-us/articles/numpyscipy-with-intel-mkl">https://software.intel.com/en-us/articles/numpyscipy-with-intel-mkl</a></p>
+</li>
+<li>
+<p><a href="http://gehrcke.de/2014/02/building-numpy-and-scipy-with-intel-compilers-and-intel-mkl-on-a-64-bit-machine/">http://gehrcke.de/2014/02/building-numpy-and-scipy-with-intel-compilers-and-intel-mkl-on-a-64-bit-machine/</a></p>
+</li>
+<li>
+<p><a href="http://stackoverflow.com/questions/11443302/compiling-numpy-with-openblas-integration">http://stackoverflow.com/questions/11443302/compiling-numpy-with-openblas-integration</a></p>
+</li>
+<li>
+<p><a href="https://gist.githubusercontent.com/osdf/3842524/raw/df01f7fa9d849bec353d6ab03eae0c1ee68f1538/test_numpy.py">https://gist.githubusercontent.com/osdf/3842524/raw/df01f7fa9d849bec353d6ab03eae0c1ee68f1538/test_numpy.py</a></p>
+</li>
+</ol>
+            <div class="hr"></div>
+            <a href="#" class="go-top">Go Top</a>
+<footer class="footer">
+    <p>&copy; Interlines &ndash;
+        Built with <a href="https://github.com/PurePelicanTheme/pure">Pure Theme</a>
+        for <a href="http://blog.getpelican.com/">Pelican</a>
+    </p>
+</footer>        </div>
+    </div>
+</div>
+    <script>
+        var $top = $('.go-top');
+
+        // Show or hide the sticky footer button
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $top.fadeIn(200);
+            } else {
+                $top.fadeOut(200);
+            }
+        });
+
+        // Animate the scroll to top
+        $top.click(function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 300);
+        })
+
+        // Makes sure that the href="#" attached to the <a> elements
+        // don't scroll you back up the page.
+        $('body').on('click', 'a[href="#"]', function(event) {
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>
