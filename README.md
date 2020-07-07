@@ -1,4 +1,4 @@
 https://alexsav.io
 ------------------
 
-[![Build Status](https://travis-ci.org/alexsavio/alexsavio.github.io.svg?branch=dev)](https://travis-ci.org/alexsavio/alexsavio.github.io)
+![Publish Github Pages](https://github.com/alexsavio/alexsavio.github.io/workflows/Publish%20Github%20Pages/badge.svg?branch=dev&event=page_build)

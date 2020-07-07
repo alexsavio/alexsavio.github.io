@@ -24,6 +24,9 @@ jobs:
       with:
         python-version: '3.8'
 
+    - name: Install optipng
+      run: apt-get install -y optipng
+
     - name: Install dependencies
       run: make install
 
