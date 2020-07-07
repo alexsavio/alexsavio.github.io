@@ -32,10 +32,11 @@ jobs:
 
     - name: Publish
       run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "${GITHUB_ACTOR}@bots.github.com"
         git remote rm origin
-        git remote add origin "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        git remote add origin "https://x-access-token:${DEPLOY_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
         pipenv run pip install ghp-import
         pipenv run make github
       env:
-        SITEURL: alexsavio.github.io
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
