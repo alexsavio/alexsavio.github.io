@@ -7,7 +7,6 @@ Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
 Summary: How to set up different versions of GCC
 
-
 When I need to change versions of software I use on Ubuntu, e.g., gcc and g++ and Java.
 
 ### Update-alternatives

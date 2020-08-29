@@ -62,27 +62,31 @@
 <p>If you want to use OpenBLAS as well, install it and follow the OpenBLAS notes along this tutorial.
   I haven&#8217;t tested this&nbsp;yet.</p>
 <p>But first, install&nbsp;it:</p>
-<div class="highlight"><pre><span class="code-line"><span></span>git clone git://github.com/xianyi/OpenBLAS</span>
-<span class="code-line"><span class="nb">cd</span> OpenBLAS <span class="o">&amp;&amp;</span> make <span class="nv">FC</span><span class="o">=</span>gfortran</span>
-<span class="code-line">sudo make <span class="nv">PREFIX</span><span class="o">=</span>/opt/OpenBLAS install</span>
-<span class="code-line">sudo ldconfig</span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">git clone git://github.com/xianyi/OpenBLAS</span></span>
+<span class="code-line"><span class="err">cd OpenBLAS &amp;&amp; make FC=gfortran</span></span>
+<span class="code-line"><span class="err">sudo make PREFIX=/opt/OpenBLAS install</span></span>
+<span class="code-line"><span class="err">sudo ldconfig</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <h3>2. Execute shell scripts with&nbsp;sudo</h3>
 <p>I will assume you&#8217;ll install the libraries in&nbsp;/opt/intel.</p>
-<h3>3. Once installed, add this to&nbsp;~/.bashrc</h3>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="c1">#Intel C++ Studio</span></span>
-<span class="code-line"><span class="k">if</span> <span class="o">[</span> -d /opt/intel <span class="o">]</span><span class="p">;</span></span>
-<span class="code-line"><span class="k">then</span></span>
-<span class="code-line">    <span class="nb">export</span> <span class="nv">INTEL_HOME</span><span class="o">=</span>/opt/intel</span>
-<span class="code-line">    <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span>:<span class="si">${</span><span class="nv">INTEL_HOME</span><span class="si">}</span>/bin</span>
-<span class="code-line">    <span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/opt/intel/mkl/lib/intel64:/opt/intel/lib/intel64:<span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}</span></span>
-<span class="code-line"><span class="k">fi</span></span>
+<h3>3. Once installed, add this to <code>~/.bashrc</code></h3>
+<div class="highlight"><pre><span class="code-line"><span></span>```bash</span>
+<span class="code-line">#Intel C++ Studio</span>
+<span class="code-line">if [ -d /opt/intel ];</span>
+<span class="code-line">then</span>
+<span class="code-line">    export INTEL_HOME=/opt/intel</span>
+<span class="code-line">    export PATH=<span class="cp">${</span><span class="n">PATH</span><span class="cp">}</span>:<span class="cp">${</span><span class="n">INTEL_HOME</span><span class="cp">}</span>/bin</span>
+<span class="code-line">    export LD_LIBRARY_PATH=/opt/intel/mkl/lib/intel64:/opt/intel/lib/intel64:<span class="cp">${</span><span class="n">LD_LIBRARY_PATH</span><span class="cp">}</span></span>
+<span class="code-line">fi</span>
+<span class="code-line">```</span>
 </pre></div>
 
 
-<h3>4. Add this to&nbsp;/etc/ld.so.conf.d/intel.conf:</h3>
+<h3>4. Add this to <code>/etc/ld.so.conf.d/intel.conf</code></h3>
 <div class="highlight"><pre><span class="code-line"><span></span><span class="err">/opt/intel/lib/intel64</span></span>
 <span class="code-line"><span class="err">/opt/intel/lib/intel64/irml</span></span>
 <span class="code-line"><span class="err">/opt/intel/lib/intel64/crt</span></span>
@@ -91,30 +95,36 @@
 
 
 <h3>5. Download Numpy and Scipy from <a href="http://www.scipy.org/scipylib/download.html">here</a></h3>
-<h3>6. Change Numpy source&nbsp;code:</h3>
+<h3>6. Change Numpy source&nbsp;code</h3>
 <p>Change directory to&nbsp;numpy-x.x.x</p>
 <p>Create a site.cfg from the existing&nbsp;site.cfg.examle</p>
 <p>Edit site.cfg as&nbsp;follows:</p>
 <p>Add the following lines to site.cfg in your top level NumPy directory to use Intel® <span class="caps">MKL</span>, if you are building on Intel 64 platform, assuming the default path for the Intel <span class="caps">MKL</span> installation from the Intel Parallel Studio <span class="caps">XE</span> 2013 or Intel Composer <span class="caps">XE</span> 2013&nbsp;versions:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="k">[mkl]</span></span>
-<span class="code-line"><span class="na">library_dirs</span> <span class="o">=</span> <span class="s">/opt/intel/mkl/lib/intel64</span></span>
-<span class="code-line"><span class="na">include_dirs</span> <span class="o">=</span> <span class="s">/opt/intel/mkl/include</span></span>
-<span class="code-line"><span class="na">mkl_libs</span> <span class="o">=</span> <span class="s">mkl_rt</span></span>
-<span class="code-line"><span class="na">lapack_libs</span> <span class="o">=</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```</span><span class="nc">text</span><span class="w"></span></span>
+<span class="code-line"><span class="o">[</span><span class="n">mkl</span><span class="o">]</span><span class="w"></span></span>
+<span class="code-line"><span class="n">library_dirs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">mkl</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">intel64</span><span class="w"></span></span>
+<span class="code-line"><span class="n">include_dirs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">mkl</span><span class="o">/</span><span class="k">include</span><span class="w"></span></span>
+<span class="code-line"><span class="n">mkl_libs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mkl_rt</span><span class="w"></span></span>
+<span class="code-line"><span class="n">lapack_libs</span><span class="w"> </span><span class="o">=</span><span class="w"></span></span>
+<span class="code-line"><span class="err">```</span><span class="w"></span></span>
 </pre></div>
 
 
 <p>If you are building NumPy for 32 bit, please add as the&nbsp;following:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="k">[mkl]</span></span>
-<span class="code-line"><span class="na">library_dirs</span> <span class="o">=</span> <span class="s">/opt/intel/mkl/lib/ia32</span></span>
-<span class="code-line"><span class="na">include_dirs</span> <span class="o">=</span> <span class="s">/opt/intel/mkl/include</span></span>
-<span class="code-line"><span class="na">mkl_libs</span> <span class="o">=</span> <span class="s">mkl_rt</span></span>
-<span class="code-line"><span class="na">lapack_libs</span> <span class="o">=</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```</span><span class="nc">text</span><span class="w"></span></span>
+<span class="code-line"><span class="o">[</span><span class="n">mkl</span><span class="o">]</span><span class="w"></span></span>
+<span class="code-line"><span class="n">library_dirs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">mkl</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ia32</span><span class="w"></span></span>
+<span class="code-line"><span class="n">include_dirs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">mkl</span><span class="o">/</span><span class="k">include</span><span class="w"></span></span>
+<span class="code-line"><span class="n">mkl_libs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mkl_rt</span><span class="w"></span></span>
+<span class="code-line"><span class="n">lapack_libs</span><span class="w"> </span><span class="o">=</span><span class="w"></span></span>
+<span class="code-line"><span class="err">```</span><span class="w"></span></span>
 </pre></div>
 
 
 <p>Change cc_exe in numpy/distutils/intelccompiler.py to be something&nbsp;like:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="bp">self</span><span class="o">.</span><span class="n">cc_exe</span> <span class="o">=</span> \<span class="s1">&#39;icc -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp -xhost</span><span class="se">\&#39;</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```python</span></span>
+<span class="code-line"><span class="err">self.cc_exe = \&#39;icc -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp -xhost\&#39;</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
@@ -122,69 +132,88 @@
 <p>Run <code>icc --help</code> for more information on processor-specific options, and refer Intel Compiler documentation for more details on the compiler&nbsp;flags.</p>
 <p>Change the Fortran compiler flags in numpy-x.x.x/numpy/distutil/fcompiler/intel.py to use the following compiler options for the Intel Fortran&nbsp;Compiler:</p>
 <p>For ia32 and&nbsp;Intel64</p>
-<div class="highlight"><pre><span class="code-line"><span></span>ifort -xhost -openmp -fp-model strict -fPIC</span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">ifort -xhost -openmp -fp-model strict -fPIC</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
-<p>Change the get_flags_opt function line&nbsp;to:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="k">return</span> <span class="p">[</span><span class="s1">&#39;-xhost -openmp -fp-model strict&#39;</span><span class="p">]</span></span>
+<p>Change the <code>get_flags_opt</code> function line&nbsp;to:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```python</span></span>
+<span class="code-line"><span class="err">return [&#39;-xhost -openmp -fp-model strict&#39;]</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <p>If you are using <span class="caps">ILP64</span> interface of Intel <span class="caps">MKL</span>, please add -i8 flag above.  If you are using older versions of Numpy/SciPy, please refer the new intel.py for your reference from the latest version of NumPy, which you can replace to use the above mentioned compiler&nbsp;options.</p>
-<h4>OpenBLAS&nbsp;Note</h4>
+<h4>Note</h4>
 <p>To use OpenBLAS, uncomment the following lines and correct the&nbsp;paths:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="k">[openblas]</span></span>
-<span class="code-line"><span class="na">libraries</span> <span class="o">=</span> <span class="s">openblas</span></span>
-<span class="code-line"><span class="na">library_dirs</span> <span class="o">=</span> <span class="s">/opt/OpenBLAS/lib</span></span>
-<span class="code-line"><span class="na">include_dirs</span> <span class="o">=</span> <span class="s">/opt/OpenBLAS/include</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```</span><span class="nc">text</span><span class="w"></span></span>
+<span class="code-line"><span class="o">[</span><span class="n">openblas</span><span class="o">]</span><span class="w"></span></span>
+<span class="code-line"><span class="n">libraries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">openblas</span><span class="w"></span></span>
+<span class="code-line"><span class="n">library_dirs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">OpenBLAS</span><span class="o">/</span><span class="n">lib</span><span class="w"></span></span>
+<span class="code-line"><span class="n">include_dirs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">OpenBLAS</span><span class="o">/</span><span class="k">include</span><span class="w"></span></span>
+<span class="code-line"><span class="err">```</span><span class="w"></span></span>
 </pre></div>
 
 
 <h3>7. Check your&nbsp;config</h3>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">cd &lt;numpy-x.x.x&gt;</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">cd &lt;numpy-x.x.x&gt;</span></span>
 <span class="code-line"><span class="err">python setup.py config</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <p>You should see the <span class="caps">MKL</span> library paths, and OpenBLAS if you enabled&nbsp;it.</p>
 <h3>8. Compile Numpy and Scipy with the following command (once for Numpy and then once for&nbsp;Scipy):</h3>
 <p>Remember to activate the virtual environment if you are going to use this in&nbsp;one.</p>
-<h4>8.1 For&nbsp;64-bit:</h4>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="nb">cd</span> &lt;numpy-x.x.x&gt;</span>
-<span class="code-line">python setup.py config --compiler<span class="o">=</span>intelem --fcompiler<span class="o">=</span>intelem build_clib <span class="se">\</span></span>
-<span class="code-line">--compiler<span class="o">=</span>intelem --fcompiler<span class="o">=</span>intelem build_ext --compiler<span class="o">=</span>intelem --fcompiler<span class="o">=</span>intelem install</span>
+<h4>8.1 For&nbsp;64-bit</h4>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">```</span><span class="n">bash</span></span>
+<span class="code-line"><span class="n">cd</span> <span class="o">&lt;</span><span class="n">numpy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="c1">--compiler=intelem --fcompiler=intelem build_clib \</span></span>
+<span class="code-line"><span class="c1">--compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install</span></span>
+<span class="code-line"><span class="o">```</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="nb">cd</span> &lt;scipy-x.x.x&gt;</span>
-<span class="code-line">python setup.py config --compiler<span class="o">=</span>intelem --fcompiler<span class="o">=</span>intelem build_clib <span class="se">\</span></span>
-<span class="code-line">--compiler<span class="o">=</span>intelem --fcompiler<span class="o">=</span>intelem build_ext --compiler<span class="o">=</span>intelem --fcompiler<span class="o">=</span>intelem install</span>
+<span class="code-line"><span class="o">```</span><span class="n">bash</span></span>
+<span class="code-line"><span class="n">cd</span> <span class="o">&lt;</span><span class="n">scipy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="c1">--compiler=intelem --fcompiler=intelem build_clib \</span></span>
+<span class="code-line"><span class="c1">--compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install</span></span>
+<span class="code-line"><span class="o">```</span></span>
 </pre></div>
 
 
-<h4>8.2 For&nbsp;32-bit:</h4>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="nb">cd</span> &lt;numpy-x.x.x&gt;</span>
-<span class="code-line">python setup.py config --compiler<span class="o">=</span>intel --fcompiler<span class="o">=</span>intel build_clib <span class="se">\</span></span>
-<span class="code-line">--compiler<span class="o">=</span>intel --fcompiler<span class="o">=</span>intel build_ext --compiler<span class="o">=</span>intel --fcompiler<span class="o">=</span>intel install</span>
+<h4>8.2 For&nbsp;32-bit</h4>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">```</span><span class="n">bash</span></span>
+<span class="code-line"><span class="n">cd</span> <span class="o">&lt;</span><span class="n">numpy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="c1">--compiler=intel --fcompiler=intel build_clib \</span></span>
+<span class="code-line"><span class="c1">--compiler=intel --fcompiler=intel build_ext --compiler=intel --fcompiler=intel install</span></span>
+<span class="code-line"><span class="o">```</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="nb">cd</span> &lt;scipy-x.x.x&gt;</span>
-<span class="code-line">python setup.py config --compiler<span class="o">=</span>intel --fcompiler<span class="o">=</span>intel build_clib <span class="se">\</span></span>
-<span class="code-line">--compiler<span class="o">=</span>intel --fcompiler<span class="o">=</span>intel build_ext --compiler<span class="o">=</span>intel --fcompiler<span class="o">=</span>intel install</span>
+<span class="code-line"><span class="o">```</span><span class="n">bash</span></span>
+<span class="code-line"><span class="n">cd</span> <span class="o">&lt;</span><span class="n">scipy</span><span class="o">-</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">config</span> <span class="c1">--compiler=intel --fcompiler=intel build_clib \</span></span>
+<span class="code-line"><span class="c1">--compiler=intel --fcompiler=intel build_ext --compiler=intel --fcompiler=intel install</span></span>
+<span class="code-line"><span class="o">```</span></span>
 </pre></div>
 
 
-<h3>9.&nbsp;Troubleshooting:</h3>
+<h3>9.&nbsp;Troubleshooting</h3>
 <h4>9.1 Compiling Scipy: &#8220;Using deprecated NumPy <span class="caps">API</span>, disable it&nbsp;by&#8230;&#8221;</h4>
 <p>Thi may be because of the version of <span class="caps">GCC</span>, try using 4.7 (worked in November&nbsp;2013):</p>
-<div class="highlight"><pre><span class="code-line"><span></span>sudo apt-get install gcc-4.7</span>
-<span class="code-line">sudo rm /usr/bin/gcc</span>
-<span class="code-line">sudo ln -s /usr/bin/gcc-4.7 /usr/bin/gcc</span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">sudo apt-get install gcc-4.7</span></span>
+<span class="code-line"><span class="err">sudo rm /usr/bin/gcc</span></span>
+<span class="code-line"><span class="err">sudo ln -s /usr/bin/gcc-4.7 /usr/bin/gcc</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <p>Compile both Numpy and Scipy&nbsp;again.</p>
 <h3>10.&nbsp;Testing</h3>
 <p>You can test OpenBLAS with the following code (got from <a href="https://gist.github.com/osdf/">https://gist.github.com/osdf/</a>):</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="ch">#!/usr/bin/env python</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```</span><span class="n">python</span></span>
+<span class="code-line"><span class="c1">#!/usr/bin/env python</span></span>
 <span class="code-line"><span class="kn">import</span> <span class="nn">numpy</span></span>
 <span class="code-line"><span class="kn">import</span> <span class="nn">sys</span></span>
 <span class="code-line"><span class="kn">import</span> <span class="nn">timeit</span></span>
@@ -206,6 +235,7 @@
 <span class="code-line"></span>
 <span class="code-line"><span class="n">t</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">Timer</span><span class="p">(</span><span class="s2">&quot;numpy.dot(x, x.T)&quot;</span><span class="p">,</span> <span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">)</span></span>
 <span class="code-line"><span class="nb">print</span> <span class="s2">&quot;dot:&quot;</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="n">count</span><span class="p">)</span><span class="o">/</span><span class="n">count</span><span class="p">,</span> <span class="s2">&quot;sec&quot;</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 

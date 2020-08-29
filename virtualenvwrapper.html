@@ -55,65 +55,86 @@
             </section>
             <h2>Virtualenv and&nbsp;virtualenvwrapper</h2>
 <p>Install virtualenv and&nbsp;virtualenvwrapper</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">sudo apt-get install python3-pip</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">sudo apt-get install python3-pip</span></span>
 <span class="code-line"><span class="err">sudo pip3 install virtualenv virtualenvwrapper</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <p>Virtualenvwrapper .bashrc&nbsp;setup:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">echo &quot;export WORKON_HOME=~/envs&quot; &gt;&gt; ~/.bashrc</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">echo &quot;export WORKON_HOME=~/envs&quot; &gt;&gt; ~/.bashrc</span></span>
 <span class="code-line"><span class="err">echo &quot;source /usr/local/bin/virtualenvwrapper.sh&quot; &gt;&gt; ~/.bashrc</span></span>
 <span class="code-line"><span class="err">echo &quot;export PIP_REQUIRE_VIRTUALENV=true&quot; &gt;&gt; ~/.bashrc</span></span>
 <span class="code-line"><span class="err">source ~/.bashrc</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <h2>Basic usage&nbsp;commands</h2>
 <p>Create a&nbsp;virtualenv:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err"> mkvirtualenv &lt;env name&gt;</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">mkvirtualenv &lt;env name&gt;</span></span>
+<span class="code-line"><span class="err">```bash</span></span>
 </pre></div>
 
 
-<p>Activate a&nbsp;virtualenv:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">  workon &lt;env name&gt;</span></span>
+<p>Activate the&nbsp;virtualenv:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">workon &lt;env name&gt;</span></span>
+<span class="code-line"><span class="err">```bash</span></span>
 </pre></div>
 
 
 <p>Install a package in the activated&nbsp;virtualenv</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install &lt;package name&gt;</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">pip install &lt;package name&gt;</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <p>Go to its directory after activating&nbsp;it</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">cdvirtualenv</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">cdvirtualenv</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <p>Set a working directory as a project of the&nbsp;virtualenv</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">cd &lt;project dir&gt;</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">cd &lt;project dir&gt;</span></span>
 <span class="code-line"><span class="err">setvirtualenvproject $VIRTUAL_ENV $(pwd)</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <p>Get a list of the Python modules and versions installed in an activated&nbsp;virtualenv</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip freeze</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">pip freeze</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <p>To deactivate a&nbsp;virtualenv</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">deactivate</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">deactivate</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
-<h4>Run ipython within the&nbsp;virtualenv:</h4>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">alias</span> <span class="n">ipy</span><span class="o">=</span>\<span class="s2">&quot;python -c &#39;import IPython;</span></span>
+<h3>Run ipython within the&nbsp;virtualenv</h3>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="sb">``</span><span class="err">`</span><span class="n">bash</span></span>
+<span class="code-line"><span class="n">alias</span> <span class="n">ipy</span><span class="o">=</span>\<span class="s2">&quot;python -c &#39;import IPython;</span></span>
 </pre></div>
 
 
-<p>IPython.terminal.ipapp.launch_new_instance()&#8217;&#34;&nbsp;ipy</p>
-<h4>Run ipython with other&nbsp;options:</h4>
+<p>IPython.terminal.ipapp.launch_new_instance()&#8217;&#34;
+    ipy&nbsp;&#8220;`</p>
+<h3>Run ipython with other&nbsp;options</h3>
 <p>Add this to&nbsp;.bashrc:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">alias</span> <span class="n">ipy</span><span class="o">=</span><span class="s2">&quot;python -c &#39;import IPython;</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="sb">``</span><span class="err">`</span></span>
+<span class="code-line"><span class="n">alias</span> <span class="n">ipy</span><span class="o">=</span><span class="s2">&quot;python -c &#39;import IPython;</span></span>
 </pre></div>
 
 
@@ -127,36 +148,40 @@
 <div class="highlight"><pre><span class="code-line"><span></span><span class="n">function</span> <span class="n">ipynote</span><span class="p">(){</span></span>
 <span class="code-line">    <span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;import IPython; IPython.start_ipython([&#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;notebook&#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;]);&#39;</span></span>
 <span class="code-line"><span class="p">}</span></span>
+<span class="code-line"><span class="sb">``</span><span class="err">`</span></span>
 </pre></div>
 
 
-<h2>Another interesting&nbsp;option:</h2>
-<p>Download a virtualenv&nbsp;script:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">wget https://raw.github.com/pypa/virtualenv/1.9.X/virtualenv.py</span></span>
+<h2>Another way of creating a&nbsp;virtualenv</h2>
+<p>Download the virtualenv&nbsp;script:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">wget https://raw.github.com/pypa/virtualenv/1.9.X/virtualenv.py</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <p>Give it execution&nbsp;permission:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">chmod +x virtualenv.py</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">chmod +x virtualenv.py</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <p>Create the&nbsp;virtualenv:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">./virtualenv.py &lt;env_name&gt; -p &lt;path_to_python&gt;</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">./virtualenv.py &lt;env_name&gt; -p &lt;path_to_python&gt;</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
-<p>Activate:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">source &lt;env_name&gt;/bin/activate</span></span>
+<p>Activate&nbsp;it:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<span class="code-line"><span class="err">source &lt;env_name&gt;/bin/activate</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
-<p>Python script shebang to use the&nbsp;enviroment:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">&#39;#!&lt;env_name&gt;/bin/python&#39;</span></span>
-</pre></div>
-
-
-<h2><span class="caps">REFERENCES</span>:</h2>
+<h2>References</h2>
 <p><a href="http://www.virtualenv.org/en/latest/">http://www.virtualenv.org/en/latest/</a></p>
 <p><a href="http://virtualenvwrapper.readthedocs.org/en/latest/">http://virtualenvwrapper.readthedocs.org/en/latest/</a></p>
 <p><a href="http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html">http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html</a></p>

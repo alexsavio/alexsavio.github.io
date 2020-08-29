@@ -9,7 +9,7 @@ Summary: Installing Python data analysis tools
 
 Tested on Ubuntu 13.10 and 14.04.
 
-### Install needed packages:
+### Requirements
 
     sudo apt-get install python-pip python-dev
 

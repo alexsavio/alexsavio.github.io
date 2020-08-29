@@ -54,7 +54,7 @@ setup your server to run Byobu or tmux at the beginning of your session and have
 You can notice that the &lt;em&gt;echo hello&lt;/em&gt; command is still on the&amp;nbsp;screen.&lt;/p&gt;
 &lt;p&gt;Detaching does not end your session, it gives you access to another session.
 That means you can log in, run a long running task, and then detach and come back later when you;ve finished the&amp;nbsp;task.&lt;/p&gt;
-&lt;h2&gt;Note for vim&amp;nbsp;users:&lt;/h2&gt;
+&lt;h2&gt;Note for vim&amp;nbsp;users&lt;/h2&gt;
 &lt;p&gt;You might find now a strange behaviour when using &lt;strong&gt;Ctrl-Left&lt;/strong&gt; and &lt;strong&gt;Ctrl-Right&lt;/strong&gt; keys to skip words using vim and also other&amp;nbsp;programs.&lt;/p&gt;
 &lt;p&gt;The best solution I found&amp;nbsp;was:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;:set term=xterm&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.vim/vimrc&lt;/span&gt;

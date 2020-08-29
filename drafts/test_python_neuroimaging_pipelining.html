@@ -64,43 +64,49 @@ In summary, I&#8217;m looking for an existing or a good module that allows to de
 This database consist of raw anatomical (T1) and functional (fMRI) <span class="caps">MR</span> data from 72 patients with Schizophrenia and 75 healthy controls (ages ranging from 18 to 65 in each group). For further reference, I have it downloaded in <code>~/data/cobre</code>.</p>
 <h3>Method</h3>
 <p>The experiment I want to try is a non-linear registration using <span class="caps">FSL</span> <a href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FLIRT"><span class="caps">FLIRT</span></a> and <a href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FNIRT"><span class="caps">FNIRT</span></a>. I want to keep the registration results as well as the linear and non-linear transformation matrices for further&nbsp;processes.</p>
-<p>This experiment allows to check important details about the modules under test:
- - task dependency checking,
- - multiple outputs aware,
- - control of the resulting files&nbsp;location.</p>
+<p>This experiment allows to check important details about the modules under&nbsp;test:</p>
+<ul>
+<li>task dependency&nbsp;checking,</li>
+<li>multiple outputs&nbsp;aware,</li>
+<li>control of the resulting files&nbsp;location.</li>
+</ul>
 <h4>Bash&nbsp;shell</h4>
 <p>A sequential way to execute this task in shell would be&nbsp;this:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="ch">#!/bin/bash</span></span>
-<span class="code-line"><span class="nv">d</span><span class="o">=</span>~/data/cobre</span>
+<div class="highlight"><pre><span class="code-line"><span></span>```bash</span>
+<span class="code-line">#!/bin/bash</span>
+<span class="code-line">d=~/data/cobre</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="nv">in</span><span class="o">=</span>anat.nii.gz</span>
-<span class="code-line"><span class="nv">FNIRT_CFG</span><span class="o">=</span><span class="si">${</span><span class="nv">d</span><span class="si">}</span>/T1_2_MNI152_2mm.cnf</span>
+<span class="code-line">in=anat.nii.gz</span>
+<span class="code-line">FNIRT_CFG=<span class="cp">${</span><span class="n">d</span><span class="cp">}</span>/T1_2_MNI152_2mm.cnf</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="nb">cd</span> <span class="nv">$d</span></span>
+<span class="code-line">cd <span class="nv">$d</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="nv">lst</span><span class="o">=</span><span class="sb">`</span>find -name <span class="si">${</span><span class="nv">in</span><span class="si">}</span><span class="sb">`</span></span>
-<span class="code-line"><span class="k">for</span> i in <span class="nv">$lst</span><span class="p">;</span> <span class="k">do</span></span>
-<span class="code-line"> <span class="nv">wd</span><span class="o">=</span><span class="sb">`</span>dirname <span class="nv">$i</span><span class="sb">`</span></span>
-<span class="code-line"> <span class="nb">cd</span> <span class="si">${</span><span class="nv">wd</span><span class="si">}</span></span>
-<span class="code-line"> <span class="nb">echo</span> <span class="si">${</span><span class="nv">wd</span><span class="si">}</span></span>
+<span class="code-line">lst=`find -name <span class="cp">${</span><span class="ow">in</span><span class="cp">}</span>`</span>
+<span class="code-line">for i in <span class="nv">$lst</span>; do</span>
+<span class="code-line">wd=`dirname <span class="nv">$i</span>`</span>
+<span class="code-line">cd <span class="cp">${</span><span class="n">wd</span><span class="cp">}</span></span>
+<span class="code-line">echo <span class="cp">${</span><span class="n">wd</span><span class="cp">}</span></span>
 <span class="code-line"></span>
-<span class="code-line"> flirt -ref /usr/share/fsl/4.1/data/standard/MNI152_T1_2mm -in anat -omat anat.to.MNI.mat -out anat_flirted</span>
-<span class="code-line"> fnirt --in<span class="o">=</span>anat.nii --aff<span class="o">=</span>anat.to.MNI.mat --config<span class="o">=</span><span class="si">${</span><span class="nv">FNIRT_CFG</span><span class="si">}</span> --cout<span class="o">=</span>anat.to.MNI_field --iout<span class="o">=</span>anat_fnirted</span>
-<span class="code-line"> applywarp --ref<span class="o">=</span>/usr/share/fsl/data/standard/MNI152_T1_2mm --in<span class="o">=</span>anat --warp<span class="o">=</span>anat.to.MNI_field.nii.gz --out<span class="o">=</span>wanat.nii.gz</span>
+<span class="code-line">flirt -ref /usr/share/fsl/4.1/data/standard/MNI152_T1_2mm -in anat -omat anat.to.MNI.mat -out anat_flirted</span>
+<span class="code-line">fnirt --in=anat.nii --aff=anat.to.MNI.mat --config=<span class="cp">${</span><span class="n">FNIRT_CFG</span><span class="cp">}</span> --cout=anat.to.MNI_field --iout=anat_fnirted</span>
+<span class="code-line">applywarp --ref=/usr/share/fsl/data/standard/MNI152_T1_2mm --in=anat --warp=anat.to.MNI_field.nii.gz --out=wanat.nii.gz</span>
 <span class="code-line"></span>
-<span class="code-line"> <span class="nb">cd</span> <span class="si">${</span><span class="nv">d</span><span class="si">}</span></span>
+<span class="code-line">cd <span class="cp">${</span><span class="n">d</span><span class="cp">}</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="k">done</span></span>
+<span class="code-line">done</span>
+<span class="code-line">```</span>
 </pre></div>
 
 
 <p>This is quick, right? But this just provides application specific scalability, and is not easy to port across different&nbsp;architectures.</p>
 <p>This could be parallelized using <code>fsl_sub</code>, a tool provided by <span class="caps">FSL</span>. It is compatible with <span class="caps">SGE</span>, <span class="caps">PBS</span> and HTCondor. The latter using <a href="https://github.com/octomike/fsl_overlay/blob/master/fsl_sub">patched versions</a> that take advantage of the HTCondor <code>qsub</code> emulation. Given that you have a scheduler set up, enabling <code>fsl_sub</code> is as simple as appending <code>fsl_sub</code> to the beginning of each task call in the previous&nbsp;code.</p>
-<p>The difficulties you will find with parallelizing this in Bash would be:
-1. you may need the whole pipeline to be atomic, run one step at a time or add some kind of task-dependency control,
-2. the parametrization of the tasks are hardcoded within the pipeline,
-3. debugging the pipeline execution will need posterior checking of execution logs,
-4. re-using the pipeline for further experiments would require recoding,&nbsp;etc.</p>
+<p>The difficulties you will find with parallelizing this in Bash would&nbsp;be:</p>
+<ol>
+<li>you may need the whole pipeline to be atomic, run one step at a time or add some kind of task-dependency&nbsp;control,</li>
+<li>the parametrization of the tasks are hardcoded within the&nbsp;pipeline,</li>
+<li>debugging the pipeline execution will need posterior checking of execution&nbsp;logs,</li>
+<li>re-using the pipeline for further experiments would require recoding,&nbsp;etc.</li>
+</ol>
 <p>Please note that the location of the resulting files is also important for&nbsp;me.</p>
 <h3>Selection</h3>
 <p>I based my search on this list of pipeline modules:&nbsp;https://github.com/pditommaso/awesome-pipeline.</p>
@@ -111,14 +117,12 @@ This database consist of raw anatomical (T1) and functional (fMRI) <span class="
 <li>Automatic task dependency&nbsp;checks.</li>
 <li>Easy to include/program new&nbsp;tasks.</li>
 <li>Tasks can do command line&nbsp;calls.</li>
-<li>Must run the pipelines in more than one open source batch scheduler system, including one of:<ul>
+<li>Must run the pipelines in more than one open source batch scheduler system, including one&nbsp;of:</li>
 <li><a href="https://research.cs.wisc.edu/htcondor/">HTCondor</a>,</li>
 <li><a href="https://arc.liv.ac.uk/trac/SGE">Son of Grid Engine</a>,</li>
 <li><a href="http://gridscheduler.sourceforge.net">Open Grid Scheduler</a>,</li>
 <li><a href="http://www.adaptivecomputing.com/products/open-source/torque/"><span class="caps">TORQUE</span></a>&nbsp;or</li>
 <li><a href="http://www.celeryproject.org/">Celery</a>.</li>
-</ul>
-</li>
 </ul>
 <h4>Appreciated&nbsp;additions</h4>
 <ul>
@@ -132,13 +136,15 @@ This database consist of raw anatomical (T1) and functional (fMRI) <span class="
 <h4>Candidates</h4>
 <h5>1. <a href="https://github.com/nipy/nipype">Nipype</a></h5>
 <p>Nipype is <strong>the</strong> neuroimaging pipelining module in Python. It &#8220;<em>provides a uniform interface to existing neuroimaging software and facilitates interaction between these packages within a single workflow</em>&#8220;.</p>
-<p>According to its website, it allows you to:
-- interact with tools from different software packages
-- combine processing steps from different software packages
-- develop new workflows faster by reusing common steps from old ones
-- process data faster by running it in parallel on many cores/machines
-- make your research easily reproducible
-- share your processing workflows with the&nbsp;community</p>
+<p>According to its website, it allows you&nbsp;to:</p>
+<ul>
+<li>interact with tools from different software&nbsp;packages</li>
+<li>combine processing steps from different software&nbsp;packages</li>
+<li>develop new workflows faster by reusing common steps from old&nbsp;ones</li>
+<li>process data faster by running it in parallel on many&nbsp;cores/machines</li>
+<li>make your research easily&nbsp;reproducible</li>
+<li>share your processing workflows with the&nbsp;community</li>
+</ul>
 <p>Nipype is a great module, I have been observing it for a long time. I tried it every time I started a new project, but never got the results how I needed. I used <a href="http://fcp-indi.github.io/">C-<span class="caps">PAC</span></a> (based on nipype) for processing <span class="caps">COBRE</span>, but it is for fMRI&nbsp;only.</p>
 <ul>
 <li><strong>Pros:</strong></li>

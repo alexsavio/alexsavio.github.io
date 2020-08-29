@@ -97,7 +97,8 @@ in <span class="caps">RFC</span>&nbsp;5849.</em></p>
 <p><strong>Note</strong>: The resulting <span class="caps">JSON</span> file is a secure authorization key for any spreadsheet you may want to. For this reason you should hide this file should as it could be used to do nasty things against your spreadsheets. Please follow more comments on this in the <a href="#discussion">discussion</a>&nbsp;section.</p>
 <h3>Sign your JWTs for&nbsp;credentials</h3>
 <p>This is a snippet of how to obtain the data of a spreadsheet given its name in the variable <code>wks</code>.</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="kn">import</span> <span class="nn">gspread</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="sb">``</span><span class="err">`</span><span class="n">python</span></span>
+<span class="code-line"><span class="kn">import</span> <span class="nn">gspread</span></span>
 <span class="code-line"><span class="kn">from</span> <span class="nn">oauth2client.service_account</span> <span class="kn">import</span> <span class="n">ServiceAccountCredentials</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">json_key</span> <span class="o">=</span> <span class="s1">&#39;gspread-test.json&#39;</span></span>
@@ -108,6 +109,7 @@ in <span class="caps">RFC</span>&nbsp;5849.</em></p>
 <span class="code-line"><span class="n">gc</span> <span class="o">=</span> <span class="n">gspread</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">credentials</span><span class="p">)</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">wks</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;Where is the money Lebowski?&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sheet1</span></span>
+<span class="code-line"><span class="sb">``</span><span class="err">`</span></span>
 </pre></div>
 
 
@@ -124,49 +126,59 @@ This class requires either <code>PyOpenSSL</code>, or <code>PyCrypto 2.6</code> 
 <p>Have a look at the possibilities you have with gspread <a href="https://github.com/burnash/gspread#more-examples">here</a>.</p>
 <p>Some examples&nbsp;here:</p>
 <h4>Opening a&nbsp;Spreadsheet</h4>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="c1"># You can open a spreadsheet by its title as it appears in Google Docs</span></span>
-<span class="code-line"><span class="n">sh</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;My poor gym results&quot;</span><span class="p">)</span> <span class="c1"># &lt;-- Look ma, no keys!</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">```</span><span class="n">python</span></span>
+<span class="code-line"><span class="o">#</span> <span class="n">You</span> <span class="n">can</span> <span class="k">open</span> <span class="n">a</span> <span class="n">spreadsheet</span> <span class="k">by</span> <span class="n">its</span> <span class="n">title</span> <span class="k">as</span> <span class="n">it</span> <span class="n">appears</span> <span class="k">in</span> <span class="n">Google</span> <span class="n">Docs</span></span>
+<span class="code-line"><span class="n">sh</span> <span class="o">=</span> <span class="n">gc</span><span class="p">.</span><span class="k">open</span><span class="p">(</span><span class="ss">&quot;My poor gym results&quot;</span><span class="p">)</span> <span class="o">#</span> <span class="o">&lt;</span><span class="c1">-- Look ma, no keys!</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="c1"># If you want to be specific, use a key (which you can extract from</span></span>
-<span class="code-line"><span class="c1"># the spreadsheet&#39;s url)</span></span>
-<span class="code-line"><span class="n">sht1</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">open_by_key</span><span class="p">(</span><span class="s1">&#39;0BmgG6nO_6dprdS1MN3d3MkdPa142WFRrdnRRUWl1UFE&#39;</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">#</span> <span class="k">If</span> <span class="n">you</span> <span class="n">want</span> <span class="k">to</span> <span class="n">be</span> <span class="k">specific</span><span class="p">,</span> <span class="n">use</span> <span class="n">a</span> <span class="k">key</span> <span class="p">(</span><span class="n">which</span> <span class="n">you</span> <span class="n">can</span> <span class="k">extract</span> <span class="k">from</span></span>
+<span class="code-line"><span class="o">#</span> <span class="n">the</span> <span class="n">spreadsheet</span><span class="s1">&#39;s url)</span></span>
+<span class="code-line"><span class="s1">sht1 = gc.open_by_key(&#39;</span><span class="mi">0</span><span class="n">BmgG6nO_6dprdS1MN3d3MkdPa142WFRrdnRRUWl1UFE</span><span class="s1">&#39;)</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="c1"># Or, if you feel lazy to extract that key, paste the entire url</span></span>
-<span class="code-line"><span class="n">sht2</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">open_by_url</span><span class="p">(</span><span class="s1">&#39;https://docs.google.com/spreadsheet/ccc?key=0Bm...FE&amp;hl&#39;</span><span class="p">)</span></span>
+<span class="code-line"><span class="s1"># Or, if you feel lazy to extract that key, paste the entire url</span></span>
+<span class="code-line"><span class="s1">sht2 = gc.open_by_url(&#39;</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">docs</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">spreadsheet</span><span class="o">/</span><span class="n">ccc</span><span class="o">?</span><span class="k">key</span><span class="o">=</span><span class="mi">0</span><span class="n">Bm</span><span class="p">...</span><span class="n">FE</span><span class="o">&amp;</span><span class="n">hl</span><span class="err">&#39;</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">```</span></span>
 </pre></div>
 
 
 <h4>Selecting a&nbsp;worksheet</h4>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="c1"># Select worksheet by index. Worksheet indexes start from zero</span></span>
-<span class="code-line"><span class="n">worksheet</span> <span class="o">=</span> <span class="n">sh</span><span class="o">.</span><span class="n">get_worksheet</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">```</span><span class="n">python</span></span>
+<span class="code-line"><span class="o">#</span> <span class="k">Select</span> <span class="n">worksheet</span> <span class="k">by</span> <span class="k">index</span><span class="p">.</span> <span class="n">Worksheet</span> <span class="n">indexes</span> <span class="k">start</span> <span class="k">from</span> <span class="n">zero</span></span>
+<span class="code-line"><span class="n">worksheet</span> <span class="o">=</span> <span class="n">sh</span><span class="p">.</span><span class="n">get_worksheet</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="c1"># By title</span></span>
-<span class="code-line"><span class="n">worksheet</span> <span class="o">=</span> <span class="n">sh</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s2">&quot;January&quot;</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">#</span> <span class="k">By</span> <span class="n">title</span></span>
+<span class="code-line"><span class="n">worksheet</span> <span class="o">=</span> <span class="n">sh</span><span class="p">.</span><span class="n">worksheet</span><span class="p">(</span><span class="ss">&quot;January&quot;</span><span class="p">)</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="c1"># Most common case: Sheet1</span></span>
-<span class="code-line"><span class="n">worksheet</span> <span class="o">=</span> <span class="n">sh</span><span class="o">.</span><span class="n">sheet1</span></span>
+<span class="code-line"><span class="o">#</span> <span class="n">Most</span> <span class="n">common</span> <span class="k">case</span><span class="p">:</span> <span class="n">Sheet1</span></span>
+<span class="code-line"><span class="n">worksheet</span> <span class="o">=</span> <span class="n">sh</span><span class="p">.</span><span class="n">sheet1</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="c1"># Get a list of all worksheets</span></span>
-<span class="code-line"><span class="n">worksheet_list</span> <span class="o">=</span> <span class="n">sh</span><span class="o">.</span><span class="n">worksheets</span><span class="p">()</span></span>
+<span class="code-line"><span class="o">#</span> <span class="k">Get</span> <span class="n">a</span> <span class="n">list</span> <span class="k">of</span> <span class="k">all</span> <span class="n">worksheets</span></span>
+<span class="code-line"><span class="n">worksheet_list</span> <span class="o">=</span> <span class="n">sh</span><span class="p">.</span><span class="n">worksheets</span><span class="p">()</span></span>
+<span class="code-line"><span class="o">```</span></span>
 </pre></div>
 
 
 <h4>Creating a&nbsp;worksheet</h4>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">worksheet</span> <span class="o">=</span> <span class="n">wks</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;A worksheet&quot;</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="s2">&quot;100&quot;</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="s2">&quot;20&quot;</span><span class="p">)</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```python</span></span>
+<span class="code-line"><span class="err">worksheet = wks.add_worksheet(title=&quot;A worksheet&quot;, rows=&quot;100&quot;, cols=&quot;20&quot;)</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
 <h4>Getting a cell&nbsp;value</h4>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="c1"># With label</span></span>
-<span class="code-line"><span class="n">val</span> <span class="o">=</span> <span class="n">worksheet</span><span class="o">.</span><span class="n">acell</span><span class="p">(</span><span class="s1">&#39;B1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">```</span><span class="n">python</span></span>
+<span class="code-line"><span class="o">#</span> <span class="k">With</span> <span class="n">label</span></span>
+<span class="code-line"><span class="n">val</span> <span class="o">=</span> <span class="n">worksheet</span><span class="p">.</span><span class="n">acell</span><span class="p">(</span><span class="s1">&#39;B1&#39;</span><span class="p">).</span><span class="n">value</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="c1"># With coords</span></span>
-<span class="code-line"><span class="n">val</span> <span class="o">=</span> <span class="n">worksheet</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">value</span></span>
+<span class="code-line"><span class="o">#</span> <span class="k">With</span> <span class="n">coords</span></span>
+<span class="code-line"><span class="n">val</span> <span class="o">=</span> <span class="n">worksheet</span><span class="p">.</span><span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">).</span><span class="n">value</span></span>
+<span class="code-line"><span class="o">```</span></span>
 </pre></div>
 
 
 <h4>Getting all values from a worksheet as a list of&nbsp;lists</h4>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">list_of_lists</span> <span class="o">=</span> <span class="n">worksheet</span><span class="o">.</span><span class="n">get_all_values</span><span class="p">()</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```python</span></span>
+<span class="code-line"><span class="err">list_of_lists = worksheet.get_all_values()</span></span>
+<span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 

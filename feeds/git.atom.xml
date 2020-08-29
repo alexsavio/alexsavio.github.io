@@ -11,7 +11,9 @@ Always merge to&amp;nbsp;“master”.&lt;/p&gt;
 &lt;h3&gt;Branch&amp;nbsp;names&lt;/h3&gt;
 &lt;p&gt;The branch names are not that important in very small teams, but when the team is bigger or work remotely,
 a pattern for the branch names is also good to follow. Here is a&amp;nbsp;suggestion:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;/&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;ticket_id&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;subject&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```python&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;type&amp;gt;/[&amp;lt;ticket_id&amp;gt;]_&amp;lt;subject&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -42,11 +44,13 @@ change log for each release in a &lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;sp
 with tools like semantic-release (available for Node.js and&amp;nbsp;Python).&lt;/p&gt;
 &lt;h4&gt;Format&lt;/h4&gt;
 &lt;p&gt;Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a&amp;nbsp;subject:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;scope&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;subject&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;BLANK&lt;/span&gt; &lt;span class="n"&gt;LINE&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;BLANK&lt;/span&gt; &lt;span class="n"&gt;LINE&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```python&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;type&amp;gt;(&amp;lt;scope&amp;gt;): &amp;lt;subject&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;BLANK LINE&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;body&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;BLANK LINE&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;footer&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -60,11 +64,13 @@ This allows the message to be easier to read on GitHub as well as in various git
 The possible scopes can be agreed beforehand with the developers and/or stakeholders.
 You can use * when the change affects more than a single scope, but you can also not put anything (remove the parentheses as&amp;nbsp;well).&lt;/p&gt;
 &lt;h5&gt;Subject&lt;/h5&gt;
-&lt;p&gt;The &lt;subject&gt; contains succinct description of the change:
-- use the imperative, present tense: &amp;#8220;change&amp;#8221; not &amp;#8220;changed&amp;#8221; nor &amp;#8220;changes&amp;#8221;
-- don&amp;#8217;t capitalize first letter
-- no dot (.) at the end
-Don’t use generic subjects as: &amp;#8216;debug&amp;#8217; or &amp;#8216;few fixes&amp;#8217;. Be clear and&amp;nbsp;specific.&lt;/p&gt;
+&lt;p&gt;The &lt;subject&gt; contains succinct description of the&amp;nbsp;change:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;use the imperative, present tense: &amp;#8220;change&amp;#8221; not &amp;#8220;changed&amp;#8221; nor&amp;nbsp;&amp;#8220;changes&amp;#8221;&lt;/li&gt;
+&lt;li&gt;don&amp;#8217;t capitalize first&amp;nbsp;letter&lt;/li&gt;
+&lt;li&gt;no dot (.) at the&amp;nbsp;end&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Don’t use generic subjects as: &amp;#8216;debug&amp;#8217; or &amp;#8216;few fixes&amp;#8217;. Be clear and&amp;nbsp;specific.&lt;/p&gt;
 &lt;h5&gt;Body&lt;/h5&gt;
 &lt;p&gt;The &lt;body&gt; is optional, but if you use it, just as in the subject, use the imperative, present tense: &amp;#8220;change&amp;#8221; not &amp;#8220;changed&amp;#8221; nor &amp;#8220;changes&amp;#8221;.
 The body should include the motivation for the change and contrast
@@ -78,24 +84,31 @@ A detailed explanation can be found in the Angular.js&amp;nbsp;document.&lt;/p&g
 you did in your branch and ask them to review it. Here we always do a &lt;span class="caps"&gt;PR&lt;/span&gt; from your branch to
 the &amp;#8216;master&amp;#8217; branch.
 In a &lt;span class="caps"&gt;PR&lt;/span&gt;, your colleagues will have a view of the differences between the branches and the
-commits. You must also add a title and a description.
-The title should be sufficient to understand what is being changed. In the description you should:
-- make a useful description,
-- describe what was changed in the pull request,
-- explain why this &lt;span class="caps"&gt;PR&lt;/span&gt; exists,
-- make it clear how it does what it sets out to do. E.g: Does it change a column in the database?
-How is this being done? What happens to the old data?
-- you may want to use screenshots to demonstrate what has changed if there is a
-&lt;span class="caps"&gt;GUI&lt;/span&gt; involved in the&amp;nbsp;project.&lt;/p&gt;
+commits. You must also add a title and a&amp;nbsp;description.&lt;/p&gt;
+&lt;p&gt;The title should be sufficient to understand what is being&amp;nbsp;changed.&lt;/p&gt;
+&lt;p&gt;In the description you&amp;nbsp;should:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;make a useful&amp;nbsp;description,&lt;/li&gt;
+&lt;li&gt;describe what was changed in the pull&amp;nbsp;request,&lt;/li&gt;
+&lt;li&gt;explain why this &lt;span class="caps"&gt;PR&lt;/span&gt;&amp;nbsp;exists,&lt;/li&gt;
+&lt;li&gt;make it clear how it does what it sets out to do. E.g: Does it change a column in the&amp;nbsp;database?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;How is this being done? What happens to the old&amp;nbsp;data?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;you may want to use screenshots to demonstrate what has changed if there is a
+&lt;span class="caps"&gt;GUI&lt;/span&gt; involved in the&amp;nbsp;project.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;Pull request size:&lt;/strong&gt; It should be small. The pull request must have a maximum of 250 lines of change.
 &lt;strong&gt;Feature breaking:&lt;/strong&gt; Whenever it’s possible break pull requests into smaller ones.
 &lt;strong&gt;Single Responsibility Principle:&lt;/strong&gt; The pull request should do only 1&amp;nbsp;thing.&lt;/p&gt;
 &lt;h3&gt;&lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;span class="caps"&gt;CD&lt;/span&gt;&lt;/h3&gt;
-&lt;p&gt;With this setup your &lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;span class="caps"&gt;CD&lt;/span&gt; pipeline would:
-1. run your checks and tests for every push to a &lt;span class="caps"&gt;PR&lt;/span&gt; and every merge to &amp;#8216;master&amp;#8217;,
-2. run a deployment to your test environment every merge to &amp;#8216;master&amp;#8217;, and
-3. enable a manual deployment to your production environment for every merge to &amp;#8216;master&amp;#8217;.
-This deployment should trigger a release first, with automatic version bumping
+&lt;p&gt;With this setup your &lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;span class="caps"&gt;CD&lt;/span&gt; pipeline&amp;nbsp;would:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;run your checks and tests for every push to a &lt;span class="caps"&gt;PR&lt;/span&gt; and every merge to&amp;nbsp;&amp;#8216;master&amp;#8217;,&lt;/li&gt;
+&lt;li&gt;run a deployment to your test environment every merge to &amp;#8216;master&amp;#8217;,&amp;nbsp;and&lt;/li&gt;
+&lt;li&gt;enable a manual deployment to your production environment for every merge to&amp;nbsp;&amp;#8216;master&amp;#8217;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This deployment should trigger a release first, with automatic version bumping
 and change log generation. Bitbucket-pipelines supports&amp;nbsp;this.&lt;/p&gt;
 &lt;h3&gt;&lt;span style="color:red"&gt;Remember: git is a collaboration tool, not a reporting&amp;nbsp;tool.&lt;/span&gt;&lt;/h3&gt;
 &lt;h3&gt;References&lt;/h3&gt;
