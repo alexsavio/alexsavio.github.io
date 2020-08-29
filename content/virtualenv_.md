@@ -9,61 +9,81 @@ Summary: Create virtualenvs with virtualenvwrapper
 
 ## Virtualenv and virtualenvwrapper
 
- Install virtualenv and virtualenvwrapper
+Install virtualenv and virtualenvwrapper
 
+    ```bash
     sudo apt-get install python3-pip
     sudo pip3 install virtualenv virtualenvwrapper
+    ```
 
  Virtualenvwrapper .bashrc setup:
 
+    ```bash
     echo "export WORKON_HOME=~/envs" >> ~/.bashrc
     echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
     echo "export PIP_REQUIRE_VIRTUALENV=true" >> ~/.bashrc
     source ~/.bashrc
-
+    ```
 
 ## Basic usage commands
 
- Create a virtualenv:
+Create a virtualenv:
 
-     mkvirtualenv <env name>
+    ```bash
+    mkvirtualenv <env name>
+    ```bash
 
- Activate a virtualenv:
+Activate the virtualenv:
 
-      workon <env name>
+    ```bash
+    workon <env name>
+    ```bash
 
- Install a package in the activated virtualenv
+Install a package in the activated virtualenv
 
+    ```bash
     pip install <package name>
+    ```
 
- Go to its directory after activating it
+Go to its directory after activating it
 
+    ```bash
     cdvirtualenv
+    ```
 
- Set a working directory as a project of the virtualenv
+Set a working directory as a project of the virtualenv
 
+    ```bash
     cd <project dir>
     setvirtualenvproject $VIRTUAL_ENV $(pwd)
+    ```
 
- Get a list of the Python modules and versions installed in an activated
+Get a list of the Python modules and versions installed in an activated
 virtualenv
 
+    ```bash
     pip freeze
+    ```
 
- To deactivate a virtualenv
+To deactivate a virtualenv
 
+    ```bash
     deactivate
+    ```
 
-#### Run ipython within the virtualenv:
+### Run ipython within the virtualenv
 
+    ```bash
     alias ipy=\"python -c 'import IPython;
 IPython.terminal.ipapp.launch_new_instance()'\"
     ipy
+    ```
 
-#### Run ipython with other options:
+### Run ipython with other options
 
- Add this to .bashrc:
+Add this to .bashrc:
 
+    ```
     alias ipy="python -c 'import IPython;
 IPython.terminal.ipapp.launch_new_instance()'"
 
@@ -75,31 +95,35 @@ IPython.start_ipython(['"'"'qtconsole'"'"']);'
     function ipynote(){
         python -c 'import IPython; IPython.start_ipython(['"'"'notebook'"'"']);'
     }
+    ```
 
-## Another interesting option:
+## Another way of creating a virtualenv
 
- Download a virtualenv script:
+Download the virtualenv script:
 
+    ```bash
     wget https://raw.github.com/pypa/virtualenv/1.9.X/virtualenv.py
+    ```
 
- Give it execution permission:
+Give it execution permission:
 
+    ```bash
     chmod +x virtualenv.py
+    ```
 
- Create the virtualenv:
+Create the virtualenv:
 
+    ```bash
     ./virtualenv.py <env_name> -p <path_to_python>
+    ```
 
- Activate:
+Activate it:
 
+    ```bash
     source <env_name>/bin/activate
+    ```
 
- Python script shebang to use the enviroment:
-
-    '#!<env_name>/bin/python'
-
-
-## REFERENCES:
+## References
 
 <http://www.virtualenv.org/en/latest/>
 

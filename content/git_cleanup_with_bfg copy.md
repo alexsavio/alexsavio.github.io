@@ -1,4 +1,4 @@
-Title: Remove big files from a git repository
+Title: Remove big files from a git repositor
 Date: 2017-12-30 12:28:00
 Category: Git
 Tags: git, clean, trash

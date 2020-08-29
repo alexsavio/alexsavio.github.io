@@ -20,20 +20,20 @@ Summary: Numpy and Scipy on Intel MKL
 
   But first, install it:
 
-    :::bash
+    ```bash
     git clone git://github.com/xianyi/OpenBLAS
     cd OpenBLAS && make FC=gfortran
     sudo make PREFIX=/opt/OpenBLAS install
     sudo ldconfig
-
+    ```
 
 ### 2. Execute shell scripts with sudo
 
    I will assume you'll install the libraries in /opt/intel.
 
-### 3. Once installed, add this to ~/.bashrc
+### 3. Once installed, add this to `~/.bashrc`
 
-    :::bash
+    ```bash
     #Intel C++ Studio
     if [ -d /opt/intel ];
     then
@@ -41,8 +41,9 @@ Summary: Numpy and Scipy on Intel MKL
         export PATH=${PATH}:${INTEL_HOME}/bin
         export LD_LIBRARY_PATH=/opt/intel/mkl/lib/intel64:/opt/intel/lib/intel64:${LD_LIBRARY_PATH}
     fi
+    ```
 
-### 4. Add this to /etc/ld.so.conf.d/intel.conf:
+### 4. Add this to `/etc/ld.so.conf.d/intel.conf`
 
     /opt/intel/lib/intel64
     /opt/intel/lib/intel64/irml
@@ -51,7 +52,7 @@ Summary: Numpy and Scipy on Intel MKL
 
 ### 5. Download Numpy and Scipy from [here](http://www.scipy.org/scipylib/download.html)
 
-### 6. Change Numpy source code:
+### 6. Change Numpy source code
 
 Change directory to numpy-x.x.x
 
@@ -61,24 +62,29 @@ Edit site.cfg as follows:
 
 Add the following lines to site.cfg in your top level NumPy directory to use Intel® MKL, if you are building on Intel 64 platform, assuming the default path for the Intel MKL installation from the Intel Parallel Studio XE 2013 or Intel Composer XE 2013 versions:
 
+    ```text
     [mkl]
     library_dirs = /opt/intel/mkl/lib/intel64
     include_dirs = /opt/intel/mkl/include
     mkl_libs = mkl_rt
     lapack_libs =
+    ```
 
 If you are building NumPy for 32 bit, please add as the following:
 
+    ```text
     [mkl]
     library_dirs = /opt/intel/mkl/lib/ia32
     include_dirs = /opt/intel/mkl/include
     mkl_libs = mkl_rt
     lapack_libs =
+    ```
 
 Change cc_exe in numpy/distutils/intelccompiler.py to be something like:
 
-    :::python
+    ```python
     self.cc_exe = \'icc -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp -xhost\'
+    ```
 
 Here we use, -O3, optimizations for speed and enables more aggressive loop transformations such as Fusion, Block-Unroll-and-Jam, and collapsing IF statements, -openmp for OpenMP threading and -xhost option tells the compiler to generate instructions for the highest instruction set available on the compilation host processor. If you are using the ILP64 interface, please add -DMKL_ILP64 compiler flag.
 
@@ -88,80 +94,89 @@ Change the Fortran compiler flags in numpy-x.x.x/numpy/distutil/fcompiler/intel.
 
 For ia32 and Intel64
 
-    :::bash
+    ```bash
     ifort -xhost -openmp -fp-model strict -fPIC
+    ```
 
-Change the get_flags_opt function line to:
+Change the `get_flags_opt` function line to:
 
-    :::python
+    ```python
     return ['-xhost -openmp -fp-model strict']
+    ```
 
 If you are using ILP64 interface of Intel MKL, please add -i8 flag above.  If you are using older versions of Numpy/SciPy, please refer the new intel.py for your reference from the latest version of NumPy, which you can replace to use the above mentioned compiler options.
 
-
-#### OpenBLAS Note
+#### Note
 
 To use OpenBLAS, uncomment the following lines and correct the paths:
 
+    ```text
     [openblas]
     libraries = openblas
     library_dirs = /opt/OpenBLAS/lib
     include_dirs = /opt/OpenBLAS/include
-
+    ```
 
 ### 7. Check your config
 
+    ```bash
     cd <numpy-x.x.x>
     python setup.py config
+    ```
 
 You should see the MKL library paths, and OpenBLAS if you enabled it.
-
 
 ### 8. Compile Numpy and Scipy with the following command (once for Numpy and then once for Scipy):
 
 Remember to activate the virtual environment if you are going to use this in one.
 
-#### 8.1 For 64-bit:
+#### 8.1 For 64-bit
 
-    :::bash
+    ```bash
     cd <numpy-x.x.x>
     python setup.py config --compiler=intelem --fcompiler=intelem build_clib \
     --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install
+    ```
 
+    ```bash
     cd <scipy-x.x.x>
     python setup.py config --compiler=intelem --fcompiler=intelem build_clib \
     --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install
+    ```
 
-#### 8.2 For 32-bit:
+#### 8.2 For 32-bit
 
-    :::bash
+    ```bash
     cd <numpy-x.x.x>
     python setup.py config --compiler=intel --fcompiler=intel build_clib \
     --compiler=intel --fcompiler=intel build_ext --compiler=intel --fcompiler=intel install
+    ```
 
+    ```bash
     cd <scipy-x.x.x>
     python setup.py config --compiler=intel --fcompiler=intel build_clib \
     --compiler=intel --fcompiler=intel build_ext --compiler=intel --fcompiler=intel install
+    ```
 
-### 9. Troubleshooting:
+### 9. Troubleshooting
 
 #### 9.1 Compiling Scipy: "Using deprecated NumPy API, disable it by..."
 
 Thi may be because of the version of GCC, try using 4.7 (worked in November 2013):
 
-    :::bash
+    ```bash
     sudo apt-get install gcc-4.7
     sudo rm /usr/bin/gcc
     sudo ln -s /usr/bin/gcc-4.7 /usr/bin/gcc
+    ```
 
 Compile both Numpy and Scipy again.
-
 
 ### 10. Testing
 
 You can test OpenBLAS with the following code (got from <https://gist.github.com/osdf/>):
 
-    :::python
+    ```python
     #!/usr/bin/env python
     import numpy
     import sys
@@ -184,8 +199,7 @@ You can test OpenBLAS with the following code (got from <https://gist.github.com
 
     t = timeit.Timer("numpy.dot(x, x.T)", setup=setup)
     print "dot:", t.timeit(count)/count, "sec"
-
-
+    ```
 
 ### References
 
