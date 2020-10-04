@@ -58,7 +58,17 @@ with tools like semantic-release (available for Node.js and&amp;nbsp;Python).&lt
 Any line of the commit message cannot be longer 100 characters!
 This allows the message to be easier to read on GitHub as well as in various git&amp;nbsp;tools.&lt;/p&gt;
 &lt;h5&gt;Type&lt;/h5&gt;
-&lt;p&gt;The &lt;type&gt; describes the generic objective of the commit, use the same types used for&amp;nbsp;branches.&lt;/p&gt;
+&lt;p&gt;The &lt;type&gt; describes the generic objective of the commit, use the same types used for branches. I will repeat them&amp;nbsp;here:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;feat&lt;/strong&gt;: a new&amp;nbsp;feature,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;fix&lt;/strong&gt;: a bug&amp;nbsp;fix,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;docs&lt;/strong&gt;: documentation only changes (in or out of the&amp;nbsp;code),&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;tests&lt;/strong&gt;: new tests or fixes in&amp;nbsp;tests,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;refactor&lt;/strong&gt;: code change that neither fixes a bug or adds a&amp;nbsp;feature,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;style&lt;/strong&gt;: code changes that&amp;nbsp;neither,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;chore&lt;/strong&gt;: Changes to the build process or auxiliary tools for the project&amp;nbsp;maintenance,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;perf&lt;/strong&gt;: A code change that improves&amp;nbsp;performance.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h5&gt;Scope&lt;/h5&gt;
 &lt;p&gt;The &lt;scope&gt; could be anything specifying place of the commit change. A scope should be a part of the project that the stakeholders understand.
 The possible scopes can be agreed beforehand with the developers and/or stakeholders.
