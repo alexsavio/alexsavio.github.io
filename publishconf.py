@@ -13,3 +13,8 @@ from pelicanconf import *
 
 SITEURL = 'https://alexsavio.github.io/'
 RELATIVE_URLS = False
+
+DELETE_OUTPUT_DIRECTORY = True
+
+TWITTER_USERNAME = 'alex_savio'
+

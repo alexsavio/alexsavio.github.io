@@ -13,7 +13,6 @@ Summary: Remove large blobs from your git repository history
 
 Here goes a quick guide on how to remove files larger than 10 MiB.
 
-
 ### Installation
 
 Download the lastest release from https://rtyley.github.io/bfg-repo-cleaner/.
@@ -26,11 +25,9 @@ Meaning that "`~/Software/bfg-1.12.16.jar`" is wherever you downloaded the `.jar
 alias bfg=java -jar ~/Software/bfg-1.12.16.jar
 ```
 
-
 ### First step
 
 First you must delete the blobs that you want to delete from the HEAD of your repository, commit, and push.
-
 
 ### Usage
 
@@ -53,7 +50,6 @@ cd some-big-repo.git
 git reflog expire --expire=now --all && git gc --prune=now --aggressive
 git push
 ```
-
 
 ### References
 
