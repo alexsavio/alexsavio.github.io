@@ -1,5 +1,5 @@
 Title: Git usage guidelines for team collaboration
-Date: 2019-06-11 12:00:00
+Date: 2020-06-11 12:00:00
 Category: Git
 Tags: git, collaboration, team
 Slug: git-collaboration-guidelines
