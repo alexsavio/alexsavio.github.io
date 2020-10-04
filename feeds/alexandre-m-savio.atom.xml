@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Interlines - Alexandre M. Savio</title><link href="https://alexsavio.github.io/" rel="alternate"></link><link href="https://alexsavio.github.io/feeds/alexandre-m-savio.atom.xml" rel="self"></link><id>https://alexsavio.github.io/</id><updated>2019-06-11T12:00:00+02:00</updated><subtitle>Lost in spikes</subtitle><entry><title>Git usage guidelines for team collaboration</title><link href="https://alexsavio.github.io/git-collaboration-guidelines.html" rel="alternate"></link><published>2019-06-11T12:00:00+02:00</published><updated>2019-06-11T12:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2019-06-11:/git-collaboration-guidelines.html</id><summary type="html">&lt;p&gt;Suggestions on how to use a code repository with git for&amp;nbsp;teams.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;This is a set of rules that I have been gathering in the past few years, which work well for most of the projects I worked on with small teams of 3-8 people. These guidelines are heavily based on the &lt;a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines"&gt;angular.js/&lt;span class="caps"&gt;DEVELOPERS&lt;/span&gt;.md document on  GitHub&lt;/a&gt;.
-This is not about &lt;a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow"&gt;GitFlow&lt;/a&gt;, I think it is too complex and goes against fast development cycles. Build good and reliable &lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;span class="caps"&gt;CD&lt;/span&gt; pipelines to be able to deliver faster, use canary releases whenever&amp;nbsp;possible.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Interlines - Alexandre M. Savio</title><link href="https://alexsavio.github.io/" rel="alternate"></link><link href="https://alexsavio.github.io/feeds/alexandre-m-savio.atom.xml" rel="self"></link><id>https://alexsavio.github.io/</id><updated>2020-06-11T12:00:00+02:00</updated><subtitle>Lost in spikes</subtitle><entry><title>Git usage guidelines for team collaboration</title><link href="https://alexsavio.github.io/git-collaboration-guidelines.html" rel="alternate"></link><published>2020-06-11T12:00:00+02:00</published><updated>2020-06-11T12:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2020-06-11:/git-collaboration-guidelines.html</id><summary type="html">&lt;p&gt;Suggestions on how to use a code repository with git for&amp;nbsp;teams.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;This is a set of rules that I have been gathering in the past few years which work well for most of the projects I worked on with small teams of 3-8 people. These guidelines are heavily based on the &lt;a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines"&gt;angular.js/&lt;span class="caps"&gt;DEVELOPERS&lt;/span&gt;.md document on  GitHub&lt;/a&gt; and this is not about &lt;a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow"&gt;GitFlow&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;Branching&amp;nbsp;model&lt;/h2&gt;
-&lt;p&gt;Always create a new branch from an updated &amp;#8220;master&amp;#8221; branch.
+&lt;p&gt;Always create a new branch from an up-to-date &amp;#8220;main&amp;#8221; branch.
 The branches should have a short life (no more than 2 days) and have a very determined objective.
-Once the objective is reached, a Pull Request (&lt;span class="caps"&gt;PR&lt;/span&gt;) should be created to merge the branch to “master”.
+Once the objective is reached, a Pull Request (&lt;span class="caps"&gt;PR&lt;/span&gt;) should be created to merge the branch to main.
 Once the branch is merged, it should be deleted.
-Always merge to&amp;nbsp;“master”.&lt;/p&gt;
+Always merge to&amp;nbsp;main.&lt;/p&gt;
 &lt;h3&gt;Branch&amp;nbsp;names&lt;/h3&gt;
 &lt;p&gt;The branch names are not that important in very small teams, but when the team is bigger or work remotely,
 a pattern for the branch names is also good to follow. Here is a&amp;nbsp;suggestion:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```python&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;type&amp;gt;/[&amp;lt;ticket_id&amp;gt;]_&amp;lt;subject&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Some tools like Sourcetree from Atlassian pick the &lt;code&gt;/&lt;/code&gt; from the branch name and splits the name in their &lt;span class="caps"&gt;GUI&lt;/span&gt;,
+&lt;p&gt;Some tools like &lt;a href="https://www.sourcetreeapp.com/"&gt;Sourcetree&lt;/a&gt; pick the &lt;code&gt;/&lt;/code&gt; from the branch name and splits the name in their &lt;span class="caps"&gt;GUI&lt;/span&gt;,
 so you can see the different types of branches as in different&amp;nbsp;folders.&lt;/p&gt;
 &lt;h4&gt;Type&lt;/h4&gt;
 &lt;p&gt;The &lt;type&gt; describes the generic objective of the branch, it can be one of the&amp;nbsp;following:&lt;/p&gt;
@@ -44,7 +43,7 @@ change log for each release in a &lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;sp
 with tools like semantic-release (available for Node.js and&amp;nbsp;Python).&lt;/p&gt;
 &lt;h4&gt;Format&lt;/h4&gt;
 &lt;p&gt;Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a&amp;nbsp;subject:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```python&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;type&amp;gt;(&amp;lt;scope&amp;gt;): &amp;lt;subject&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;BLANK LINE&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;body&amp;gt;&lt;/span&gt;&lt;/span&gt;
@@ -92,8 +91,8 @@ A detailed explanation can be found in the Angular.js&amp;nbsp;document.&lt;/p&g
 &lt;h3&gt;Pull&amp;nbsp;Requests&lt;/h3&gt;
 &lt;p&gt;The Pull or Merge Requests (&lt;span class="caps"&gt;PR&lt;/span&gt;) are used to share with your co-developers the code changes
 you did in your branch and ask them to review it. Here we always do a &lt;span class="caps"&gt;PR&lt;/span&gt; from your branch to
-the &amp;#8216;master&amp;#8217; branch.
-In a &lt;span class="caps"&gt;PR&lt;/span&gt;, your colleagues will have a view of the differences between the branches and the
+the &amp;#8216;main&amp;#8217;&amp;nbsp;branch.&lt;/p&gt;
+&lt;p&gt;In a &lt;span class="caps"&gt;PR&lt;/span&gt;, your colleagues will have a view of the differences between the branches and the
 commits. You must also add a title and a&amp;nbsp;description.&lt;/p&gt;
 &lt;p&gt;The title should be sufficient to understand what is being&amp;nbsp;changed.&lt;/p&gt;
 &lt;p&gt;In the description you&amp;nbsp;should:&lt;/p&gt;
@@ -114,9 +113,9 @@ commits. You must also add a title and a&amp;nbsp;description.&lt;/p&gt;
 &lt;h3&gt;&lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;span class="caps"&gt;CD&lt;/span&gt;&lt;/h3&gt;
 &lt;p&gt;With this setup your &lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;span class="caps"&gt;CD&lt;/span&gt; pipeline&amp;nbsp;would:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;run your checks and tests for every push to a &lt;span class="caps"&gt;PR&lt;/span&gt; and every merge to&amp;nbsp;&amp;#8216;master&amp;#8217;,&lt;/li&gt;
-&lt;li&gt;run a deployment to your test environment every merge to &amp;#8216;master&amp;#8217;,&amp;nbsp;and&lt;/li&gt;
-&lt;li&gt;enable a manual deployment to your production environment for every merge to&amp;nbsp;&amp;#8216;master&amp;#8217;.&lt;/li&gt;
+&lt;li&gt;run your checks and tests for every push to a &lt;span class="caps"&gt;PR&lt;/span&gt; and every merge to&amp;nbsp;&amp;#8216;main&amp;#8217;,&lt;/li&gt;
+&lt;li&gt;run a deployment to your test environment every merge to &amp;#8216;main&amp;#8217;,&amp;nbsp;and&lt;/li&gt;
+&lt;li&gt;enable a manual deployment to your production environment for every merge to&amp;nbsp;&amp;#8216;main&amp;#8217;.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This deployment should trigger a release first, with automatic version bumping
 and change log generation. Bitbucket-pipelines supports&amp;nbsp;this.&lt;/p&gt;
@@ -128,6 +127,7 @@ and change log generation. Bitbucket-pipelines supports&amp;nbsp;this.&lt;/p&gt;
 &lt;li&gt;&lt;a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow"&gt;Gitflow Workflow | Atlassian Git&amp;nbsp;Tutorial&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines"&gt;angular.js/&lt;span class="caps"&gt;DEVELOPERS&lt;/span&gt;.md at master · angular/angular.js ·&amp;nbsp;GitHub&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/semantic-release/semantic-release"&gt;GitHub - semantic-release/semantic-release: Fully automated version management and package&amp;nbsp;publishing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.sourcetreeapp.com/"&gt;Sourcetree&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content><category term="Git"></category><category term="git"></category><category term="collaboration"></category><category term="team"></category></entry><entry><title>Remove big files from a git repository</title><link href="https://alexsavio.github.io/git-cleanup-bfg.html" rel="alternate"></link><published>2017-12-30T12:28:00+01:00</published><updated>2017-12-30T12:28:00+01:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2017-12-30:/git-cleanup-bfg.html</id><summary type="html">&lt;p&gt;Remove large blobs from your git repository&amp;nbsp;history&lt;/p&gt;</summary><content type="html">&lt;h3&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;&lt;a href="https://rtyley.github.io/bfg-repo-cleaner/"&gt;&lt;span class="caps"&gt;BFG&lt;/span&gt; Repo-Cleaner&lt;/a&gt; is a tool to &amp;#8220;remove large or troublesome blobs&amp;#8221; from Git&amp;nbsp;repositories.&lt;/p&gt;
 &lt;p&gt;Here goes a quick guide on how to remove files larger than 10&amp;nbsp;MiB.&lt;/p&gt;

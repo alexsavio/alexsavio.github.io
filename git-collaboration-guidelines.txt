@@ -1,5 +1,5 @@
 Title: Git usage guidelines for team collaboration
-Date: 2019-06-11 12:00:00
+Date: 2020-06-11 12:00:00
 Category: Git
 Tags: git, collaboration, team
 Slug: git-collaboration-guidelines
@@ -9,27 +9,26 @@ Summary: Suggestions on how to use a code repository with git for teams.
 
 ## Introduction
 
-This is a set of rules that I have been gathering in the past few years, which work well for most of the projects I worked on with small teams of 3-8 people. These guidelines are heavily based on the [angular.js/DEVELOPERS.md document on  GitHub](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines).
-This is not about [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow), I think it is too complex and goes against fast development cycles. Build good and reliable CI/CD pipelines to be able to deliver faster, use canary releases whenever possible.
+This is a set of rules that I have been gathering in the past few years which work well for most of the projects I worked on with small teams of 3-8 people. These guidelines are heavily based on the [angular.js/DEVELOPERS.md document on  GitHub](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines) and this is not about [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
 
 ## Branching model
 
-Always create a new branch from an updated "master" branch.
+Always create a new branch from an up-to-date "main" branch.
 The branches should have a short life (no more than 2 days) and have a very determined objective.
-Once the objective is reached, a Pull Request (PR) should be created to merge the branch to “master”.
+Once the objective is reached, a Pull Request (PR) should be created to merge the branch to main.
 Once the branch is merged, it should be deleted.
-Always merge to “master”.
+Always merge to main.
 
 ### Branch names
 
 The branch names are not that important in very small teams, but when the team is bigger or work remotely,
 a pattern for the branch names is also good to follow. Here is a suggestion:
 
-    ```python
+    ```
     <type>/[<ticket_id>]_<subject>
     ```
 
-Some tools like Sourcetree from Atlassian pick the `/` from the branch name and splits the name in their GUI,
+Some tools like [Sourcetree](https://www.sourcetreeapp.com/) pick the `/` from the branch name and splits the name in their GUI,
 so you can see the different types of branches as in different folders.
 
 #### Type
@@ -66,7 +65,7 @@ with tools like semantic-release (available for Node.js and Python).
 
 Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a subject:
 
-    ```python
+    ```
     <type>(<scope>): <subject>
     <BLANK LINE>
     <body>
@@ -122,7 +121,8 @@ A detailed explanation can be found in the Angular.js document.
 
 The Pull or Merge Requests (PR) are used to share with your co-developers the code changes
 you did in your branch and ask them to review it. Here we always do a PR from your branch to
-the 'master' branch.
+the 'main' branch.
+
 In a PR, your colleagues will have a view of the differences between the branches and the
 commits. You must also add a title and a description.
 
@@ -148,9 +148,9 @@ GUI involved in the project.
 
 With this setup your CI/CD pipeline would:
 
-1. run your checks and tests for every push to a PR and every merge to 'master',
-2. run a deployment to your test environment every merge to 'master', and
-3. enable a manual deployment to your production environment for every merge to 'master'.
+1. run your checks and tests for every push to a PR and every merge to 'main',
+2. run a deployment to your test environment every merge to 'main', and
+3. enable a manual deployment to your production environment for every merge to 'main'.
 
 This deployment should trigger a release first, with automatic version bumping
 and change log generation. Bitbucket-pipelines supports this.
@@ -164,3 +164,4 @@ and change log generation. Bitbucket-pipelines supports this.
 - [Gitflow Workflow \| Atlassian Git Tutorial](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
 - [angular.js/DEVELOPERS.md at master · angular/angular.js · GitHub](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines)
 - [GitHub - semantic-release/semantic-release: Fully automated version management and package publishing](https://github.com/semantic-release/semantic-release)
+- [Sourcetree](https://www.sourcetreeapp.com/)

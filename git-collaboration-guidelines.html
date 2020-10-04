@@ -36,7 +36,7 @@
                 <h2 class="article-info">Alexandre M. Savio</h2>
                 <small class="about-author"></small>
                 <h5>Published</h5>
-                <p>Tue 11 June 2019</p>
+                <p>Thu 11 June 2020</p>
                 <a href="/">&larr;Home</a>
             </hgroup>
         </header>
@@ -54,24 +54,23 @@
                 </header>
             </section>
             <h2>Introduction</h2>
-<p>This is a set of rules that I have been gathering in the past few years, which work well for most of the projects I worked on with small teams of 3-8 people. These guidelines are heavily based on the <a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines">angular.js/<span class="caps">DEVELOPERS</span>.md document on  GitHub</a>.
-This is not about <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">GitFlow</a>, I think it is too complex and goes against fast development cycles. Build good and reliable <span class="caps">CI</span>/<span class="caps">CD</span> pipelines to be able to deliver faster, use canary releases whenever&nbsp;possible.</p>
+<p>This is a set of rules that I have been gathering in the past few years which work well for most of the projects I worked on with small teams of 3-8 people. These guidelines are heavily based on the <a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines">angular.js/<span class="caps">DEVELOPERS</span>.md document on  GitHub</a> and this is not about <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">GitFlow</a>.</p>
 <h2>Branching&nbsp;model</h2>
-<p>Always create a new branch from an updated &#8220;master&#8221; branch.
+<p>Always create a new branch from an up-to-date &#8220;main&#8221; branch.
 The branches should have a short life (no more than 2 days) and have a very determined objective.
-Once the objective is reached, a Pull Request (<span class="caps">PR</span>) should be created to merge the branch to “master”.
+Once the objective is reached, a Pull Request (<span class="caps">PR</span>) should be created to merge the branch to main.
 Once the branch is merged, it should be deleted.
-Always merge to&nbsp;“master”.</p>
+Always merge to&nbsp;main.</p>
 <h3>Branch&nbsp;names</h3>
 <p>The branch names are not that important in very small teams, but when the team is bigger or work remotely,
 a pattern for the branch names is also good to follow. Here is a&nbsp;suggestion:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```python</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```</span></span>
 <span class="code-line"><span class="err">&lt;type&gt;/[&lt;ticket_id&gt;]_&lt;subject&gt;</span></span>
 <span class="code-line"><span class="err">```</span></span>
 </pre></div>
 
 
-<p>Some tools like Sourcetree from Atlassian pick the <code>/</code> from the branch name and splits the name in their <span class="caps">GUI</span>,
+<p>Some tools like <a href="https://www.sourcetreeapp.com/">Sourcetree</a> pick the <code>/</code> from the branch name and splits the name in their <span class="caps">GUI</span>,
 so you can see the different types of branches as in different&nbsp;folders.</p>
 <h4>Type</h4>
 <p>The <type> describes the generic objective of the branch, it can be one of the&nbsp;following:</p>
@@ -98,7 +97,7 @@ change log for each release in a <span class="caps">CI</span>/<span class="caps"
 with tools like semantic-release (available for Node.js and&nbsp;Python).</p>
 <h4>Format</h4>
 <p>Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a&nbsp;subject:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```python</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```</span></span>
 <span class="code-line"><span class="err">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span></span>
 <span class="code-line"><span class="err">&lt;BLANK LINE&gt;</span></span>
 <span class="code-line"><span class="err">&lt;body&gt;</span></span>
@@ -146,8 +145,8 @@ A detailed explanation can be found in the Angular.js&nbsp;document.</p>
 <h3>Pull&nbsp;Requests</h3>
 <p>The Pull or Merge Requests (<span class="caps">PR</span>) are used to share with your co-developers the code changes
 you did in your branch and ask them to review it. Here we always do a <span class="caps">PR</span> from your branch to
-the &#8216;master&#8217; branch.
-In a <span class="caps">PR</span>, your colleagues will have a view of the differences between the branches and the
+the &#8216;main&#8217;&nbsp;branch.</p>
+<p>In a <span class="caps">PR</span>, your colleagues will have a view of the differences between the branches and the
 commits. You must also add a title and a&nbsp;description.</p>
 <p>The title should be sufficient to understand what is being&nbsp;changed.</p>
 <p>In the description you&nbsp;should:</p>
@@ -168,9 +167,9 @@ commits. You must also add a title and a&nbsp;description.</p>
 <h3><span class="caps">CI</span>/<span class="caps">CD</span></h3>
 <p>With this setup your <span class="caps">CI</span>/<span class="caps">CD</span> pipeline&nbsp;would:</p>
 <ol>
-<li>run your checks and tests for every push to a <span class="caps">PR</span> and every merge to&nbsp;&#8216;master&#8217;,</li>
-<li>run a deployment to your test environment every merge to &#8216;master&#8217;,&nbsp;and</li>
-<li>enable a manual deployment to your production environment for every merge to&nbsp;&#8216;master&#8217;.</li>
+<li>run your checks and tests for every push to a <span class="caps">PR</span> and every merge to&nbsp;&#8216;main&#8217;,</li>
+<li>run a deployment to your test environment every merge to &#8216;main&#8217;,&nbsp;and</li>
+<li>enable a manual deployment to your production environment for every merge to&nbsp;&#8216;main&#8217;.</li>
 </ol>
 <p>This deployment should trigger a release first, with automatic version bumping
 and change log generation. Bitbucket-pipelines supports&nbsp;this.</p>
@@ -182,6 +181,7 @@ and change log generation. Bitbucket-pipelines supports&nbsp;this.</p>
 <li><a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Gitflow Workflow | Atlassian Git&nbsp;Tutorial</a></li>
 <li><a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines">angular.js/<span class="caps">DEVELOPERS</span>.md at master · angular/angular.js ·&nbsp;GitHub</a></li>
 <li><a href="https://github.com/semantic-release/semantic-release">GitHub - semantic-release/semantic-release: Fully automated version management and package&nbsp;publishing</a></li>
+<li><a href="https://www.sourcetreeapp.com/">Sourcetree</a></li>
 </ul>
             <div class="hr"></div>
             <a href="#" class="go-top">Go Top</a>

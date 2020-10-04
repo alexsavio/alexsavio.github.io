@@ -5,35 +5,35 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://alexsavio.github.io/</loc>
-<lastmod>2020-10-04T18:09:18-00:00</lastmod>
+<lastmod>2020-10-04T18:30:06-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://alexsavio.github.io/archives.html</loc>
-<lastmod>2020-10-04T18:09:18-00:00</lastmod>
+<lastmod>2020-10-04T18:30:06-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://alexsavio.github.io/tags.html</loc>
-<lastmod>2020-10-04T18:09:18-00:00</lastmod>
+<lastmod>2020-10-04T18:30:06-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://alexsavio.github.io/categories.html</loc>
-<lastmod>2020-10-04T18:09:18-00:00</lastmod>
+<lastmod>2020-10-04T18:30:06-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://alexsavio.github.io/git-collaboration-guidelines.html</loc>
-<lastmod>2019-06-11T12:00:00+02:00</lastmod>
+<lastmod>2020-06-11T12:00:00+02:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -103,7 +103,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://alexsavio.github.io/category/git.html</loc>
-<lastmod>2019-06-11T12:00:00+00:09</lastmod>
+<lastmod>2020-06-11T12:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -138,21 +138,21 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://alexsavio.github.io/tag/git.html</loc>
-<lastmod>2019-06-11T12:00:00+00:09</lastmod>
+<lastmod>2020-06-11T12:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://alexsavio.github.io/tag/collaboration.html</loc>
-<lastmod>2019-06-11T12:00:00+00:09</lastmod>
+<lastmod>2020-06-11T12:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://alexsavio.github.io/tag/team.html</loc>
-<lastmod>2019-06-11T12:00:00+00:09</lastmod>
+<lastmod>2020-06-11T12:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -327,7 +327,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://alexsavio.github.io/author/alexandre-m-savio.html</loc>
-<lastmod>2019-06-11T12:00:00+00:09</lastmod>
+<lastmod>2020-06-11T12:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
