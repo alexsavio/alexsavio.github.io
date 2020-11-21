@@ -30,6 +30,6 @@ deploy:
     branch: dev
 
 notifications:
-   email:
-       on_success: change
-       on_failure: always
+  email:
+    on_success: change
+    on_failure: always
