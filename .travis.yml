@@ -1,7 +1,13 @@
 dist: bionic
 language: python
 
-cache: pip
+env:
+  - WORKON_HOME=.pipenv/venvs
+  - PIP_CACHE_DIR=.pipenv/pipcache
+
+cache:
+  directories:
+    - .pipenv
 
 python:
   - "3.8"
