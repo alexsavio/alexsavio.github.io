@@ -69,7 +69,7 @@ She showed me that we can configure Lyx to use it through
 <p>In Ubuntu I installed the packages: <em>biblatex texlive-latex-extra&nbsp;texlive-bibtex-extra</em></p>
 <h3>Step 3: Create the biblatex.module&nbsp;file</h3>
 <p>Create a file named biblatex.module with the following&nbsp;content:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="o">#</span><span class="err">\</span><span class="n">DeclareLyXModule</span><span class="err">{</span><span class="n">Biblatex</span><span class="o">-</span><span class="n">citation</span><span class="o">-</span><span class="n">styles</span><span class="err">}</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="o">#</span><span class="err">\</span><span class="n">DeclareLyXModule</span><span class="err">{</span><span class="n">Biblatex</span><span class="o">-</span><span class="n">citation</span><span class="o">-</span><span class="n">styles</span><span class="err">}</span></span>
 <span class="code-line"><span class="o">#</span><span class="n">DescriptionBegin</span></span>
 <span class="code-line"><span class="o">#</span><span class="n">A</span> <span class="n">prerequisite</span> <span class="k">for</span> <span class="k">using</span> <span class="n">the</span> <span class="n">biblatex</span> <span class="n">package</span><span class="p">.</span> <span class="n">This</span> <span class="n">module</span></span>
 <span class="code-line"><span class="o">#</span><span class="n">enables</span> <span class="n">the</span> <span class="n">author</span><span class="o">/</span><span class="k">year</span> <span class="n">citation</span> <span class="n">styles</span> <span class="k">without</span> <span class="n">actually</span> <span class="n">loading</span> <span class="n">natbib</span><span class="p">.</span></span>
@@ -81,7 +81,7 @@ She showed me that we can configure Lyx to use it through
 <span class="code-line"></span>
 <span class="code-line"><span class="o">#</span> <span class="n">this</span> <span class="k">is</span> <span class="n">biblatex</span> <span class="n">actually</span></span>
 <span class="code-line"><span class="n">Provides</span> <span class="n">natbib</span>    <span class="mi">1</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <p>Put the file biblatex.module in the layouts folder in your user directory
@@ -93,14 +93,14 @@ She showed me that we can configure Lyx to use it through
 <p>Add to &#8220;Selected&#8221; the module &#8220;Biblatex-citation-styles&#8221; from&nbsp;Document→Settings→Modules.</p>
 <h4>Load biblatex in the&nbsp;preamble</h4>
 <p>In the document preamble (Document→Settings→Preamble) you have to load biblatex manually,&nbsp;with:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">\usepackage[natbib=true,style=numeric,backend=biber,maxnames=1, doi=true, url=false,bibencoding=utf8]{biblatex}</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">\usepackage[natbib=true,style=numeric,backend=biber,maxnames=1, doi=true, url=false,bibencoding=utf8]{biblatex}</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <h4>Load the bibliography in the&nbsp;preamble</h4>
 <p>Load your bibliography database in the&nbsp;preamble:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">\addbibresource{/home/alexandre/mybibs.bib}</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">\addbibresource{/home/alexandre/mybibs.bib}</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p>You must load the databases must using \addbibresource&nbsp;commands.</p>

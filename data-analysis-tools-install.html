@@ -55,7 +55,7 @@
             </section>
             <p>Tested on Ubuntu 13.10 and&nbsp;14.04.</p>
 <h3>Requirements</h3>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">pip</span> <span class="n">python</span><span class="o">-</span><span class="n">dev</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">pip</span> <span class="n">python</span><span class="o">-</span><span class="n">dev</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">sudo</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span> <span class="n">virtualenvwrapper</span></span>
 <span class="code-line"></span>
@@ -63,86 +63,86 @@
 <span class="code-line"><span class="n">echo</span> <span class="ss">&quot;source /usr/local/bin/virtualenvwrapper.sh&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span></span>
 <span class="code-line"><span class="n">echo</span> <span class="ss">&quot;export PIP_REQUIRE_VIRTUALENV=true&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span></span>
 <span class="code-line"><span class="k">source</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <h3>Create a virtual&nbsp;environment</h3>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">mkvirtualenv</span> <span class="o">&lt;</span><span class="n">env_name</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">p</span> <span class="o">&lt;</span><span class="n">path_to_python</span><span class="o">&gt;*</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">mkvirtualenv</span> <span class="o">&lt;</span><span class="n">env_name</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">p</span> <span class="o">&lt;</span><span class="n">path_to_python</span><span class="o">&gt;*</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="o">*&lt;</span><span class="n">path_to_python</span><span class="o">&gt;</span> <span class="n">can</span> <span class="n">be</span> <span class="n">either</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">python2</span> <span class="k">or</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">python3</span><span class="p">,</span></span>
 <span class="code-line"><span class="k">or</span> <span class="n">whatever</span> <span class="n">you</span> <span class="n">need</span><span class="p">.</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <h3>Install&nbsp;modules</h3>
 <p><a href="http://ipython.org/">IPython</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">ipython</span><span class="o">[</span><span class="n">all</span><span class="o">]</span><span class="w"></span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">ipython</span><span class="o">[</span><span class="n">all</span><span class="o">]</span><span class="w"></span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p><a href="http://www.numpy.org/">Numpy</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install numpy</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install numpy</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p>Test&nbsp;numpy</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nose</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">pip</span> <span class="n">install</span> <span class="n">nose</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;import numpy; numpy.test()&#39;</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <p><a href="http://cython.org/">Cython</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install cython</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install cython</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p><a href="http://www.scipy.org/">Scipy</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">build</span><span class="o">-</span><span class="n">dep</span> <span class="n">python</span><span class="o">-</span><span class="n">scipy</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">build</span><span class="o">-</span><span class="n">dep</span> <span class="n">python</span><span class="o">-</span><span class="n">scipy</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libblas</span><span class="o">-</span><span class="n">dev</span> <span class="n">liblapack</span><span class="o">-</span><span class="n">dev</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">scipy</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <p><a href="http://docs.python.org/3.3/library/readline.html">Readline</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libncurses5</span><span class="o">-</span><span class="n">dev</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libncurses5</span><span class="o">-</span><span class="n">dev</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">readline</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <p>Other&nbsp;dependencies</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install python-dateutil sphinx pygments tornado</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install python-dateutil sphinx pygments tornado</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <h3>Graphical libraries for <span class="caps">GUI</span> building and IPython <span class="caps">QT</span>&nbsp;console</h3>
 <h4>You can either install them inside the virtual&nbsp;environment:</h4>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err"> pip install pyside</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err"> pip install pyside</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p>You must install PyQt4&nbsp;globally:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err"> sudo apt-get install python3-pyqt4 python3-sip python-qt4-dev</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err"> sudo apt-get install python3-pyqt4 python3-sip python-qt4-dev</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p>or</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err"> sudo apt-get install python-pyqt4 python-sip python-qt4-dev</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err"> sudo apt-get install python-pyqt4 python-sip python-qt4-dev</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <h4>I recommend installing them globally then linking from the virtual&nbsp;environment:</h4>
 <p>First install&nbsp;them:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">sudo apt-get install python3-pyqt4 python3-pyside python3-sip</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">sudo apt-get install python3-pyqt4 python3-pyside python3-sip</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p>or</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">sudo apt-get install python-qt4 python-pyside python-sip python-qt4-dev</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">sudo apt-get install python-qt4 python-pyside python-sip python-qt4-dev</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p>Then link them (with the virtualenv&nbsp;activated):</p>
@@ -183,7 +183,7 @@ execute&nbsp;it):</p>
 <span class="code-line">32</span>
 <span class="code-line">33</span>
 <span class="code-line">34</span>
-<span class="code-line">35</pre></div></td><td class="code"><div class="highlight"><pre><span class="code-line"><span></span><span class="ch">#!/bin/bash</span></span>
+<span class="code-line">35</pre></div></td><td class="code"><div class="highlight"><pre><span class="code-line"><span></span><code><span class="ch">#!/bin/bash</span></span>
 <span class="code-line"><span class="c1"># This hook is executed after a new virtualenv is activated.</span></span>
 <span class="code-line"><span class="c1"># ~/.virtualenvs/postmkvirtualenv</span></span>
 <span class="code-line"></span>
@@ -218,86 +218,86 @@ execute&nbsp;it):</p>
 <span class="code-line">        ln -s <span class="nv">$libsyspath</span> <span class="nv">$lib_virtualenv_path</span>/<span class="nv">$lib</span></span>
 <span class="code-line">    <span class="k">fi</span></span>
 <span class="code-line"><span class="k">done</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 </td></tr></table>
 
 <h3>Other interesting&nbsp;modules</h3>
 <p><a href="http://matplotlib.org/">matplotlib</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">build</span><span class="o">-</span><span class="n">dep</span> <span class="n">python</span><span class="o">-</span><span class="n">matplotlib</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">build</span><span class="o">-</span><span class="n">dep</span> <span class="n">python</span><span class="o">-</span><span class="n">matplotlib</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">pyparsing</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">matplotlib</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <p><a href="http://scikit-image.org/">scikit-image</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install scikit-image</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install scikit-image</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p><a href="http://scikit-learn.org">scikit-learn</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install scikit-learn</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install scikit-learn</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p><a href="https://github.com/scikit-fuzzy/scikit-fuzzy">scikit-fuzzy</a></p>
 <p><a href="http://pandas.pydata.org/">Pandas</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libhdf5</span><span class="o">-</span><span class="n">dev</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libhdf5</span><span class="o">-</span><span class="n">dev</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">numexpr</span></span>
 <span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">tables</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <p>If you have problems importing tables, it might help downloading and compiling the <a href="http://www.hdfgroup.org/HDF5/release/obtainsrc.html"><span class="caps">HDF5</span> library</a>.</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install pandas</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install pandas</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p><a href="http://www.h5py.org/">h5py</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libhdf5</span><span class="o">-</span><span class="n">dev</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libhdf5</span><span class="o">-</span><span class="n">dev</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">h5py</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <p><a href="http://patsy.readthedocs.org/en/latest/">patsy</a> and <a href="http://statsmodels.sourceforge.net/">statsmodels</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install patsy</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install patsy</span></span>
 <span class="code-line"><span class="err">pip install statsmodels</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <p><a href="http://pymc-devs.github.io/pymc/">pymc</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install pymc</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install pymc</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <h3>Speed up&nbsp;execution</h3>
 <p><a href="https://pypi.python.org/pypi/Bottleneck">bottleneck</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install bottleneck</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install bottleneck</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p><a href="https://github.com/twiecki/CythonGSL">cythongsl</a>
  <a href="http://nbviewer.ipython.org/github/twiecki/CythonGSL/blob/master/examples/cython_gsl_ipythonnb.ipynb">cythongsl-demo</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install cythongsl</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install cythongsl</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <h3>Neuroscience&nbsp;tools:</h3>
 <p><a href="http://nipy.org/nibabel/">Nibabel</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">pip install nibabel</span></span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install nibabel</span></span>
+<span class="code-line"></code></pre></div>
 
 
 <p><a href="http://nipy.org/">Nipy</a>&nbsp;Dependencies:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">sphinx</span> <span class="n">sympy</span> <span class="n">networkx</span> <span class="n">traits</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">pip</span> <span class="n">install</span> <span class="n">sphinx</span> <span class="n">sympy</span> <span class="n">networkx</span> <span class="n">traits</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">nipy</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">nipype</span> <span class="n">dipy</span> <span class="n">nitime</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <h3>References</h3>

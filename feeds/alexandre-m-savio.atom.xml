@@ -10,10 +10,10 @@ Always merge to&amp;nbsp;main.&lt;/p&gt;
 &lt;h3&gt;Branch&amp;nbsp;names&lt;/h3&gt;
 &lt;p&gt;The branch names are not that important in very small teams, but when the team is bigger or work remotely,
 a pattern for the branch names is also good to follow. Here is a&amp;nbsp;suggestion:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;type&amp;gt;/[&amp;lt;ticket_id&amp;gt;]_&amp;lt;subject&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Some tools like &lt;a href="https://www.sourcetreeapp.com/"&gt;Sourcetree&lt;/a&gt; pick the &lt;code&gt;/&lt;/code&gt; from the branch name and splits the name in their &lt;span class="caps"&gt;GUI&lt;/span&gt;,
@@ -43,14 +43,14 @@ change log for each release in a &lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;sp
 with tools like semantic-release (available for Node.js and&amp;nbsp;Python).&lt;/p&gt;
 &lt;h4&gt;Format&lt;/h4&gt;
 &lt;p&gt;Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a&amp;nbsp;subject:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;type&amp;gt;(&amp;lt;scope&amp;gt;): &amp;lt;subject&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;BLANK LINE&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;body&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;BLANK LINE&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;footer&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;The header is mandatory and the scope of the header is optional.
@@ -136,28 +136,28 @@ and change log generation. Bitbucket-pipelines supports&amp;nbsp;this.&lt;/p&gt;
 It includes a &lt;code&gt;.jar&lt;/code&gt; file which we will use through the command&amp;nbsp;line.&lt;/p&gt;
 &lt;p&gt;You can use &lt;code&gt;bfg&lt;/code&gt; as an alias for &lt;code&gt;java -jar ~/Software/bfg-1.12.16.jar&lt;/code&gt;.
 Meaning that &amp;#8220;&lt;code&gt;~/Software/bfg-1.12.16.jar&lt;/code&gt;&amp;#8221; is wherever you downloaded the &lt;code&gt;.jar&lt;/code&gt; file.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;alias&lt;/span&gt; &lt;span class="nv"&gt;bfg&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;java -jar ~/Software/bfg-1.12.16.jar&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;alias&lt;/span&gt; &lt;span class="nv"&gt;bfg&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;java -jar ~/Software/bfg-1.12.16.jar&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;First&amp;nbsp;step&lt;/h3&gt;
 &lt;p&gt;First you must delete the blobs that you want to delete from the &lt;span class="caps"&gt;HEAD&lt;/span&gt; of your repository, commit, and&amp;nbsp;push.&lt;/p&gt;
 &lt;h3&gt;Usage&lt;/h3&gt;
 &lt;p&gt;Clone your repository in mirror&amp;nbsp;mode:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;git clone --mirror git://example.com/some-big-repo.git&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git clone --mirror git://example.com/some-big-repo.git&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Run &lt;span class="caps"&gt;BFG&lt;/span&gt; to delete files bigger than 10MiB (see more examples in the project&amp;nbsp;documentation):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;bfg --strip-blobs-bigger-than 10M some-big-repo.git&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;bfg --strip-blobs-bigger-than 10M some-big-repo.git&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Prune the reference log entries and&amp;nbsp;push:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; some-big-repo.git&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; some-big-repo.git&lt;/span&gt;
 &lt;span class="code-line"&gt;git reflog expire --expire&lt;span class="o"&gt;=&lt;/span&gt;now --all &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; git gc --prune&lt;span class="o"&gt;=&lt;/span&gt;now --aggressive&lt;/span&gt;
 &lt;span class="code-line"&gt;git push&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;References&lt;/h3&gt;
@@ -189,13 +189,13 @@ in &lt;span class="caps"&gt;RFC&lt;/span&gt;&amp;nbsp;5849.&lt;/em&gt;&lt;/p&gt;
 &lt;h2&gt;Materials and Methods&lt;a id="materials"&gt;&lt;/a&gt;&lt;/h2&gt;
 &lt;h3&gt;Installation&lt;/h3&gt;
 &lt;p&gt;The simplest tool to install the needed modules is &lt;code&gt;pip&lt;/code&gt;:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install gspread oauth2client&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install gspread oauth2client&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Following the &lt;a href="#install-crypto"&gt;note&lt;/a&gt;, you would also want to install &lt;code&gt;pycrypto&lt;/code&gt; or &lt;code&gt;pyopenssl&lt;/code&gt;,&amp;nbsp;e.g.:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install pycrypto&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install pycrypto&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Experiment&lt;/h3&gt;
@@ -206,7 +206,7 @@ in &lt;span class="caps"&gt;RFC&lt;/span&gt;&amp;nbsp;5849.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The resulting &lt;span class="caps"&gt;JSON&lt;/span&gt; file is a secure authorization key for any spreadsheet you may want to. For this reason you should hide this file should as it could be used to do nasty things against your spreadsheets. Please follow more comments on this in the &lt;a href="#discussion"&gt;discussion&lt;/a&gt;&amp;nbsp;section.&lt;/p&gt;
 &lt;h3&gt;Sign your JWTs for&amp;nbsp;credentials&lt;/h3&gt;
 &lt;p&gt;This is a snippet of how to obtain the data of a spreadsheet given its name in the variable &lt;code&gt;wks&lt;/code&gt;.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="sb"&gt;``&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="sb"&gt;``&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;gspread&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;oauth2client.service_account&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ServiceAccountCredentials&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
@@ -219,7 +219,7 @@ in &lt;span class="caps"&gt;RFC&lt;/span&gt;&amp;nbsp;5849.&lt;/em&gt;&lt;/p&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;wks&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Where is the money Lebowski?&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sheet1&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="sb"&gt;``&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;The &lt;code&gt;gc&lt;/code&gt; object is a &lt;code&gt;gspread.client.Client&lt;/code&gt;, check its main functionality &lt;a href="http://gspread.readthedocs.org/en/latest/index.html#main-interface"&gt;here&lt;/a&gt;.&lt;/p&gt;
@@ -227,15 +227,15 @@ in &lt;span class="caps"&gt;RFC&lt;/span&gt;&amp;nbsp;5849.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a id="install-crypto"&gt;&lt;/a&gt;
 &lt;strong&gt;Note:&lt;/strong&gt; You must create the signed credentials using &lt;code&gt;ServiceAccountCredentials&lt;/code&gt; from &lt;code&gt;oauth2client.service_account&lt;/code&gt;.
 This class requires either &lt;code&gt;PyOpenSSL&lt;/code&gt;, or &lt;code&gt;PyCrypto 2.6&lt;/code&gt; or later. If you are getting &lt;code&gt;CryptoUnavailableError&lt;/code&gt; when trying to create your signed credentials, install &lt;a href="https://github.com/pyca/pyopenssl"&gt;PyOpenSSL&lt;/a&gt; or &lt;a href="https://github.com/dlitz/pycrypto"&gt;PyCrypto&lt;/a&gt;,&amp;nbsp;e.g.:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install pycrypto&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install pycrypto&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Results&lt;/h3&gt;
 &lt;p&gt;Have a look at the possibilities you have with gspread &lt;a href="https://github.com/burnash/gspread#more-examples"&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Some examples&amp;nbsp;here:&lt;/p&gt;
 &lt;h4&gt;Opening a&amp;nbsp;Spreadsheet&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="n"&gt;You&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="k"&gt;open&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;spreadsheet&lt;/span&gt; &lt;span class="k"&gt;by&lt;/span&gt; &lt;span class="n"&gt;its&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="n"&gt;appears&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Google&lt;/span&gt; &lt;span class="n"&gt;Docs&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gc&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;My poor gym results&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="c1"&gt;-- Look ma, no keys!&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
@@ -246,11 +246,11 @@ This class requires either &lt;code&gt;PyOpenSSL&lt;/code&gt;, or &lt;code&gt;Py
 &lt;span class="code-line"&gt;&lt;span class="s1"&gt;# Or, if you feel lazy to extract that key, paste the entire url&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="s1"&gt;sht2 = gc.open_by_url(&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;docs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;google&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;spreadsheet&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ccc&lt;/span&gt;&lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="k"&gt;key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;Bm&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="n"&gt;FE&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;hl&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4&gt;Selecting a&amp;nbsp;worksheet&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="k"&gt;Select&lt;/span&gt; &lt;span class="n"&gt;worksheet&lt;/span&gt; &lt;span class="k"&gt;by&lt;/span&gt; &lt;span class="k"&gt;index&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Worksheet&lt;/span&gt; &lt;span class="n"&gt;indexes&lt;/span&gt; &lt;span class="k"&gt;start&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;zero&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;worksheet&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sh&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_worksheet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
@@ -263,32 +263,32 @@ This class requires either &lt;code&gt;PyOpenSSL&lt;/code&gt;, or &lt;code&gt;Py
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="k"&gt;Get&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;list&lt;/span&gt; &lt;span class="k"&gt;of&lt;/span&gt; &lt;span class="k"&gt;all&lt;/span&gt; &lt;span class="n"&gt;worksheets&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;worksheet_list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sh&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;worksheets&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4&gt;Creating a&amp;nbsp;worksheet&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```python&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```python&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;worksheet = wks.add_worksheet(title=&amp;quot;A worksheet&amp;quot;, rows=&amp;quot;100&amp;quot;, cols=&amp;quot;20&amp;quot;)&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4&gt;Getting a cell&amp;nbsp;value&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="k"&gt;With&lt;/span&gt; &lt;span class="n"&gt;label&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;val&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;worksheet&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;acell&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;B1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="k"&gt;With&lt;/span&gt; &lt;span class="n"&gt;coords&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;val&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;worksheet&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cell&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4&gt;Getting all values from a worksheet as a list of&amp;nbsp;lists&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```python&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```python&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;list_of_lists = worksheet.get_all_values()&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Discussion&lt;a id="discussion"&gt;&lt;/a&gt;&lt;/h3&gt;
@@ -351,97 +351,97 @@ This class requires either &lt;code&gt;PyOpenSSL&lt;/code&gt;, or &lt;code&gt;Py
 &lt;p&gt;Bokeh is a Python interactive visualization library that targets modern web browsers for presentation. You can find its home at&amp;nbsp;http://bokeh.pydata.org/&lt;/p&gt;
 &lt;p&gt;There is a great gallery here:&amp;nbsp;http://bokeh.pydata.org/docs/gallery.html#gallery&lt;/p&gt;
 &lt;h1&gt;Requirements&lt;/h1&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sudo apt-get install nodejs npm redis-server&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;sudo apt-get install nodejs npm redis-server&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; activate your virtualenv now, if you&amp;nbsp;wish.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install numpy&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install numpy&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;pip install flask redis requests pandas wsaccel ujson cython&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;gevent&lt;/h2&gt;
 &lt;h3&gt;Python&amp;nbsp;2.7&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install gevent&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install gevent&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Python&amp;nbsp;3.4&lt;/h3&gt;
 &lt;p&gt;The current version of gevent at https://github.com/gevent/gevent is not compatible with Python 3 yet.
 Luckily there is a fork of gevent patched to work with Python&amp;nbsp;3:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;clone&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;fantix&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;gevent&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;clone&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;fantix&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;gevent&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;gevent&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;gevent-websocket&lt;/h2&gt;
 &lt;h3&gt;Python&amp;nbsp;2.7&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install gevent-websocket&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install gevent-websocket&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Python&amp;nbsp;3.4&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;hg clone https://bitbucket.org/Jeffrey/gevent-websocket&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;hg clone https://bitbucket.org/Jeffrey/gevent-websocket&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;cd gevent-websocket&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;python setup.py install&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h1&gt;Clone Bokeh&amp;nbsp;repository&lt;/h1&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;git clone https://github.com/bokeh/bokeh.git&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;git clone https://github.com/bokeh/bokeh.git&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;BokehJS&lt;/h2&gt;
 &lt;h3&gt;Requirements&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;cd bokeh/bokehjs&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;cd bokeh/bokehjs&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;npm install&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Install Grunt, the javascript task&amp;nbsp;runner&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sudo npm install -g grunt-cli&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;sudo npm install -g grunt-cli&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Deploy&lt;/h3&gt;
 &lt;p&gt;Generate the compiled and optimized BokehJS libraries, and deploy them to the build&amp;nbsp;subdirectory.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;grunt deploy&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;grunt deploy&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Build&lt;/h3&gt;
 &lt;p&gt;This will build the BokehJS sources without concatenating and optimizing into standalone&amp;nbsp;libraries.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;grunt build&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;grunt build&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;At this point you can use BokehJS together with require.js as an &lt;span class="caps"&gt;AMD&lt;/span&gt;&amp;nbsp;module.&lt;/p&gt;
 &lt;h1&gt;Install&amp;nbsp;Bokeh&lt;/h1&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;cd &amp;lt;wherever_is&amp;gt;/bokeh&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;cd &amp;lt;wherever_is&amp;gt;/bokeh&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;python setup.py install&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;This instruction will first ask if you want (1) a newly built BokehJS or (2) the build you just did in the &lt;strong&gt;bokehjs&lt;/strong&gt; folder. Choose&amp;nbsp;2.&lt;/p&gt;
 &lt;h1&gt;Documentation&lt;/h1&gt;
 &lt;h2&gt;Requirements&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install docutils sphinx sphinxcontrib-napoleon sphinx_bootstrap_theme sphinxcontrib-httpdomain&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install docutils sphinx sphinxcontrib-napoleon sphinx_bootstrap_theme sphinxcontrib-httpdomain&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Download sample&amp;nbsp;data&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;import bokeh; bokeh.sampledata.download()&amp;#39;&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;import bokeh; bokeh.sampledata.download()&amp;#39;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Build&amp;nbsp;html&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;cd &amp;lt;wherever_is&amp;gt;/bokeh/sphinx&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;cd &amp;lt;wherever_is&amp;gt;/bokeh/sphinx&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;make html&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;References&lt;/h3&gt;
@@ -455,27 +455,27 @@ setup your server to run Byobu or tmux at the beginning of your session and have
 &lt;p&gt;Byobu is an enhancement that connects to and uses Screen or tmux (you choose), but offers useful statistics and easy-to-use hotkeys for the basic&amp;nbsp;commands.&lt;/p&gt;
 &lt;h2&gt;Installing&amp;nbsp;Byobu&lt;/h2&gt;
 &lt;p&gt;In&amp;nbsp;Ubuntu:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;apt-get install byobu.&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get install byobu.&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Else take a look at &lt;a href="http://byobu.co/downloads.html"&gt;http://byobu.co/downloads.html&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Start&amp;nbsp;Byobu&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;byobu&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;byobu&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Configure Ubuntu to run Byobu from the&amp;nbsp;beginning&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;byobu-config&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;byobu-config&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Feel free to change&amp;nbsp;anything.&lt;/p&gt;
 &lt;p&gt;The important setting to change is: &amp;#8220;&lt;em&gt;Byobu currently launches at login (toggle on)&lt;/em&gt;&amp;#8220;. Select that and press&amp;nbsp;return.&lt;/p&gt;
 &lt;p&gt;Now you can go back to the menu and exit byobu-config (tab to the exit choice and hit&amp;nbsp;return).&lt;/p&gt;
 &lt;h2&gt;Resume previous&amp;nbsp;sessions&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;byobu –r session_title&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;byobu –r session_title&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Hotkeys&lt;/h2&gt;
@@ -493,8 +493,8 @@ setup your server to run Byobu or tmux at the beginning of your session and have
 &lt;/ul&gt;
 &lt;h2&gt;How detaching works or How to maintain a&amp;nbsp;session&lt;/h2&gt;
 &lt;p&gt;Perform a short demo. Issue the&amp;nbsp;command:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; hello&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; hello&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Now exit the session by pressing &lt;strong&gt;F6&lt;/strong&gt; to detach from Byobu and then run: &lt;em&gt;exit&lt;/em&gt;.&lt;/p&gt;
@@ -505,20 +505,20 @@ That means you can log in, run a long running task, and then detach and come bac
 &lt;h2&gt;Note for vim&amp;nbsp;users&lt;/h2&gt;
 &lt;p&gt;You might find now a strange behaviour when using &lt;strong&gt;Ctrl-Left&lt;/strong&gt; and &lt;strong&gt;Ctrl-Right&lt;/strong&gt; keys to skip words using vim and also other&amp;nbsp;programs.&lt;/p&gt;
 &lt;p&gt;The best solution I found&amp;nbsp;was:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;:set term=xterm&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.vim/vimrc&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;:set term=xterm&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.vim/vimrc&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;blockquote&gt;&lt;/blockquote&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;unbind-key -n C-Left&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/keybindings.tmux&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;unbind-key -n C-Left&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/keybindings.tmux&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;unbind-key -n C-Right&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/keybindings.tmux&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;blockquote&gt;&lt;/blockquote&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;set-window-option -g xterm-keys on&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/.tmux.conf&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;set-window-option -g xterm-keys on&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/.tmux.conf&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;set -g terminal-overrides &amp;#39;xterm*:smcup@:rmcup@&amp;#39;&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/.tmux.conf&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;References&lt;/h3&gt;
@@ -529,16 +529,16 @@ That means you can log in, run a long running task, and then detach and come bac
 &lt;p&gt;[5] &lt;a href="http://blog.smartlogicsolutions.com/2010/01/22/ubuntu-byobu-landscape/"&gt;http://blog.smartlogicsolutions.com/2010/01/22/ubuntu-byobu-landscape/&lt;/a&gt;&lt;/p&gt;</content><category term="SysAdmin"></category><category term="terminal"></category><category term="config"></category><category term="ssh"></category><category term="multi-tasking"></category></entry><entry><title>How to set up different versions of GCC</title><link href="https://alexsavio.github.io/setup-gcc-versions.html" rel="alternate"></link><published>2014-06-03T11:00:00+02:00</published><updated>2014-06-03T11:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-06-03:/setup-gcc-versions.html</id><summary type="html">&lt;p&gt;How to set up different versions of &lt;span class="caps"&gt;GCC&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;When I need to change versions of software I use on Ubuntu, e.g., gcc and g++ and&amp;nbsp;Java.&lt;/p&gt;
 &lt;h3&gt;Update-alternatives&lt;/h3&gt;
 &lt;p&gt;A neat way to do it is using &lt;em&gt;update-alternatives&lt;/em&gt;. This how you have to do it with&amp;nbsp;gcc:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;sudo update-alternatives --config gcc&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;References&lt;/h3&gt;
 &lt;p&gt;[1] &lt;a href="http://charette.no-ip.com:81/programming/2011-12-24_GCCv47/"&gt;http://charette.no-ip.com:81/programming/2011-12-24_GCCv47/&lt;/a&gt;&lt;/p&gt;</content><category term="Ubuntu"></category><category term="ubuntu"></category><category term="gcc"></category><category term="config"></category><category term="update-alternatives"></category></entry><entry><title>Installing common Python data analysis tools in virtualenv</title><link href="https://alexsavio.github.io/data-analysis-tools-install.html" rel="alternate"></link><published>2014-04-26T18:38:37+02:00</published><updated>2014-04-26T18:38:37+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-04-26:/data-analysis-tools-install.html</id><summary type="html">&lt;p&gt;Installing Python data analysis&amp;nbsp;tools&lt;/p&gt;</summary><content type="html">&lt;p&gt;Tested on Ubuntu 13.10 and&amp;nbsp;14.04.&lt;/p&gt;
 &lt;h3&gt;Requirements&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;virtualenv&lt;/span&gt; &lt;span class="n"&gt;virtualenvwrapper&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
@@ -546,86 +546,86 @@ That means you can log in, run a long running task, and then detach and come bac
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;source /usr/local/bin/virtualenvwrapper.sh&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bashrc&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;export PIP_REQUIRE_VIRTUALENV=true&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bashrc&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="k"&gt;source&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bashrc&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Create a virtual&amp;nbsp;environment&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;mkvirtualenv&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;env_name&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;path_to_python&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;*&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;mkvirtualenv&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;env_name&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;path_to_python&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;*&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;*&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;path_to_python&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;either&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;python2&lt;/span&gt; &lt;span class="k"&gt;or&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;python3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="k"&gt;or&lt;/span&gt; &lt;span class="n"&gt;whatever&lt;/span&gt; &lt;span class="n"&gt;you&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Install&amp;nbsp;modules&lt;/h3&gt;
 &lt;p&gt;&lt;a href="http://ipython.org/"&gt;IPython&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;pip&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;install&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ipython&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;all&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;pip&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;install&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ipython&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;all&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a href="http://www.numpy.org/"&gt;Numpy&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install numpy&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install numpy&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Test&amp;nbsp;numpy&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;nose&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;nose&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;import numpy; numpy.test()&amp;#39;&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a href="http://cython.org/"&gt;Cython&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install cython&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install cython&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a href="http://www.scipy.org/"&gt;Scipy&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dep&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dep&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;scipy&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;libblas&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt; &lt;span class="n"&gt;liblapack&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;scipy&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a href="http://docs.python.org/3.3/library/readline.html"&gt;Readline&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;libncurses5&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;libncurses5&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;readline&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Other&amp;nbsp;dependencies&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install python-dateutil sphinx pygments tornado&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install python-dateutil sphinx pygments tornado&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Graphical libraries for &lt;span class="caps"&gt;GUI&lt;/span&gt; building and IPython &lt;span class="caps"&gt;QT&lt;/span&gt;&amp;nbsp;console&lt;/h3&gt;
 &lt;h4&gt;You can either install them inside the virtual&amp;nbsp;environment:&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt; pip install pyside&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt; pip install pyside&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;You must install PyQt4&amp;nbsp;globally:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt; sudo apt-get install python3-pyqt4 python3-sip python-qt4-dev&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt; sudo apt-get install python3-pyqt4 python3-sip python-qt4-dev&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;or&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt; sudo apt-get install python-pyqt4 python-sip python-qt4-dev&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt; sudo apt-get install python-pyqt4 python-sip python-qt4-dev&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4&gt;I recommend installing them globally then linking from the virtual&amp;nbsp;environment:&lt;/h4&gt;
 &lt;p&gt;First install&amp;nbsp;them:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sudo apt-get install python3-pyqt4 python3-pyside python3-sip&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;sudo apt-get install python3-pyqt4 python3-pyside python3-sip&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;or&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sudo apt-get install python-qt4 python-pyside python-sip python-qt4-dev&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;sudo apt-get install python-qt4 python-pyside python-sip python-qt4-dev&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Then link them (with the virtualenv&amp;nbsp;activated):&lt;/p&gt;
@@ -666,7 +666,7 @@ execute&amp;nbsp;it):&lt;/p&gt;
 &lt;span class="code-line"&gt;32&lt;/span&gt;
 &lt;span class="code-line"&gt;33&lt;/span&gt;
 &lt;span class="code-line"&gt;34&lt;/span&gt;
-&lt;span class="code-line"&gt;35&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;35&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="c1"&gt;# This hook is executed after a new virtualenv is activated.&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="c1"&gt;# ~/.virtualenvs/postmkvirtualenv&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
@@ -701,86 +701,86 @@ execute&amp;nbsp;it):&lt;/p&gt;
 &lt;span class="code-line"&gt;        ln -s &lt;span class="nv"&gt;$libsyspath&lt;/span&gt; &lt;span class="nv"&gt;$lib_virtualenv_path&lt;/span&gt;/&lt;span class="nv"&gt;$lib&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;    &lt;span class="k"&gt;fi&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="k"&gt;done&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
 &lt;h3&gt;Other interesting&amp;nbsp;modules&lt;/h3&gt;
 &lt;p&gt;&lt;a href="http://matplotlib.org/"&gt;matplotlib&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dep&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dep&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;pyparsing&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;matplotlib&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a href="http://scikit-image.org/"&gt;scikit-image&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install scikit-image&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install scikit-image&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a href="http://scikit-learn.org"&gt;scikit-learn&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install scikit-learn&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install scikit-learn&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a href="https://github.com/scikit-fuzzy/scikit-fuzzy"&gt;scikit-fuzzy&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://pandas.pydata.org/"&gt;Pandas&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;libhdf5&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;libhdf5&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;numexpr&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;tables&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;If you have problems importing tables, it might help downloading and compiling the &lt;a href="http://www.hdfgroup.org/HDF5/release/obtainsrc.html"&gt;&lt;span class="caps"&gt;HDF5&lt;/span&gt; library&lt;/a&gt;.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install pandas&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install pandas&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a href="http://www.h5py.org/"&gt;h5py&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;libhdf5&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;libhdf5&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;h5py&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a href="http://patsy.readthedocs.org/en/latest/"&gt;patsy&lt;/a&gt; and &lt;a href="http://statsmodels.sourceforge.net/"&gt;statsmodels&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install patsy&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install patsy&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;pip install statsmodels&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a href="http://pymc-devs.github.io/pymc/"&gt;pymc&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install pymc&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install pymc&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Speed up&amp;nbsp;execution&lt;/h3&gt;
 &lt;p&gt;&lt;a href="https://pypi.python.org/pypi/Bottleneck"&gt;bottleneck&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install bottleneck&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install bottleneck&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a href="https://github.com/twiecki/CythonGSL"&gt;cythongsl&lt;/a&gt;
  &lt;a href="http://nbviewer.ipython.org/github/twiecki/CythonGSL/blob/master/examples/cython_gsl_ipythonnb.ipynb"&gt;cythongsl-demo&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install cythongsl&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install cythongsl&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Neuroscience&amp;nbsp;tools:&lt;/h3&gt;
 &lt;p&gt;&lt;a href="http://nipy.org/nibabel/"&gt;Nibabel&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;pip install nibabel&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install nibabel&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;a href="http://nipy.org/"&gt;Nipy&lt;/a&gt;&amp;nbsp;Dependencies:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;sphinx&lt;/span&gt; &lt;span class="n"&gt;sympy&lt;/span&gt; &lt;span class="n"&gt;networkx&lt;/span&gt; &lt;span class="n"&gt;traits&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;sphinx&lt;/span&gt; &lt;span class="n"&gt;sympy&lt;/span&gt; &lt;span class="n"&gt;networkx&lt;/span&gt; &lt;span class="n"&gt;traits&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;nipy&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;nipype&lt;/span&gt; &lt;span class="n"&gt;dipy&lt;/span&gt; &lt;span class="n"&gt;nitime&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;References&lt;/h3&gt;
@@ -802,19 +802,19 @@ virtualenv-for-data-analysis-on-osx/"&gt;http://www.cs.dartmouth.edu/~nfoti/blog
 &lt;p&gt;If you want to use OpenBLAS as well, install it and follow the OpenBLAS notes along this tutorial.
   I haven&amp;#8217;t tested this&amp;nbsp;yet.&lt;/p&gt;
 &lt;p&gt;But first, install&amp;nbsp;it:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;git clone git://github.com/xianyi/OpenBLAS&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;cd OpenBLAS &amp;amp;&amp;amp; make FC=gfortran&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;sudo make PREFIX=/opt/OpenBLAS install&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;sudo ldconfig&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;2. Execute shell scripts with&amp;nbsp;sudo&lt;/h3&gt;
 &lt;p&gt;I will assume you&amp;#8217;ll install the libraries in&amp;nbsp;/opt/intel.&lt;/p&gt;
 &lt;h3&gt;3. Once installed, add this to &lt;code&gt;~/.bashrc&lt;/code&gt;&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;```bash&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;```bash&lt;/span&gt;
 &lt;span class="code-line"&gt;#Intel C++ Studio&lt;/span&gt;
 &lt;span class="code-line"&gt;if [ -d /opt/intel ];&lt;/span&gt;
 &lt;span class="code-line"&gt;then&lt;/span&gt;
@@ -823,15 +823,15 @@ virtualenv-for-data-analysis-on-osx/"&gt;http://www.cs.dartmouth.edu/~nfoti/blog
 &lt;span class="code-line"&gt;    export LD_LIBRARY_PATH=/opt/intel/mkl/lib/intel64:/opt/intel/lib/intel64:&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;fi&lt;/span&gt;
 &lt;span class="code-line"&gt;```&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;4. Add this to &lt;code&gt;/etc/ld.so.conf.d/intel.conf&lt;/code&gt;&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;/opt/intel/lib/intel64&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;/opt/intel/lib/intel64&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;/opt/intel/lib/intel64/irml&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;/opt/intel/lib/intel64/crt&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;/opt/intel/mkl/lib/intel64&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;5. Download Numpy and Scipy from &lt;a href="http://www.scipy.org/scipylib/download.html"&gt;here&lt;/a&gt;&lt;/h3&gt;
@@ -840,76 +840,76 @@ virtualenv-for-data-analysis-on-osx/"&gt;http://www.cs.dartmouth.edu/~nfoti/blog
 &lt;p&gt;Create a site.cfg from the existing&amp;nbsp;site.cfg.examle&lt;/p&gt;
 &lt;p&gt;Edit site.cfg as&amp;nbsp;follows:&lt;/p&gt;
 &lt;p&gt;Add the following lines to site.cfg in your top level NumPy directory to use Intel® &lt;span class="caps"&gt;MKL&lt;/span&gt;, if you are building on Intel 64 platform, assuming the default path for the Intel &lt;span class="caps"&gt;MKL&lt;/span&gt; installation from the Intel Parallel Studio &lt;span class="caps"&gt;XE&lt;/span&gt; 2013 or Intel Composer &lt;span class="caps"&gt;XE&lt;/span&gt; 2013&amp;nbsp;versions:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="nc"&gt;text&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="nc"&gt;text&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;mkl&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;library_dirs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;intel&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mkl&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;intel64&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;include_dirs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;intel&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mkl&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;include&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;mkl_libs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;mkl_rt&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;lapack_libs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;If you are building NumPy for 32 bit, please add as the&amp;nbsp;following:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="nc"&gt;text&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="nc"&gt;text&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;mkl&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;library_dirs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;intel&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mkl&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ia32&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;include_dirs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;intel&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mkl&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;include&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;mkl_libs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;mkl_rt&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;lapack_libs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Change cc_exe in numpy/distutils/intelccompiler.py to be something&amp;nbsp;like:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```python&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```python&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;self.cc_exe = \&amp;#39;icc -O3 -g -fPIC -fp-model strict -fomit-frame-pointer -openmp -xhost\&amp;#39;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Here we use, -O3, optimizations for speed and enables more aggressive loop transformations such as Fusion, Block-Unroll-and-Jam, and collapsing &lt;span class="caps"&gt;IF&lt;/span&gt; statements, -openmp for OpenMP threading and -xhost option tells the compiler to generate instructions for the highest instruction set available on the compilation host processor. If you are using the &lt;span class="caps"&gt;ILP64&lt;/span&gt; interface, please add -DMKL_ILP64 compiler&amp;nbsp;flag.&lt;/p&gt;
 &lt;p&gt;Run &lt;code&gt;icc --help&lt;/code&gt; for more information on processor-specific options, and refer Intel Compiler documentation for more details on the compiler&amp;nbsp;flags.&lt;/p&gt;
 &lt;p&gt;Change the Fortran compiler flags in numpy-x.x.x/numpy/distutil/fcompiler/intel.py to use the following compiler options for the Intel Fortran&amp;nbsp;Compiler:&lt;/p&gt;
 &lt;p&gt;For ia32 and&amp;nbsp;Intel64&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;ifort -xhost -openmp -fp-model strict -fPIC&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Change the &lt;code&gt;get_flags_opt&lt;/code&gt; function line&amp;nbsp;to:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```python&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```python&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;return [&amp;#39;-xhost -openmp -fp-model strict&amp;#39;]&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;If you are using &lt;span class="caps"&gt;ILP64&lt;/span&gt; interface of Intel &lt;span class="caps"&gt;MKL&lt;/span&gt;, please add -i8 flag above.  If you are using older versions of Numpy/SciPy, please refer the new intel.py for your reference from the latest version of NumPy, which you can replace to use the above mentioned compiler&amp;nbsp;options.&lt;/p&gt;
 &lt;h4&gt;Note&lt;/h4&gt;
 &lt;p&gt;To use OpenBLAS, uncomment the following lines and correct the&amp;nbsp;paths:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="nc"&gt;text&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="nc"&gt;text&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;openblas&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;libraries&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;openblas&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;library_dirs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;OpenBLAS&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;include_dirs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;OpenBLAS&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;include&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;7. Check your&amp;nbsp;config&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;cd &amp;lt;numpy-x.x.x&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;python setup.py config&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;You should see the &lt;span class="caps"&gt;MKL&lt;/span&gt; library paths, and OpenBLAS if you enabled&amp;nbsp;it.&lt;/p&gt;
 &lt;h3&gt;8. Compile Numpy and Scipy with the following command (once for Numpy and then once for&amp;nbsp;Scipy):&lt;/h3&gt;
 &lt;p&gt;Remember to activate the virtual environment if you are going to use this in&amp;nbsp;one.&lt;/p&gt;
 &lt;h4&gt;8.1 For&amp;nbsp;64-bit&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;span class="n"&gt;bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;span class="n"&gt;bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="c1"&gt;--compiler=intelem --fcompiler=intelem build_clib \&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="c1"&gt;--compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install&lt;/span&gt;&lt;/span&gt;
@@ -920,11 +920,11 @@ virtualenv-for-data-analysis-on-osx/"&gt;http://www.cs.dartmouth.edu/~nfoti/blog
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="c1"&gt;--compiler=intelem --fcompiler=intelem build_clib \&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="c1"&gt;--compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4&gt;8.2 For&amp;nbsp;32-bit&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;span class="n"&gt;bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;span class="n"&gt;bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="c1"&gt;--compiler=intel --fcompiler=intel build_clib \&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="c1"&gt;--compiler=intel --fcompiler=intel build_ext --compiler=intel --fcompiler=intel install&lt;/span&gt;&lt;/span&gt;
@@ -935,24 +935,24 @@ virtualenv-for-data-analysis-on-osx/"&gt;http://www.cs.dartmouth.edu/~nfoti/blog
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="c1"&gt;--compiler=intel --fcompiler=intel build_clib \&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="c1"&gt;--compiler=intel --fcompiler=intel build_ext --compiler=intel --fcompiler=intel install&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;9.&amp;nbsp;Troubleshooting&lt;/h3&gt;
 &lt;h4&gt;9.1 Compiling Scipy: &amp;#8220;Using deprecated NumPy &lt;span class="caps"&gt;API&lt;/span&gt;, disable it&amp;nbsp;by&amp;#8230;&amp;#8221;&lt;/h4&gt;
 &lt;p&gt;Thi may be because of the version of &lt;span class="caps"&gt;GCC&lt;/span&gt;, try using 4.7 (worked in November&amp;nbsp;2013):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;sudo apt-get install gcc-4.7&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;sudo rm /usr/bin/gcc&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;sudo ln -s /usr/bin/gcc-4.7 /usr/bin/gcc&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Compile both Numpy and Scipy&amp;nbsp;again.&lt;/p&gt;
 &lt;h3&gt;10.&amp;nbsp;Testing&lt;/h3&gt;
 &lt;p&gt;You can test OpenBLAS with the following code (got from &lt;a href="https://gist.github.com/osdf/"&gt;https://gist.github.com/osdf/&lt;/a&gt;):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="c1"&gt;#!/usr/bin/env python&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;&lt;/span&gt;
@@ -976,7 +976,7 @@ virtualenv-for-data-analysis-on-osx/"&gt;http://www.cs.dartmouth.edu/~nfoti/blog
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;timeit&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Timer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;numpy.dot(x, x.T)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;dot:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;timeit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sec&amp;quot;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;References&lt;/h3&gt;
@@ -1009,7 +1009,7 @@ She showed me that we can configure Lyx to use it through
 &lt;p&gt;In Ubuntu I installed the packages: &lt;em&gt;biblatex texlive-latex-extra&amp;nbsp;texlive-bibtex-extra&lt;/em&gt;&lt;/p&gt;
 &lt;h3&gt;Step 3: Create the biblatex.module&amp;nbsp;file&lt;/h3&gt;
 &lt;p&gt;Create a file named biblatex.module with the following&amp;nbsp;content:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;DeclareLyXModule&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="n"&gt;Biblatex&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;citation&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;styles&lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;DeclareLyXModule&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="n"&gt;Biblatex&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;citation&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;styles&lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="n"&gt;DescriptionBegin&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="n"&gt;prerequisite&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;biblatex&lt;/span&gt; &lt;span class="n"&gt;package&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="n"&gt;enables&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;author&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;year&lt;/span&gt; &lt;span class="n"&gt;citation&lt;/span&gt; &lt;span class="n"&gt;styles&lt;/span&gt; &lt;span class="k"&gt;without&lt;/span&gt; &lt;span class="n"&gt;actually&lt;/span&gt; &lt;span class="n"&gt;loading&lt;/span&gt; &lt;span class="n"&gt;natbib&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;/span&gt;
@@ -1021,7 +1021,7 @@ She showed me that we can configure Lyx to use it through
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;biblatex&lt;/span&gt; &lt;span class="n"&gt;actually&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;Provides&lt;/span&gt; &lt;span class="n"&gt;natbib&lt;/span&gt;    &lt;span class="mi"&gt;1&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Put the file biblatex.module in the layouts folder in your user directory
@@ -1033,14 +1033,14 @@ She showed me that we can configure Lyx to use it through
 &lt;p&gt;Add to &amp;#8220;Selected&amp;#8221; the module &amp;#8220;Biblatex-citation-styles&amp;#8221; from&amp;nbsp;Document→Settings→Modules.&lt;/p&gt;
 &lt;h4&gt;Load biblatex in the&amp;nbsp;preamble&lt;/h4&gt;
 &lt;p&gt;In the document preamble (Document→Settings→Preamble) you have to load biblatex manually,&amp;nbsp;with:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;\usepackage[natbib=true,style=numeric,backend=biber,maxnames=1, doi=true, url=false,bibencoding=utf8]{biblatex}&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;\usepackage[natbib=true,style=numeric,backend=biber,maxnames=1, doi=true, url=false,bibencoding=utf8]{biblatex}&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4&gt;Load the bibliography in the&amp;nbsp;preamble&lt;/h4&gt;
 &lt;p&gt;Load your bibliography database in the&amp;nbsp;preamble:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;\addbibresource{/home/alexandre/mybibs.bib}&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;\addbibresource{/home/alexandre/mybibs.bib}&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;You must load the databases must using \addbibresource&amp;nbsp;commands.&lt;/p&gt;
@@ -1076,130 +1076,130 @@ To use the citation dialog, you&amp;#8217;ll have to choose the correct database
 &lt;/li&gt;
 &lt;/ol&gt;</content><category term="LaTex"></category><category term="latex"></category><category term="lyx"></category><category term="bibtex"></category></entry><entry><title>How to create virtualenvs with Virtualenvwrapper</title><link href="https://alexsavio.github.io/virtualenvwrapper.html" rel="alternate"></link><published>2014-02-08T21:16:14+01:00</published><updated>2014-02-08T21:16:14+01:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-02-08:/virtualenvwrapper.html</id><summary type="html">&lt;p&gt;Create virtualenvs with&amp;nbsp;virtualenvwrapper&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Virtualenv and&amp;nbsp;virtualenvwrapper&lt;/h2&gt;
 &lt;p&gt;Install virtualenv and&amp;nbsp;virtualenvwrapper&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;sudo apt-get install python3-pip&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;sudo pip3 install virtualenv virtualenvwrapper&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Virtualenvwrapper .bashrc&amp;nbsp;setup:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;echo &amp;quot;export WORKON_HOME=~/envs&amp;quot; &amp;gt;&amp;gt; ~/.bashrc&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;echo &amp;quot;source /usr/local/bin/virtualenvwrapper.sh&amp;quot; &amp;gt;&amp;gt; ~/.bashrc&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;echo &amp;quot;export PIP_REQUIRE_VIRTUALENV=true&amp;quot; &amp;gt;&amp;gt; ~/.bashrc&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;source ~/.bashrc&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Basic usage&amp;nbsp;commands&lt;/h2&gt;
 &lt;p&gt;Create a&amp;nbsp;virtualenv:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;mkvirtualenv &amp;lt;env name&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Activate the&amp;nbsp;virtualenv:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;workon &amp;lt;env name&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Install a package in the activated&amp;nbsp;virtualenv&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;pip install &amp;lt;package name&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Go to its directory after activating&amp;nbsp;it&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;cdvirtualenv&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Set a working directory as a project of the&amp;nbsp;virtualenv&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;cd &amp;lt;project dir&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;setvirtualenvproject $VIRTUAL_ENV $(pwd)&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Get a list of the Python modules and versions installed in an activated&amp;nbsp;virtualenv&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;pip freeze&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;To deactivate a&amp;nbsp;virtualenv&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;deactivate&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Run ipython within the&amp;nbsp;virtualenv&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="sb"&gt;``&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="sb"&gt;``&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;ipy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;\&lt;span class="s2"&gt;&amp;quot;python -c &amp;#39;import IPython;&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;IPython.terminal.ipapp.launch_new_instance()&amp;#8217;&amp;#34;
     ipy&amp;nbsp;&amp;#8220;`&lt;/p&gt;
 &lt;h3&gt;Run ipython with other&amp;nbsp;options&lt;/h3&gt;
 &lt;p&gt;Add this to&amp;nbsp;.bashrc:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="sb"&gt;``&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="sb"&gt;``&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;ipy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;python -c &amp;#39;import IPython;&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;IPython.terminal.ipapp.launch_new_instance()&amp;#8217;&amp;#8221;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="n"&gt;ipyqt&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="n"&gt;ipyqt&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;    &lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;import IPython;&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;IPython.start_ipython([&amp;#8216;&amp;#8221;&amp;#8217;&amp;#8220;&amp;#8216;qtconsole&amp;#8217;&amp;#8221;&amp;#8217;&amp;#8221;&amp;#8217;]);&amp;#8217;&amp;nbsp;}&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="n"&gt;ipynote&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="n"&gt;ipynote&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;    &lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;import IPython; IPython.start_ipython([&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;notebook&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;]);&amp;#39;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="sb"&gt;``&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Another way of creating a&amp;nbsp;virtualenv&lt;/h2&gt;
 &lt;p&gt;Download the virtualenv&amp;nbsp;script:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;wget https://raw.github.com/pypa/virtualenv/1.9.X/virtualenv.py&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Give it execution&amp;nbsp;permission:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;chmod +x virtualenv.py&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Create the&amp;nbsp;virtualenv:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;./virtualenv.py &amp;lt;env_name&amp;gt; -p &amp;lt;path_to_python&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Activate&amp;nbsp;it:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```bash&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;source &amp;lt;env_name&amp;gt;/bin/activate&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;References&lt;/h2&gt;

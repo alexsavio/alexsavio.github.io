@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Interlines - Ubuntu</title><link href="https://alexsavio.github.io/" rel="alternate"></link><link href="https://alexsavio.github.io/feeds/ubuntu.atom.xml" rel="self"></link><id>https://alexsavio.github.io/</id><updated>2014-06-03T11:00:00+02:00</updated><subtitle>Lost in spikes</subtitle><entry><title>How to set up different versions of GCC</title><link href="https://alexsavio.github.io/setup-gcc-versions.html" rel="alternate"></link><published>2014-06-03T11:00:00+02:00</published><updated>2014-06-03T11:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-06-03:/setup-gcc-versions.html</id><summary type="html">&lt;p&gt;How to set up different versions of &lt;span class="caps"&gt;GCC&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;When I need to change versions of software I use on Ubuntu, e.g., gcc and g++ and&amp;nbsp;Java.&lt;/p&gt;
 &lt;h3&gt;Update-alternatives&lt;/h3&gt;
 &lt;p&gt;A neat way to do it is using &lt;em&gt;update-alternatives&lt;/em&gt;. This how you have to do it with&amp;nbsp;gcc:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;sudo update-alternatives --config gcc&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;References&lt;/h3&gt;

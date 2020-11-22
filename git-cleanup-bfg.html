@@ -61,28 +61,28 @@
 It includes a <code>.jar</code> file which we will use through the command&nbsp;line.</p>
 <p>You can use <code>bfg</code> as an alias for <code>java -jar ~/Software/bfg-1.12.16.jar</code>.
 Meaning that &#8220;<code>~/Software/bfg-1.12.16.jar</code>&#8221; is wherever you downloaded the <code>.jar</code> file.</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="nb">alias</span> <span class="nv">bfg</span><span class="o">=</span>java -jar ~/Software/bfg-1.12.16.jar</span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">alias</span> <span class="nv">bfg</span><span class="o">=</span>java -jar ~/Software/bfg-1.12.16.jar</span>
+<span class="code-line"></code></pre></div>
 
 
 <h3>First&nbsp;step</h3>
 <p>First you must delete the blobs that you want to delete from the <span class="caps">HEAD</span> of your repository, commit, and&nbsp;push.</p>
 <h3>Usage</h3>
 <p>Clone your repository in mirror&nbsp;mode:</p>
-<div class="highlight"><pre><span class="code-line"><span></span>git clone --mirror git://example.com/some-big-repo.git</span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code>git clone --mirror git://example.com/some-big-repo.git</span>
+<span class="code-line"></code></pre></div>
 
 
 <p>Run <span class="caps">BFG</span> to delete files bigger than 10MiB (see more examples in the project&nbsp;documentation):</p>
-<div class="highlight"><pre><span class="code-line"><span></span>bfg --strip-blobs-bigger-than 10M some-big-repo.git</span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code>bfg --strip-blobs-bigger-than 10M some-big-repo.git</span>
+<span class="code-line"></code></pre></div>
 
 
 <p>Prune the reference log entries and&nbsp;push:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="nb">cd</span> some-big-repo.git</span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">cd</span> some-big-repo.git</span>
 <span class="code-line">git reflog expire --expire<span class="o">=</span>now --all <span class="o">&amp;&amp;</span> git gc --prune<span class="o">=</span>now --aggressive</span>
 <span class="code-line">git push</span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <h3>References</h3>

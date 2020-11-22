@@ -10,10 +10,10 @@ Always merge to&amp;nbsp;main.&lt;/p&gt;
 &lt;h3&gt;Branch&amp;nbsp;names&lt;/h3&gt;
 &lt;p&gt;The branch names are not that important in very small teams, but when the team is bigger or work remotely,
 a pattern for the branch names is also good to follow. Here is a&amp;nbsp;suggestion:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;type&amp;gt;/[&amp;lt;ticket_id&amp;gt;]_&amp;lt;subject&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Some tools like &lt;a href="https://www.sourcetreeapp.com/"&gt;Sourcetree&lt;/a&gt; pick the &lt;code&gt;/&lt;/code&gt; from the branch name and splits the name in their &lt;span class="caps"&gt;GUI&lt;/span&gt;,
@@ -43,14 +43,14 @@ change log for each release in a &lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;sp
 with tools like semantic-release (available for Node.js and&amp;nbsp;Python).&lt;/p&gt;
 &lt;h4&gt;Format&lt;/h4&gt;
 &lt;p&gt;Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a&amp;nbsp;subject:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;type&amp;gt;(&amp;lt;scope&amp;gt;): &amp;lt;subject&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;BLANK LINE&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;body&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;BLANK LINE&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;&amp;lt;footer&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;The header is mandatory and the scope of the header is optional.
@@ -136,28 +136,28 @@ and change log generation. Bitbucket-pipelines supports&amp;nbsp;this.&lt;/p&gt;
 It includes a &lt;code&gt;.jar&lt;/code&gt; file which we will use through the command&amp;nbsp;line.&lt;/p&gt;
 &lt;p&gt;You can use &lt;code&gt;bfg&lt;/code&gt; as an alias for &lt;code&gt;java -jar ~/Software/bfg-1.12.16.jar&lt;/code&gt;.
 Meaning that &amp;#8220;&lt;code&gt;~/Software/bfg-1.12.16.jar&lt;/code&gt;&amp;#8221; is wherever you downloaded the &lt;code&gt;.jar&lt;/code&gt; file.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;alias&lt;/span&gt; &lt;span class="nv"&gt;bfg&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;java -jar ~/Software/bfg-1.12.16.jar&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;alias&lt;/span&gt; &lt;span class="nv"&gt;bfg&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;java -jar ~/Software/bfg-1.12.16.jar&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;First&amp;nbsp;step&lt;/h3&gt;
 &lt;p&gt;First you must delete the blobs that you want to delete from the &lt;span class="caps"&gt;HEAD&lt;/span&gt; of your repository, commit, and&amp;nbsp;push.&lt;/p&gt;
 &lt;h3&gt;Usage&lt;/h3&gt;
 &lt;p&gt;Clone your repository in mirror&amp;nbsp;mode:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;git clone --mirror git://example.com/some-big-repo.git&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git clone --mirror git://example.com/some-big-repo.git&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Run &lt;span class="caps"&gt;BFG&lt;/span&gt; to delete files bigger than 10MiB (see more examples in the project&amp;nbsp;documentation):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;bfg --strip-blobs-bigger-than 10M some-big-repo.git&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;bfg --strip-blobs-bigger-than 10M some-big-repo.git&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Prune the reference log entries and&amp;nbsp;push:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; some-big-repo.git&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; some-big-repo.git&lt;/span&gt;
 &lt;span class="code-line"&gt;git reflog expire --expire&lt;span class="o"&gt;=&lt;/span&gt;now --all &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; git gc --prune&lt;span class="o"&gt;=&lt;/span&gt;now --aggressive&lt;/span&gt;
 &lt;span class="code-line"&gt;git push&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;References&lt;/h3&gt;

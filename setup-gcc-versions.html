@@ -57,10 +57,10 @@
             <p>When I need to change versions of software I use on Ubuntu, e.g., gcc and g++ and&nbsp;Java.</p>
 <h3>Update-alternatives</h3>
 <p>A neat way to do it is using <em>update-alternatives</em>. This how you have to do it with&nbsp;gcc:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6</span></span>
 <span class="code-line"><span class="err">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7</span></span>
 <span class="code-line"><span class="err">sudo update-alternatives --config gcc</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <h3>References</h3>

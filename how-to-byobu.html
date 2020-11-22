@@ -62,27 +62,27 @@ setup your server to run Byobu or tmux at the beginning of your session and have
 <p>Byobu is an enhancement that connects to and uses Screen or tmux (you choose), but offers useful statistics and easy-to-use hotkeys for the basic&nbsp;commands.</p>
 <h2>Installing&nbsp;Byobu</h2>
 <p>In&nbsp;Ubuntu:</p>
-<div class="highlight"><pre><span class="code-line"><span></span>apt-get install byobu.</span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code>apt-get install byobu.</span>
+<span class="code-line"></code></pre></div>
 
 
 <p>Else take a look at <a href="http://byobu.co/downloads.html">http://byobu.co/downloads.html</a></p>
 <h2>Start&nbsp;Byobu</h2>
-<div class="highlight"><pre><span class="code-line"><span></span>byobu</span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code>byobu</span>
+<span class="code-line"></code></pre></div>
 
 
 <h2>Configure Ubuntu to run Byobu from the&nbsp;beginning</h2>
-<div class="highlight"><pre><span class="code-line"><span></span>byobu-config</span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code>byobu-config</span>
+<span class="code-line"></code></pre></div>
 
 
 <p>Feel free to change&nbsp;anything.</p>
 <p>The important setting to change is: &#8220;<em>Byobu currently launches at login (toggle on)</em>&#8220;. Select that and press&nbsp;return.</p>
 <p>Now you can go back to the menu and exit byobu-config (tab to the exit choice and hit&nbsp;return).</p>
 <h2>Resume previous&nbsp;sessions</h2>
-<div class="highlight"><pre><span class="code-line"><span></span>byobu –r session_title</span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code>byobu –r session_title</span>
+<span class="code-line"></code></pre></div>
 
 
 <h2>Hotkeys</h2>
@@ -100,8 +100,8 @@ setup your server to run Byobu or tmux at the beginning of your session and have
 </ul>
 <h2>How detaching works or How to maintain a&nbsp;session</h2>
 <p>Perform a short demo. Issue the&nbsp;command:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="nb">echo</span> hello</span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span> hello</span>
+<span class="code-line"></code></pre></div>
 
 
 <p>Now exit the session by pressing <strong>F6</strong> to detach from Byobu and then run: <em>exit</em>.</p>
@@ -112,20 +112,20 @@ That means you can log in, run a long running task, and then detach and come bac
 <h2>Note for vim&nbsp;users</h2>
 <p>You might find now a strange behaviour when using <strong>Ctrl-Left</strong> and <strong>Ctrl-Right</strong> keys to skip words using vim and also other&nbsp;programs.</p>
 <p>The best solution I found&nbsp;was:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="nb">echo</span> <span class="s1">&#39;:set term=xterm&#39;</span> &gt;&gt; ~/.vim/vimrc</span>
-</pre></div>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span> <span class="s1">&#39;:set term=xterm&#39;</span> &gt;&gt; ~/.vim/vimrc</span>
+<span class="code-line"></code></pre></div>
 
 
 <blockquote></blockquote>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="nb">echo</span> <span class="s1">&#39;unbind-key -n C-Left&#39;</span> &gt;&gt; ~/.byobu/keybindings.tmux</span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span> <span class="s1">&#39;unbind-key -n C-Left&#39;</span> &gt;&gt; ~/.byobu/keybindings.tmux</span>
 <span class="code-line"><span class="nb">echo</span> <span class="s1">&#39;unbind-key -n C-Right&#39;</span> &gt;&gt; ~/.byobu/keybindings.tmux</span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <blockquote></blockquote>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="nb">echo</span> <span class="s1">&#39;set-window-option -g xterm-keys on&#39;</span> &gt;&gt; ~/.byobu/.tmux.conf</span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span> <span class="s1">&#39;set-window-option -g xterm-keys on&#39;</span> &gt;&gt; ~/.byobu/.tmux.conf</span>
 <span class="code-line"><span class="nb">echo</span> <span class="s2">&quot;set -g terminal-overrides &#39;xterm*:smcup@:rmcup@&#39;&quot;</span> &gt;&gt; ~/.byobu/.tmux.conf</span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <h3>References</h3>

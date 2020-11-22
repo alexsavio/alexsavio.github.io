@@ -54,45 +54,45 @@
             </section>
             <h2>First approach: compile <span class="caps">VTK</span></h2>
 <p>Install&nbsp;WxGTK</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">```bash</span></span>
 <span class="code-line"><span class="err">sudo apt-get install python-wxgtk2.8</span></span>
 <span class="code-line"><span class="err">ln -s $lib_system_path/wx-2.8-gtk2-unicode $lib_virtualenv_path/wx-2.8-gtk2-unicode</span></span>
 <span class="code-line"><span class="err">```</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <p>Install dev packages to compile <span class="caps">VTK</span></p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">```bash</span></span>
 <span class="code-line"><span class="err">sudo apt-get install python-qt4-dev ccmake libgl1-mesa-dev libgl1-mesa-glx libglu1-mesa-dev libglw1-mesa-dev mesa-common-dev</span></span>
 <span class="code-line"><span class="err">```</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <p>Download <span class="caps">VTK</span> from sources and build with&nbsp;CMake</p>
 <p><a href="http://www.vtk.org/files/release/5.10/vtk-5.10.1.tar.gz">VTk5.10.1</a></p>
 <p>Configure it to install the python libraries and module in your&nbsp;virtualenv.</p>
 <p>Activate your virtualenv and install Envisage and&nbsp;Mayavi</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">```bash</span></span>
 <span class="code-line"><span class="err">pip install envisage</span></span>
 <span class="code-line"><span class="err">pip install mayavi</span></span>
 <span class="code-line"><span class="err">```</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <p>## Or install from the packages and remove the no-global-site-packages file from the&nbsp;virtualenv.</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">```bash</span></span>
 <span class="code-line"><span class="err">sudo apt-get install python-vtk</span></span>
 <span class="code-line"><span class="err">```</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <p>Activate your virtualenv and install Envisage and&nbsp;Mayavi</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">```bash</span></span>
 <span class="code-line"><span class="err">pip install envisage</span></span>
 <span class="code-line"><span class="err">rm $VIRTUAL_ENV/lib/python2.7/no-global-site-packages.txt</span></span>
 <span class="code-line"><span class="err">pip install mayavi</span></span>
 <span class="code-line"><span class="err">```</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <h3>References</h3>

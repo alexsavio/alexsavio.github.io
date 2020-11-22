@@ -15,7 +15,7 @@ She showed me that we can configure Lyx to use it through
 &lt;p&gt;In Ubuntu I installed the packages: &lt;em&gt;biblatex texlive-latex-extra&amp;nbsp;texlive-bibtex-extra&lt;/em&gt;&lt;/p&gt;
 &lt;h3&gt;Step 3: Create the biblatex.module&amp;nbsp;file&lt;/h3&gt;
 &lt;p&gt;Create a file named biblatex.module with the following&amp;nbsp;content:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;DeclareLyXModule&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="n"&gt;Biblatex&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;citation&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;styles&lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;DeclareLyXModule&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="n"&gt;Biblatex&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;citation&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;styles&lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="n"&gt;DescriptionBegin&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="n"&gt;prerequisite&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;biblatex&lt;/span&gt; &lt;span class="n"&gt;package&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="n"&gt;enables&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;author&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;year&lt;/span&gt; &lt;span class="n"&gt;citation&lt;/span&gt; &lt;span class="n"&gt;styles&lt;/span&gt; &lt;span class="k"&gt;without&lt;/span&gt; &lt;span class="n"&gt;actually&lt;/span&gt; &lt;span class="n"&gt;loading&lt;/span&gt; &lt;span class="n"&gt;natbib&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;/span&gt;
@@ -27,7 +27,7 @@ She showed me that we can configure Lyx to use it through
 &lt;span class="code-line"&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;biblatex&lt;/span&gt; &lt;span class="n"&gt;actually&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="n"&gt;Provides&lt;/span&gt; &lt;span class="n"&gt;natbib&lt;/span&gt;    &lt;span class="mi"&gt;1&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Put the file biblatex.module in the layouts folder in your user directory
@@ -39,14 +39,14 @@ She showed me that we can configure Lyx to use it through
 &lt;p&gt;Add to &amp;#8220;Selected&amp;#8221; the module &amp;#8220;Biblatex-citation-styles&amp;#8221; from&amp;nbsp;Document→Settings→Modules.&lt;/p&gt;
 &lt;h4&gt;Load biblatex in the&amp;nbsp;preamble&lt;/h4&gt;
 &lt;p&gt;In the document preamble (Document→Settings→Preamble) you have to load biblatex manually,&amp;nbsp;with:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;\usepackage[natbib=true,style=numeric,backend=biber,maxnames=1, doi=true, url=false,bibencoding=utf8]{biblatex}&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;\usepackage[natbib=true,style=numeric,backend=biber,maxnames=1, doi=true, url=false,bibencoding=utf8]{biblatex}&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4&gt;Load the bibliography in the&amp;nbsp;preamble&lt;/h4&gt;
 &lt;p&gt;Load your bibliography database in the&amp;nbsp;preamble:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;\addbibresource{/home/alexandre/mybibs.bib}&lt;/span&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;\addbibresource{/home/alexandre/mybibs.bib}&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;You must load the databases must using \addbibresource&amp;nbsp;commands.&lt;/p&gt;

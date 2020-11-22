@@ -7,27 +7,27 @@ setup your server to run Byobu or tmux at the beginning of your session and have
 &lt;p&gt;Byobu is an enhancement that connects to and uses Screen or tmux (you choose), but offers useful statistics and easy-to-use hotkeys for the basic&amp;nbsp;commands.&lt;/p&gt;
 &lt;h2&gt;Installing&amp;nbsp;Byobu&lt;/h2&gt;
 &lt;p&gt;In&amp;nbsp;Ubuntu:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;apt-get install byobu.&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get install byobu.&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Else take a look at &lt;a href="http://byobu.co/downloads.html"&gt;http://byobu.co/downloads.html&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Start&amp;nbsp;Byobu&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;byobu&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;byobu&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Configure Ubuntu to run Byobu from the&amp;nbsp;beginning&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;byobu-config&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;byobu-config&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Feel free to change&amp;nbsp;anything.&lt;/p&gt;
 &lt;p&gt;The important setting to change is: &amp;#8220;&lt;em&gt;Byobu currently launches at login (toggle on)&lt;/em&gt;&amp;#8220;. Select that and press&amp;nbsp;return.&lt;/p&gt;
 &lt;p&gt;Now you can go back to the menu and exit byobu-config (tab to the exit choice and hit&amp;nbsp;return).&lt;/p&gt;
 &lt;h2&gt;Resume previous&amp;nbsp;sessions&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;byobu –r session_title&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;byobu –r session_title&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Hotkeys&lt;/h2&gt;
@@ -45,8 +45,8 @@ setup your server to run Byobu or tmux at the beginning of your session and have
 &lt;/ul&gt;
 &lt;h2&gt;How detaching works or How to maintain a&amp;nbsp;session&lt;/h2&gt;
 &lt;p&gt;Perform a short demo. Issue the&amp;nbsp;command:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; hello&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; hello&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Now exit the session by pressing &lt;strong&gt;F6&lt;/strong&gt; to detach from Byobu and then run: &lt;em&gt;exit&lt;/em&gt;.&lt;/p&gt;
@@ -57,20 +57,20 @@ That means you can log in, run a long running task, and then detach and come bac
 &lt;h2&gt;Note for vim&amp;nbsp;users&lt;/h2&gt;
 &lt;p&gt;You might find now a strange behaviour when using &lt;strong&gt;Ctrl-Left&lt;/strong&gt; and &lt;strong&gt;Ctrl-Right&lt;/strong&gt; keys to skip words using vim and also other&amp;nbsp;programs.&lt;/p&gt;
 &lt;p&gt;The best solution I found&amp;nbsp;was:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;:set term=xterm&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.vim/vimrc&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;:set term=xterm&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.vim/vimrc&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;blockquote&gt;&lt;/blockquote&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;unbind-key -n C-Left&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/keybindings.tmux&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;unbind-key -n C-Left&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/keybindings.tmux&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;unbind-key -n C-Right&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/keybindings.tmux&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;blockquote&gt;&lt;/blockquote&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;set-window-option -g xterm-keys on&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/.tmux.conf&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;set-window-option -g xterm-keys on&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/.tmux.conf&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;set -g terminal-overrides &amp;#39;xterm*:smcup@:rmcup@&amp;#39;&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; ~/.byobu/.tmux.conf&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;References&lt;/h3&gt;

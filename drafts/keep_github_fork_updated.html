@@ -54,30 +54,30 @@
             </section>
             <p>Keep a forked repository of <strong>git/git</strong> like <strong>alexsavio/git</strong>&nbsp;updated:</p>
 <h3>Clone the forked&nbsp;repo</h3>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">```bash</span></span>
 <span class="code-line"><span class="err">git clone git@github.com:alexsavio/git.git</span></span>
 <span class="code-line"><span class="err">cd git</span></span>
 <span class="code-line"><span class="err">git remote add upstream git@github.com:git/git.git</span></span>
 <span class="code-line"><span class="err">```</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <h3>Update&nbsp;it</h3>
 <p>To update the forked repo from the local <strong>master</strong>&nbsp;branch:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">```bash</span></span>
 <span class="code-line"><span class="err">git fetch upstream</span></span>
 <span class="code-line"><span class="err">git rebase upstream/master</span></span>
 <span class="code-line"><span class="err">```</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <h3>Commit rights&nbsp;upstream</h3>
 <p>If you also have commit rights to the upstream repo, you can create a
 local <strong>upstream</strong> branch and do work that will go upstream&nbsp;there.</p>
-<div class="highlight"><pre><span class="code-line"><span></span><span class="err">```bash</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">```bash</span></span>
 <span class="code-line"><span class="err">git checkout -b upstream upstream/master</span></span>
 <span class="code-line"><span class="err">```</span></span>
-</pre></div>
+<span class="code-line"></code></pre></div>
 
 
 <h4>References</h4>
