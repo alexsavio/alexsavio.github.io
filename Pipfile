@@ -5,19 +5,17 @@ name = "pypi"
 
 [dev-packages]
 pre-commit = "*"
-pyclean-py = "*"
 
 [packages]
 blinker = "==1.4"
 docutils = "==0.16"
 feedgenerator = "==1.9.1"
-"pelican[Markdown]" = "==4.2.0"
-beautifulsoup4 = "==4.9.1"
+"pelican[Markdown]" = "==4.5.2"
+beautifulsoup4 = "==4.9.3"
 python-dateutil = "==2.8.1"
-pytz = "==2020.1"
+pytz = "==2020.4"
 Jinja2 = "==2.11.2"
 MarkupSafe = "==1.1.1"
-Pygments = "==2.6.1"
 Unidecode = "==1.1.1"
 typogrify = "*"
 webassets = "*"
