@@ -1,10 +1,6 @@
 dist: bionic
 language: python
 
-env:
-  - WORKON_HOME=.pipenv/venvs
-  - PIP_CACHE_DIR=.pipenv/pipcache
-
 cache:
   directories:
     - .pipenv
@@ -23,6 +19,8 @@ addons:
     update: true
 
 install:
+  - export WORKON_HOME=.pipenv/venvs
+  - export PIP_CACHE_DIR=.pipenv/pipcache
   - make install-ci
 script:
   - make html
