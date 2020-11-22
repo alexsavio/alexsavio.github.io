@@ -45,3 +45,4 @@ output/
 Pipfile
 Pipfile.lock
 .python-version
+.build-harness
