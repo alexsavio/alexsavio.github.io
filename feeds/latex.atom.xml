@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Interlines - LaTex</title><link href="https://alexsavio.github.io/" rel="alternate"></link><link href="https://alexsavio.github.io/feeds/latex.atom.xml" rel="self"></link><id>https://alexsavio.github.io/</id><updated>2014-02-27T18:11:46+01:00</updated><subtitle>Lost in spikes</subtitle><entry><title>Using BibLatex with Lyx and JabRef</title><link href="https://alexsavio.github.io/biblatex_lyx_jabref_encoding.html" rel="alternate"></link><published>2014-02-27T18:11:46+01:00</published><updated>2014-02-27T18:11:46+01:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-02-27:/biblatex_lyx_jabref_encoding.html</id><summary type="html">&lt;p&gt;Configuring BibLatex in Lyx to benefit of &lt;span class="caps"&gt;UTF&lt;/span&gt;-8&amp;nbsp;encoding&lt;/p&gt;</summary><content type="html">&lt;h3&gt;Introduction&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Interlines - LaTex</title><link href="https://alexsavio.github.io/" rel="alternate"/><link href="https://alexsavio.github.io/feeds/latex.atom.xml" rel="self"/><id>https://alexsavio.github.io/</id><updated>2014-02-27T18:11:46+01:00</updated><subtitle>Lost in spikes</subtitle><entry><title>Using BibLatex with Lyx and JabRef</title><link href="https://alexsavio.github.io/biblatex_lyx_jabref_encoding.html" rel="alternate"/><published>2014-02-27T18:11:46+01:00</published><updated>2014-02-27T18:11:46+01:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-02-27:/biblatex_lyx_jabref_encoding.html</id><summary type="html">&lt;p&gt;Configuring BibLatex in Lyx to benefit of &lt;span class="caps"&gt;UTF&lt;/span&gt;-8&amp;nbsp;encoding&lt;/p&gt;</summary><content type="html">&lt;h3&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;For publishing articles with Lyx I&amp;#8217;ve used Zotero, JabRef and Lyx during my PhD.
 I&amp;#8217;ve always had problems with the encoding of the BibTex files and ended up
 editing them in JabRef, removing/replacing strange&amp;nbsp;characters.&lt;/p&gt;
@@ -15,20 +15,19 @@ She showed me that we can configure Lyx to use it through
 &lt;p&gt;In Ubuntu I installed the packages: &lt;em&gt;biblatex texlive-latex-extra&amp;nbsp;texlive-bibtex-extra&lt;/em&gt;&lt;/p&gt;
 &lt;h3&gt;Step 3: Create the biblatex.module&amp;nbsp;file&lt;/h3&gt;
 &lt;p&gt;Create a file named biblatex.module with the following&amp;nbsp;content:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="n"&gt;DeclareLyXModule&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="n"&gt;Biblatex&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;citation&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;styles&lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="n"&gt;DescriptionBegin&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="n"&gt;prerequisite&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;biblatex&lt;/span&gt; &lt;span class="n"&gt;package&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="n"&gt;enables&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;author&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;year&lt;/span&gt; &lt;span class="n"&gt;citation&lt;/span&gt; &lt;span class="n"&gt;styles&lt;/span&gt; &lt;span class="k"&gt;without&lt;/span&gt; &lt;span class="n"&gt;actually&lt;/span&gt; &lt;span class="n"&gt;loading&lt;/span&gt; &lt;span class="n"&gt;natbib&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="n"&gt;Biblatex&lt;/span&gt; &lt;span class="n"&gt;itself&lt;/span&gt; &lt;span class="n"&gt;needs&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;loaded&lt;/span&gt; &lt;span class="n"&gt;manually&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Cf&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;wiki&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lyx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;BibTeX&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Biblatex&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="n"&gt;DescriptionEnd&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#\DeclareLyXModule{Biblatex-citation-styles}&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="c1"&gt;#DescriptionBegin&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="c1"&gt;#A prerequisite for using the biblatex package. This module&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="c1"&gt;#enables the author/year citation styles without actually loading natbib.&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="c1"&gt;#Biblatex itself needs to be loaded manually. Cf.&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="c1"&gt;#http://wiki.lyx.org/BibTeX/Biblatex&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="c1"&gt;#DescriptionEnd&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="n"&gt;Format&lt;/span&gt; &lt;span class="mi"&gt;11&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="n"&gt;Format&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;biblatex&lt;/span&gt; &lt;span class="n"&gt;actually&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="n"&gt;Provides&lt;/span&gt; &lt;span class="n"&gt;natbib&lt;/span&gt;    &lt;span class="mi"&gt;1&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="c1"&gt;# this is biblatex actually&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="n"&gt;Provides&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;natbib&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;Put the file biblatex.module in the layouts folder in your user directory
 (Help→About LyX tells you where you can find this directory; in the latest versions of &lt;span class="caps"&gt;OSX&lt;/span&gt; the correct layouts folder is in the applications&amp;nbsp;folder).&lt;/p&gt;
@@ -39,15 +38,13 @@ She showed me that we can configure Lyx to use it through
 &lt;p&gt;Add to &amp;#8220;Selected&amp;#8221; the module &amp;#8220;Biblatex-citation-styles&amp;#8221; from&amp;nbsp;Document→Settings→Modules.&lt;/p&gt;
 &lt;h4&gt;Load biblatex in the&amp;nbsp;preamble&lt;/h4&gt;
 &lt;p&gt;In the document preamble (Document→Settings→Preamble) you have to load biblatex manually,&amp;nbsp;with:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;\usepackage[natbib=true,style=numeric,backend=biber,maxnames=1, doi=true, url=false,bibencoding=utf8]{biblatex}&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="nx"&gt;usepackage&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;natbib&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;style&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;numeric&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;backend&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;biber&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;maxnames&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;doi&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;url&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;bibencoding&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;utf8&lt;/span&gt;&lt;span class="p"&gt;]{&lt;/span&gt;&lt;span class="nx"&gt;biblatex&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;h4&gt;Load the bibliography in the&amp;nbsp;preamble&lt;/h4&gt;
 &lt;p&gt;Load your bibliography database in the&amp;nbsp;preamble:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;\addbibresource{/home/alexandre/mybibs.bib}&lt;/span&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;\addbibresource{/home/alexandre/mybibs.bib}&lt;/span&gt;
 &lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;You must load the databases must using \addbibresource&amp;nbsp;commands.&lt;/p&gt;
 &lt;p&gt;Please refer to the &lt;a href="http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf"&gt;biblatex documentation&lt;/a&gt; for further&amp;nbsp;options.&lt;/p&gt;
@@ -80,4 +77,4 @@ To use the citation dialog, you&amp;#8217;ll have to choose the correct database
 &lt;li&gt;
 &lt;p&gt;The bibtexall script: &lt;a href="http://wiki.lyx.org/uploads/BibTeX/bibtexall"&gt;http://wiki.lyx.org/uploads/BibTeX/bibtexall&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ol&gt;</content><category term="LaTex"></category><category term="latex"></category><category term="lyx"></category><category term="bibtex"></category></entry></feed>
+&lt;/ol&gt;</content><category term="LaTex"/><category term="latex"/><category term="lyx"/><category term="bibtex"/></entry></feed>

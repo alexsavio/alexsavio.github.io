@@ -1,304 +1,323 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en_us">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Interlines, Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.">
-
-        <link rel="alternate"  href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" title="Interlines Full Atom Feed"/>
-        <link rel="alternate" href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" title="Interlines Full RSS Feed"/>
-
-        <title>Installing common Python data analysis tools in virtualenv // Interlines // Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.</title>
-
-
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pure.css">
-    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pygments.css">
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $(".content").fitVids();
-        });
-    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Installing common Python data analysis tools in virtualenv | Interlines</title>
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/style.css" />
+    <link href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Interlines Atom Feed" />
+    <link href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Interlines RSS Feed" />
+    <style>
+        :root {
+--bg-color: #e8e0e0;--terminal-bg: #faf8f8;--text-color: #2d2d2d;--primary-color: #800020;--accent-color: #a0304d;--muted-color: #666666;--code-bg: #f0e8e8;--link-color: #800020;--header-bg: #d0c8c8;        }
+    </style>
 </head>
+<body class="light-theme">
+    <div class="container">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <span class="terminal-btn close"></span>
+                <span class="terminal-btn minimize"></span>
+                <span class="terminal-btn maximize"></span>
+                <span class="terminal-title">zsh — alex@blog</span>
+            </div>
+            <div class="terminal-body">
+                <div class="login-message">
+                    Last login: Today on ttys000<br>
+Lost in spikes                </div>
 
-<body>
-<div class="pure-g-r" id="layout">
-    <div class="sidebar sidebar-article pure-u">
-        <header class="header-article">
-            <hgroup>
-                <a href="https://alexsavio.github.io/author/alexandre-m-savio.html" title="See posts by Alexandre M. Savio">
-                        <img class="avatar" alt="Alexandre M. Savio" src="https://www.gravatar.com/avatar/252ab7f3e2ebf905115dee137696bb1e">
-                </a>
-                <h2 class="article-info">Alexandre M. Savio</h2>
-                <small class="about-author"></small>
-                <h5>Published</h5>
-                <p>Sat 26 April 2014</p>
-                <a href="/">&larr;Home</a>
-            </hgroup>
-        </header>
-    </div>
-    <div class="pure-u">
-        <div class="content">
-            <section class="post">
-                <header class="post-header">
-                    <h1>Installing common Python data analysis tools in&nbsp;virtualenv</h1>
-                        <p class="post-meta">
-                            // under                                 <a class="post-category" href="https://alexsavio.github.io/tag/python.html">python</a>
-                                <a class="post-category" href="https://alexsavio.github.io/tag/virtualenv.html">virtualenv</a>
-                                <a class="post-category" href="https://alexsavio.github.io/tag/data.html">data</a>
-                        </p>
-                </header>
-            </section>
-            <p>Tested on Ubuntu 13.10 and&nbsp;14.04.</p>
+                <div class="prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span>./welcome.sh</span>
+                </div>
+                <div class="command-output">
+                    <h1><a href="https://alexsavio.github.io/">Interlines</a></h1>
+                </div>
+
+                <div class="prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span>ls -la</span>
+                </div>
+                <nav class="nav-menu command-output">
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/" class="dirname">home</a>
+                        <span class="description">→ Back to start</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio" class="dirname">about_me</a>
+                        <span class="description">→ About Me</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://orcid.org/0000-0002-6608-6885" class="dirname">orcid</a>
+                        <span class="description">→ ORCID</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="http://www.surf-forecast.com/breaks/Zarautz/forecasts/latest/six_day" class="dirname">surf-forecast</a>
+                        <span class="description">→ Surf-Forecast</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/archives.html" class="dirname">archives</a>
+                        <span class="description">→ All posts</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/categories.html" class="dirname">categories</a>
+                        <span class="description">→ Browse by category</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">lrwxr-xr-x</span>
+                        <span class="dirname">links</span>
+                        <span class="description">→
+                            <a href="https://twitter.com/alex_savio">twitter-square</a> |                             <a href="https://github.com/alexsavio">github</a>                        </span>
+                    </div>
+                </nav>
+
+<div class="prompt">
+    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>cat data-analysis-tools-install.md</span>
+</div>
+
+<article class="command-output">
+    <header>
+        <h2>Installing common Python data analysis tools in&nbsp;virtualenv</h2>
+        <div class="article-meta">
+            <span class="article-date">[2014-04-26 18:38]</span>
+            | author: <a href="https://alexsavio.github.io/author/alexandre-m-savio.html">Alexandre M. Savio</a>
+            | category: <a href="https://alexsavio.github.io/category/python.html">Python</a>
+        </div>
+        <div class="article-meta">
+            tags:
+                <a href="https://alexsavio.github.io/tag/python.html" class="tag">python</a>
+                <a href="https://alexsavio.github.io/tag/virtualenv.html" class="tag">virtualenv</a>
+                <a href="https://alexsavio.github.io/tag/data.html" class="tag">data</a>
+        </div>
+    </header>
+
+    <div class="article-content">
+        <p>Tested on Ubuntu 13.10 and&nbsp;14.04.</p>
 <h3>Requirements</h3>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">pip</span> <span class="n">python</span><span class="o">-</span><span class="n">dev</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">apt</span><span class="o">-</span><span class="n">get</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">python</span><span class="o">-</span><span class="n">pip</span><span class="w"> </span><span class="n">python</span><span class="o">-</span><span class="n">dev</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="n">sudo</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span> <span class="n">virtualenvwrapper</span></span>
+<span class="code-line"><span class="n">sudo</span><span class="w"> </span><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">virtualenv</span><span class="w"> </span><span class="n">virtualenvwrapper</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="n">echo</span> <span class="ss">&quot;export WORKON_HOME=~/envs&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span></span>
-<span class="code-line"><span class="n">echo</span> <span class="ss">&quot;source /usr/local/bin/virtualenvwrapper.sh&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span></span>
-<span class="code-line"><span class="n">echo</span> <span class="ss">&quot;export PIP_REQUIRE_VIRTUALENV=true&quot;</span> <span class="o">&gt;&gt;</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span></span>
-<span class="code-line"><span class="k">source</span> <span class="o">~/</span><span class="p">.</span><span class="n">bashrc</span></span>
+<span class="code-line"><span class="n">echo</span><span class="w"> </span><span class="s2">&quot;export WORKON_HOME=~/envs&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span></span>
+<span class="code-line"><span class="n">echo</span><span class="w"> </span><span class="s2">&quot;source /usr/local/bin/virtualenvwrapper.sh&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span></span>
+<span class="code-line"><span class="n">echo</span><span class="w"> </span><span class="s2">&quot;export PIP_REQUIRE_VIRTUALENV=true&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span></span>
+<span class="code-line"><span class="n">source</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span></span>
 <span class="code-line"></code></pre></div>
-
 
 <h3>Create a virtual&nbsp;environment</h3>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">mkvirtualenv</span> <span class="o">&lt;</span><span class="n">env_name</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">p</span> <span class="o">&lt;</span><span class="n">path_to_python</span><span class="o">&gt;*</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>mkvirtualenv &lt;env_name&gt; -p &lt;path_to_python&gt;*</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="o">*&lt;</span><span class="n">path_to_python</span><span class="o">&gt;</span> <span class="n">can</span> <span class="n">be</span> <span class="n">either</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">python2</span> <span class="k">or</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">python3</span><span class="p">,</span></span>
-<span class="code-line"><span class="k">or</span> <span class="n">whatever</span> <span class="n">you</span> <span class="n">need</span><span class="p">.</span></span>
+<span class="code-line">*&lt;path_to_python&gt; can be either /usr/bin/python2 or /usr/bin/python3,</span>
+<span class="code-line">or whatever you need.</span>
 <span class="code-line"></code></pre></div>
-
 
 <h3>Install&nbsp;modules</h3>
 <p><a href="http://ipython.org/">IPython</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">ipython</span><span class="o">[</span><span class="n">all</span><span class="o">]</span><span class="w"></span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">ipython</span><span class="o">[</span><span class="n">all</span><span class="o">]</span></span>
 <span class="code-line"></code></pre></div>
-
 
 <p><a href="http://www.numpy.org/">Numpy</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install numpy</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>pip install numpy</span>
 <span class="code-line"></code></pre></div>
-
 
 <p>Test&nbsp;numpy</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">pip</span> <span class="n">install</span> <span class="n">nose</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">nose</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;import numpy; numpy.test()&#39;</span></span>
+<span class="code-line"><span class="n">python</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="s1">&#39;import numpy; numpy.test()&#39;</span></span>
 <span class="code-line"></code></pre></div>
-
 
 <p><a href="http://cython.org/">Cython</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install cython</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>pip install cython</span>
 <span class="code-line"></code></pre></div>
-
 
 <p><a href="http://www.scipy.org/">Scipy</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">build</span><span class="o">-</span><span class="n">dep</span> <span class="n">python</span><span class="o">-</span><span class="n">scipy</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get build-dep python-scipy</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libblas</span><span class="o">-</span><span class="n">dev</span> <span class="n">liblapack</span><span class="o">-</span><span class="n">dev</span></span>
+<span class="code-line">sudo apt-get install libblas-dev liblapack-dev</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">scipy</span></span>
+<span class="code-line">pip install scipy</span>
 <span class="code-line"></code></pre></div>
-
 
 <p><a href="http://docs.python.org/3.3/library/readline.html">Readline</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libncurses5</span><span class="o">-</span><span class="n">dev</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get install libncurses5-dev</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">readline</span></span>
+<span class="code-line">pip install readline</span>
 <span class="code-line"></code></pre></div>
-
 
 <p>Other&nbsp;dependencies</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install python-dateutil sphinx pygments tornado</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>pip install python-dateutil sphinx pygments tornado</span>
 <span class="code-line"></code></pre></div>
-
 
 <h3>Graphical libraries for <span class="caps">GUI</span> building and IPython <span class="caps">QT</span>&nbsp;console</h3>
 <h4>You can either install them inside the virtual&nbsp;environment:</h4>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err"> pip install pyside</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code> pip install pyside</span>
 <span class="code-line"></code></pre></div>
-
 
 <p>You must install PyQt4&nbsp;globally:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err"> sudo apt-get install python3-pyqt4 python3-sip python-qt4-dev</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code> sudo apt-get install python3-pyqt4 python3-sip python-qt4-dev</span>
 <span class="code-line"></code></pre></div>
-
 
 <p>or</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err"> sudo apt-get install python-pyqt4 python-sip python-qt4-dev</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code> sudo apt-get install python-pyqt4 python-sip python-qt4-dev</span>
 <span class="code-line"></code></pre></div>
-
 
 <h4>I recommend installing them globally then linking from the virtual&nbsp;environment:</h4>
 <p>First install&nbsp;them:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">sudo apt-get install python3-pyqt4 python3-pyside python3-sip</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get install python3-pyqt4 python3-pyside python3-sip</span>
 <span class="code-line"></code></pre></div>
-
 
 <p>or</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">sudo apt-get install python-qt4 python-pyside python-sip python-qt4-dev</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get install python-qt4 python-pyside python-sip python-qt4-dev</span>
 <span class="code-line"></code></pre></div>
-
 
 <p>Then link them (with the virtualenv&nbsp;activated):</p>
 <p>In [3] we can see a script to link any library to the virtual environment (save
 it in, e.g. symlink_pyqt4_and_sip.sh or ${WORKON_HOME}/postmkvirtualenv and
 execute&nbsp;it):</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="code-line"> 1</span>
-<span class="code-line"> 2</span>
-<span class="code-line"> 3</span>
-<span class="code-line"> 4</span>
-<span class="code-line"> 5</span>
-<span class="code-line"> 6</span>
-<span class="code-line"> 7</span>
-<span class="code-line"> 8</span>
-<span class="code-line"> 9</span>
-<span class="code-line">10</span>
-<span class="code-line">11</span>
-<span class="code-line">12</span>
-<span class="code-line">13</span>
-<span class="code-line">14</span>
-<span class="code-line">15</span>
-<span class="code-line">16</span>
-<span class="code-line">17</span>
-<span class="code-line">18</span>
-<span class="code-line">19</span>
-<span class="code-line">20</span>
-<span class="code-line">21</span>
-<span class="code-line">22</span>
-<span class="code-line">23</span>
-<span class="code-line">24</span>
-<span class="code-line">25</span>
-<span class="code-line">26</span>
-<span class="code-line">27</span>
-<span class="code-line">28</span>
-<span class="code-line">29</span>
-<span class="code-line">30</span>
-<span class="code-line">31</span>
-<span class="code-line">32</span>
-<span class="code-line">33</span>
-<span class="code-line">34</span>
-<span class="code-line">35</pre></div></td><td class="code"><div class="highlight"><pre><span class="code-line"><span></span><code><span class="ch">#!/bin/bash</span></span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="code-line"><span class="normal"> 1</span></span>
+<span class="code-line"><span class="normal"> 2</span></span>
+<span class="code-line"><span class="normal"> 3</span></span>
+<span class="code-line"><span class="normal"> 4</span></span>
+<span class="code-line"><span class="normal"> 5</span></span>
+<span class="code-line"><span class="normal"> 6</span></span>
+<span class="code-line"><span class="normal"> 7</span></span>
+<span class="code-line"><span class="normal"> 8</span></span>
+<span class="code-line"><span class="normal"> 9</span></span>
+<span class="code-line"><span class="normal">10</span></span>
+<span class="code-line"><span class="normal">11</span></span>
+<span class="code-line"><span class="normal">12</span></span>
+<span class="code-line"><span class="normal">13</span></span>
+<span class="code-line"><span class="normal">14</span></span>
+<span class="code-line"><span class="normal">15</span></span>
+<span class="code-line"><span class="normal">16</span></span>
+<span class="code-line"><span class="normal">17</span></span>
+<span class="code-line"><span class="normal">18</span></span>
+<span class="code-line"><span class="normal">19</span></span>
+<span class="code-line"><span class="normal">20</span></span>
+<span class="code-line"><span class="normal">21</span></span>
+<span class="code-line"><span class="normal">22</span></span>
+<span class="code-line"><span class="normal">23</span></span>
+<span class="code-line"><span class="normal">24</span></span>
+<span class="code-line"><span class="normal">25</span></span>
+<span class="code-line"><span class="normal">26</span></span>
+<span class="code-line"><span class="normal">27</span></span>
+<span class="code-line"><span class="normal">28</span></span>
+<span class="code-line"><span class="normal">29</span></span>
+<span class="code-line"><span class="normal">30</span></span>
+<span class="code-line"><span class="normal">31</span></span>
+<span class="code-line"><span class="normal">32</span></span>
+<span class="code-line"><span class="normal">33</span></span>
+<span class="code-line"><span class="normal">34</span></span>
+<span class="code-line"><span class="normal">35</span></pre></div></td><td class="code"><div><pre><span class="code-line"><span></span><code><span class="ch">#!/bin/bash</span></span>
 <span class="code-line"><span class="c1"># This hook is executed after a new virtualenv is activated.</span></span>
 <span class="code-line"><span class="c1"># ~/.virtualenvs/postmkvirtualenv</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="k">function</span> find_real_lib <span class="o">{</span></span>
-<span class="code-line">    <span class="nv">syspy</span><span class="o">=</span><span class="nv">$1</span></span>
-<span class="code-line">    <span class="nv">libname</span><span class="o">=</span><span class="nv">$2</span></span>
-<span class="code-line">    <span class="nv">syspath</span><span class="o">=</span><span class="k">$(</span><span class="nv">$syspy</span> -c <span class="s2">&quot;import sys; print(&#39; &#39;.join(sys.path).strip())&quot;</span><span class="k">)</span></span>
-<span class="code-line">    <span class="k">for</span> libdir in <span class="nv">$syspath</span><span class="p">;</span> <span class="k">do</span></span>
-<span class="code-line">        <span class="k">if</span> <span class="o">[</span> -e <span class="nv">$libdir</span>/<span class="nv">$libname</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span></span>
-<span class="code-line">            <span class="nb">eval</span> <span class="s2">&quot;</span><span class="nv">$3</span><span class="s2">=</span><span class="nv">$libdir</span><span class="s2">/</span><span class="nv">$libname</span><span class="s2">&quot;</span></span>
-<span class="code-line">            <span class="k">return</span> <span class="m">0</span></span>
-<span class="code-line">        <span class="k">fi</span></span>
-<span class="code-line">    <span class="k">done</span></span>
-<span class="code-line">    <span class="k">return</span> <span class="m">1</span></span>
+<span class="code-line"><span class="k">function</span><span class="w"> </span>find_real_lib<span class="w"> </span><span class="o">{</span></span>
+<span class="code-line"><span class="w">    </span><span class="nv">syspy</span><span class="o">=</span><span class="nv">$1</span></span>
+<span class="code-line"><span class="w">    </span><span class="nv">libname</span><span class="o">=</span><span class="nv">$2</span></span>
+<span class="code-line"><span class="w">    </span><span class="nv">syspath</span><span class="o">=</span><span class="k">$(</span><span class="nv">$syspy</span><span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print(&#39; &#39;.join(sys.path).strip())&quot;</span><span class="k">)</span></span>
+<span class="code-line"><span class="w">    </span><span class="k">for</span><span class="w"> </span>libdir<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$syspath</span><span class="p">;</span><span class="w"> </span><span class="k">do</span></span>
+<span class="code-line"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-e<span class="w"> </span><span class="nv">$libdir</span>/<span class="nv">$libname</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span></span>
+<span class="code-line"><span class="w">            </span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$3</span><span class="s2">=</span><span class="nv">$libdir</span><span class="s2">/</span><span class="nv">$libname</span><span class="s2">&quot;</span></span>
+<span class="code-line"><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="m">0</span></span>
+<span class="code-line"><span class="w">        </span><span class="k">fi</span></span>
+<span class="code-line"><span class="w">    </span><span class="k">done</span></span>
+<span class="code-line"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">1</span></span>
 <span class="code-line"><span class="o">}</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="nv">libs</span><span class="o">=(</span> PyQt4 sip.so PySide sip.cpython-34m-x86_64-linux-gnu.so <span class="o">)</span></span>
+<span class="code-line"><span class="nv">libs</span><span class="o">=(</span><span class="w"> </span>PyQt4<span class="w"> </span>sip.so<span class="w"> </span>PySide<span class="w"> </span>sip.cpython-34m-x86_64-linux-gnu.so<span class="w"> </span><span class="o">)</span></span>
 <span class="code-line"><span class="c1">#other_libs = ( vtk cairo )</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="nv">python_version</span><span class="o">=</span>python<span class="k">$(</span>python -c <span class="s2">&quot;import sys; print (str(sys.version_info[0])+&#39;.&#39;+str(sys.version_info[1]))&quot;</span><span class="k">)</span></span>
-<span class="code-line"><span class="nv">var</span><span class="o">=(</span> <span class="k">$(</span>which -a <span class="nv">$python_version</span><span class="k">)</span> <span class="o">)</span></span>
+<span class="code-line"><span class="nv">python_version</span><span class="o">=</span>python<span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print (str(sys.version_info[0])+&#39;.&#39;+str(sys.version_info[1]))&quot;</span><span class="k">)</span></span>
+<span class="code-line"><span class="nv">var</span><span class="o">=(</span><span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>-a<span class="w"> </span><span class="nv">$python_version</span><span class="k">)</span><span class="w"> </span><span class="o">)</span></span>
 <span class="code-line"><span class="nv">syspy</span><span class="o">=</span><span class="si">${</span><span class="nv">var</span><span class="p">[-1]</span><span class="si">}</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="nv">get_python_lib_cmd</span><span class="o">=</span><span class="s2">&quot;from distutils.sysconfig import get_python_lib; print (get_python_lib())&quot;</span></span>
-<span class="code-line"><span class="nv">lib_virtualenv_path</span><span class="o">=</span><span class="k">$(</span>python -c <span class="s2">&quot;</span><span class="nv">$get_python_lib_cmd</span><span class="s2">&quot;</span><span class="k">)</span></span>
+<span class="code-line"><span class="nv">lib_virtualenv_path</span><span class="o">=</span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$get_python_lib_cmd</span><span class="s2">&quot;</span><span class="k">)</span></span>
 <span class="code-line"></span>
-<span class="code-line"><span class="k">for</span> lib in <span class="si">${</span><span class="nv">libs</span><span class="p">[@]</span><span class="si">}</span></span>
+<span class="code-line"><span class="k">for</span><span class="w"> </span>lib<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">libs</span><span class="p">[@]</span><span class="si">}</span></span>
 <span class="code-line"><span class="k">do</span></span>
-<span class="code-line">    <span class="nv">libsyspath</span><span class="o">=</span><span class="s1">&#39;&#39;</span></span>
-<span class="code-line">    find_real_lib <span class="nv">$syspy</span> <span class="nv">$lib</span> libsyspath</span>
-<span class="code-line">    <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span></span>
-<span class="code-line">        ln -s <span class="nv">$libsyspath</span> <span class="nv">$lib_virtualenv_path</span>/<span class="nv">$lib</span></span>
-<span class="code-line">    <span class="k">fi</span></span>
+<span class="code-line"><span class="w">    </span><span class="nv">libsyspath</span><span class="o">=</span><span class="s1">&#39;&#39;</span></span>
+<span class="code-line"><span class="w">    </span>find_real_lib<span class="w"> </span><span class="nv">$syspy</span><span class="w"> </span><span class="nv">$lib</span><span class="w"> </span>libsyspath</span>
+<span class="code-line"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span></span>
+<span class="code-line"><span class="w">        </span>ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$libsyspath</span><span class="w"> </span><span class="nv">$lib_virtualenv_path</span>/<span class="nv">$lib</span></span>
+<span class="code-line"><span class="w">    </span><span class="k">fi</span></span>
 <span class="code-line"><span class="k">done</span></span>
-<span class="code-line"></code></pre></div>
-</td></tr></table>
+<span class="code-line"></code></pre></div></td></tr></table></div>
 
 <h3>Other interesting&nbsp;modules</h3>
 <p><a href="http://matplotlib.org/">matplotlib</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">build</span><span class="o">-</span><span class="n">dep</span> <span class="n">python</span><span class="o">-</span><span class="n">matplotlib</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get build-dep python-matplotlib</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">pyparsing</span></span>
+<span class="code-line">pip install pyparsing</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">matplotlib</span></span>
+<span class="code-line">pip install matplotlib</span>
 <span class="code-line"></code></pre></div>
-
 
 <p><a href="http://scikit-image.org/">scikit-image</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install scikit-image</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>pip install scikit-image</span>
 <span class="code-line"></code></pre></div>
-
 
 <p><a href="http://scikit-learn.org">scikit-learn</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install scikit-learn</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>pip install scikit-learn</span>
 <span class="code-line"></code></pre></div>
-
 
 <p><a href="https://github.com/scikit-fuzzy/scikit-fuzzy">scikit-fuzzy</a></p>
 <p><a href="http://pandas.pydata.org/">Pandas</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libhdf5</span><span class="o">-</span><span class="n">dev</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get install libhdf5-dev</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">numexpr</span></span>
-<span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">tables</span></span>
+<span class="code-line">pip install numexpr</span>
+<span class="code-line">pip install tables</span>
 <span class="code-line"></code></pre></div>
-
 
 <p>If you have problems importing tables, it might help downloading and compiling the <a href="http://www.hdfgroup.org/HDF5/release/obtainsrc.html"><span class="caps">HDF5</span> library</a>.</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install pandas</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>pip install pandas</span>
 <span class="code-line"></code></pre></div>
-
 
 <p><a href="http://www.h5py.org/">h5py</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libhdf5</span><span class="o">-</span><span class="n">dev</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get install libhdf5-dev</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">h5py</span></span>
+<span class="code-line">pip install h5py</span>
 <span class="code-line"></code></pre></div>
-
 
 <p><a href="http://patsy.readthedocs.org/en/latest/">patsy</a> and <a href="http://statsmodels.sourceforge.net/">statsmodels</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install patsy</span></span>
-<span class="code-line"><span class="err">pip install statsmodels</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>pip install patsy</span>
+<span class="code-line">pip install statsmodels</span>
 <span class="code-line"></code></pre></div>
-
 
 <p><a href="http://pymc-devs.github.io/pymc/">pymc</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install pymc</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>pip install pymc</span>
 <span class="code-line"></code></pre></div>
-
 
 <h3>Speed up&nbsp;execution</h3>
 <p><a href="https://pypi.python.org/pypi/Bottleneck">bottleneck</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install bottleneck</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>pip install bottleneck</span>
 <span class="code-line"></code></pre></div>
-
 
 <p><a href="https://github.com/twiecki/CythonGSL">cythongsl</a>
  <a href="http://nbviewer.ipython.org/github/twiecki/CythonGSL/blob/master/examples/cython_gsl_ipythonnb.ipynb">cythongsl-demo</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install cythongsl</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>pip install cythongsl</span>
 <span class="code-line"></code></pre></div>
-
 
 <h3>Neuroscience&nbsp;tools:</h3>
 <p><a href="http://nipy.org/nibabel/">Nibabel</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">pip install nibabel</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>pip install nibabel</span>
 <span class="code-line"></code></pre></div>
-
 
 <p><a href="http://nipy.org/">Nipy</a>&nbsp;Dependencies:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">pip</span> <span class="n">install</span> <span class="n">sphinx</span> <span class="n">sympy</span> <span class="n">networkx</span> <span class="n">traits</span></span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>pip install sphinx sympy networkx traits</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">nipy</span></span>
+<span class="code-line">pip install nipy</span>
 <span class="code-line"></span>
-<span class="code-line"><span class="n">pip</span> <span class="n">install</span> <span class="n">nipype</span> <span class="n">dipy</span> <span class="n">nitime</span></span>
+<span class="code-line">pip install nipype dipy nitime</span>
 <span class="code-line"></code></pre></div>
-
 
 <h3>References</h3>
 <ol>
@@ -313,39 +332,84 @@ virtualenv-for-data-analysis-on-osx/">http://www.cs.dartmouth.edu/~nfoti/blog/bl
 <p><a href="https://gist.github.com/alexsavio/7580457">https://gist.github.com/alexsavio/7580457</a></p>
 </li>
 </ol>
-            <div class="hr"></div>
-            <a href="#" class="go-top">Go Top</a>
-<footer class="footer">
-    <p>&copy; Interlines &ndash;
-        Built with <a href="https://github.com/PurePelicanTheme/pure">Pure Theme</a>
-        for <a href="http://blog.getpelican.com/">Pelican</a>
-    </p>
-</footer>        </div>
     </div>
-</div>
-    <script>
-        var $top = $('.go-top');
 
-        // Show or hide the sticky footer button
-        $(window).scroll(function() {
-            if ($(this).scrollTop() > 200) {
-                $top.fadeIn(200);
+</article>
+
+<div class="prompt" style="margin-top: 30px;">
+    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>ls -1 | head</span>
+</div>
+<div class="command-output pagination">
+    <span></span>
+</div>
+
+                <div class="footer">
+                    <div class="prompt">
+                        <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                        <span class="cursor"></span>
+                    </div>
+                    <p>&copy; Alexandre Manhães Savio | Powered by <a href="http://getpelican.com/">Pelican</a> | Theme: fancy-terminal</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function() {
+        const terminalWindow = document.querySelector('.terminal-window');
+        const terminalBody = document.querySelector('.terminal-body');
+        const closeBtn = document.querySelector('.terminal-btn.close');
+        const minimizeBtn = document.querySelector('.terminal-btn.minimize');
+        const maximizeBtn = document.querySelector('.terminal-btn.maximize');
+
+        let isMinimized = false;
+        let isMaximized = false;
+
+        // Close button - shows "session ended" message
+        closeBtn.addEventListener('click', function() {
+            terminalBody.innerHTML = `
+                <div class="login-message" style="text-align: center; padding: 40px 0;">
+                    <p>logout</p>
+                    <p style="margin-top: 20px;">[Process completed]</p>
+                    <p style="margin-top: 30px; font-size: 0.85em;">
+                        <a href="https://alexsavio.github.io/" style="color: var(--link-color);">→ Start new session</a>
+                    </p>
+                </div>
+            `;
+            terminalWindow.classList.add('closed');
+        });
+
+        // Minimize button - collapses terminal body
+        minimizeBtn.addEventListener('click', function() {
+            isMinimized = !isMinimized;
+            if (isMinimized) {
+                terminalBody.style.display = 'none';
+                terminalWindow.classList.add('minimized');
             } else {
-                $top.fadeOut(200);
+                terminalBody.style.display = 'block';
+                terminalWindow.classList.remove('minimized');
             }
         });
 
-        // Animate the scroll to top
-        $top.click(function(event) {
-            event.preventDefault();
-            $('html, body').animate({scrollTop: 0}, 300);
-        })
-
-        // Makes sure that the href="#" attached to the <a> elements
-        // don't scroll you back up the page.
-        $('body').on('click', 'a[href="#"]', function(event) {
-            event.preventDefault();
+        // Maximize button - toggles fullscreen
+        maximizeBtn.addEventListener('click', function() {
+            isMaximized = !isMaximized;
+            if (isMaximized) {
+                terminalWindow.classList.add('maximized');
+                document.body.style.overflow = 'hidden';
+            } else {
+                terminalWindow.classList.remove('maximized');
+                document.body.style.overflow = '';
+            }
         });
+
+        // Double-click header to maximize
+        document.querySelector('.terminal-header').addEventListener('dblclick', function(e) {
+            if (!e.target.classList.contains('terminal-btn')) {
+                maximizeBtn.click();
+            }
+        });
+    })();
     </script>
 </body>
 </html>

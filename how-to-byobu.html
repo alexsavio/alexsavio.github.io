@@ -1,60 +1,106 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en_us">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Interlines, Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.">
-
-        <link rel="alternate"  href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" title="Interlines Full Atom Feed"/>
-        <link rel="alternate" href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" title="Interlines Full RSS Feed"/>
-
-        <title>How to use Byobu // Interlines // Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython.</title>
-
-
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.3.0/pure-min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pure.css">
-    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/pygments.css">
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/fitvids/1.0.1/jquery.fitvids.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $(".content").fitVids();
-        });
-    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How to use Byobu | Interlines</title>
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/style.css" />
+    <link href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Interlines Atom Feed" />
+    <link href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Interlines RSS Feed" />
+    <style>
+        :root {
+--bg-color: #e8e0e0;--terminal-bg: #faf8f8;--text-color: #2d2d2d;--primary-color: #800020;--accent-color: #a0304d;--muted-color: #666666;--code-bg: #f0e8e8;--link-color: #800020;--header-bg: #d0c8c8;        }
+    </style>
 </head>
+<body class="light-theme">
+    <div class="container">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <span class="terminal-btn close"></span>
+                <span class="terminal-btn minimize"></span>
+                <span class="terminal-btn maximize"></span>
+                <span class="terminal-title">zsh — alex@blog</span>
+            </div>
+            <div class="terminal-body">
+                <div class="login-message">
+                    Last login: Today on ttys000<br>
+Lost in spikes                </div>
 
-<body>
-<div class="pure-g-r" id="layout">
-    <div class="sidebar sidebar-article pure-u">
-        <header class="header-article">
-            <hgroup>
-                <a href="https://alexsavio.github.io/author/alexandre-m-savio.html" title="See posts by Alexandre M. Savio">
-                        <img class="avatar" alt="Alexandre M. Savio" src="https://www.gravatar.com/avatar/252ab7f3e2ebf905115dee137696bb1e">
-                </a>
-                <h2 class="article-info">Alexandre M. Savio</h2>
-                <small class="about-author"></small>
-                <h5>Published</h5>
-                <p>Sun 06 July 2014</p>
-                <a href="/">&larr;Home</a>
-            </hgroup>
-        </header>
-    </div>
-    <div class="pure-u">
-        <div class="content">
-            <section class="post">
-                <header class="post-header">
-                    <h1>How to use&nbsp;Byobu</h1>
-                        <p class="post-meta">
-                            // under                                 <a class="post-category" href="https://alexsavio.github.io/tag/terminal.html">terminal</a>
-                                <a class="post-category" href="https://alexsavio.github.io/tag/config.html">config</a>
-                                <a class="post-category" href="https://alexsavio.github.io/tag/ssh.html">ssh</a>
-                                <a class="post-category" href="https://alexsavio.github.io/tag/multi-tasking.html">multi-tasking</a>
-                        </p>
-                </header>
-            </section>
-            <p><a href="http://byobu.co">Byobu</a>, in the same way as <a href="http://tmux.sourceforge.net/">tmux</a>, allows to
+                <div class="prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span>./welcome.sh</span>
+                </div>
+                <div class="command-output">
+                    <h1><a href="https://alexsavio.github.io/">Interlines</a></h1>
+                </div>
+
+                <div class="prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span>ls -la</span>
+                </div>
+                <nav class="nav-menu command-output">
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/" class="dirname">home</a>
+                        <span class="description">→ Back to start</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio" class="dirname">about_me</a>
+                        <span class="description">→ About Me</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://orcid.org/0000-0002-6608-6885" class="dirname">orcid</a>
+                        <span class="description">→ ORCID</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="http://www.surf-forecast.com/breaks/Zarautz/forecasts/latest/six_day" class="dirname">surf-forecast</a>
+                        <span class="description">→ Surf-Forecast</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/archives.html" class="dirname">archives</a>
+                        <span class="description">→ All posts</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/categories.html" class="dirname">categories</a>
+                        <span class="description">→ Browse by category</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">lrwxr-xr-x</span>
+                        <span class="dirname">links</span>
+                        <span class="description">→
+                            <a href="https://twitter.com/alex_savio">twitter-square</a> |                             <a href="https://github.com/alexsavio">github</a>                        </span>
+                    </div>
+                </nav>
+
+<div class="prompt">
+    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>cat how-to-byobu.md</span>
+</div>
+
+<article class="command-output">
+    <header>
+        <h2>How to use&nbsp;Byobu</h2>
+        <div class="article-meta">
+            <span class="article-date">[2014-07-06 10:00]</span>
+            | author: <a href="https://alexsavio.github.io/author/alexandre-m-savio.html">Alexandre M. Savio</a>
+            | category: <a href="https://alexsavio.github.io/category/sysadmin.html">SysAdmin</a>
+        </div>
+        <div class="article-meta">
+            tags:
+                <a href="https://alexsavio.github.io/tag/terminal.html" class="tag">terminal</a>
+                <a href="https://alexsavio.github.io/tag/config.html" class="tag">config</a>
+                <a href="https://alexsavio.github.io/tag/ssh.html" class="tag">ssh</a>
+                <a href="https://alexsavio.github.io/tag/multi-tasking.html" class="tag">multi-tasking</a>
+        </div>
+    </header>
+
+    <div class="article-content">
+        <p><a href="http://byobu.co">Byobu</a>, in the same way as <a href="http://tmux.sourceforge.net/">tmux</a>, allows to
 manage many terminals through just one. In summary, it is a terminal-based terminal multiplexer and session&nbsp;manager.</p>
 <p>It can be very helpful when working with a server through <span class="caps">SSH</span>. Instead of opening a terminal
 and connecting to your server every time you nedd another terminal, you can
@@ -62,28 +108,24 @@ setup your server to run Byobu or tmux at the beginning of your session and have
 <p>Byobu is an enhancement that connects to and uses Screen or tmux (you choose), but offers useful statistics and easy-to-use hotkeys for the basic&nbsp;commands.</p>
 <h2>Installing&nbsp;Byobu</h2>
 <p>In&nbsp;Ubuntu:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>apt-get install byobu.</span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>apt-get<span class="w"> </span>install<span class="w"> </span>byobu.</span>
 <span class="code-line"></code></pre></div>
-
 
 <p>Else take a look at <a href="http://byobu.co/downloads.html">http://byobu.co/downloads.html</a></p>
 <h2>Start&nbsp;Byobu</h2>
 <div class="highlight"><pre><span class="code-line"><span></span><code>byobu</span>
 <span class="code-line"></code></pre></div>
 
-
 <h2>Configure Ubuntu to run Byobu from the&nbsp;beginning</h2>
 <div class="highlight"><pre><span class="code-line"><span></span><code>byobu-config</span>
 <span class="code-line"></code></pre></div>
 
-
 <p>Feel free to change&nbsp;anything.</p>
-<p>The important setting to change is: &#8220;<em>Byobu currently launches at login (toggle on)</em>&#8220;. Select that and press&nbsp;return.</p>
+<p>The important setting to change is: &#8220;<em>Byobu currently launches at login (toggle on)</em>&#8221;. Select that and press&nbsp;return.</p>
 <p>Now you can go back to the menu and exit byobu-config (tab to the exit choice and hit&nbsp;return).</p>
 <h2>Resume previous&nbsp;sessions</h2>
-<div class="highlight"><pre><span class="code-line"><span></span><code>byobu –r session_title</span>
+<div class="highlight"><pre><span class="code-line"><span></span><code>byobu<span class="w"> </span>–r<span class="w"> </span>session_title</span>
 <span class="code-line"></code></pre></div>
-
 
 <h2>Hotkeys</h2>
 <p>Byobu has easy keybindings that use the function&nbsp;keys:</p>
@@ -100,9 +142,8 @@ setup your server to run Byobu or tmux at the beginning of your session and have
 </ul>
 <h2>How detaching works or How to maintain a&nbsp;session</h2>
 <p>Perform a short demo. Issue the&nbsp;command:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span> hello</span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span><span class="w"> </span>hello</span>
 <span class="code-line"></code></pre></div>
-
 
 <p>Now exit the session by pressing <strong>F6</strong> to detach from Byobu and then run: <em>exit</em>.</p>
 <p>Now <span class="caps">SSH</span> back into your machine.
@@ -112,21 +153,18 @@ That means you can log in, run a long running task, and then detach and come bac
 <h2>Note for vim&nbsp;users</h2>
 <p>You might find now a strange behaviour when using <strong>Ctrl-Left</strong> and <strong>Ctrl-Right</strong> keys to skip words using vim and also other&nbsp;programs.</p>
 <p>The best solution I found&nbsp;was:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span> <span class="s1">&#39;:set term=xterm&#39;</span> &gt;&gt; ~/.vim/vimrc</span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;:set term=xterm&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.vim/vimrc</span>
 <span class="code-line"></code></pre></div>
-
 
 <blockquote></blockquote>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span> <span class="s1">&#39;unbind-key -n C-Left&#39;</span> &gt;&gt; ~/.byobu/keybindings.tmux</span>
-<span class="code-line"><span class="nb">echo</span> <span class="s1">&#39;unbind-key -n C-Right&#39;</span> &gt;&gt; ~/.byobu/keybindings.tmux</span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;unbind-key -n C-Left&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/keybindings.tmux</span>
+<span class="code-line"><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;unbind-key -n C-Right&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/keybindings.tmux</span>
 <span class="code-line"></code></pre></div>
-
 
 <blockquote></blockquote>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span> <span class="s1">&#39;set-window-option -g xterm-keys on&#39;</span> &gt;&gt; ~/.byobu/.tmux.conf</span>
-<span class="code-line"><span class="nb">echo</span> <span class="s2">&quot;set -g terminal-overrides &#39;xterm*:smcup@:rmcup@&#39;&quot;</span> &gt;&gt; ~/.byobu/.tmux.conf</span>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;set-window-option -g xterm-keys on&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/.tmux.conf</span>
+<span class="code-line"><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;set -g terminal-overrides &#39;xterm*:smcup@:rmcup@&#39;&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/.tmux.conf</span>
 <span class="code-line"></code></pre></div>
-
 
 <h3>References</h3>
 <p>[1] <a href="http://www.saltycrane.com/blog/2012/10/how-start-long-running-process-screen-and-detach-it/">http://www.saltycrane.com/blog/2012/10/how-start-long-running-process-screen-and-detach-it/</a></p>
@@ -134,39 +172,84 @@ That means you can log in, run a long running task, and then detach and come bac
 <p>[3] <a href="http://byobu.co/documentation.html">http://byobu.co/documentation.html</a></p>
 <p>[4] <a href="http://www.howtogeek.com/58487/how-to-easily-multitask-in-a-linux-terminal-with-byobu/">http://www.howtogeek.com/58487/how-to-easily-multitask-in-a-linux-terminal-with-byobu/</a></p>
 <p>[5] <a href="http://blog.smartlogicsolutions.com/2010/01/22/ubuntu-byobu-landscape/">http://blog.smartlogicsolutions.com/2010/01/22/ubuntu-byobu-landscape/</a></p>
-            <div class="hr"></div>
-            <a href="#" class="go-top">Go Top</a>
-<footer class="footer">
-    <p>&copy; Interlines &ndash;
-        Built with <a href="https://github.com/PurePelicanTheme/pure">Pure Theme</a>
-        for <a href="http://blog.getpelican.com/">Pelican</a>
-    </p>
-</footer>        </div>
     </div>
-</div>
-    <script>
-        var $top = $('.go-top');
 
-        // Show or hide the sticky footer button
-        $(window).scroll(function() {
-            if ($(this).scrollTop() > 200) {
-                $top.fadeIn(200);
+</article>
+
+<div class="prompt" style="margin-top: 30px;">
+    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>ls -1 | head</span>
+</div>
+<div class="command-output pagination">
+    <span></span>
+</div>
+
+                <div class="footer">
+                    <div class="prompt">
+                        <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                        <span class="cursor"></span>
+                    </div>
+                    <p>&copy; Alexandre Manhães Savio | Powered by <a href="http://getpelican.com/">Pelican</a> | Theme: fancy-terminal</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function() {
+        const terminalWindow = document.querySelector('.terminal-window');
+        const terminalBody = document.querySelector('.terminal-body');
+        const closeBtn = document.querySelector('.terminal-btn.close');
+        const minimizeBtn = document.querySelector('.terminal-btn.minimize');
+        const maximizeBtn = document.querySelector('.terminal-btn.maximize');
+
+        let isMinimized = false;
+        let isMaximized = false;
+
+        // Close button - shows "session ended" message
+        closeBtn.addEventListener('click', function() {
+            terminalBody.innerHTML = `
+                <div class="login-message" style="text-align: center; padding: 40px 0;">
+                    <p>logout</p>
+                    <p style="margin-top: 20px;">[Process completed]</p>
+                    <p style="margin-top: 30px; font-size: 0.85em;">
+                        <a href="https://alexsavio.github.io/" style="color: var(--link-color);">→ Start new session</a>
+                    </p>
+                </div>
+            `;
+            terminalWindow.classList.add('closed');
+        });
+
+        // Minimize button - collapses terminal body
+        minimizeBtn.addEventListener('click', function() {
+            isMinimized = !isMinimized;
+            if (isMinimized) {
+                terminalBody.style.display = 'none';
+                terminalWindow.classList.add('minimized');
             } else {
-                $top.fadeOut(200);
+                terminalBody.style.display = 'block';
+                terminalWindow.classList.remove('minimized');
             }
         });
 
-        // Animate the scroll to top
-        $top.click(function(event) {
-            event.preventDefault();
-            $('html, body').animate({scrollTop: 0}, 300);
-        })
-
-        // Makes sure that the href="#" attached to the <a> elements
-        // don't scroll you back up the page.
-        $('body').on('click', 'a[href="#"]', function(event) {
-            event.preventDefault();
+        // Maximize button - toggles fullscreen
+        maximizeBtn.addEventListener('click', function() {
+            isMaximized = !isMaximized;
+            if (isMaximized) {
+                terminalWindow.classList.add('maximized');
+                document.body.style.overflow = 'hidden';
+            } else {
+                terminalWindow.classList.remove('maximized');
+                document.body.style.overflow = '';
+            }
         });
+
+        // Double-click header to maximize
+        document.querySelector('.terminal-header').addEventListener('dblclick', function(e) {
+            if (!e.target.classList.contains('terminal-btn')) {
+                maximizeBtn.click();
+            }
+        });
+    })();
     </script>
 </body>
 </html>
