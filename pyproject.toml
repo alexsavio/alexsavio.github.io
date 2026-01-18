@@ -1,0 +1,75 @@
+[project]
+name = "alexsavio-blog"
+version = "1.0.0"
+description = "Personal blog powered by Pelican"
+authors = [{ name = "Alexandre Manhães Savio", email = "alexsavio@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "blinker>=1.7.0",
+    "docutils>=0.20.0",
+    "feedgenerator>=2.1.0",
+    "pelican[markdown]>=4.9.0",
+    "beautifulsoup4>=4.12.0",
+    "python-dateutil>=2.9.0",
+    "pytz>=2025.2",
+    "jinja2>=3.1.0",
+    "markupsafe>=3.0.3",
+    "unidecode>=1.3.0",
+    "typogrify>=2.0.0",
+    "webassets>=3.0.0",
+    "icalendar>=6.3.2",
+    "lxml>=6.0.2",
+    "feedparser>=6.0.0",
+    "pillow>=12.1.0",
+    "invoke>=2.2.0",
+    "ghp-import>=2.1.0",
+]
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+lint = ["mypy>=1.19.1", "pydocstyle>=6.3.0", "ruff>=0.14.11"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+exclude = [
+    "plugins/",
+    ".venv/",
+    "output/",
+    "cache/",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501", # line too long, handled by black
+    "B008", # do not perform function calls in argument defaults
+    "C901", # too complex
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pelicanconf", "publishconf"]
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+exclude = [
+    "plugins/",
+    ".venv/",
+    "output/",
+    "cache/",
+]

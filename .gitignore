@@ -41,8 +41,10 @@ cache/
 *.pid
 output/
 
-# Pipenv
-Pipfile
-Pipfile.lock
+# uv
+.venv/
 .python-version
 .build-harness
+
+.env
+.envrc

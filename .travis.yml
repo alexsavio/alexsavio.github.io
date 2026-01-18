@@ -1,12 +1,13 @@
-dist: bionic
+dist: jammy
 language: python
 
 cache:
   directories:
-    - .pipenv
+    - .venv
+    - $HOME/.local/share/uv
 
 python:
-  - "3.8"
+  - "3.13"
 
 branches:
   only:
@@ -14,16 +15,18 @@ branches:
 
 before_install:
   - sudo apt-get install -y optipng
+  - curl -LsSf https://astral.sh/uv/install.sh | sh
+  - export PATH="$HOME/.cargo/bin:$PATH"
+
 addons:
   apt:
     update: true
 
 install:
-  - export WORKON_HOME=.pipenv/venvs
-  - export PIP_CACHE_DIR=.pipenv/pipcache
-  - make install-ci
+  - uv sync
+
 script:
-  - make html
+  - uv run pelican -s pelicanconf.py
 
 deploy:
   provider: pages
