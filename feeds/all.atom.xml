@@ -1,5 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Interlines</title><link href="https://alexsavio.github.io/" rel="alternate"/><link href="https://alexsavio.github.io/feeds/all.atom.xml" rel="self"/><id>https://alexsavio.github.io/</id><updated>2020-06-11T12:00:00+02:00</updated><subtitle>Lost in spikes</subtitle><entry><title>Git usage guidelines for team collaboration</title><link href="https://alexsavio.github.io/git-collaboration-guidelines.html" rel="alternate"/><published>2020-06-11T12:00:00+02:00</published><updated>2020-06-11T12:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2020-06-11:/git-collaboration-guidelines.html</id><summary type="html">&lt;p&gt;Suggestions on how to use a code repository with git for&amp;nbsp;teams.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Interlines</title><link href="https://alexsavio.github.io/" rel="alternate"/><link href="https://alexsavio.github.io/feeds/all.atom.xml" rel="self"/><id>https://alexsavio.github.io/</id><updated>2026-01-18T00:00:00+01:00</updated><subtitle>Lost in spikes</subtitle><entry><title>Taming Your Dev Chaos with direnv, .env, and .envrc (Plus a Sneak Peek at mise-en-place)</title><link href="https://alexsavio.github.io/direnv-dotenv-envrc.html" rel="alternate"/><published>2026-01-18T00:00:00+01:00</published><updated>2026-01-18T00:00:00+01:00</updated><author><name>Alexandre Manhães Savio</name></author><id>tag:alexsavio.github.io,2026-01-18:/direnv-dotenv-envrc.html</id><summary type="html">&lt;p&gt;Stop manually juggling env vars like a clown — learn how direnv auto-magically handles your dev environments with .env and .envrc files. Includes a sick custom layout uv function for Python projects and a teaser on mise-en-place, the dev tool that does it&amp;nbsp;all.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Taming Your Dev Chaos with direnv, .env, and&amp;nbsp;.envrc&lt;/h1&gt;
+&lt;p&gt;Ever felt like you&amp;#8217;re playing whack-a-mole with environment variables across a dozen projects? One project&amp;#8217;s&amp;nbsp;got &lt;code&gt;DEBUG=true&lt;/code&gt;, another&amp;#8217;s screaming&amp;nbsp;for &lt;code&gt;API_KEY=secret-sauce&lt;/code&gt;, and you&amp;#8217;re just there manually sourcing shit like it&amp;#8217;s 1999? Yeah, we&amp;#8217;ve all been there, sweating bullets trying not to mix up prod and dev configs.
+Enter &lt;strong&gt;direnv&lt;/strong&gt; — the lazy dev&amp;#8217;s best friend that automatically loads and unloads your env vars based on where&amp;nbsp;you &lt;code&gt;cd&lt;/code&gt;. It&amp;#8217;s like having a personal assistant that whispers &amp;#8220;you&amp;#8217;re in the wrong project, dumbass&amp;#8221; before you fuck&amp;nbsp;up.&lt;/p&gt;
+&lt;h2&gt;What the Hell is&amp;nbsp;direnv?&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt; is basically a shell extension that gives your terminal superpowers. It hooks into bash, zsh, fish, and whatever else you&amp;#8217;re using, automatically loading or unloading environment variables as you bounce between directories. No more &amp;#8220;oh shit, I forgot to activate the venv&amp;#8221; moments.&amp;nbsp;Just &lt;code&gt;cd&lt;/code&gt; and boom — your environment&amp;#8217;s ready to&amp;nbsp;party.&lt;/p&gt;
+&lt;h3&gt;Getting This Bad Boy&amp;nbsp;Installed&lt;/h3&gt;
+&lt;p&gt;On macOS with Homebrew (because who doesn&amp;#8217;t love&amp;nbsp;brew?):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;direnv&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On Ubuntu/Debian (for you Linux&amp;nbsp;warriors):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;direnv&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now hook it into your shell. For zsh (the cool kids&amp;#8217; choice), slap this in&amp;nbsp;your &lt;code&gt;~/.zshrc&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;direnv&lt;span class="w"&gt; &lt;/span&gt;hook&lt;span class="w"&gt; &lt;/span&gt;zsh&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Restart your terminal and you&amp;#8217;re golden. Pro tip: If you&amp;#8217;re still using bash, no judgment, but maybe upgrade your life while you&amp;#8217;re at&amp;nbsp;it.&lt;/p&gt;
+&lt;h2&gt;The .envrc File: Your New&amp;nbsp;Bestie&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;.envrc&lt;/code&gt; file is direnv&amp;#8217;s command center — it&amp;#8217;s basically a bash script that runs every time you enter the directory. Think of it as your project&amp;#8217;s personal hype man. Here&amp;#8217;s a basic&amp;nbsp;example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .envrc&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;DATABASE_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;postgres://localhost/mydb&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;DEBUG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After you create or tweak&amp;nbsp;your &lt;code&gt;.envrc&lt;/code&gt;, you gotta approve&amp;nbsp;it:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;direnv&lt;span class="w"&gt; &lt;/span&gt;allow&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Yeah, it&amp;#8217;s got security vibes — direnv ain&amp;#8217;t about to run random code without your say-so. Smart move, prevents you from accidentally nuking your system with some sketchy&amp;nbsp;project&amp;#8217;s &lt;code&gt;.envrc&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;The .env File and That&amp;nbsp;Sweet &lt;code&gt;dotenv_if_exists&lt;/code&gt; Magic&lt;/h2&gt;
+&lt;p&gt;Most apps these days&amp;nbsp;use &lt;code&gt;.env&lt;/code&gt; files for their secrets (thanks to that &lt;a href="https://12factor.net/config"&gt;twelve-factor app&lt;/a&gt; gospel). It&amp;#8217;s just key-value pairs, no&amp;nbsp;frills:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .env&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nv"&gt;SECRET_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;mysupersecretkey&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nv"&gt;API_TOKEN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;abc123&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nv"&gt;DATABASE_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;postgres://user:pass@localhost/db&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Direnv can slurp these up automatically&amp;nbsp;with &lt;code&gt;dotenv_if_exists&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .envrc&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;dotenv_if_exists&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;What it&amp;nbsp;does:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Checks&amp;nbsp;if &lt;code&gt;.env&lt;/code&gt; exists in your current&amp;nbsp;dir&lt;/li&gt;
+&lt;li&gt;If yes, loads all the&amp;nbsp;vars&lt;/li&gt;
+&lt;li&gt;If no, shrugs and moves on (no&amp;nbsp;drama)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Why this&amp;nbsp;slaps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;.env&lt;/code&gt; goes&amp;nbsp;in &lt;code&gt;.gitignore&lt;/code&gt; (secrets stay secret,&amp;nbsp;duh)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.envrc&lt;/code&gt; gets committed (tells your team what vars they&amp;nbsp;need)&lt;/li&gt;
+&lt;li&gt;Everyone on the team can have their&amp;nbsp;own &lt;code&gt;.env&lt;/code&gt; with different values — no more &amp;#8220;why is this broken on my&amp;nbsp;machine?&amp;#8221;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Leveling Up Python Projects&amp;nbsp;with &lt;code&gt;layout uv&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;With &lt;a href="https://github.com/astral-sh/uv"&gt;uv&lt;/a&gt; dropping like a boss as the fastest Python package manager around, I cooked up a&amp;nbsp;custom &lt;code&gt;layout uv&lt;/code&gt; function that pairs perfectly with direnv. It&amp;#8217;s&amp;nbsp;lit.&lt;/p&gt;
+&lt;p&gt;Drop this in&amp;nbsp;your &lt;code&gt;~/.config/direnv/direnvrc&lt;/code&gt; (or &lt;code&gt;~/.direnvrc&lt;/code&gt; if you&amp;#8217;re old&amp;nbsp;school):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;layout_uv&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$#&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-gt&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;shift&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-d&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.venv&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nv"&gt;VIRTUAL_ENV&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$UV_PROJECT_ENVIRONMENT&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-z&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$VIRTUAL_ENV&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;!&lt;span class="w"&gt; &lt;/span&gt;-d&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$VIRTUAL_ENV&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;        &lt;/span&gt;log_status&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;No virtual environment exists. Executing \`uv venv\` to create one.&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;        &lt;/span&gt;uv&lt;span class="w"&gt; &lt;/span&gt;venv&lt;span class="w"&gt; &lt;/span&gt;--allow-existing&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nv"&gt;VIRTUAL_ENV&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$UV_PROJECT_ENVIRONMENT&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;PATH_add&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$VIRTUAL_ENV&lt;/span&gt;&lt;span class="s2"&gt;/bin&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;UV_ACTIVE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# or VENV_ACTIVE=1&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;VIRTUAL_ENV&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="o"&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then in your&amp;nbsp;project&amp;#8217;s &lt;code&gt;.envrc&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .envrc&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;dotenv_if_exists&lt;/span&gt;
+&lt;span class="code-line"&gt;layout&lt;span class="w"&gt; &lt;/span&gt;uv&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;What Does&amp;nbsp;This &lt;code&gt;layout uv&lt;/code&gt; Sorcery Actually&amp;nbsp;Do?&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Checks for existing venv&lt;/strong&gt;:&amp;nbsp;If &lt;code&gt;.venv&lt;/code&gt; is already chilling there, it rolls with&amp;nbsp;it&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Creates one if needed&lt;/strong&gt;: No venv? No problem —&amp;nbsp;runs &lt;code&gt;uv venv&lt;/code&gt; and makes&amp;nbsp;one&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Activates it&lt;/strong&gt;: Slaps the&amp;nbsp;venv&amp;#8217;s &lt;code&gt;bin&lt;/code&gt; into&amp;nbsp;your &lt;code&gt;PATH&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sets the flags&lt;/strong&gt;:&amp;nbsp;Exports &lt;code&gt;UV_ACTIVE=1&lt;/code&gt; and &lt;code&gt;VIRTUAL_ENV&lt;/code&gt; for tools that&amp;nbsp;care&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Watch the Magic&amp;nbsp;Happen&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/projects/my-python-project&lt;/span&gt;
+&lt;span class="code-line"&gt;direnv:&lt;span class="w"&gt; &lt;/span&gt;loading&lt;span class="w"&gt; &lt;/span&gt;~/projects/my-python-project/.envrc&lt;/span&gt;
+&lt;span class="code-line"&gt;direnv:&lt;span class="w"&gt; &lt;/span&gt;No&lt;span class="w"&gt; &lt;/span&gt;virtual&lt;span class="w"&gt; &lt;/span&gt;environment&lt;span class="w"&gt; &lt;/span&gt;exists.&lt;span class="w"&gt; &lt;/span&gt;Executing&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;uv&lt;span class="w"&gt; &lt;/span&gt;venv&lt;span class="sb"&gt;`&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;to&lt;span class="w"&gt; &lt;/span&gt;create&lt;span class="w"&gt; &lt;/span&gt;one.&lt;/span&gt;
+&lt;span class="code-line"&gt;Using&lt;span class="w"&gt; &lt;/span&gt;CPython&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.13.0&lt;/span&gt;
+&lt;span class="code-line"&gt;Creating&lt;span class="w"&gt; &lt;/span&gt;virtual&lt;span class="w"&gt; &lt;/span&gt;environment&lt;span class="w"&gt; &lt;/span&gt;at:&lt;span class="w"&gt; &lt;/span&gt;.venv&lt;/span&gt;
+&lt;span class="code-line"&gt;Activate&lt;span class="w"&gt; &lt;/span&gt;with:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;.venv/bin/activate&lt;/span&gt;
+&lt;span class="code-line"&gt;direnv:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;+UV_ACTIVE&lt;span class="w"&gt; &lt;/span&gt;+VIRTUAL_ENV&lt;span class="w"&gt; &lt;/span&gt;~PATH&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;$&lt;span class="w"&gt; &lt;/span&gt;which&lt;span class="w"&gt; &lt;/span&gt;python&lt;/span&gt;
+&lt;span class="code-line"&gt;/Users/alex/projects/my-python-project/.venv/bin/python&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~&lt;/span&gt;
+&lt;span class="code-line"&gt;direnv:&lt;span class="w"&gt; &lt;/span&gt;unloading&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;$&lt;span class="w"&gt; &lt;/span&gt;which&lt;span class="w"&gt; &lt;/span&gt;python&lt;/span&gt;
+&lt;span class="code-line"&gt;/usr/bin/python&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Boom. Automatic venv activation. Your future self will thank&amp;nbsp;you.&lt;/p&gt;
+&lt;h2&gt;Pro Tips to Not Fuck This&amp;nbsp;Up&lt;/h2&gt;
+&lt;h3&gt;1. Secrets&amp;nbsp;in &lt;code&gt;.env&lt;/code&gt;, Structure&amp;nbsp;in &lt;code&gt;.envrc&lt;/code&gt;&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .envrc (commit this shit)&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;dotenv_if_exists&lt;/span&gt;
+&lt;span class="code-line"&gt;layout&lt;span class="w"&gt; &lt;/span&gt;uv&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="c1"&gt;# Required environment variables (document this for your team)&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="c1"&gt;# DATABASE_URL - PostgreSQL connection string&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="c1"&gt;# API_KEY - Your API key from example.com&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .env (keep this out of git, you idiot)&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nv"&gt;DATABASE_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;postgres://localhost/mydb&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nv"&gt;API_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;secret123&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;2. Drop&amp;nbsp;a &lt;code&gt;.env.example&lt;/code&gt; Template&lt;/h3&gt;
+&lt;p&gt;Make&amp;nbsp;a &lt;code&gt;.env.example&lt;/code&gt; that shows what vars are needed, minus the actual&amp;nbsp;secrets:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .env.example&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nv"&gt;DATABASE_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;postgres://user:password@localhost/dbname&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nv"&gt;API_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;your-api-key-here&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nv"&gt;DEBUG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;3.&amp;nbsp;Use &lt;code&gt;direnv allow&lt;/code&gt; Like Your Life Depends on&amp;nbsp;It&lt;/h3&gt;
+&lt;p&gt;Only&amp;nbsp;allow &lt;code&gt;.envrc&lt;/code&gt; files from projects you trust. This ain&amp;#8217;t a free-for-all — malicious code could ruin your&amp;nbsp;day.&lt;/p&gt;
+&lt;h3&gt;4. Team Up with uv&amp;#8217;s&amp;nbsp;pyproject.toml&lt;/h3&gt;
+&lt;p&gt;With &lt;code&gt;layout uv&lt;/code&gt; and&amp;nbsp;a &lt;code&gt;pyproject.toml&lt;/code&gt;, your whole Python setup is declarative &lt;span class="caps"&gt;AF&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# pyproject.toml&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="k"&gt;[project]&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;my-project&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="n"&gt;requires-python&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;gt;=3.11&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="n"&gt;dependencies&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;requests&amp;gt;=2.31.0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;click&amp;gt;=8.1.0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;cd&lt;/code&gt; into your project and everything&amp;#8217;s ready to roll. No more &amp;#8220;pip install&amp;#8221;&amp;nbsp;nightmares.&lt;/p&gt;
+&lt;h2&gt;Wrapping This Shit&amp;nbsp;Up&lt;/h2&gt;
+&lt;p&gt;Direnv&amp;nbsp;+ &lt;code&gt;.env&lt;/code&gt; +&amp;nbsp;custom &lt;code&gt;layout uv&lt;/code&gt; = dev environment&amp;nbsp;heaven:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Automatic &lt;span class="caps"&gt;AF&lt;/span&gt;&lt;/strong&gt;: No more forgetting to activate&amp;nbsp;venvs&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Secure as Fuck&lt;/strong&gt;: Secrets stay out of&amp;nbsp;git&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Blazing Fast&lt;/strong&gt;: uv creates venvs in the blink of an&amp;nbsp;eye&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Team-Friendly&lt;/strong&gt;:&amp;nbsp;Share &lt;code&gt;.envrc&lt;/code&gt;, keep&amp;nbsp;personal &lt;code&gt;.env&lt;/code&gt; files&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Try it out — once you go automatic, you&amp;#8217;ll wonder how you survived the manual era. Your productivity will skyrocket, and you&amp;#8217;ll have more time for&amp;nbsp;memes.&lt;/p&gt;
+&lt;h2&gt;Future Vibes:&amp;nbsp;mise-en-place&lt;/h2&gt;
+&lt;p&gt;Direnv is solid and battle-tested, but peep this new kid on the block: &lt;strong&gt;&lt;a href="https://mise.jdx.dev/"&gt;mise-en-place&lt;/a&gt;&lt;/strong&gt; (say it like &amp;#8220;meez&amp;#8221;). It&amp;#8217;s the dev tool that wants to be your&amp;nbsp;everything.&lt;/p&gt;
+&lt;p&gt;Mise&amp;nbsp;combines:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Tool version management&lt;/strong&gt; (think asdf/nvm/pyenv but&amp;nbsp;better)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Environment variable handling&lt;/strong&gt; (direnv&amp;#8217;s&amp;nbsp;job)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Task running&lt;/strong&gt; (make/just&amp;nbsp;territory)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The big win? &lt;strong&gt;One tool to rule them all&lt;/strong&gt;. No more juggling direnv + asdf + make like a circus act.&amp;nbsp;One &lt;code&gt;mise.toml&lt;/code&gt; config file handles it&amp;nbsp;all:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# mise.toml&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="k"&gt;[tools]&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;3.13&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="n"&gt;node&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;20&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="k"&gt;[env]&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="n"&gt;DATABASE_URL&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;postgres://localhost/mydb&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="k"&gt;[tasks.dev]&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;python manage.py runserver&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It auto-activates Python venvs,&amp;nbsp;loads &lt;code&gt;.env&lt;/code&gt; files, and plays nice with&amp;nbsp;existing &lt;code&gt;.tool-versions&lt;/code&gt; from asdf. Built in Rust, so it&amp;#8217;s faster than your ex moving on. If you&amp;#8217;re drowning in tool sprawl, mise might be your lifesaver. I&amp;#8217;ll drop a full migration guide soon — stay&amp;nbsp;woke!&lt;/p&gt;
+&lt;h2&gt;Links and&amp;nbsp;Shit&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://direnv.net/"&gt;direnv docs&lt;/a&gt; - The &lt;span class="caps"&gt;OG&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/astral-sh/uv"&gt;uv - Python&amp;#8217;s speed&amp;nbsp;demon&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://12factor.net/config"&gt;Twelve-Factor App - Config&amp;nbsp;wisdom&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://mise.jdx.dev/"&gt;mise-en-place&lt;/a&gt; - The unified&amp;nbsp;beast&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Development"/><category term="direnv"/><category term="python"/><category term="uv"/><category term="environment"/><category term="shell"/><category term="productivity"/><category term="mise"/></entry><entry><title>Git usage guidelines for team collaboration</title><link href="https://alexsavio.github.io/git-collaboration-guidelines.html" rel="alternate"/><published>2020-06-11T12:00:00+02:00</published><updated>2020-06-11T12:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2020-06-11:/git-collaboration-guidelines.html</id><summary type="html">&lt;p&gt;Suggestions on how to use a code repository with git for&amp;nbsp;teams.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;This is a set of rules that I have been gathering in the past few years which work well for most of the projects I worked on with small teams of 3-8 people. These guidelines are heavily based on the &lt;a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines"&gt;angular.js/&lt;span class="caps"&gt;DEVELOPERS&lt;/span&gt;.md document on  GitHub&lt;/a&gt; and this is not about &lt;a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow"&gt;GitFlow&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;Branching&amp;nbsp;model&lt;/h2&gt;
 &lt;p&gt;Always create a new branch from an up-to-date &amp;#8220;main&amp;#8221; branch.
