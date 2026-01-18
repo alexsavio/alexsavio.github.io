@@ -21,17 +21,17 @@ TERMINAL_USER = "alex"
 TERMINAL_HOST = "blog"
 TERMINAL_TITLE = "zsh"
 
-# Theme colors (light burgundy)
+# Theme colors (Catppuccin Latte - https://catppuccin.com/palette/)
 THEME_COLORS = {
-    'bg_color': '#e8e0e0',
-    'terminal_bg': '#faf8f8',
-    'text_color': '#2d2d2d',
-    'primary_color': '#800020',
-    'accent_color': '#a0304d',
-    'muted_color': '#666666',
-    'code_bg': '#f0e8e8',
-    'link_color': '#800020',
-    'header_bg': '#d0c8c8',
+    'bg_color': '#e6e9ef',        # Mantle
+    'terminal_bg': '#eff1f5',     # Base
+    'text_color': '#4c4f69',      # Text
+    'primary_color': '#1e66f5',   # Blue
+    'accent_color': '#8839ef',    # Mauve
+    'muted_color': '#6c6f85',     # Subtext 0
+    'code_bg': '#ccd0da',         # Surface 0
+    'link_color': '#179299',      # Teal
+    'header_bg': '#dce0e8',       # Crust
 }
 
 COVER_IMG_URL = "imgs/blog_wallpaper.jpeg"

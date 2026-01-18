@@ -37,13 +37,15 @@ Override colors using the `THEME_COLORS` dictionary:
 
 ```python
 THEME_COLORS = {
-    'bg_color': '#faf8f8',
-    'text_color': '#2d2d2d',
-    'primary_color': '#800020',
-    'accent_color': '#a0304d',
-    'muted_color': '#888888',
-    'code_bg': '#f0e8e8',
-    'link_color': '#800020',
+    'bg_color': '#f7f7f7',        # Light gray background
+    'terminal_bg': '#ffffff',    # Pure white terminal window
+    'text_color': '#2d3748',     # Dark blue-gray text
+    'primary_color': '#00d4aa',  # Bright cyan-green (terminal green)
+    'accent_color': '#ff6b6b',   # Coral red for accents
+    'muted_color': '#718096',    # Medium gray for muted elements
+    'code_bg': '#f1f5f9',        # Light blue-gray for code blocks
+    'link_color': '#00d4aa',     # Same as primary
+    'header_bg': '#e2e8f0',      # Light blue header
 }
 ```
 
@@ -94,6 +96,23 @@ THEME_COLORS = {
 ```python
 THEME_LIGHT_MODE = True
 # Uses built-in burgundy (#800020) as primary color
+```
+
+### Nerdy Light Terminal (Retro Computing)
+
+```python
+THEME_LIGHT_MODE = True
+THEME_COLORS = {
+    'bg_color': '#f7f7f7',        # Light gray background
+    'terminal_bg': '#ffffff',    # Pure white terminal window
+    'text_color': '#2d3748',     # Dark blue-gray text
+    'primary_color': '#00d4aa',  # Bright cyan-green (terminal green)
+    'accent_color': '#ff6b6b',   # Coral red for accents
+    'muted_color': '#718096',    # Medium gray for muted elements
+    'code_bg': '#f1f5f9',        # Light blue-gray for code blocks
+    'link_color': '#00d4aa',     # Same as primary
+    'header_bg': '#e2e8f0',      # Light blue header
+}
 ```
 
 ### Amber/Orange

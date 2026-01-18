@@ -2,7 +2,7 @@
 /* Inspired by daita.io with customizable colors */
 
 :root {
-    /* Default: Dark terminal theme */
+    /* Default: Dark terminal theme - override with THEME_COLORS in pelicanconf.py */
     --bg-color: #1a1a1a;
     --terminal-bg: #0d0d0d;
     --text-color: #00ff00;
@@ -15,18 +15,8 @@
     --font-family: "SF Mono", "Fira Code", "Monaco", "Inconsolata", "Roboto Mono", monospace;
 }
 
-/* Light burgundy theme override */
-body.light-theme {
-    --bg-color: #e8e0e0;
-    --terminal-bg: #faf8f8;
-    --text-color: #2d2d2d;
-    --primary-color: #800020;
-    --accent-color: #a0304d;
-    --muted-color: #666666;
-    --code-bg: #f0e8e8;
-    --link-color: #800020;
-    --header-bg: #d0c8c8;
-}
+/* Note: body.light-theme class is added when THEME_LIGHT_MODE = True
+   Colors are controlled via THEME_COLORS in pelicanconf.py, not here */
 
 * {
     box-sizing: border-box;
