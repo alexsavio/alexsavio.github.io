@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title|striptags }} | {{ SITENAME }}{% endblock %}
+
+{% block content %}
+{# Command to read article #}
+<div class="prompt">
+    <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>cat {{ article.slug }}.md</span>
+</div>
+
+<article class="command-output">
+    <header>
+        <h2>{{ article.title }}</h2>
+        <div class="article-meta">
+            <span class="article-date">[{{ article.date|strftime('%Y-%m-%d %H:%M') }}]</span>
+            {% if article.modified %}
+            | modified: {{ article.modified|strftime('%Y-%m-%d') }}
+            {% endif %}
+            {% if article.author %}
+            | author: <a href="{{ SITEURL }}/{{ article.author.url }}">{{ article.author }}</a>
+            {% endif %}
+            {% if article.category %}
+            | category: <a href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a>
+            {% endif %}
+        </div>
+        {% if article.tags %}
+        <div class="article-meta">
+            tags:
+            {% for tag in article.tags %}
+                <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </header>
+
+    <div class="article-content">
+        {{ article.content }}
+    </div>
+
+    {% if article.translations %}
+    <div class="translations">
+        Translations:
+        {% for translation in article.translations %}
+        <a href="{{ SITEURL }}/{{ translation.url }}" hreflang="{{ translation.lang }}">{{ translation.lang }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</article>
+
+{# Navigation between articles #}
+<div class="prompt" style="margin-top: 30px;">
+    <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>ls -1 | head</span>
+</div>
+<div class="command-output pagination">
+    {% if article.prev_article %}
+    <a href="{{ SITEURL }}/{{ article.prev_article.url }}">← {{ article.prev_article.title|truncate(40) }}</a>
+    {% else %}
+    <span></span>
+    {% endif %}
+    {% if article.next_article %}
+    <a href="{{ SITEURL }}/{{ article.next_article.url }}">{{ article.next_article.title|truncate(40) }} →</a>
+    {% endif %}
+</div>
+{% endblock %}

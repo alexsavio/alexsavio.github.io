@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+{# Command to list articles #}
+<div class="prompt">
+    <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>cat latest.log</span>
+</div>
+
+<section id="content" class="command-output">
+    <div class="article-list">
+        {% for article in articles_page.object_list %}
+        <div class="article-entry">
+            <span class="article-date">[{{ article.date|strftime('%Y-%m-%d') }}]</span>
+            <a href="{{ SITEURL }}/{{ article.url }}" class="article-title">{{ article.title }}</a>
+            <div class="article-meta">
+                {% if article.category %}
+                category: <a href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a>
+                {% endif %}
+                {% if article.tags %}
+                | tags:
+                {% for tag in article.tags %}
+                    <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }}</a>
+                {% endfor %}
+                {% endif %}
+            </div>
+            {% if article.summary %}
+            <div class="article-summary">{{ article.summary }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if articles_page.has_other_pages() %}
+    {% include "pagination.html" %}
+    {% endif %}
+</section>
+{% endblock %}

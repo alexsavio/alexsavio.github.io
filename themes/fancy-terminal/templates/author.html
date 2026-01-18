@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Author: {{ author }} | {{ SITENAME }}{% endblock %}
+
+{% block content %}
+<div class="prompt">
+    <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+    <span>whoami && ls ./posts/</span>
+</div>
+
+<section class="command-output">
+    <h2># Posts by {{ author }}</h2>
+    <div class="article-list">
+        {% for article in articles %}
+        <div class="article-entry">
+            <span class="article-date">[{{ article.date|strftime('%Y-%m-%d') }}]</span>
+            <a href="{{ SITEURL }}/{{ article.url }}" class="article-title">{{ article.title }}</a>
+            {% if article.summary %}
+            <div class="article-summary">{{ article.summary|truncate(150) }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

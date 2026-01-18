@@ -7,13 +7,33 @@ VERSION = "1.0.0"
 AUTHOR = "Alexandre Manhães Savio"
 SITENAME = "Interlines"
 SITESUBTITLE = "Lost in spikes"
-SITEURL = "https://alexsavio.github.io"
+SITEURL = ""  # Set to production URL in publishconf.py
 
 TIMEZONE = "Europe/Paris"
 
 DEFAULT_LANG = "en_US"
 
-THEME = "themes/pure"
+THEME = "themes/fancy-terminal"
+THEME_LIGHT_MODE = True  # Use light burgundy theme
+
+# Terminal prompt customization
+TERMINAL_USER = "alex"
+TERMINAL_HOST = "blog"
+TERMINAL_TITLE = "zsh"
+
+# Theme colors (light burgundy)
+THEME_COLORS = {
+    'bg_color': '#e8e0e0',
+    'terminal_bg': '#faf8f8',
+    'text_color': '#2d2d2d',
+    'primary_color': '#800020',
+    'accent_color': '#a0304d',
+    'muted_color': '#666666',
+    'code_bg': '#f0e8e8',
+    'link_color': '#800020',
+    'header_bg': '#d0c8c8',
+}
+
 COVER_IMG_URL = "imgs/blog_wallpaper.jpeg"
 PROFILE_IMAGE_URL = "imgs/neurita.png"
 TAGLINE = "Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython."

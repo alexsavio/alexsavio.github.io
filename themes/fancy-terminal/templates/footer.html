@@ -1,0 +1,10 @@
+<footer class="footer">
+    <p>&copy; {{ AUTHOR }} &ndash; Built with <a href="https://getpelican.com/">Pelican</a> using the <a href="#">fancy-terminal</a> theme</p>
+    {% if SOCIAL %}
+    <div class="social-links">
+        {% for name, link in SOCIAL %}
+        <a href="{{ link }}" title="{{ name }}">{{ name }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</footer>

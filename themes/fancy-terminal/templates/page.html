@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title|striptags }} | {{ SITENAME }}{% endblock %}
+
+{% block content %}
+{# Command to read page #}
+<div class="prompt">
+    <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+    <span>cat {{ page.slug }}.md</span>
+</div>
+
+<section class="command-output">
+    <h2>{{ page.title }}</h2>
+    <div class="article-content">
+        {{ page.content }}
+    </div>
+</section>
+{% endblock %}

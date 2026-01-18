@@ -1,0 +1,10 @@
+<div class="article-entry">
+    <span class="article-date">[{{ article.date|strftime('%Y-%m-%d') }}]</span>
+    <a href="{{ SITEURL }}/{{ article.url }}" class="article-title">{{ article.title }}</a>
+    {% if article.category %}
+    <span class="article-meta">in <a href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a></span>
+    {% endif %}
+    {% if article.summary %}
+    <div class="article-summary">{{ article.summary|striptags|truncate(200) }}</div>
+    {% endif %}
+</div>
