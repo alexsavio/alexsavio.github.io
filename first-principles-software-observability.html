@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en_us">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>First Principles: Software Observability | Interlines</title>
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/style.css" />
+    <link href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Interlines Atom Feed" />
+    <link href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Interlines RSS Feed" />
+    <style>
+        :root {
+--bg-color: #e6e9ef;--terminal-bg: #eff1f5;--text-color: #4c4f69;--primary-color: #1e66f5;--accent-color: #8839ef;--muted-color: #6c6f85;--code-bg: #ccd0da;--link-color: #179299;--header-bg: #dce0e8;        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="container">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <span class="terminal-btn close"></span>
+                <span class="terminal-btn minimize"></span>
+                <span class="terminal-btn maximize"></span>
+                <span class="terminal-title">zsh — alex@blog</span>
+            </div>
+            <div class="terminal-body">
+                <div class="login-message">
+                    Last login: Today on ttys000<br>
+Lost in spikes                </div>
+
+                <div class="prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span>./welcome.sh</span>
+                </div>
+                <div class="command-output">
+                    <h1><a href="https://alexsavio.github.io/">Interlines</a></h1>
+                </div>
+
+                <div class="prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span>ls -la</span>
+                </div>
+                <nav class="nav-menu command-output">
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/" class="dirname">home</a>
+                        <span class="description">→ Back to start</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio" class="dirname">about_me</a>
+                        <span class="description">→ About Me</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://orcid.org/0000-0002-6608-6885" class="dirname">orcid</a>
+                        <span class="description">→ ORCID</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="http://www.surf-forecast.com/breaks/Zarautz/forecasts/latest/six_day" class="dirname">surf-forecast</a>
+                        <span class="description">→ Surf-Forecast</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/archives.html" class="dirname">archives</a>
+                        <span class="description">→ All posts</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/categories.html" class="dirname">categories</a>
+                        <span class="description">→ Browse by category</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">lrwxr-xr-x</span>
+                        <span class="dirname">links</span>
+                        <span class="description">→
+                            <a href="https://twitter.com/alex_savio">twitter-square</a> |                             <a href="https://github.com/alexsavio">github</a>                        </span>
+                    </div>
+                </nav>
+
+<div class="prompt">
+    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>cat first-principles-software-observability.md</span>
+</div>
+
+<article class="command-output">
+    <header>
+        <h2>First Principles: Software&nbsp;Observability</h2>
+        <div class="article-meta">
+            <span class="article-date">[2026-03-19 20:45]</span>
+            | author: <a href="https://alexsavio.github.io/author/alexandre-m-savio.html">Alexandre M. Savio</a>
+            | category: <a href="https://alexsavio.github.io/category/software-development.html">Software Development</a>
+        </div>
+        <div class="article-meta">
+            tags:
+                <a href="https://alexsavio.github.io/tag/observability.html" class="tag">observability</a>
+                <a href="https://alexsavio.github.io/tag/monitoring.html" class="tag">monitoring</a>
+                <a href="https://alexsavio.github.io/tag/software-engineering.html" class="tag">software-engineering</a>
+                <a href="https://alexsavio.github.io/tag/first-principles.html" class="tag">first-principles</a>
+        </div>
+    </header>
+
+    <div class="article-content">
+        <h2><span class="caps">TL</span>;<span class="caps">DR</span></h2>
+<p>The &#8220;three pillars&#8221; of observability (logs, metrics, traces) describe data formats, not observability itself. When you strip the concept down to what&#8217;s provably true and rebuild from scratch, you get a fundamentally different approach: instrument decisions instead of outcomes, explore instead of monitor, alert on invariants instead of thresholds, and treat observability as a design property, not an ops&nbsp;afterthought.</p>
+<hr>
+<h2>The Conventional&nbsp;View</h2>
+<p>Ask any engineer what &#8220;observability&#8221; means and you&#8217;ll get the same answer: logs, metrics, and traces, the &#8220;three pillars.&#8221; Ship them to Datadog or Grafana, build dashboards, set up alerts, and you&#8217;re observable. This is the version you&#8217;ll hear at every conference talk and read in every vendor blog&nbsp;post.</p>
+<p>The framing traces back to Peter Bourgon&#8217;s 2017 blog post <a href="https://peter.bourgon.org/blog/2017/02/21/metrics-tracing-and-logging.html">&#8220;Metrics, tracing, and logging&#8221;</a>, which drew a Venn diagram of the three signal types and their overlaps. It was a useful taxonomy for a talk. Then the vendor ecosystem adopted it as gospel, and now teams treat it like a checklist: ✓ logs ✓ metrics ✓ traces →&nbsp;done.</p>
+<p>But how much of this is actually true, and how much is convention dressed up as&nbsp;truth?</p>
+<h2>The Assumptions We&nbsp;Carry</h2>
+<p>Before deconstructing, let&#8217;s name the baggage. These are beliefs most engineers treat as&nbsp;self-evident:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Assumption</th>
+<th>Origin</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Observability = logs + metrics + traces</td>
+<td>Industry vendors, circa 2017-2018</td>
+<td><strong>Heuristic</strong> - useful taxonomy, but the pillar count is arbitrary</td>
+</tr>
+<tr>
+<td>2</td>
+<td>More data means better observability</td>
+<td>Analogy from data science (&#8220;collect everything, decide later&#8221;)</td>
+<td><strong>Baggage</strong> - more data often means more noise and higher cost</td>
+</tr>
+<tr>
+<td>3</td>
+<td>You need a centralized observability platform</td>
+<td>Vendor marketing + operational convenience</td>
+<td><strong>Heuristic</strong> - centralization helps, but the platform isn&#8217;t the observability</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Dashboards are how you understand systems</td>
+<td>Inherited from physical control rooms</td>
+<td><strong>Baggage</strong> - dashboards show what you already know to ask about</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Alerts should fire when thresholds are breached</td>
+<td>Infrastructure monitoring (Nagios era)</td>
+<td><strong>Heuristic</strong> - works for known failure modes, useless for novel ones</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Observability is an ops/<span class="caps">SRE</span> concern</td>
+<td>Historical &#8220;build it&#8221; vs &#8220;run it&#8221; separation</td>
+<td><strong>Baggage</strong> - broken feedback loop if builders can&#8217;t observe</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Instrumentation is overhead that slows development</td>
+<td>Perception that observability is separate from feature work</td>
+<td><strong>Baggage</strong> - confuses bad instrumentation with instrumentation itself</td>
+</tr>
+<tr>
+<td>8</td>
+<td>You should monitor everything in production</td>
+<td>Defensive posture (&#8220;we might need it someday&#8221;)</td>
+<td><strong>Baggage</strong> - monitoring everything is monitoring nothing with extra cost</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Observability is about finding bugs in production</td>
+<td>Narrow framing from incident response culture</td>
+<td><strong>Heuristic</strong> - incident response is one use case, not the definition</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Sampling loses important information</td>
+<td>Fear from teams burned by missing data</td>
+<td><strong>Heuristic</strong> - true for rare events, false for high-volume steady-state</td>
+</tr>
+</tbody>
+</table>
+<p>Three categories emerge: <strong>fundamental truths</strong> that survive scrutiny, <strong>useful heuristics</strong> that are context-dependent, and <strong>inherited baggage</strong>, conventions masquerading as&nbsp;truth.</p>
+<h2>What Survives&nbsp;Scrutiny</h2>
+<p>After stripping away heuristics and baggage, five things are provably, irreducibly true about&nbsp;observability.</p>
+<h3>1. A system is observable if you can determine its internal state from its external&nbsp;outputs</h3>
+<p>This is the control-theory definition, and it&#8217;s the real one. Rudolf Kalman formalized it in 1960 in his work on linear dynamical systems <a href="https://doi.org/10.1016/S1474-6670(17)70094-8">Kalman, 1960</a>: a system is observable if, for every possible sequence of state transitions, the current state can be determined in finite time using only the outputs. It says nothing about tools, pillars, or vendors. It&#8217;s a property of the <em>system itself</em>, not of the monitoring infrastructure bolted onto&nbsp;it.</p>
+<p>The distinction matters. When you buy a monitoring platform, you haven&#8217;t made your system observable. You&#8217;ve added a receiver for signals your system may or may not be emitting. The observability is in the system&#8217;s design. The platform is just a&nbsp;lens.</p>
+<h3>2. You cannot debug what you cannot&nbsp;distinguish</h3>
+<p>This is the insight Charity Majors and the Honeycomb team have been hammering on for years <a href="https://www.honeycomb.io/blog/observability-a-manifesto">Honeycomb, &#8220;Observability: A Manifesto&#8221;</a>: the fundamental purpose of observability data is to tell apart <em>this request</em> from <em>that request</em>, <em>this state</em> from <em>that state</em>. If your data collapses distinct behaviors into pre-aggregated metrics, you&#8217;ve lost the ability to reason about&nbsp;specifics.</p>
+<p>This is why high-cardinality, high-dimensionality data matters. It preserves the ability to ask questions you didn&#8217;t anticipate. A metric that says &#8220;p99 latency is 800ms&#8221; tells you there&#8217;s a problem. An event that says &#8220;request abc123 from user xyz, hitting service-payments via endpoint /charge, took 1200ms because the database query plan chose a sequential scan on a 4M-row table&#8221; tells you <em>why</em>.</p>
+<h3>3. The value of observability is proportional to the speed of the feedback&nbsp;loop</h3>
+<p>Data that arrives 10 minutes after the fact is categorically less useful than data available in real time. The faster you can go from &#8220;something is wrong&#8221; to &#8220;I understand why,&#8221; the less damage the system takes. <span class="caps">MTTR</span> (Mean Time To Recovery) directly correlates with blast&nbsp;radius.</p>
+<p>The Google <span class="caps">SRE</span> book makes this concrete in its chapter on monitoring distributed systems <a href="https://sre.google/sre-book/monitoring-distributed-systems/">Beyer et al., 2016</a>: the ideal monitoring system minimizes the time between a problem occurring, being detected, being understood, and being fixed. Every delay in that chain&nbsp;compounds.</p>
+<h3>4. Systems fail in ways you didn&#8217;t&nbsp;predict</h3>
+<p>If you could enumerate all failure modes in advance, you&#8217;d prevent them. Observability exists precisely because you can&#8217;t. This is what Charity Majors calls the distinction between &#8220;known unknowns&#8221; and &#8220;unknown unknowns&#8221; <a href="https://charity.wtf/2020/03/03/observability-is-a-many-splendored-thing/">Majors, 2020</a>. Monitoring handles the former, observability handles the&nbsp;latter.</p>
+<p>Any approach that only works for anticipated failures (static dashboards, threshold-based alerts, pre-built runbooks) is structurally incomplete. It&#8217;s building a flashlight that only illuminates rooms you&#8217;ve already been&nbsp;in.</p>
+<h3>5. Signal costs attention, and attention is&nbsp;finite</h3>
+<p>Every metric, log line, and alert competes for a human&#8217;s cognitive bandwidth. An observability system that produces more signal than a human can process is functionally equivalent to one that produces&nbsp;none.</p>
+<p>This is the overlooked constraint that makes &#8220;collect everything&#8221; actively harmful. More data doesn&#8217;t mean better observability. It means more noise to filter before you can think. The art is in emitting the right signals, not all&nbsp;signals.</p>
+<h2>What Falls&nbsp;Away</h2>
+<p>With only five truths remaining, the conventional view takes some&nbsp;hits.</p>
+<p><strong><span class="dquo">&#8220;</span>Three pillars&#8221; as a definition.</strong> This taxonomy describes data formats, not observability. You can have all three pillars and still be blind to production issues if the data lacks context, correlation, or queryability. Cindy Sridharan made this point in <em>Distributed Systems Observability</em> <a href="https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/">Sridharan, 2018</a>: the pillars framework tricks teams into thinking the job is done once they&#8217;ve checked three boxes. It conflates the <em>representation</em> of signals with the <em>property</em> of being&nbsp;observable.</p>
+<p><strong><span class="dquo">&#8220;</span>Collect everything.&#8221;</strong> This is storage-vendor thinking. It produces massive cost, massive noise, and a false sense of security. Teams drown in data they never query while missing the specific signals that would have caught the outage. The constraint from Truth #5 (attention is finite) kills this approach on&nbsp;contact.</p>
+<p><strong><span class="dquo">&#8220;</span>Dashboards = understanding.&#8221;</strong> Dashboards are answers to questions you&#8217;ve already asked. They excel at confirming known patterns and fail completely at surfacing unknown ones. Over-reliance on dashboards creates a dangerous illusion: the team feels informed because the screens look green, but the failure mode that takes them down won&#8217;t have a&nbsp;panel.</p>
+<p><strong><span class="dquo">&#8220;</span>Observability is an ops problem.&#8221;</strong> If the developer who writes the code doesn&#8217;t think about how it will be observed in production, no amount of post-hoc instrumentation fixes it. Observability is a design property (Truth #1), not an operational afterthought. Separating &#8220;who builds it&#8221; from &#8220;who observes it&#8221; guarantees that the wrong things get&nbsp;instrumented.</p>
+<h2>Rebuilt From&nbsp;Scratch</h2>
+<p>Starting from only the five fundamental truths, here&#8217;s what observability looks like when designed from zero, as if the existing tools and conventions had never&nbsp;existed.</p>
+<h3>Build systems that explain&nbsp;themselves</h3>
+<p>Observability isn&#8217;t a layer you add. It&#8217;s a property you design in (Truth #1). Every meaningful state transition, decision branch, and external interaction should emit a structured event that captures enough context to reconstruct <em>why</em> the system did what it did. Not &#8220;log everything.&#8221; Emit the <em>decisions</em>.</p>
+<p>When a rate limiter throttles a request, that&#8217;s a decision. When a circuit breaker opens, that&#8217;s a decision. When a feature flag routes a user to variant B, that&#8217;s a decision. When a cache lookup misses, <em>that&#8217;s diagnostic information</em>. These are the events that&nbsp;matter.</p>
+<h3>One event model, not three&nbsp;pillars</h3>
+<p>Instead of separate logs, metrics, and traces, emit <strong>rich structured events</strong> with high-cardinality fields: user <span class="caps">ID</span>, request <span class="caps">ID</span>, feature flag state, query plan, service version, deployment <span class="caps">SHA</span>, whatever gives you the ability to distinguish (Truth #2). From these&nbsp;events:</p>
+<ul>
+<li><strong>Metrics</strong> are aggregations derived from events (count events&nbsp;where <code>status=500</code>, compute p99&nbsp;of <code>duration_ms</code>)</li>
+<li><strong>Traces</strong> are events correlated by a&nbsp;shared <code>trace_id</code></li>
+<li><strong>Logs</strong> are events rendered as&nbsp;text</li>
+</ul>
+<p>The underlying primitive is the same: a timestamped, context-rich structured event. This isn&#8217;t theoretical. It&#8217;s the architecture Honeycomb was built on, and it&#8217;s the direction <a href="https://opentelemetry.io/">OpenTelemetry</a> is converging toward with its unified signal&nbsp;model.</p>
+<h3>Explore, don&#8217;t&nbsp;monitor</h3>
+<p>The primary interaction model should be ad-hoc querying (Truth #4, failures are unpredicted). &#8220;Show me all requests from user X that hit service Y in the last hour, broken down by response code and latency percentile.&#8221; Dashboards become saved queries that proved useful, not the starting point. The system should support questions you&#8217;ve never asked&nbsp;before.</p>
+<p>This is a fundamental shift in posture: from passive monitoring (&#8220;stare at dashboards and wait for red&#8221;) to active exploration (&#8220;I have a hypothesis, let me test it against production&nbsp;data&#8221;).</p>
+<h3>Alerts from invariants, not&nbsp;thresholds</h3>
+<p>Instead of &#8220;alert when latency &gt; 500ms&#8221; (a threshold you guessed), define <strong>invariants</strong>: relationships that should always&nbsp;hold.</p>
+<ul>
+<li><span class="dquo">&#8220;</span>Every request must complete within the <span class="caps">SLO</span>&nbsp;budget&#8221;</li>
+<li><span class="dquo">&#8220;</span>Error rate should be proportional to traffic, not&nbsp;absolute&#8221;</li>
+<li><span class="dquo">&#8220;</span>No single dependency should account for &gt;40% of total&nbsp;latency&#8221;</li>
+<li><span class="dquo">&#8220;</span>No data ingested for entity X in 2× the expected&nbsp;interval&#8221;</li>
+</ul>
+<p>Invariant violations are structurally more robust than static thresholds because they encode <em>relationships</em>, not <em>numbers</em> (Truth #4). &#8220;No data in 2× the expected interval&#8221; adapts automatically when you change the ingestion schedule. &#8220;Data count &lt; 100&#8221; breaks the moment your input set changes&nbsp;size.</p>
+<p>Rob Ewaschuk&#8217;s influential &#8220;My Philosophy on Alerting&#8221; <a href="https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/edit">Ewaschuk, 2013</a> laid the groundwork for this thinking at Google: alert on symptoms (user-visible impact), not causes or static numbers. <span class="caps">SLO</span>-based alerting, burn rate alerts on error budgets as described in the Google <span class="caps">SRE</span> Workbook <a href="https://sre.google/workbook/alerting-on-slos/">Beyer et al., 2018</a>, is one concrete implementation of this principle. Instead of alerting on individual threshold violations, you alert on the <em>rate at which you&#8217;re consuming your error budget</em>.</p>
+<h3>Cost is proportional to questions answered, not data&nbsp;stored</h3>
+<p>Intelligent sampling keeps costs bounded while preserving diagnostic power (Truth #5). The&nbsp;strategy:</p>
+<ul>
+<li><strong>100% capture</strong> for state transitions, errors, slow requests, and new&nbsp;deployments</li>
+<li><strong>Sample broadly</strong> (1-10%) for routine, healthy&nbsp;traffic</li>
+<li><strong>Dynamic instrumentation</strong> to temporarily increase detail in areas of&nbsp;interest</li>
+</ul>
+<p>The optimization target is &#8220;can I answer the question I have right now?&#8221;, not &#8220;did I store&nbsp;everything?&#8221;</p>
+<h3>The developer is the&nbsp;operator</h3>
+<p>Instrumentation is part of the code review. &#8220;How will we know this works in production?&#8221; is a design question, asked at the same time as &#8220;how will we test this?&#8221; The feedback loop runs from code → production → understanding → code. If the person who writes the code can&#8217;t observe it running, the loop is broken (Truth&nbsp;#3).</p>
+<h2>The&nbsp;Delta</h2>
+<p>Here&#8217;s what changes when you swap conventional thinking for first-principles&nbsp;thinking:</p>
+<table>
+<thead>
+<tr>
+<th>Conventional</th>
+<th>First Principles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adopt a platform, instrument with its <span class="caps">SDK</span></td>
+<td>Design systems to emit rich structured events; the platform is a queryable store</td>
+</tr>
+<tr>
+<td>Three separate pipelines (logs, metrics, traces)</td>
+<td>One event pipeline, derive metrics and traces from events</td>
+</tr>
+<tr>
+<td>Build dashboards for every service</td>
+<td>Default to ad-hoc exploration; save queries that prove useful</td>
+</tr>
+<tr>
+<td>Alert on static thresholds</td>
+<td>Alert on invariant violations and <span class="caps">SLO</span> burn rates</td>
+</tr>
+<tr>
+<td>Collect everything, filter later</td>
+<td>Emit decisions and boundaries; sample intelligently</td>
+</tr>
+<tr>
+<td>Ops team owns observability</td>
+<td>Developers own observability of what they build</td>
+</tr>
+<tr>
+<td>&#8220;We need more monitoring&#8221;</td>
+<td>&#8220;We need better questions&#8221;</td>
+</tr>
+</tbody>
+</table>
+<h2>What You Can Do Monday&nbsp;Morning</h2>
+<p>This isn&#8217;t abstract philosophy. Here&#8217;s what changes in&nbsp;practice:</p>
+<ol>
+<li>
+<p><strong>Instrument decisions, not just outcomes.</strong> When your system skips an item, when a rule evaluates but doesn&#8217;t fire, when a candidate is considered but filtered out, those non-events are often more diagnostic than the events you&#8217;re already logging. The question to ask at every code review: &#8220;if this path executes in production and something goes wrong, do we have enough context to understand&nbsp;why?&#8221;</p>
+</li>
+<li>
+<p><strong>Before adding a dashboard panel, write down the question it answers.</strong> If you can&#8217;t state the question, you&#8217;re adding noise. Audit your existing dashboards with this lens. You&#8217;ll likely find panels nobody looks at and gaps where real questions go&nbsp;unanswered.</p>
+</li>
+<li>
+<p><strong>Encode relationships in your alerts.</strong> Replace absolute thresholds with relative invariants that adapt to your system&#8217;s current configuration. &#8220;Error rate &gt; 1% of traffic&#8221; beats &#8220;errors &gt; 50/min&#8221; because it scales with your system. Your future self, debugging at 2am, will thank&nbsp;you.</p>
+</li>
+<li>
+<p><strong>Design for correlation.</strong> Every event should carry enough context to link it to the request, user, deployment, and feature flags that were active. When something goes wrong at step 5 of a pipeline, you should be able to follow the thread back to step 1 without&nbsp;guessing.</p>
+</li>
+<li>
+<p><strong>Capture 100% of state transitions, sample everything else.</strong> This is the scaling strategy that preserves diagnostic power while keeping costs bounded. Every order fill, every state change, every error, captured. Every routine health check on a quiet Tuesday,&nbsp;sampled.</p>
+</li>
+</ol>
+<p>The goal isn&#8217;t more data. It&#8217;s better&nbsp;questions.</p>
+<hr>
+<h2>References</h2>
+<ol>
+<li><a href="https://doi.org/10.1016/S1474-6670(17)70094-8">Rudolf Kalman, &#8220;On the General Theory of Control Systems,&#8221; <em>Proceedings of the First <span class="caps">IFAC</span> Congress</em>, 1960</a> - The original formalization of observability and controllability in linear dynamical&nbsp;systems.</li>
+<li><a href="https://peter.bourgon.org/blog/2017/02/21/metrics-tracing-and-logging.html">Peter Bourgon, &#8220;Metrics, tracing, and logging,&#8221; 2017</a> - The blog post that introduced the widely adopted &#8220;three pillars&#8221; Venn&nbsp;diagram.</li>
+<li><a href="https://www.honeycomb.io/blog/observability-a-manifesto">Honeycomb, &#8220;Observability: A Manifesto&#8221;</a> - Honeycomb&#8217;s case for why observability is about asking new questions, not collecting known&nbsp;signals.</li>
+<li><a href="https://charity.wtf/2020/03/03/observability-is-a-many-splendored-thing/">Charity Majors, &#8220;Observability is a Many-Splendored Thing,&#8221; 2020</a> - The case for observability as the tool for unknown&nbsp;unknowns.</li>
+<li><a href="https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/">Cindy Sridharan, <em>Distributed Systems Observability</em>, O&#8217;Reilly, 2018</a> - Free book providing a thorough treatment of observability beyond the three-pillar&nbsp;framing.</li>
+<li><a href="https://sre.google/sre-book/monitoring-distributed-systems/">Betsy Beyer et al., &#8220;Monitoring Distributed Systems,&#8221; <em>Site Reliability Engineering</em>, O&#8217;Reilly, 2016</a> - Google&#8217;s approach to monitoring, including the white-box vs. black-box distinction and the four golden&nbsp;signals.</li>
+<li><a href="https://sre.google/workbook/alerting-on-slos/">Betsy Beyer et al., &#8220;Alerting on SLOs,&#8221; <em>The Site Reliability Workbook</em>, O&#8217;Reilly, 2018</a> - Practical guide to burn-rate alerting and <span class="caps">SLO</span>-based operational&nbsp;practices.</li>
+<li><a href="https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/edit">Rob Ewaschuk, &#8220;My Philosophy on Alerting,&#8221; 2013</a> - Influential Google <span class="caps">SRE</span> document arguing alerts should be based on symptoms and user-visible impact, not static&nbsp;thresholds.</li>
+<li><a href="https://www.honeycomb.io/blog/how-are-structured-logs-different-from-events">Honeycomb, &#8220;How Are Structured Logs Different From Events?&#8221;</a> - Why wide structured events, not log lines or pre-aggregated metrics, are the correct primitive for&nbsp;observability.</li>
+<li><a href="https://opentelemetry.io/">OpenTelemetry Project</a> - The <span class="caps">CNCF</span> project converging logs, metrics, and traces into a unified observability&nbsp;framework.</li>
+</ol>
+    </div>
+
+</article>
+
+<div class="prompt" style="margin-top: 30px;">
+    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>ls -1 | head</span>
+</div>
+<div class="command-output pagination">
+    <span></span>
+</div>
+
+                <div class="footer">
+                    <div class="prompt">
+                        <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                        <span class="cursor"></span>
+                    </div>
+                    <p>&copy; Alexandre Manhães Savio | Powered by <a href="http://getpelican.com/">Pelican</a> | Theme: fancy-terminal</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function() {
+        const terminalWindow = document.querySelector('.terminal-window');
+        const terminalBody = document.querySelector('.terminal-body');
+        const closeBtn = document.querySelector('.terminal-btn.close');
+        const minimizeBtn = document.querySelector('.terminal-btn.minimize');
+        const maximizeBtn = document.querySelector('.terminal-btn.maximize');
+
+        let isMinimized = false;
+        let isMaximized = false;
+
+        // Close button - shows "session ended" message
+        closeBtn.addEventListener('click', function() {
+            terminalBody.innerHTML = `
+                <div class="login-message" style="text-align: center; padding: 40px 0;">
+                    <p>logout</p>
+                    <p style="margin-top: 20px;">[Process completed]</p>
+                    <p style="margin-top: 30px; font-size: 0.85em;">
+                        <a href="https://alexsavio.github.io/" style="color: var(--link-color);">→ Start new session</a>
+                    </p>
+                </div>
+            `;
+            terminalWindow.classList.add('closed');
+        });
+
+        // Minimize button - collapses terminal body
+        minimizeBtn.addEventListener('click', function() {
+            isMinimized = !isMinimized;
+            if (isMinimized) {
+                terminalBody.style.display = 'none';
+                terminalWindow.classList.add('minimized');
+            } else {
+                terminalBody.style.display = 'block';
+                terminalWindow.classList.remove('minimized');
+            }
+        });
+
+        // Maximize button - toggles fullscreen
+        maximizeBtn.addEventListener('click', function() {
+            isMaximized = !isMaximized;
+            if (isMaximized) {
+                terminalWindow.classList.add('maximized');
+                document.body.style.overflow = 'hidden';
+            } else {
+                terminalWindow.classList.remove('maximized');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Double-click header to maximize
+        document.querySelector('.terminal-header').addEventListener('dblclick', function(e) {
+            if (!e.target.classList.contains('terminal-btn')) {
+                maximizeBtn.click();
+            }
+        });
+    })();
+    </script>
+</body>
+</html>

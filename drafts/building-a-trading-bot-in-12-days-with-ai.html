@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en_us">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I Built a Full Trading Bot in 12 Days With AI: Here Is What Actually Happened | Interlines</title>
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/style.css" />
+    <link href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Interlines Atom Feed" />
+    <link href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Interlines RSS Feed" />
+    <style>
+        :root {
+--bg-color: #e6e9ef;--terminal-bg: #eff1f5;--text-color: #4c4f69;--primary-color: #1e66f5;--accent-color: #8839ef;--muted-color: #6c6f85;--code-bg: #ccd0da;--link-color: #179299;--header-bg: #dce0e8;        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="container">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <span class="terminal-btn close"></span>
+                <span class="terminal-btn minimize"></span>
+                <span class="terminal-btn maximize"></span>
+                <span class="terminal-title">zsh — alex@blog</span>
+            </div>
+            <div class="terminal-body">
+                <div class="login-message">
+                    Last login: Today on ttys000<br>
+Lost in spikes                </div>
+
+                <div class="prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span>./welcome.sh</span>
+                </div>
+                <div class="command-output">
+                    <h1><a href="https://alexsavio.github.io/">Interlines</a></h1>
+                </div>
+
+                <div class="prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span>ls -la</span>
+                </div>
+                <nav class="nav-menu command-output">
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/" class="dirname">home</a>
+                        <span class="description">→ Back to start</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio" class="dirname">about_me</a>
+                        <span class="description">→ About Me</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://orcid.org/0000-0002-6608-6885" class="dirname">orcid</a>
+                        <span class="description">→ ORCID</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="http://www.surf-forecast.com/breaks/Zarautz/forecasts/latest/six_day" class="dirname">surf-forecast</a>
+                        <span class="description">→ Surf-Forecast</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/archives.html" class="dirname">archives</a>
+                        <span class="description">→ All posts</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/categories.html" class="dirname">categories</a>
+                        <span class="description">→ Browse by category</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">lrwxr-xr-x</span>
+                        <span class="dirname">links</span>
+                        <span class="description">→
+                            <a href="https://twitter.com/alex_savio">twitter-square</a> |                             <a href="https://github.com/alexsavio">github</a>                        </span>
+                    </div>
+                </nav>
+
+<div class="prompt">
+    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>cat building-a-trading-bot-in-12-days-with-ai.md</span>
+</div>
+
+<article class="command-output">
+    <header>
+        <h2>I Built a Full Trading Bot in 12 Days With <span class="caps">AI</span>: Here Is What Actually&nbsp;Happened</h2>
+        <div class="article-meta">
+            <span class="article-date">[2026-03-18 00:00]</span>
+            | author: <a href="https://alexsavio.github.io/author/alexandre-m-savio.html">Alexandre M. Savio</a>
+            | category: <a href="https://alexsavio.github.io/category/software-development.html">Software Development</a>
+        </div>
+        <div class="article-meta">
+            tags:
+                <a href="https://alexsavio.github.io/tag/ai.html" class="tag">ai</a>
+                <a href="https://alexsavio.github.io/tag/agents.html" class="tag">agents</a>
+                <a href="https://alexsavio.github.io/tag/software-development.html" class="tag">software-development</a>
+                <a href="https://alexsavio.github.io/tag/rust.html" class="tag">rust</a>
+                <a href="https://alexsavio.github.io/tag/trading.html" class="tag">trading</a>
+                <a href="https://alexsavio.github.io/tag/code-generation.html" class="tag">code-generation</a>
+        </div>
+    </header>
+
+    <div class="article-content">
+        <h2><span class="caps">TL</span>;<span class="caps">DR</span></h2>
+<p>I built <strong>begiravela</strong> — a fully automated trading platform in Rust — in 12 calendar days, producing 137 commits across three crates, eight Grafana dashboards, a Telegram bot, and integrations with both Interactive Brokers and Kraken. The project was built almost entirely with <span class="caps">AI</span> coding agents (Claude Code + Specify). The most interesting part was not the speed — it was what went wrong. A database corruption bug in QuestDB forced a complete persistence layer swap on day 10, and the <span class="caps">AI</span> handled the migration cleanly. This post is the honest account of what worked, what broke, and what I&nbsp;learned.</p>
+<h2>The&nbsp;Setup</h2>
+<p>I have been trading for years and wanted a system that would do three things: ingest market data on a schedule, compute a deep stack of technical indicators, and alert me via Telegram when something interesting happens — with the option to execute trades directly from the chat. Nothing off-the-shelf did exactly what I wanted without vendor lock-in or monthly&nbsp;fees.</p>
+<p>I chose <strong>Rust</strong> because financial calculations need precision (no floating-point rounding errors), the type system catches bugs at compile time, and I wanted the system to run reliably on a single <span class="caps">VPS</span> without&nbsp;babysitting.</p>
+<p>The stack:
+- <strong>Rust</strong> (edition 2024)&nbsp;with <code>tokio</code> for async
+- <strong>Interactive Brokers</strong> <span class="caps">TWS</span> <span class="caps">API</span> via&nbsp;the <code>ibapi</code> crate
+- <strong>Kraken</strong> <span class="caps">REST</span> <span class="caps">API</span> (custom <span class="caps">HMAC</span>-<span class="caps">SHA256</span> implementation)
+- <strong>PostgreSQL 17</strong>&nbsp;via <code>sqlx</code> (more on why later)
+- <strong>Telegram</strong>&nbsp;via <code>teloxide</code> for the user interface
+- <strong>Grafana</strong> for dashboards and alerting
+- <strong>Docker Compose</strong> for the full&nbsp;deployment</p>
+<h2>The&nbsp;Timeline</h2>
+<h3>Days 1-2: The Big&nbsp;Bang</h3>
+<p>I started from a <a href="https://github.com/github/spec-kit">Specify</a> template, which scaffolded the initial project structure and plan. The first real commit on Day 2 was enormous — the full Rust workspace with three crates&nbsp;(<code>shared</code>, <code>ingester</code>, <code>telegram-bot</code>), QuestDB as the timeseries database, Grafana provisioning, Docker Compose, GitHub Actions <span class="caps">CI</span>, and a working Telegram&nbsp;bot.</p>
+<p>Then came reality. Seven consecutive <span class="caps">CI</span> fix commits across two days: coverage thresholds wrong, container health checks&nbsp;failing, <code>wget</code> vs <code>curl</code> in Alpine&nbsp;containers, <code>tarpaulin</code> flags incompatible with the test setup. <span class="caps">CI</span> is where ambition meets the&nbsp;filesystem.</p>
+<h3>Days 3-5: Making It Actually&nbsp;Useful</h3>
+<p>This phase was about turning a &#8220;it compiles&#8221; prototype into something that generates&nbsp;value:</p>
+<ul>
+<li><strong>Grafana dashboards</strong> — eight provisioned dashboards covering market watch, trading overview, trend analysis, pipeline health, alerts, and portfolio&nbsp;tracking</li>
+<li><strong>Scheduled ingestion</strong> — three cron schedules (daily, hourly at 15-min intervals, and independent indicator&nbsp;refresh)</li>
+<li><strong>Catch-up backfill</strong> — on startup, the ingester detects missing data and backfills&nbsp;automatically</li>
+<li><strong>Per-bar indicator history</strong> — storing the full time series of computed indicators, not just the latest&nbsp;snapshot</li>
+</ul>
+<p>The indicator stack grew&nbsp;rapidly:</p>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="caps">RSI</span>-14</td>
+<td>Wilder-smoothed momentum oscillator</td>
+</tr>
+<tr>
+<td><span class="caps">MACD</span> (12/26/9)</td>
+<td>Trend momentum via <span class="caps">EMA</span> crossover</td>
+</tr>
+<tr>
+<td><span class="caps">ADR</span>-14</td>
+<td><span class="caps">EMA</span>-smoothed average daily range</td>
+</tr>
+<tr>
+<td><span class="caps">LL</span>/<span class="caps">MM</span> Trend</td>
+<td>Dual-<span class="caps">EMA</span> with <span class="caps">ATR</span> noise filter (Bull/Bear/Neutral)</td>
+</tr>
+<tr>
+<td>Pivot Detection</td>
+<td>Swing highs/lows by surrounding-bar comparison</td>
+</tr>
+<tr>
+<td>S/R Clustering</td>
+<td><span class="caps">ATR</span>-based zone merging from detected pivots</td>
+</tr>
+<tr>
+<td>Floor/Camarilla/Fibonacci Pivots</td>
+<td>Classic price level systems</td>
+</tr>
+<tr>
+<td>Fibonacci Retracement <span class="amp">&amp;</span> Extension</td>
+<td>Key retracement and extension levels</td>
+</tr>
+<tr>
+<td><span class="caps">ADR</span> Projection</td>
+<td>Upper/lower targets from daily open</td>
+</tr>
+<tr>
+<td>Standard Deviation Zones</td>
+<td>1/2/3-sigma bands</td>
+</tr>
+<tr>
+<td>Market Phase</td>
+<td>Impulse/Corrective/Reversal detection</td>
+</tr>
+<tr>
+<td>Psychological Levels</td>
+<td>Round number price levels</td>
+</tr>
+</tbody>
+</table>
+<p>All computed across four timeframes: Hour, Day, Week, and&nbsp;BiWeek.</p>
+<h3>Days 6-7: Production&nbsp;Hardening</h3>
+<p>The system worked but was fragile. This phase&nbsp;added:</p>
+<ul>
+<li><strong>Full-history indicator computation</strong> — computing indicators across the entire bar history, not just the latest&nbsp;bar</li>
+<li><strong>Exponential backoff retry</strong> — broker connections fail; the system recovers&nbsp;gracefully</li>
+<li><strong>Pipeline failure alerts</strong> — if the ingestion pipeline crashes, Grafana fires a Telegram&nbsp;alert</li>
+<li><strong>Hot-reload configuration</strong> — <span class="caps">TOML</span> config watched&nbsp;via <code>notify</code> + <code>ArcSwap</code>, swapped atomically with zero&nbsp;downtime</li>
+<li><strong>Security hardening</strong> — Docker ports bound to localhost&nbsp;only</li>
+</ul>
+<p>One commit in this phase contained 30 fixes from a single code review pass. The <span class="caps">AI</span> generated a lot of code quickly in the first phase; the hardening phase was about going back and applying the&nbsp;lessons.</p>
+<h3>Days 8-10: The QuestDB&nbsp;Crisis</h3>
+<p>This is where it gets&nbsp;interesting.</p>
+<p>I originally chose <strong>QuestDB</strong> as the timeseries database — it seemed like a natural fit. <span class="caps">ILP</span> (InfluxDB Line Protocol) for fast writes, PostgreSQL wire protocol for reads, built-in deduplication. In theory,&nbsp;perfect.</p>
+<p>In practice, the problems escalated day by&nbsp;day:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">Day</span><span class="w"> </span><span class="mh">3</span><span class="o">:</span><span class="w">  </span><span class="n">fix</span><span class="p">(</span><span class="n">grafana</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">QuestDB</span><span class="w"> </span><span class="n">LATEST</span><span class="w"> </span><span class="n">ON</span><span class="w"> </span><span class="n">syntax</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">watchlist</span><span class="w"> </span><span class="n">queries</span></span>
+<span class="code-line"><span class="n">Day</span><span class="w"> </span><span class="mh">5</span><span class="o">:</span><span class="w">  </span><span class="n">fix</span><span class="p">(</span><span class="n">docker</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">pin</span><span class="w"> </span><span class="n">QuestDB</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">existing</span><span class="w"> </span><span class="n">tag</span><span class="w"> </span><span class="mf">9.3.3</span></span>
+<span class="code-line"><span class="n">Day</span><span class="w"> </span><span class="mh">7</span><span class="o">:</span><span class="w">  </span><span class="n">fix</span><span class="p">(</span><span class="n">grafana</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">fix</span><span class="w"> </span><span class="n">alerts</span><span class="w"> </span><span class="n">dashboard</span><span class="w"> </span><span class="n">QuestDB</span><span class="w"> </span><span class="n">compatibility</span></span>
+<span class="code-line"><span class="n">Day</span><span class="w"> </span><span class="mh">9</span><span class="o">:</span><span class="w">  </span><span class="n">fix</span><span class="p">(</span><span class="n">db</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">shorten</span><span class="w"> </span><span class="n">PG</span><span class="w"> </span><span class="n">pool</span><span class="w"> </span><span class="n">lifetime</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mh">60</span><span class="n">s</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">prevent</span><span class="w"> </span><span class="n">stale</span><span class="w"> </span><span class="n">connections</span></span>
+<span class="code-line"><span class="n">Day</span><span class="w"> </span><span class="mh">9</span><span class="o">:</span><span class="w">  </span><span class="n">fix</span><span class="p">(</span><span class="n">db</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">harden</span><span class="w"> </span><span class="n">PG</span><span class="w"> </span><span class="n">pool</span><span class="w"> </span><span class="n">against</span><span class="w"> </span><span class="n">QuestDB</span><span class="w"> </span><span class="n">stale</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="n">errors</span></span>
+<span class="code-line"><span class="n">Day</span><span class="w"> </span><span class="mh">9</span><span class="o">:</span><span class="w">  </span><span class="n">fix</span><span class="p">(</span><span class="n">db</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">correct</span><span class="w"> </span><span class="n">QuestDB</span><span class="w"> </span><span class="n">PG</span><span class="w"> </span><span class="kt">wire</span><span class="w"> </span><span class="n">timeout</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="mh">600</span><span class="n">ms</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mh">600</span><span class="n">s</span></span>
+<span class="code-line"><span class="n">Day</span><span class="w"> </span><span class="mh">9</span><span class="o">:</span><span class="w">  </span><span class="n">fix</span><span class="p">(</span><span class="n">grafana</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">switch</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">native</span><span class="w"> </span><span class="n">QuestDB</span><span class="w"> </span><span class="n">datasource</span><span class="w"> </span><span class="n">plugin</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">fix</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">dashboards</span></span>
+<span class="code-line"></code></pre></div>
+
+<p>Every day brought a new compatibility&nbsp;issue. <code>LATEST ON</code> instead of standard <span class="caps">SQL</span>. Stale connections requiring pool lifetime hacks. <span class="caps">WAL</span> race conditions between <span class="caps">ILP</span> writes and <span class="caps">PG</span> reads. Custom Grafana datasource plugins because the standard PostgreSQL datasource could not handle QuestDB&#8217;s <span class="caps">SQL</span>&nbsp;dialect.</p>
+<p>Then came the kill shot. QuestDB 9.3.3 has a bug where <span class="caps">ILP</span> writes&nbsp;with <code>DEDUP UPSERT</code> corrupt in-memory partition file descriptors. All subsequent reads fail until you restart the server. At my scale (5 symbols, ~6500 rows), this was&nbsp;unacceptable.</p>
+<p>On Day 10, I ripped out QuestDB entirely and migrated to <strong>PostgreSQL 17</strong>. The commit message tells the&nbsp;story:</p>
+<blockquote>
+<p><em>QuestDB 9.3.3 has a critical bug where <span class="caps">ILP</span> writes with <span class="caps">DEDUP</span> <span class="caps">UPSERT</span> corrupt in-memory partition file descriptors, making all subsequent reads fail until the server is restarted. At our scale, PostgreSQL eliminates this bug and gives us standard <span class="caps">SQL</span>, proper transactions, and native sqlx type&nbsp;bindings.</em></p>
+</blockquote>
+<p>The migration touched 15 test files, rewrote all 8 writer functions,&nbsp;replaced <code>LATEST ON</code> with <code>DISTINCT ON</code>, and removed&nbsp;the <code>questdb-rs</code> dependency entirely. The codebase actually got simpler. Standard <span class="caps">SQL</span> is a&nbsp;feature.</p>
+<h3>Days 11-12: The Strategy&nbsp;Engine</h3>
+<p>With a stable database layer, I built the most ambitious piece: a <strong>configurable strategy resolution engine</strong>. When an alert fires, the&nbsp;system:</p>
+<ol>
+<li>Filters strategy definitions matching the alert&nbsp;rule</li>
+<li>Applies market phase and timeframe&nbsp;guards</li>
+<li>Resolves entry tranches at Fibonacci/pivot levels nearest to current&nbsp;price</li>
+<li>Computes exit levels (targets and&nbsp;stops)</li>
+<li>Sizes positions by risk percentage of portfolio&nbsp;value</li>
+<li>Scores confluence — how many technical factors&nbsp;align</li>
+<li>Returns plans sorted by confluence&nbsp;descending</li>
+</ol>
+<p>This is where the Telegram bot becomes a trading&nbsp;desk. <code>/buy</code> and <code>/sell</code> commands execute trades directly through <span class="caps">IBKR</span>, with a confirmation dialogue in live&nbsp;mode.</p>
+<h2>What the <span class="caps">AI</span> Did&nbsp;Well</h2>
+<p><strong>Speed of scaffolding</strong>. Going from zero to a compiled, tested, deployed Rust workspace in one commit is something that would have taken me a week manually. The <span class="caps">AI</span> generated the domain types, database schema, Docker Compose topology, <span class="caps">CI</span> pipeline, and Telegram command handlers all in one&nbsp;shot.</p>
+<p><strong>The QuestDB migration</strong>. This was the most impressive moment. I described the problem, and the <span class="caps">AI</span> produced a clean migration: standard <span class="caps">SQL</span> replacements, updated all 8 Grafana dashboards, rewrote the persistence layer, and updated 15 test files. No&nbsp;regressions.</p>
+<p><strong>Technical depth</strong>. Implementing Newton&#8217;s method&nbsp;for <code>Decimal</code> square roots (needed for standard deviation&nbsp;on <code>rust_decimal</code> values), <span class="caps">HMAC</span>-<span class="caps">SHA256</span> signing for Kraken&#8217;s <span class="caps">API</span>, <span class="caps">ATR</span>-based zone merging for support/resistance clustering — these are non-trivial algorithms that the <span class="caps">AI</span> implemented&nbsp;correctly.</p>
+<h2>What Required Human&nbsp;Judgment</h2>
+<p><strong>The decision to leave QuestDB</strong>. The <span class="caps">AI</span> could fix each individual symptom — the stale connections, the <span class="caps">SQL</span> compatibility, the <span class="caps">WAL</span> races. But the judgment call to abandon QuestDB entirely rather than keep patching came from me. Pattern recognition across a week of escalating issues is still a human&nbsp;skill.</p>
+<p><strong>Architecture choices</strong>. Three crates vs. a monolith. Hot-reload config vs. restart-on-change. Cron scheduling vs. continuous polling. The <span class="caps">AI</span> proposed options; I made the&nbsp;calls.</p>
+<p><strong>Trading domain knowledge</strong>. Which indicators matter, how to combine them into a confluence score, what constitutes a valid entry signal — this is domain expertise that the <span class="caps">AI</span> implemented but did not&nbsp;originate.</p>
+<h2>The&nbsp;Numbers</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Calendar days</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Total commits</td>
+<td>137</td>
+</tr>
+<tr>
+<td>Rust crates</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Grafana dashboards</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Technical indicators</td>
+<td>16+</td>
+</tr>
+<tr>
+<td>Timeframes</td>
+<td>4 (Hour, Day, Week, BiWeek)</td>
+</tr>
+<tr>
+<td>Broker integrations</td>
+<td>2 (<span class="caps">IBKR</span>, Kraken)</td>
+</tr>
+<tr>
+<td>Telegram commands</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Database migrations</td>
+<td>1 (QuestDB to PostgreSQL)</td>
+</tr>
+<tr>
+<td><span class="caps">CI</span> pipeline stages</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<h2>Lessons&nbsp;Learned</h2>
+<p><strong>Start with boring technology</strong>. QuestDB was the &#8220;right&#8221; choice for a timeseries use case. PostgreSQL was the right choice for a 5-symbol personal trading system. Know your&nbsp;scale.</p>
+<p><strong><span class="caps">AI</span> accelerates the build, not the design</strong>. The hard problems — architecture, technology selection, domain modeling — still require human judgment. The <span class="caps">AI</span> makes execution nearly free, which shifts the bottleneck to thinking clearly about what to&nbsp;build.</p>
+<p><strong><span class="caps">CI</span> fixes are half the battle</strong>. 18 of 137 commits were <span class="caps">CI</span>/infrastructure fixes. That is 13% of all commits spent making the build green. This ratio is probably&nbsp;universal.</p>
+<p><strong>Hot-reload everything you can</strong>. Being able to tune indicator parameters and alert thresholds without restarting the system is a massive quality-of-life&nbsp;improvement. <code>ArcSwap</code> + <code>notify</code> in Rust makes this surprisingly&nbsp;clean.</p>
+<p><strong>Test with real databases</strong>.&nbsp;The <code>testcontainers</code> crate lets you spin up a real PostgreSQL instance in tests. Mocking the database is how you end up with tests that pass and code that does not&nbsp;work.</p>
+<hr>
+<h2>References</h2>
+<ol>
+<li><a href="https://github.com/github/spec-kit">Specify (GitHub Spec-Kit)</a> — Project scaffolding&nbsp;template</li>
+<li><a href="https://crates.io/crates/ibapi">ibapi crate</a> — Rust client for Interactive Brokers <span class="caps">TWS</span> <span class="caps">API</span></li>
+<li><a href="https://crates.io/crates/teloxide">teloxide</a> — Telegram bot framework for&nbsp;Rust</li>
+<li><a href="https://crates.io/crates/rust_decimal">rust_decimal</a> — Arbitrary precision decimal&nbsp;type</li>
+<li><a href="https://crates.io/crates/testcontainers">testcontainers</a> — Container-based test&nbsp;infrastructure</li>
+<li><a href="https://questdb.com/">QuestDB</a> — Time-series database (the one we migrated away&nbsp;from)</li>
+</ol>
+    </div>
+
+</article>
+
+<div class="prompt" style="margin-top: 30px;">
+    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>ls -1 | head</span>
+</div>
+<div class="command-output pagination">
+    <span></span>
+</div>
+
+                <div class="footer">
+                    <div class="prompt">
+                        <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                        <span class="cursor"></span>
+                    </div>
+                    <p>&copy; Alexandre Manhães Savio | Powered by <a href="http://getpelican.com/">Pelican</a> | Theme: fancy-terminal</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function() {
+        const terminalWindow = document.querySelector('.terminal-window');
+        const terminalBody = document.querySelector('.terminal-body');
+        const closeBtn = document.querySelector('.terminal-btn.close');
+        const minimizeBtn = document.querySelector('.terminal-btn.minimize');
+        const maximizeBtn = document.querySelector('.terminal-btn.maximize');
+
+        let isMinimized = false;
+        let isMaximized = false;
+
+        // Close button - shows "session ended" message
+        closeBtn.addEventListener('click', function() {
+            terminalBody.innerHTML = `
+                <div class="login-message" style="text-align: center; padding: 40px 0;">
+                    <p>logout</p>
+                    <p style="margin-top: 20px;">[Process completed]</p>
+                    <p style="margin-top: 30px; font-size: 0.85em;">
+                        <a href="https://alexsavio.github.io/" style="color: var(--link-color);">→ Start new session</a>
+                    </p>
+                </div>
+            `;
+            terminalWindow.classList.add('closed');
+        });
+
+        // Minimize button - collapses terminal body
+        minimizeBtn.addEventListener('click', function() {
+            isMinimized = !isMinimized;
+            if (isMinimized) {
+                terminalBody.style.display = 'none';
+                terminalWindow.classList.add('minimized');
+            } else {
+                terminalBody.style.display = 'block';
+                terminalWindow.classList.remove('minimized');
+            }
+        });
+
+        // Maximize button - toggles fullscreen
+        maximizeBtn.addEventListener('click', function() {
+            isMaximized = !isMaximized;
+            if (isMaximized) {
+                terminalWindow.classList.add('maximized');
+                document.body.style.overflow = 'hidden';
+            } else {
+                terminalWindow.classList.remove('maximized');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Double-click header to maximize
+        document.querySelector('.terminal-header').addEventListener('dblclick', function(e) {
+            if (!e.target.classList.contains('terminal-btn')) {
+                maximizeBtn.click();
+            }
+        });
+    })();
+    </script>
+</body>
+</html>
