@@ -37,7 +37,7 @@ body {
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1125px;
     margin: 0 auto;
     padding: 20px 30px;
 }
@@ -247,7 +247,7 @@ a:hover {
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
     color: var(--text-color);
-    font-weight: normal;
+    font-weight: bold;
     margin-top: 1.5em;
     margin-bottom: 0.5em;
 }

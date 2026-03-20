@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en_us">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>First Principles: DevOps | Interlines</title>
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/style.css" />
+    <link href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Interlines Atom Feed" />
+    <link href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Interlines RSS Feed" />
+    <style>
+        :root {
+--bg-color: #e6e9ef;--terminal-bg: #eff1f5;--text-color: #4c4f69;--primary-color: #1e66f5;--accent-color: #8839ef;--muted-color: #6c6f85;--code-bg: #ccd0da;--link-color: #179299;--header-bg: #dce0e8;        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="container">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <span class="terminal-btn close"></span>
+                <span class="terminal-btn minimize"></span>
+                <span class="terminal-btn maximize"></span>
+                <span class="terminal-title">zsh — alex@blog</span>
+            </div>
+            <div class="terminal-body">
+                <div class="login-message">
+                    Last login: Today on ttys000<br>
+Lost in spikes                </div>
+
+                <div class="prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span>./welcome.sh</span>
+                </div>
+                <div class="command-output">
+                    <h1><a href="https://alexsavio.github.io/">Interlines</a></h1>
+                </div>
+
+                <div class="prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span>ls -la</span>
+                </div>
+                <nav class="nav-menu command-output">
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/" class="dirname">home</a>
+                        <span class="description">→ Back to start</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio" class="dirname">about_me</a>
+                        <span class="description">→ About Me</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://orcid.org/0000-0002-6608-6885" class="dirname">orcid</a>
+                        <span class="description">→ ORCID</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="http://www.surf-forecast.com/breaks/Zarautz/forecasts/latest/six_day" class="dirname">surf-forecast</a>
+                        <span class="description">→ Surf-Forecast</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/archives.html" class="dirname">archives</a>
+                        <span class="description">→ All posts</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/categories.html" class="dirname">categories</a>
+                        <span class="description">→ Browse by category</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">lrwxr-xr-x</span>
+                        <span class="dirname">links</span>
+                        <span class="description">→
+                            <a href="https://twitter.com/alex_savio">twitter-square</a> |                             <a href="https://github.com/alexsavio">github</a>                        </span>
+                    </div>
+                </nav>
+
+<div class="prompt">
+    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>cat first-principles-devops.md</span>
+</div>
+
+<article class="command-output">
+    <header>
+        <h2>First Principles:&nbsp;DevOps</h2>
+        <div class="article-meta">
+            <span class="article-date">[2026-03-19 22:00]</span>
+            | author: <a href="https://alexsavio.github.io/author/alexandre-m-savio.html">Alexandre M. Savio</a>
+            | category: <a href="https://alexsavio.github.io/category/software-development.html">Software Development</a>
+        </div>
+        <div class="article-meta">
+            tags:
+                <a href="https://alexsavio.github.io/tag/devops.html" class="tag">devops</a>
+                <a href="https://alexsavio.github.io/tag/first-principles.html" class="tag">first-principles</a>
+                <a href="https://alexsavio.github.io/tag/software-engineering.html" class="tag">software-engineering</a>
+                <a href="https://alexsavio.github.io/tag/automation.html" class="tag">automation</a>
+                <a href="https://alexsavio.github.io/tag/observability.html" class="tag">observability</a>
+                <a href="https://alexsavio.github.io/tag/infrastructure.html" class="tag">infrastructure</a>
+        </div>
+    </header>
+
+    <div class="article-content">
+        <h2><span class="caps">TL</span>;<span class="caps">DR</span></h2>
+<p>Most of what passes for &#8220;DevOps&#8221; is tool adoption dressed up as strategy. When you strip away inherited conventions and industry hype, only five truths survive: value dies in the gap between developer and user, feedback loops drive improvement, reproducibility reduces risk, handoffs cost superlinearly, and recovery beats prevention. Everything else, from Kubernetes to the &#8220;DevOps Engineer&#8221; job title, is implementation detail that should be proportional to your actual coordination&nbsp;problem.</p>
+<p><em>This is the second post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what&#8217;s actually provable. The first one tackled <a href="https://alexsavio.github.io/first-principles-software-observability.html">Software Observability</a>. DevOps felt like the natural next target, because few topics have a wider gap between what people say and what they actually&nbsp;do.</em></p>
+<h2>The Conventional&nbsp;View</h2>
+<p>DevOps is the practice of unifying software development and <span class="caps">IT</span> operations through shared tooling, culture, and automation. Most organizations interpret this as: adopt <span class="caps">CI</span>/<span class="caps">CD</span> pipelines, containerize everything, use Infrastructure as Code, monitor with dashboards, and hire people with &#8220;DevOps Engineer&#8221; in their&nbsp;title.</p>
+<p>The conversation typically centers on tools (Kubernetes, Terraform, Jenkins, GitHub Actions) rather than on the underlying problem being solved. This is the first sign that something has gone wrong: when the answer comes before the&nbsp;question.</p>
+<p>I&#8217;ve seen this pattern up close. Teams that spend months building elaborate <span class="caps">CI</span>/<span class="caps">CD</span> pipelines before asking whether their actual bottleneck is deployment or something else entirely. A startup with two developers and three microservices running on Kubernetes because &#8220;that&#8217;s what you do.&#8221; An ops team automating a quarterly task into a script that took longer to debug than a year of doing it by hand. The tools aren&#8217;t the problem. The problem is reaching for them before understanding what you&#8217;re&nbsp;solving.</p>
+<h2>The Assumptions We&nbsp;Carry</h2>
+<p>Before deconstructing, it helps to name the conventional wisdom. These are the beliefs most teams treat as&nbsp;self-evident:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Assumption</th>
+<th>Origin</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>DevOps requires specialized &#8220;DevOps Engineers&#8221;</td>
+<td>Job market evolution; companies needed a hiring label</td>
+<td>Baggage</td>
+</tr>
+<tr>
+<td>2</td>
+<td><span class="caps">CI</span>/<span class="caps">CD</span> pipelines are essential</td>
+<td>Continuous delivery movement (Humble <span class="amp">&amp;</span> Farley, 2010)</td>
+<td>Heuristic</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Containers (Docker/Kubernetes) are a prerequisite</td>
+<td>Industry trend post-2014; conference culture</td>
+<td>Baggage</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Infrastructure as Code is always better than manual config</td>
+<td>Repeatability arguments from config management era</td>
+<td>Heuristic</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Dev and Ops must be merged into one team</td>
+<td>Reaction to siloed orgs; the original DevOps manifesto</td>
+<td>Heuristic</td>
+</tr>
+<tr>
+<td>6</td>
+<td>More automation is always better</td>
+<td>Efficiency narrative; &#8220;automate everything&#8221; mantra</td>
+<td>Baggage</td>
+</tr>
+<tr>
+<td>7</td>
+<td>You need a complex observability stack (metrics, logs, traces)</td>
+<td>Microservices explosion; vendor marketing</td>
+<td>Heuristic</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Deployment frequency is a key measure of success</td>
+<td><span class="caps">DORA</span> metrics research (Forsgren et al.)</td>
+<td>Heuristic</td>
+</tr>
+<tr>
+<td>9</td>
+<td>GitOps / declarative config is the correct paradigm</td>
+<td>Weaveworks marketing + Kubernetes ecosystem conventions</td>
+<td>Baggage</td>
+</tr>
+<tr>
+<td>10</td>
+<td>You should adopt the same practices as Google/Netflix/Meta</td>
+<td>Cargo-culting from tech conference talks</td>
+<td>Baggage</td>
+</tr>
+</tbody>
+</table>
+<p>Three categories&nbsp;emerge:</p>
+<ul>
+<li><strong>Fundamental truth</strong>: survives all scrutiny, keep&nbsp;it</li>
+<li><strong>Useful heuristic</strong>: sometimes true, context-dependent, worth&nbsp;questioning</li>
+<li><strong>Inherited baggage</strong>: convention masquerading as truth, discard&nbsp;it</li>
+</ul>
+<p>Four of ten assumptions are outright baggage. Five are heuristics that work in some contexts but get applied universally. None survived as fundamental truths, which means the bedrock of DevOps lies&nbsp;elsewhere.</p>
+<h2>What Survives&nbsp;Scrutiny</h2>
+<p>Strip away the heuristics and baggage, and five irreducible truths&nbsp;remain:</p>
+<p><strong>1. The gap between developer and user is where value is destroyed.</strong> Software has zero value until it&#8217;s running where users can reach it. Every delay, error, miscommunication, or manual step in that gap is pure&nbsp;waste.</p>
+<p><strong>2. Feedback loops are the mechanism by which systems improve.</strong> You cannot control what you cannot observe. Without knowing what broke, what&#8217;s slow, or what users actually do, improvement is impossible. This is an information-theoretic truth. (I explored this deeply in <a href="https://alexsavio.github.io/first-principles-software-observability.html">First Principles: Software Observability</a>, where I stripped observability down to its own irreducible&nbsp;core.)</p>
+<p><strong>3. Reproducibility reduces risk.</strong> If you can recreate an environment or deployment exactly, you can reason about failures and recover from them. Identical inputs produce identical outputs in deterministic&nbsp;systems.</p>
+<p><strong>4. Coordination costs grow superlinearly with handoffs.</strong> Every time work crosses a team boundary, information is lost, delays are introduced, and accountability diffuses. This is Brooks&#8217;s Law and transaction cost economics in&nbsp;action.</p>
+<p><strong>5. Systems fail. The question is recovery speed, not failure prevention.</strong> Complex systems have emergent failure modes that cannot all be predicted. You cannot enumerate all states of a sufficiently complex&nbsp;system.</p>
+<h2>What Falls&nbsp;Away</h2>
+<p>With the bedrock established, it becomes clear what the industry has been carrying&nbsp;unnecessarily.</p>
+<p><strong><span class="dquo">&#8220;</span>DevOps Engineer&#8221; as a role.</strong> The original insight was that the wall between Dev and Ops was the problem. Creating a third silo called &#8220;DevOps&#8221; that sits between them reintroduces the exact coordination cost the movement was trying to eliminate. This persists because it&#8217;s easier to hire a person than to change a&nbsp;culture.</p>
+<p><strong>Containers as prerequisite.</strong> Containers are one mechanism for achieving reproducibility and isolation. A well-configured <span class="caps">VM</span>, a properly managed bare-metal server, or even a PaaS like Heroku can deliver the same fundamental properties. Containers won because they&#8217;re composable and portable, but they&#8217;re a means, not a truth. Many teams adopted Kubernetes before they had the problem Kubernetes&nbsp;solves.</p>
+<p><strong><span class="dquo">&#8220;</span>Automate everything.&#8221;</strong> Automation has a cost: it must be written, maintained, debugged, and understood. If a task is performed once a quarter, automating it may destroy more value than it creates (maintenance burden &gt; time saved). The fundamental truth is reproducibility, not automation. A well-documented runbook can be more valuable than a brittle&nbsp;script.</p>
+<p><strong>GitOps / tool-specific paradigms.</strong> These are implementations of reproducibility and auditability, not truths in themselves. The assumption that declarative <span class="caps">YAML</span> in a Git repo is the correct interface for all infrastructure is a convention that spread through the Kubernetes ecosystem, not a provable&nbsp;law.</p>
+<p><strong>Copying Big Tech.</strong> Google built Kubernetes because they run millions of containers across a global fleet. Netflix built Chaos Monkey because they operate at a scale where component failure is a statistical certainty. If you&#8217;re running 3 services on 5 machines, adopting their toolchain adds complexity without solving a problem you&nbsp;have.</p>
+<h2>The Steel Case for&nbsp;Convention</h2>
+<p>First-principles thinking is powerful, but it&#8217;s also dangerous if applied lazily. Some of these conventions exist for good reasons that deserve honest&nbsp;engagement.</p>
+<p><strong><span class="dquo">&#8220;</span>But <span class="caps">DORA</span> research <em>does</em> show deployment frequency correlates with performance.&#8221;</strong> It does. Forsgren et al. collected real data across thousands of organizations. The correlation between deployment frequency, lead time, <span class="caps">MTTR</span>, and change failure rate is solid. The mistake isn&#8217;t measuring these metrics. It&#8217;s Goodharting them: optimizing deployment frequency as a goal rather than treating it as a signal that your delivery gap is shrinking. A team deploying 50 times a day through an automated pipeline that nobody understands hasn&#8217;t improved, they&#8217;ve just moved the&nbsp;bottleneck.</p>
+<p><strong><span class="dquo">&#8220;</span>Kubernetes complexity pays off at scale.&#8221;</strong> True, past a certain threshold. If you&#8217;re running dozens of services across multiple teams with different scaling characteristics, container orchestration solves real coordination problems. The line I&#8217;d draw: if you have a dedicated platform team <em>and</em> enough services that manual deployment tracking becomes error-prone, Kubernetes starts earning its keep. Below that, it&#8217;s&nbsp;overhead.</p>
+<p><strong><span class="dquo">&#8220;</span>IaC prevents configuration drift.&#8221;</strong> It does, and configuration drift causes real outages. The first-principles argument isn&#8217;t that IaC is bad, it&#8217;s that IaC is one solution to the reproducibility problem, and sometimes a simpler one exists. A team running on a managed PaaS already has reproducibility without writing a single line of Terraform. The question is always: what&#8217;s the cheapest mechanism that gets you reliable reproducibility at your&nbsp;scale?</p>
+<p><strong><span class="dquo">&#8220;</span>The DevOps Engineer role fills a real skills gap.&#8221;</strong> Fair. Most developers don&#8217;t know networking, and most ops people don&#8217;t write application code. The role exists because the skills gap is real. But filling a skills gap by creating a permanent intermediary team is different from filling it by cross-training. The first scales linearly; the second&nbsp;compounds.</p>
+<p>The point isn&#8217;t that conventions are always wrong. It&#8217;s that they should be <em>chosen</em>, not <em>inherited</em>.</p>
+<h2>Rebuilt From&nbsp;Scratch</h2>
+<p>Starting from only the five truths, here&#8217;s what DevOps looks like designed from&nbsp;zero.</p>
+<p>The core insight is that operational complexity should scale with your coordination problem, not with industry trends. Most teams are somewhere on this spectrum but reaching for tools from the wrong&nbsp;end:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">quadrantChart</span></span>
+<span class="code-line"><span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="n">Automation</span><span class="w"> </span><span class="n">Decision</span><span class="w"> </span><span class="n">Matrix</span></span>
+<span class="code-line"><span class="w">    </span><span class="n">x</span><span class="o">-</span><span class="n">axis</span><span class="w"> </span><span class="n">Low</span><span class="w"> </span><span class="n">Frequency</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">High</span><span class="w"> </span><span class="n">Frequency</span></span>
+<span class="code-line"><span class="w">    </span><span class="n">y</span><span class="o">-</span><span class="n">axis</span><span class="w"> </span><span class="n">Low</span><span class="w"> </span><span class="n">Complexity</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">High</span><span class="w"> </span><span class="n">Complexity</span></span>
+<span class="code-line"><span class="w">    </span><span class="n">quadrant</span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="n">Automate</span><span class="w"> </span><span class="p">(</span><span class="n">CI</span><span class="o">/</span><span class="n">CD</span><span class="p">,</span><span class="w"> </span><span class="n">deploys</span><span class="p">)</span></span>
+<span class="code-line"><span class="w">    </span><span class="n">quadrant</span><span class="o">-</span><span class="mi">2</span><span class="w"> </span><span class="n">Platform</span><span class="w"> </span><span class="n">team</span><span class="w"> </span><span class="n">territory</span></span>
+<span class="code-line"><span class="w">    </span><span class="n">quadrant</span><span class="o">-</span><span class="mi">3</span><span class="w"> </span><span class="n">Just</span><span class="w"> </span><span class="n">do</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">manually</span></span>
+<span class="code-line"><span class="w">    </span><span class="n">quadrant</span><span class="o">-</span><span class="mi">4</span><span class="w"> </span><span class="n">Script</span><span class="w"> </span><span class="n">it</span><span class="p">,</span><span class="w"> </span><span class="kr">skip</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">framework</span></span>
+<span class="code-line"></code></pre></div>
+
+<p>The bottom-left quadrant is where most wasted automation effort lives: tasks that happen rarely and aren&#8217;t complex, but somebody automated them anyway because &#8220;automate everything&#8221; sounded&nbsp;right.</p>
+<p><strong>1. Minimize the gap, not the tools.</strong>
+The goal is: code to user with minimum waste. For a solo developer, that might&nbsp;be <code>git push</code> triggering a deploy to a PaaS. For a 500-person org, it might involve staged rollouts and canary analysis. The mechanism should be proportional to the coordination problem. Start with the simplest thing that closes the gap, and add complexity only when you hit a real&nbsp;wall.</p>
+<p><strong>2. Make the people who build it responsible for running it.</strong>
+Not by creating a &#8220;DevOps team,&#8221; but by literally making developers own their service in production. This isn&#8217;t a cultural aspiration, it&#8217;s a structural decision. When the person who writes the code also gets paged at 2 <span class="caps">AM</span>, the feedback loop is zero-latency. The org chart should reflect this, not fight&nbsp;it.</p>
+<p><strong>3. Invest in observability proportional to your ignorance.</strong>
+You need enough visibility to answer: &#8220;Is it working? If not, where is it broken?&#8221; For a monolith with 100 users, application logs and an uptime check may suffice. For a distributed system with millions of requests, you need traces, metrics, and structured logging. The investment should match your system&#8217;s complexity, not an industry&nbsp;benchmark.</p>
+<p><strong>4. Reproducibility through the cheapest mechanism available.</strong>
+IaC is one option. So is imaging. So is a documented manual process with verification steps. So is a PaaS that abstracts infrastructure entirely. The question is: &#8220;Can I recreate this environment reliably?&#8221; The answer doesn&#8217;t require&nbsp;Terraform.</p>
+<p><strong>5. Optimize for recovery, not prevention.</strong>
+Instead of building elaborate approval gates and change advisory boards to prevent failures, invest in: fast rollbacks, blue-green deployments, feature flags, and the ability to detect problems within minutes. Accept that failures will happen and make them&nbsp;cheap.</p>
+<p><strong>6. Automate only what earns its maintenance cost.</strong>
+Before automating, ask: How often does this run? What&#8217;s the cost of doing it manually? What&#8217;s the cost of maintaining the automation when it breaks? Many organizations have graveyards of <span class="caps">CI</span>/<span class="caps">CD</span> pipelines that no one understands and everyone is afraid to touch. A process you run manually but understand is better than automation you can&#8217;t&nbsp;debug.</p>
+<h2>What&nbsp;Changes</h2>
+<table>
+<thead>
+<tr>
+<th>Conventional Thinking</th>
+<th>First-Principles Thinking</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hire DevOps Engineers</td>
+<td>Make developers own production</td>
+</tr>
+<tr>
+<td>Adopt Kubernetes</td>
+<td>Use the simplest deployment target that works</td>
+</tr>
+<tr>
+<td>Automate everything</td>
+<td>Automate what earns its maintenance cost</td>
+</tr>
+<tr>
+<td>Build a full observability stack</td>
+<td>Observe proportional to system complexity</td>
+</tr>
+<tr>
+<td>Prevent failures with process</td>
+<td>Make failures cheap and recovery fast</td>
+</tr>
+<tr>
+<td>Follow <span class="caps">DORA</span> metrics</td>
+<td>Measure the gap between &#8220;code done&#8221; and &#8220;user has it&#8221; directly</td>
+</tr>
+<tr>
+<td>Adopt GitOps</td>
+<td>Achieve reproducibility by whatever means is cheapest</td>
+</tr>
+<tr>
+<td>Copy Big Tech practices</td>
+<td>Solve your actual problems at your actual scale</td>
+</tr>
+</tbody>
+</table>
+<p>The pattern is consistent: conventional DevOps optimizes for the wrong proxy. It measures deployment frequency instead of delivery gap. It adds tools instead of removing handoffs. It automates for automation&#8217;s sake instead of for&nbsp;value.</p>
+<h2>Right-Sizing&nbsp;Checklist</h2>
+<p>The hardest part of first-principles DevOps is knowing where you actually sit. Here&#8217;s a rough&nbsp;guide:</p>
+<p><strong>Solo developer or small team (1-5 people, &lt; 5&nbsp;services)</strong></p>
+<ul>
+<li>[ ] Deploy target: PaaS, single server, or managed container service. You don&#8217;t need&nbsp;Kubernetes.</li>
+<li>[ ] <span class="caps">CI</span>/<span class="caps">CD</span>: A simple pipeline that runs tests and deploys on merge. One file, not a <span class="caps">YAML</span>&nbsp;empire.</li>
+<li>[ ] Observability: Application logs + uptime monitoring + error alerting. That&#8217;s&nbsp;it.</li>
+<li>[ ] IaC: Optional. If your infra fits in one cloud console page, a documented setup guide may be&nbsp;enough.</li>
+<li>[ ] Automation: Automate the deploy. Script the rest only when it starts&nbsp;hurting.</li>
+</ul>
+<p><strong>Growing team (5-20 people, 5-20&nbsp;services)</strong></p>
+<ul>
+<li>[ ] Deploy target: Containers start earning their keep here, especially if services have different scaling&nbsp;needs.</li>
+<li>[ ] <span class="caps">CI</span>/<span class="caps">CD</span>: Standardized pipelines per service, but owned by the teams that use them, not a central DevOps&nbsp;team.</li>
+<li>[ ] Observability: Structured logging + basic metrics + alerting on SLOs. Consider traces if debugging cross-service issues takes&nbsp;hours.</li>
+<li>[ ] IaC: Worth it now. Configuration drift across 10+ services causes real&nbsp;outages.</li>
+<li>[ ] Automation: Automate deployment, environment provisioning, and the tasks that run weekly or more. Runbooks for everything&nbsp;else.</li>
+</ul>
+<p><strong>Scaling org (20+ people, 20+&nbsp;services)</strong></p>
+<ul>
+<li>[ ] Deploy target: Container orchestration (Kubernetes or equivalent) becomes justified. Consider a platform&nbsp;team.</li>
+<li>[ ] <span class="caps">CI</span>/<span class="caps">CD</span>: Platform-provided golden paths that teams can customize, not&nbsp;enforce.</li>
+<li>[ ] Observability: Full stack (metrics, logs, traces) with <span class="caps">SLO</span>-based alerting. The cost of <em>not</em> having this exceeds the cost of running&nbsp;it.</li>
+<li>[ ] IaC: Non-negotiable. Everything in code, reviewed,&nbsp;versioned.</li>
+<li>[ ] Automation: Invest in self-service infrastructure. The platform team&#8217;s job is to make the right thing the easy&nbsp;thing.</li>
+</ul>
+<p>The boundaries are fuzzy. The principle is not: match your operational investment to your actual coordination&nbsp;complexity.</p>
+<h2>What to Do About&nbsp;It</h2>
+<p><strong>Audit your toolchain for cargo-culting.</strong> For each tool in your stack, ask: &#8220;What specific problem at our scale does this solve?&#8221; If the answer is &#8220;everyone uses it&#8221; or &#8220;we might need it someday,&#8221; it&#8217;s a candidate for removal. Simpler systems have fewer failure&nbsp;modes.</p>
+<p><strong>Kill the DevOps team (structurally, not the people).</strong> Redistribute operational ownership to the teams that build the software. Platform engineering, building internal tools that reduce friction, is valuable. A team that acts as a gateway between dev and prod is&nbsp;not.</p>
+<p><strong>Right-size your process to your coordination cost.</strong> A 5-person startup and a 500-person enterprise have fundamentally different coordination problems. The startup&#8217;s &#8220;DevOps&#8221; might be a Makefile and a deploy script. The enterprise&#8217;s might be a platform team and a service mesh. Neither is wrong; what&#8217;s wrong is applying one to the&nbsp;other.</p>
+<p><strong>Measure the end-to-end gap, not proxy metrics.</strong> Instead of tracking deployment frequency as an end in itself, measure: &#8220;How long from a developer finishing a feature to a user being able to use it?&#8221; Everything that extends that duration is waste to be examined, whether it&#8217;s a slow <span class="caps">CI</span> pipeline, a manual approval, or a 3-week release&nbsp;train.</p>
+<p><strong>Treat recovery speed as a first-class investment.</strong> Every hour spent making rollbacks faster, deploys more reversible, and failures more detectable pays dividends that prevention-oriented processes (change advisory boards, multi-stage approvals) rarely&nbsp;match.</p>
+<hr>
+<h2>References</h2>
+<ol>
+<li>First-principles analysis generated&nbsp;in-session</li>
+<li>Humble, J. <span class="amp">&amp;</span> Farley, D. (2010). <em>Continuous Delivery</em>.&nbsp;Addison-Wesley</li>
+<li>Forsgren, N., Humble, J., <span class="amp">&amp;</span> Kim, G. (2018). <em>Accelerate: The Science of Lean Software and DevOps</em>. <span class="caps">IT</span> Revolution&nbsp;Press</li>
+<li><a href="https://alexsavio.github.io/first-principles-software-observability.html">First Principles: Software Observability</a> - Related post applying the same first-principles method to&nbsp;observability</li>
+</ol>
+    </div>
+
+</article>
+
+<div class="prompt" style="margin-top: 30px;">
+    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>ls -1 | head</span>
+</div>
+<div class="command-output pagination">
+    <span></span>
+</div>
+
+                <div class="footer">
+                    <div class="prompt">
+                        <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                        <span class="cursor"></span>
+                    </div>
+                    <p>&copy; Alexandre Manhães Savio | Powered by <a href="http://getpelican.com/">Pelican</a> | Theme: fancy-terminal</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function() {
+        const terminalWindow = document.querySelector('.terminal-window');
+        const terminalBody = document.querySelector('.terminal-body');
+        const closeBtn = document.querySelector('.terminal-btn.close');
+        const minimizeBtn = document.querySelector('.terminal-btn.minimize');
+        const maximizeBtn = document.querySelector('.terminal-btn.maximize');
+
+        let isMinimized = false;
+        let isMaximized = false;
+
+        // Close button - shows "session ended" message
+        closeBtn.addEventListener('click', function() {
+            terminalBody.innerHTML = `
+                <div class="login-message" style="text-align: center; padding: 40px 0;">
+                    <p>logout</p>
+                    <p style="margin-top: 20px;">[Process completed]</p>
+                    <p style="margin-top: 30px; font-size: 0.85em;">
+                        <a href="https://alexsavio.github.io/" style="color: var(--link-color);">→ Start new session</a>
+                    </p>
+                </div>
+            `;
+            terminalWindow.classList.add('closed');
+        });
+
+        // Minimize button - collapses terminal body
+        minimizeBtn.addEventListener('click', function() {
+            isMinimized = !isMinimized;
+            if (isMinimized) {
+                terminalBody.style.display = 'none';
+                terminalWindow.classList.add('minimized');
+            } else {
+                terminalBody.style.display = 'block';
+                terminalWindow.classList.remove('minimized');
+            }
+        });
+
+        // Maximize button - toggles fullscreen
+        maximizeBtn.addEventListener('click', function() {
+            isMaximized = !isMaximized;
+            if (isMaximized) {
+                terminalWindow.classList.add('maximized');
+                document.body.style.overflow = 'hidden';
+            } else {
+                terminalWindow.classList.remove('maximized');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Double-click header to maximize
+        document.querySelector('.terminal-header').addEventListener('dblclick', function(e) {
+            if (!e.target.classList.contains('terminal-btn')) {
+                maximizeBtn.click();
+            }
+        });
+    })();
+    </script>
+</body>
+</html>

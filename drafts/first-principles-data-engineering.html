@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en_us">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>First Principles: Data Engineering and ETLs | Interlines</title>
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/style.css" />
+    <link href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Interlines Atom Feed" />
+    <link href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Interlines RSS Feed" />
+    <style>
+        :root {
+--bg-color: #e6e9ef;--terminal-bg: #eff1f5;--text-color: #4c4f69;--primary-color: #1e66f5;--accent-color: #8839ef;--muted-color: #6c6f85;--code-bg: #ccd0da;--link-color: #179299;--header-bg: #dce0e8;        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="container">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <span class="terminal-btn close"></span>
+                <span class="terminal-btn minimize"></span>
+                <span class="terminal-btn maximize"></span>
+                <span class="terminal-title">zsh — alex@blog</span>
+            </div>
+            <div class="terminal-body">
+                <div class="login-message">
+                    Last login: Today on ttys000<br>
+Lost in spikes                </div>
+
+                <div class="prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span>./welcome.sh</span>
+                </div>
+                <div class="command-output">
+                    <h1><a href="https://alexsavio.github.io/">Interlines</a></h1>
+                </div>
+
+                <div class="prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span>ls -la</span>
+                </div>
+                <nav class="nav-menu command-output">
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/" class="dirname">home</a>
+                        <span class="description">→ Back to start</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio" class="dirname">about_me</a>
+                        <span class="description">→ About Me</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://orcid.org/0000-0002-6608-6885" class="dirname">orcid</a>
+                        <span class="description">→ ORCID</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="http://www.surf-forecast.com/breaks/Zarautz/forecasts/latest/six_day" class="dirname">surf-forecast</a>
+                        <span class="description">→ Surf-Forecast</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/archives.html" class="dirname">archives</a>
+                        <span class="description">→ All posts</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">drwxr-xr-x</span>
+                        <a href="https://alexsavio.github.io/categories.html" class="dirname">categories</a>
+                        <span class="description">→ Browse by category</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="permissions">lrwxr-xr-x</span>
+                        <span class="dirname">links</span>
+                        <span class="description">→
+                            <a href="https://twitter.com/alex_savio">twitter-square</a> |                             <a href="https://github.com/alexsavio">github</a>                        </span>
+                    </div>
+                </nav>
+
+<div class="prompt">
+    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>cat first-principles-data-engineering.md</span>
+</div>
+
+<article class="command-output">
+    <header>
+        <h2>First Principles: Data Engineering and&nbsp;ETLs</h2>
+        <div class="article-meta">
+            <span class="article-date">[2026-03-19 23:30]</span>
+            | author: <a href="https://alexsavio.github.io/author/alexandre-m-savio.html">Alexandre M. Savio</a>
+            | category: <a href="https://alexsavio.github.io/category/software-development.html">Software Development</a>
+        </div>
+        <div class="article-meta">
+            tags:
+                <a href="https://alexsavio.github.io/tag/data-engineering.html" class="tag">data-engineering</a>
+                <a href="https://alexsavio.github.io/tag/first-principles.html" class="tag">first-principles</a>
+                <a href="https://alexsavio.github.io/tag/software-engineering.html" class="tag">software-engineering</a>
+                <a href="https://alexsavio.github.io/tag/etl.html" class="tag">etl</a>
+                <a href="https://alexsavio.github.io/tag/pipelines.html" class="tag">pipelines</a>
+                <a href="https://alexsavio.github.io/tag/data.html" class="tag">data</a>
+                <a href="https://alexsavio.github.io/tag/rust.html" class="tag">rust</a>
+                <a href="https://alexsavio.github.io/tag/polars.html" class="tag">polars</a>
+        </div>
+    </header>
+
+    <div class="article-content">
+        <h2><span class="caps">TL</span>;<span class="caps">DR</span></h2>
+<p>Most of what we call &#8220;data engineering&#8221; is a set of conventions inherited from an era of expensive compute and scarce storage. When you strip it down to first principles, only five truths survive: producers and consumers operate in different contexts, data must cross boundaries, semantic alignment is unavoidable, computation trades off time against money against complexity, and data without provenance is unreliable. Everything else, from the sacred <span class="caps">ETL</span> ordering to the &#8220;collect everything&#8221; data lake mentality, is implementation detail that should be&nbsp;questioned.</p>
+<p><em>This is the third post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what&#8217;s provably true. The first one tackled <a href="https://alexsavio.github.io/first-principles-software-observability.html">Software Observability</a>.</em></p>
+<hr>
+<h2>The Conventional&nbsp;View</h2>
+<p>Data engineering is about building <strong>pipelines</strong> that Extract data from sources, Transform it into a usable shape, and Load it into a destination (usually a warehouse). Teams invest heavily in orchestrators like Airflow, maintain complex DAGs, enforce strict schemas, and treat the warehouse as the single source of&nbsp;truth.</p>
+<p>The discipline is defined by its tooling and its three-letter&nbsp;acronym.</p>
+<p>But is any of that&nbsp;fundamental?</p>
+<h2>The Assumptions We&nbsp;Carry</h2>
+<p>I identified ten assumptions that most practitioners treat as self-evident. Here&#8217;s how each one fares under&nbsp;scrutiny.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Assumption</th>
+<th>Origin</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Data must be extracted, transformed, then loaded, in that order</td>
+<td>Mainframe-era batch processing constraints</td>
+<td><strong>Baggage</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>You need a centralized data warehouse as the single source of truth</td>
+<td>1990s Kimball/Inmon movement</td>
+<td><strong>Heuristic</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Pipelines should be orchestrated as DAGs with a scheduler</td>
+<td>Airflow&#8217;s popularity + <span class="caps">CI</span>/<span class="caps">CD</span> analogy</td>
+<td><strong>Heuristic</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Schema should be enforced at write time</td>
+<td><span class="caps">RDBMS</span> tradition</td>
+<td><strong>Heuristic</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Data engineers build pipelines; analysts consume them</td>
+<td>Org chart convention</td>
+<td><strong>Baggage</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Batch processing is the default; streaming is advanced</td>
+<td>Batch was historically cheaper</td>
+<td><strong>Baggage</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Transformations belong in a dedicated processing layer</td>
+<td>Vendor-driven categories (Spark, dbt)</td>
+<td><strong>Heuristic</strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Raw data should be preserved immutably (bronze/silver/gold)</td>
+<td>Lambda architecture + compliance</td>
+<td><strong>Heuristic</strong></td>
+</tr>
+<tr>
+<td>9</td>
+<td>More data is better, collect everything</td>
+<td>Big data hype era, cheap storage</td>
+<td><strong>Baggage</strong></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Data quality is a pipeline problem</td>
+<td>Analogy to software testing</td>
+<td><strong>Heuristic</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The&nbsp;classification:</p>
+<ul>
+<li><strong>Fundamental truth</strong>: survives all tests. Keep&nbsp;it.</li>
+<li><strong>Useful heuristic</strong>: sometimes true, context-dependent. Worth&nbsp;questioning.</li>
+<li><strong>Inherited baggage</strong>: convention masquerading as truth. Discard&nbsp;it.</li>
+</ul>
+<p>Four of the ten are outright baggage. The rest are heuristics, useful in some contexts but dangerously treated as universal&nbsp;truths.</p>
+<h3>When the heuristics&nbsp;break</h3>
+<p>The six assumptions I classified as heuristics aren&#8217;t wrong, they&#8217;re just conditional. Here&#8217;s when each one stops&nbsp;working:</p>
+<ul>
+<li><strong>Centralized warehouse as single source of truth</strong> breaks when your producers change faster than your warehouse team can review PRs. It also fails for real-time use cases where the warehouse is always stale by&nbsp;definition.</li>
+<li><strong><span class="caps">DAG</span> orchestration with a scheduler</strong> breaks when most of your data flows are event-driven or near-real-time. You end up polling for &#8220;is the data there yet?&#8221; instead of reacting to its&nbsp;arrival.</li>
+<li><strong>Schema-on-write</strong> breaks when you&#8217;re exploring a new domain and the schema is genuinely unknown. It also breaks when upstream producers change schemas without coordination (which is&nbsp;always).</li>
+<li><strong>Dedicated transformation layer</strong> breaks when the people writing dbt models don&#8217;t understand what the source fields mean. You get syntactically correct <span class="caps">SQL</span> that&#8217;s semantically&nbsp;wrong.</li>
+<li><strong>Immutable raw data (bronze/silver/gold)</strong> breaks when compliance requires you to <em>delete</em> data (<span class="caps">GDPR</span> right to erasure), or when storage costs actually matter at scale. &#8220;Keep everything forever&#8221; is a luxury, not a&nbsp;principle.</li>
+<li><strong>Data quality as a pipeline problem</strong> breaks because it treats quality as a gate you pass once, not a property that degrades over time. Your data can pass every pipeline test and still be wrong if the source changed its semantics without telling&nbsp;you.</li>
+</ul>
+<h2>What Survives&nbsp;Scrutiny</h2>
+<p>After stripping away heuristics and baggage, five irreducible truths&nbsp;remain.</p>
+<h3>1. Producers and consumers operate in different&nbsp;contexts</h3>
+<p>The system generating data has different goals, schemas, and timelines than whoever needs to use it. This mismatch is <strong>the</strong> fundamental problem data engineering exists to solve. Without this gap, the entire discipline is&nbsp;unnecessary.</p>
+<h3>2. Data must cross context&nbsp;boundaries</h3>
+<p>Whether physically copied or virtually federated, the consumer needs access to data they don&#8217;t own. The mechanism is negotiable. The need is&nbsp;not.</p>
+<h3>3. Semantic alignment is&nbsp;unavoidable</h3>
+<p>Two systems calling&nbsp;something <code>customer_id</code> doesn&#8217;t mean they refer to the same entity. Reconciliation of <strong>meaning</strong>, not just format, is the hard part. This is why &#8220;just dump it in a lake&#8221; fails: you&#8217;ve moved bytes across a boundary without bridging the semantic&nbsp;gap.</p>
+<h3>4. Computation trades off time, money, and&nbsp;complexity</h3>
+<p>You can process data faster (streaming) at higher complexity, or cheaper (batch) with higher latency. This tradeoff is physics, not preference. There is no free&nbsp;lunch.</p>
+<h3>5. Data without provenance is&nbsp;unreliable</h3>
+<p>You must know where data came from and how recently it reflects reality. Without that, downstream conclusions are untrustworthy. This is epistemological, not&nbsp;technical.</p>
+<h2>The Airflow Cargo&nbsp;Cult</h2>
+<p>Before diving into what falls away, a concrete example of inherited thinking in&nbsp;action.</p>
+<p>I&#8217;ve seen teams adopt Apache Airflow as their first infrastructure decision when starting a data project. Not because they analyzed their scheduling needs and concluded that a <span class="caps">DAG</span> orchestrator was the right fit, but because &#8220;that&#8217;s what data teams&nbsp;use.&#8221;</p>
+<p>The result is predictable: a handful of simple <span class="caps">SQL</span> queries that run once a day, wrapped in Airflow operators, deployed on a Kubernetes cluster, monitored by a dedicated instance. The entire orchestration layer exists to&nbsp;run <code>cron</code>-equivalent jobs with 100x the operational overhead. A cron job, a dbt Cloud schedule, or even a simple GitHub Actions workflow would have done the same thing with a fraction of the&nbsp;complexity.</p>
+<p>This happens because teams reason from tools instead of from problems. They ask &#8220;which orchestrator should we use?&#8221; instead of &#8220;do we have a coordination problem that requires orchestration?&#8221; Often the answer is no. You don&#8217;t need a <span class="caps">DAG</span> scheduler until you have actual dependencies between data flows that require sequencing. Running three independent queries on a timer is not orchestration, it&#8217;s&nbsp;scheduling.</p>
+<p>The same pattern repeats everywhere. Kafka gets adopted for event streaming when a database trigger would suffice. <strong>Spark</strong> and <strong>PySpark</strong> get deployed as distributed compute clusters for datasets that fit in a single PostgreSQL instance, because &#8220;we&#8217;re a big data team.&#8221; <strong>dbt</strong> gets adopted as &#8220;the transformation layer&#8221; before anyone asks whether the transformations need a dedicated tool or could just be views in the warehouse. Data lakes get stood up for flexibility when a well-modeled warehouse would have been both simpler and more&nbsp;useful.</p>
+<p>The lesson: if your tool choice precedes your problem definition, you&#8217;re carrying&nbsp;baggage.</p>
+<h2>What Falls&nbsp;Away</h2>
+<h3><span class="dquo">&#8220;</span><span class="caps">ETL</span>&#8221; as the defining&nbsp;paradigm</h3>
+<p>The three-letter ordering (Extract, Transform, Load) was an artifact of expensive compute. When compute was scarce, you transformed data before loading because you couldn&#8217;t afford to store or re-process raw data. That constraint is largely&nbsp;gone.</p>
+<p><span class="caps">ELT</span>, streaming, reverse <span class="caps">ETL</span>, materialized views: these aren&#8217;t variations on <span class="caps">ETL</span>. They&#8217;re evidence that the paradigm was never&nbsp;fundamental.</p>
+<h3><span class="dquo">&#8220;</span>More data is&nbsp;better&#8221;</h3>
+<p>Driven by the 2010s Hadoop era, when storage became nearly free and <span class="caps">FOMO</span> ruled. In practice, data you never use has <strong>negative value</strong>: it costs money to store, creates security and compliance surface area, and generates&nbsp;noise.</p>
+<p>The fundamental truth is that <em>relevant, reliable data</em> is better. Collection should be driven by known or plausible use&nbsp;cases.</p>
+<h3><span class="dquo">&#8220;</span>Data engineers build, analysts&nbsp;consume&#8221;</h3>
+<p>This is an org chart artifact, not a truth about the work. The fundamental problem is context-crossing, getting data from producer to consumer in a usable form. Who does that work is a staffing decision. The rise of analytics engineering (dbt) already proved that the producer/consumer boundary is&nbsp;arbitrary.</p>
+<h3><span class="dquo">&#8220;</span>Batch is default, streaming is&nbsp;special&#8221;</h3>
+<p>This is a cost artifact, not a fundamental distinction. Batch isn&#8217;t more &#8220;natural.&#8221; It&#8217;s just historically cheaper. As streaming infrastructure has matured, the cost gap narrows, and the distinction becomes about choosing your <strong>latency tolerance</strong>, not picking a&nbsp;paradigm.</p>
+<h2>Rebuilt From&nbsp;Scratch</h2>
+<p>Starting from only the five irreducible truths, here&#8217;s what data engineering looks like designed from&nbsp;zero.</p>
+<h3>Start with data contracts, not&nbsp;pipelines</h3>
+<p>Since the core problem is context mismatch between producers and consumers, the first thing you build isn&#8217;t a pipeline. It&#8217;s a <strong>contract</strong>. Producers declare what they emit (schema, semantics, freshness guarantees). Consumers declare what they need. The engineering is in bridging the gap, and the contract makes the gap&nbsp;explicit.</p>
+<p>This isn&#8217;t theoretical. Tools like Andrew Jones&#8217; <a href="https://github.com/datacontract/datacontract-cli">Data Contract <span class="caps">CLI</span></a> let you define contracts in <span class="caps">YAML</span> and validate them in <span class="caps">CI</span>. Protobuf and <span class="caps">JSON</span> Schema work for schema enforcement. The format matters less than the practice of making the producer-consumer agreement explicit and&nbsp;testable.</p>
+<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">graph</span><span class="w"> </span><span class="n">LR</span></span>
+<span class="code-line"><span class="w">    </span><span class="n">P</span><span class="o">[</span><span class="n">Producer</span><span class="o">]</span><span class="w"> </span><span class="o">--&gt;|</span><span class="n">declares</span><span class="o">|</span><span class="w"> </span><span class="n">C</span><span class="o">[</span><span class="n">Contract</span><span class="o">]</span></span>
+<span class="code-line"><span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="o">--&gt;|</span><span class="k">schema</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">semantics</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SLA</span><span class="o">|</span><span class="w"> </span><span class="n">M</span><span class="o">[</span><span class="n">Mechanism</span><span class="o">]</span></span>
+<span class="code-line"><span class="w">    </span><span class="n">M</span><span class="w"> </span><span class="o">--&gt;|</span><span class="n">batch</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">CDC</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">API</span><span class="o">|</span><span class="w"> </span><span class="n">D</span><span class="o">[</span><span class="n">Consumer</span><span class="o">]</span></span>
+<span class="code-line"><span class="w">    </span><span class="n">D</span><span class="w"> </span><span class="c1">--&gt;|declares needs| C</span></span>
+<span class="code-line"></code></pre></div>
+
+<h3>The pipeline is a consequence, not the&nbsp;product</h3>
+<p>Once you have contracts, the implementation follows: you need some mechanism to get data from A to B while honoring the contract. This might be a batch job, a streaming consumer, a materialized view, a <span class="caps">CDC</span> feed, or a simple <span class="caps">API</span> call. The mechanism is chosen per-contract based on the latency-cost-complexity tradeoff, not imposed by a global architecture&nbsp;diagram.</p>
+<h3>Transform at the boundary, not in a dedicated&nbsp;layer</h3>
+<p>Transformations exist to reconcile semantic mismatches. They should live as close to the boundary-crossing as possible: either at the producer (who understands the source context) or at the consumer (who understands the target context). A centralized &#8220;transformation layer&#8221; is an organizational crutch that obscures who owns the&nbsp;meaning.</p>
+<h3>Observe data, don&#8217;t just test&nbsp;it</h3>
+<p>Data quality isn&#8217;t a test suite problem. It&#8217;s an <strong>observability</strong> problem. Tests check known failure modes; observation surfaces unknown ones. You need continuous monitoring of distributions, volumes, freshness, and lineage, not&nbsp;just <code>assert not null</code>.</p>
+<p>This connects directly to <a href="https://alexsavio.github.io/first-principles-software-observability.html">the observability principles</a> I wrote about earlier. In that post, I argued that the &#8220;three pillars&#8221; (logs, metrics, traces) describe data formats, not observability itself. The same pattern appears here: &#8220;<span class="caps">ETL</span>&#8221; describes a data flow ordering, not data engineering itself. In both cases, vendor categories got mistaken for fundamentals. The fix is the same too: explore instead of monitor, alert on invariants rather than thresholds, and treat quality as a design property rather than an&nbsp;afterthought.</p>
+<p>There&#8217;s a deeper problem, though. Data engineering as a discipline has a <strong>testing gap</strong> that would be unacceptable in software engineering. Most pipeline code has zero unit tests. Transformations that encode critical business logic run without integration tests against realistic data. The entire testing culture amounts to &#8220;check if the <span class="caps">DAG</span> ran without errors,&#8221; which tells you nothing about whether the <em>output</em> is&nbsp;correct.</p>
+<p>Software engineers learned decades ago that &#8220;it compiled&#8221; is not a quality signal. Data engineers are still treating &#8220;the job succeeded&#8221; the same way. A dbt model can produce syntactically valid <span class="caps">SQL</span>, run without errors, and silently double-count revenue because of a bad join. Without unit tests on transformation logic and integration tests against known-good datasets, you&#8217;re flying blind and calling it&nbsp;confidence.</p>
+<p>Tools like <a href="https://greatexpectations.io/">Great Expectations</a> and <a href="https://www.soda.io/">Soda</a> address the observability side, but they&#8217;re not substitutes for actual test coverage on the transformation code. The industry needs both: tests for known invariants and observation for unknown&nbsp;drift.</p>
+<h3>Collect data when you can articulate who will use&nbsp;it</h3>
+<p>Instead of &#8220;ingest everything, schema later,&#8221; the rebuilt approach: every data source entering the system has a declared consumer and use case. If you can&#8217;t name one, don&#8217;t ingest it. You can always add it later. This inverts the &#8220;data lake&#8221;&nbsp;mentality.</p>
+<h3>Make lineage and freshness&nbsp;first-class</h3>
+<p>Since data without known provenance is unreliable, lineage tracking isn&#8217;t a nice-to-have dashboard. It&#8217;s part of the data itself. Every record carries (or can be traced to) its origin, the transformations applied, and when it last reflected&nbsp;reality.</p>
+<h2>The Tooling Is Catching&nbsp;Up</h2>
+<p>The incumbent stack tells a story about its era. <strong>Spark</strong> was built for a world where data didn&#8217;t fit on one machine, so you distributed it across a cluster. <strong>PySpark</strong> made that accessible to Python-native data teams, but at the cost of <span class="caps">JVM</span> overhead, serialization penalties, and cluster management complexity that most workloads never needed. <strong>dbt</strong> made <span class="caps">SQL</span> transformations testable and version-controlled, which was a genuine leap forward, but it also cemented the idea that transformations are a separate &#8220;layer&#8221; rather than a boundary&nbsp;responsibility.</p>
+<p>All three tools solved real problems. But they solved them with the constraints and assumptions of their time: <span class="caps">JVM</span>-based runtimes, Python&#8217;s <span class="caps">GIL</span>, single-threaded execution models, and the assumption that &#8220;big data&#8221; meant &#8220;distributed&nbsp;data.&#8221;</p>
+<p>The <strong>Rust data ecosystem</strong> is quietly rewriting those&nbsp;assumptions.</p>
+<p><strong>Polars</strong> is the most visible example. It processes DataFrames with the same <span class="caps">API</span> ergonomics as pandas but runs on a multithreaded Rust engine with zero-copy memory, lazy evaluation, and query optimization. Workloads that required a PySpark cluster can often run faster on a single machine with Polars, because the bottleneck was never data volume: it was runtime&nbsp;inefficiency.</p>
+<p>But Polars is just one piece. <strong>DataFusion</strong> provides a query engine that can be embedded in any application, not locked behind a cluster manager. <strong>Arrow</strong> gives a common in-memory columnar format that eliminates serialization overhead between tools. <strong>Delta-rs</strong> brings Delta Lake table management without the <span class="caps">JVM</span> dependency. Together, they form a stack where contract validation, schema enforcement, and transformation can happen at native speed, in the same process, with type safety the <span class="caps">JVM</span> never&nbsp;offered.</p>
+<p>What this means for the first-principles&nbsp;approach:</p>
+<ul>
+<li><strong>Data contracts become cheaper to enforce.</strong> When schema validation runs at Rust speed instead of PySpark speed, you can validate at every boundary without worrying about performance overhead. Contracts stop being &#8220;nice but expensive&#8221; and become&nbsp;default.</li>
+<li><strong>The &#8220;you need a cluster&#8221; assumption dies faster.</strong> If Polars on a single node outperforms a 10-node Spark cluster for your workload, the entire distributed compute layer was inherited baggage. Vertical scaling wins until it actually&nbsp;doesn&#8217;t.</li>
+<li><strong>Transformation and validation merge.</strong> In a Rust-native pipeline, the transformation step and the contract validation step can be the same compiled binary. No orchestrator shuffling data between &#8220;validate&#8221; and &#8220;transform&#8221; stages. No serialization penalty between Python and <span class="caps">JVM</span>.</li>
+<li><strong>Testing becomes tractable.</strong> Rust&#8217;s type system catches entire categories of errors at compile time that PySpark surfaces at runtime (or never). Combined with fast execution, you can run unit and integration tests against your transformation logic in seconds, not minutes. The testing gap in data engineering gets smaller when the tooling makes testing&nbsp;cheap.</li>
+</ul>
+<p>This isn&#8217;t about Rust zealotry. It&#8217;s about recognizing that the performance characteristics of your tools shape which architectural patterns are practical. When validation is expensive, you do it rarely. When it&#8217;s cheap, you do it everywhere. The Rust data ecosystem makes the first-principles approach (contracts at every boundary, test everything, observe continuously) not just theoretically correct but practically&nbsp;feasible.</p>
+<h2>Smell Test: Are You Carrying&nbsp;Baggage?</h2>
+<p>Quick diagnostic. If any of these sound familiar, you&#8217;re optimizing conventions instead of solving&nbsp;problems:</p>
+<ul>
+<li><strong>Your pipeline has no known consumer.</strong> Someone requested it two years ago, they left the company, and it still runs every&nbsp;night.</li>
+<li><strong>You chose your orchestrator before defining your data flows.</strong> &#8220;We&#8217;re an Airflow shop&#8221; is a statement about identity, not&nbsp;architecture.</li>
+<li><strong>You chose Kafka before asking about latency needs.</strong> If your consumers check a dashboard once a day, you don&#8217;t need sub-second event&nbsp;delivery.</li>
+<li><strong>Your transformation logic has zero unit tests.</strong> You test that the job ran, not that the output is correct. A passing <span class="caps">DAG</span> is not a passing&nbsp;test.</li>
+<li><strong>Your data lake has no access logs.</strong> You&#8217;re storing &#8220;everything&#8221; but can&#8217;t name who queried what in the last 90&nbsp;days.</li>
+<li><strong>Your schema changes break consumers without warning.</strong> No contract means every upstream change is a&nbsp;surprise.</li>
+<li><strong>You have a &#8220;data quality&#8221; team instead of quality built into every step.</strong> Separating quality from production is like separating &#8220;driving safely&#8221; from&nbsp;&#8220;driving.&#8221;</li>
+<li><strong>Your Spark cluster processes datasets that fit in a laptop&#8217;s <span class="caps">RAM</span>.</strong> The tool should match the problem, not the&nbsp;resume.</li>
+</ul>
+<h2>What&nbsp;Changes</h2>
+<table>
+<thead>
+<tr>
+<th>Conventional Thinking</th>
+<th>First-Principles Thinking</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Build pipelines, then document them</td>
+<td>Define contracts first, derive pipelines from them</td>
+</tr>
+<tr>
+<td>Choose batch or streaming as an architecture</td>
+<td>Choose latency per data flow based on consumer needs</td>
+</tr>
+<tr>
+<td>Centralized transformation layer (dbt/Spark)</td>
+<td>Transform at the producer-consumer boundary</td>
+</tr>
+<tr>
+<td>Data lake: store everything, figure it out later</td>
+<td>Collect only what has a declared consumer</td>
+</tr>
+<tr>
+<td>Data quality = pipeline tests</td>
+<td>Data quality = continuous observability</td>
+</tr>
+<tr>
+<td>Data engineer builds, analyst consumes</td>
+<td>Anyone who bridges the context gap is doing data engineering</td>
+</tr>
+<tr>
+<td>Orchestrator (Airflow) is the center of gravity</td>
+<td>Contract registry is the center of gravity</td>
+</tr>
+</tbody>
+</table>
+<h2>Implications</h2>
+<p><strong>Start your next data project by writing contracts, not DAGs.</strong> Define what producers emit and what consumers need before writing a single line of pipeline code. Tools like Protobuf, <span class="caps">JSON</span> Schema, or even a shared spreadsheet work. The format matters less than the&nbsp;practice.</p>
+<p><strong>Audit your existing pipelines.</strong> Ask: &#8220;who consumes this and when do they need it?&#8221; Any pipeline without a clear answer is a candidate for decommissioning. You&#8217;ll likely find 20-40% of pipelines serve no active&nbsp;consumer.</p>
+<p><strong>Stop treating streaming as advanced.</strong> For new data flows, evaluate latency needs first. Sometimes batch is the right call, but it should be a conscious decision, not a&nbsp;default.</p>
+<p><strong>Push transformation ownership to semantic owners.</strong> If the marketing team defines what &#8220;qualified lead&#8221; means, they should own (or at minimum co-own) the transformation that computes it, not a data engineer guessing from a Jira&nbsp;ticket.</p>
+<p><strong>Invest in lineage and freshness metadata as infrastructure.</strong> If you can&#8217;t programmatically answer &#8220;where did this number come from and how old is it?&#8221; for any metric in your warehouse, that&#8217;s a higher priority than building new&nbsp;pipelines.</p>
+<hr>
+<h2>References</h2>
+<ol>
+<li>First-principles analysis by the author, based on industry experience and reasoning from&nbsp;fundamentals</li>
+<li><a href="https://alexsavio.github.io/first-principles-software-observability.html">First Principles: Software Observability</a> - First post in this series, applying the same method to&nbsp;observability</li>
+<li><a href="https://github.com/datacontract/datacontract-cli">Data Contract <span class="caps">CLI</span></a> - Open-source tool for defining and validating data&nbsp;contracts</li>
+<li><a href="https://greatexpectations.io/">Great Expectations</a> - Data validation and profiling&nbsp;framework</li>
+<li><a href="https://www.soda.io/">Soda</a> - Data quality monitoring&nbsp;platform</li>
+<li><a href="https://pola.rs/">Polars</a> - Fast DataFrame library built on&nbsp;Rust</li>
+<li><a href="https://datafusion.apache.org/">Apache Arrow DataFusion</a> - Embeddable query engine in&nbsp;Rust</li>
+<li><a href="https://github.com/delta-io/delta-rs">Delta-rs</a> - Delta Lake implementation in Rust, no <span class="caps">JVM</span>&nbsp;required</li>
+</ol>
+    </div>
+
+</article>
+
+<div class="prompt" style="margin-top: 30px;">
+    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
+    <span>ls -1 | head</span>
+</div>
+<div class="command-output pagination">
+    <span></span>
+</div>
+
+                <div class="footer">
+                    <div class="prompt">
+                        <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                        <span class="cursor"></span>
+                    </div>
+                    <p>&copy; Alexandre Manhães Savio | Powered by <a href="http://getpelican.com/">Pelican</a> | Theme: fancy-terminal</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function() {
+        const terminalWindow = document.querySelector('.terminal-window');
+        const terminalBody = document.querySelector('.terminal-body');
+        const closeBtn = document.querySelector('.terminal-btn.close');
+        const minimizeBtn = document.querySelector('.terminal-btn.minimize');
+        const maximizeBtn = document.querySelector('.terminal-btn.maximize');
+
+        let isMinimized = false;
+        let isMaximized = false;
+
+        // Close button - shows "session ended" message
+        closeBtn.addEventListener('click', function() {
+            terminalBody.innerHTML = `
+                <div class="login-message" style="text-align: center; padding: 40px 0;">
+                    <p>logout</p>
+                    <p style="margin-top: 20px;">[Process completed]</p>
+                    <p style="margin-top: 30px; font-size: 0.85em;">
+                        <a href="https://alexsavio.github.io/" style="color: var(--link-color);">→ Start new session</a>
+                    </p>
+                </div>
+            `;
+            terminalWindow.classList.add('closed');
+        });
+
+        // Minimize button - collapses terminal body
+        minimizeBtn.addEventListener('click', function() {
+            isMinimized = !isMinimized;
+            if (isMinimized) {
+                terminalBody.style.display = 'none';
+                terminalWindow.classList.add('minimized');
+            } else {
+                terminalBody.style.display = 'block';
+                terminalWindow.classList.remove('minimized');
+            }
+        });
+
+        // Maximize button - toggles fullscreen
+        maximizeBtn.addEventListener('click', function() {
+            isMaximized = !isMaximized;
+            if (isMaximized) {
+                terminalWindow.classList.add('maximized');
+                document.body.style.overflow = 'hidden';
+            } else {
+                terminalWindow.classList.remove('maximized');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Double-click header to maximize
+        document.querySelector('.terminal-header').addEventListener('dblclick', function(e) {
+            if (!e.target.classList.contains('terminal-btn')) {
+                maximizeBtn.click();
+            }
+        });
+    })();
+    </script>
+</body>
+</html>
