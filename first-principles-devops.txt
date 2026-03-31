@@ -20,7 +20,7 @@ DevOps is the practice of unifying software development and IT operations throug
 
 The conversation typically centers on tools (Kubernetes, Terraform, Jenkins, GitHub Actions) rather than on the underlying problem being solved. This is the first sign that something has gone wrong: when the answer comes before the question.
 
-I've seen this pattern up close. Teams that spend months building elaborate CI/CD pipelines before asking whether their actual bottleneck is deployment or something else entirely. A startup with two developers and three microservices running on Kubernetes because "that's what you do." An ops team automating a quarterly task into a script that took longer to debug than a year of doing it by hand. The tools aren't the problem. The problem is reaching for them before understanding what you're solving.
+I've seen this pattern up close. Teams that spend months building elaborate CI/CD pipelines before asking whether their actual bottleneck is deployment or something else entirely. A startup with two developers and three microservices running on Kubernetes because "that's what you do". An ops team automating a quarterly task into a script that took longer to debug than a year of doing it by hand. The tools aren't the problem. The problem is reaching for them before understanding what you're solving.
 
 ## The Assumptions We Carry
 
@@ -69,7 +69,7 @@ With the bedrock established, it becomes clear what the industry has been carryi
 
 **Containers as prerequisite.** Containers are one mechanism for achieving reproducibility and isolation. A well-configured VM, a properly managed bare-metal server, or even a PaaS like Heroku can deliver the same fundamental properties. Containers won because they're composable and portable, but they're a means, not a truth. Many teams adopted Kubernetes before they had the problem Kubernetes solves.
 
-**"Automate everything."** Automation has a cost: it must be written, maintained, debugged, and understood. If a task is performed once a quarter, automating it may destroy more value than it creates (maintenance burden > time saved). The fundamental truth is reproducibility, not automation. A well-documented runbook can be more valuable than a brittle script.
+**"Automate everything".** Automation has a cost: it must be written, maintained, debugged, and understood. If a task is performed once a quarter, automating it may destroy more value than it creates (maintenance burden > time saved). The fundamental truth is reproducibility, not automation. A well-documented runbook can be more valuable than a brittle script.
 
 **GitOps / tool-specific paradigms.** These are implementations of reproducibility and auditability, not truths in themselves. The assumption that declarative YAML in a Git repo is the correct interface for all infrastructure is a convention that spread through the Kubernetes ecosystem, not a provable law.
 
@@ -79,13 +79,13 @@ With the bedrock established, it becomes clear what the industry has been carryi
 
 First-principles thinking is powerful, but it's also dangerous if applied lazily. Some of these conventions exist for good reasons that deserve honest engagement.
 
-**"But DORA research *does* show deployment frequency correlates with performance."** It does. Forsgren et al. collected real data across thousands of organizations. The correlation between deployment frequency, lead time, MTTR, and change failure rate is solid. The mistake isn't measuring these metrics. It's Goodharting them: optimizing deployment frequency as a goal rather than treating it as a signal that your delivery gap is shrinking. A team deploying 50 times a day through an automated pipeline that nobody understands hasn't improved, they've just moved the bottleneck.
+**"But DORA research *does* show deployment frequency correlates with performance".** It does. Forsgren et al. collected real data across thousands of organizations. The correlation between deployment frequency, lead time, MTTR, and change failure rate is solid. The mistake isn't measuring these metrics. It's Goodharting them: optimizing deployment frequency as a goal rather than treating it as a signal that your delivery gap is shrinking. A team deploying 50 times a day through an automated pipeline that nobody understands hasn't improved, they've just moved the bottleneck.
 
-**"Kubernetes complexity pays off at scale."** True, past a certain threshold. If you're running dozens of services across multiple teams with different scaling characteristics, container orchestration solves real coordination problems. The line I'd draw: if you have a dedicated platform team *and* enough services that manual deployment tracking becomes error-prone, Kubernetes starts earning its keep. Below that, it's overhead.
+**"Kubernetes complexity pays off at scale".** True, past a certain threshold. If you're running dozens of services across multiple teams with different scaling characteristics, container orchestration solves real coordination problems. The line I'd draw: if you have a dedicated platform team *and* enough services that manual deployment tracking becomes error-prone, Kubernetes starts earning its keep. Below that, it's overhead.
 
-**"IaC prevents configuration drift."** It does, and configuration drift causes real outages. The first-principles argument isn't that IaC is bad, it's that IaC is one solution to the reproducibility problem, and sometimes a simpler one exists. A team running on a managed PaaS already has reproducibility without writing a single line of Terraform. The question is always: what's the cheapest mechanism that gets you reliable reproducibility at your scale?
+**"IaC prevents configuration drift".** It does, and configuration drift causes real outages. The first-principles argument isn't that IaC is bad, it's that IaC is one solution to the reproducibility problem, and sometimes a simpler one exists. A team running on a managed PaaS already has reproducibility without writing a single line of Terraform. The question is always: what's the cheapest mechanism that gets you reliable reproducibility at your scale?
 
-**"The DevOps Engineer role fills a real skills gap."** Fair. Most developers don't know networking, and most ops people don't write application code. The role exists because the skills gap is real. But filling a skills gap by creating a permanent intermediary team is different from filling it by cross-training. The first scales linearly; the second compounds.
+**"The DevOps Engineer role fills a real skills gap".** Fair. Most developers don't know networking, and most ops people don't write application code. The role exists because the skills gap is real. But filling a skills gap by creating a permanent intermediary team is different from filling it by cross-training. The first scales linearly; the second compounds.
 
 The point isn't that conventions are always wrong. It's that they should be *chosen*, not *inherited*.
 
