@@ -16,7 +16,7 @@ The "three pillars" of observability (logs, metrics, traces) describe data forma
 
 ## The Conventional View
 
-Ask any engineer what "observability" means and you'll get the same answer: logs, metrics, and traces, the "three pillars." Ship them to Datadog or Grafana, build dashboards, set up alerts, and you're observable. This is the version you'll hear at every conference talk and read in every vendor blog post.
+Ask any engineer what "observability" means and you'll get the same answer: logs, metrics, and traces, the "three pillars". Ship them to Datadog or Grafana, build dashboards, set up alerts, and you're observable. This is the version you'll hear at every conference talk and read in every vendor blog post.
 
 The framing traces back to Peter Bourgon's 2017 blog post ["Metrics, tracing, and logging"][bourgon-2017], which drew a Venn diagram of the three signal types and their overlaps. It was a useful taxonomy for a talk. Then the vendor ecosystem adopted it as gospel, and now teams treat it like a checklist: ✓ logs ✓ metrics ✓ traces → done.
 
@@ -81,11 +81,11 @@ With only five truths remaining, the conventional view takes some hits.
 
 **"Three pillars" as a definition.** This taxonomy describes data formats, not observability. You can have all three pillars and still be blind to production issues if the data lacks context, correlation, or queryability. Cindy Sridharan made this point in *Distributed Systems Observability* [Sridharan, 2018][sridharan-2018]: the pillars framework tricks teams into thinking the job is done once they've checked three boxes. It conflates the *representation* of signals with the *property* of being observable.
 
-**"Collect everything."** This is storage-vendor thinking. It produces massive cost, massive noise, and a false sense of security. Teams drown in data they never query while missing the specific signals that would have caught the outage. The constraint from Truth #5 (attention is finite) kills this approach on contact.
+**"Collect everything".** This is storage-vendor thinking. It produces massive cost, massive noise, and a false sense of security. Teams drown in data they never query while missing the specific signals that would have caught the outage. The constraint from Truth #5 (attention is finite) kills this approach on contact.
 
-**"Dashboards = understanding."** Dashboards are answers to questions you've already asked. They excel at confirming known patterns and fail completely at surfacing unknown ones. Over-reliance on dashboards creates a dangerous illusion: the team feels informed because the screens look green, but the failure mode that takes them down won't have a panel.
+**"Dashboards = understanding".** Dashboards are answers to questions you've already asked. They excel at confirming known patterns and fail completely at surfacing unknown ones. Over-reliance on dashboards creates a dangerous illusion: the team feels informed because the screens look green, but the failure mode that takes them down won't have a panel.
 
-**"Observability is an ops problem."** If the developer who writes the code doesn't think about how it will be observed in production, no amount of post-hoc instrumentation fixes it. Observability is a design property (Truth #1), not an operational afterthought. Separating "who builds it" from "who observes it" guarantees that the wrong things get instrumented.
+**"Observability is an ops problem".** If the developer who writes the code doesn't think about how it will be observed in production, no amount of post-hoc instrumentation fixes it. Observability is a design property (Truth #1), not an operational afterthought. Separating "who builds it" from "who observes it" guarantees that the wrong things get instrumented.
 
 ## Rebuilt From Scratch
 
@@ -93,7 +93,7 @@ Starting from only the five fundamental truths, here's what observability looks 
 
 ### Build systems that explain themselves
 
-Observability isn't a layer you add. It's a property you design in (Truth #1). Every meaningful state transition, decision branch, and external interaction should emit a structured event that captures enough context to reconstruct *why* the system did what it did. Not "log everything." Emit the *decisions*.
+Observability isn't a layer you add. It's a property you design in (Truth #1). Every meaningful state transition, decision branch, and external interaction should emit a structured event that captures enough context to reconstruct *why* the system did what it did. Not "log everything". Emit the *decisions*.
 
 When a rate limiter throttles a request, that's a decision. When a circuit breaker opens, that's a decision. When a feature flag routes a user to variant B, that's a decision. When a cache lookup misses, *that's diagnostic information*. These are the events that matter.
 
@@ -109,7 +109,7 @@ The underlying primitive is the same: a timestamped, context-rich structured eve
 
 ### Explore, don't monitor
 
-The primary interaction model should be ad-hoc querying (Truth #4, failures are unpredicted). "Show me all requests from user X that hit service Y in the last hour, broken down by response code and latency percentile." Dashboards become saved queries that proved useful, not the starting point. The system should support questions you've never asked before.
+The primary interaction model should be ad-hoc querying (Truth #4, failures are unpredicted). "Show me all requests from user X that hit service Y in the last hour, broken down by response code and latency percentile". Dashboards become saved queries that proved useful, not the starting point. The system should support questions you've never asked before.
 
 This is a fundamental shift in posture: from passive monitoring ("stare at dashboards and wait for red") to active exploration ("I have a hypothesis, let me test it against production data").
 

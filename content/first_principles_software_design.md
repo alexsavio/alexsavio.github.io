@@ -14,7 +14,7 @@ Most software design advice is convention dressed up as truth. When you strip aw
 
 ## The Conventional View
 
-Software design, as typically taught and practiced, is about organizing code into clean abstractions, following established patterns (MVC, microservices, hexagonal architecture), applying SOLID principles, and writing extensible systems that anticipate future change. Good design means separation of concerns, low coupling, high cohesion, and layers of indirection that make the system "flexible."
+Software design, as typically taught and practiced, is about organizing code into clean abstractions, following established patterns (MVC, microservices, hexagonal architecture), applying SOLID principles, and writing extensible systems that anticipate future change. Good design means separation of concerns, low coupling, high cohesion, and layers of indirection that make the system "flexible".
 
 Most of this is convention. Some of it is useful. Very little of it is fundamental.
 
@@ -57,13 +57,13 @@ Five irreducible truths emerged:
 
 Four assumptions classified as baggage, and the reasons they persisted:
 
-**"Anticipate future requirements."** This feels responsible and professional. In practice, humans are terrible at predicting what will change. Studies show that speculative generality creates more waste than it prevents. The assumption confuses *making change cheap* (valuable) with *predicting what will change* (impossible).
+**"Anticipate future requirements".** This feels responsible and professional. In practice, humans are terrible at predicting what will change. Studies show that speculative generality creates more waste than it prevents. The assumption confuses *making change cheap* (valuable) with *predicting what will change* (impossible).
 
-**"More abstraction = better design."** Abstraction has a cost: indirection. Every layer you add is a layer someone must navigate to understand the system. Abstractions feel intellectually satisfying and they're easy to teach. But abstraction is only valuable when it reduces net cognitive load, when the thing being hidden is more complex than the interface replacing it. Premature abstraction *increases* total complexity.
+**"More abstraction = better design".** Abstraction has a cost: indirection. Every layer you add is a layer someone must navigate to understand the system. Abstractions feel intellectually satisfying and they're easy to teach. But abstraction is only valuable when it reduces net cognitive load, when the thing being hidden is more complex than the interface replacing it. Premature abstraction *increases* total complexity.
 
-**"Design patterns are the vocabulary."** The Gang of Four patterns were documented as recurring solutions in C++ and Smalltalk in 1994. Many exist to work around language limitations: Visitor, Strategy, and Observer are all compensating for missing first-class functions or pattern matching. Reaching for a pattern before understanding the problem adds accidental complexity.
+**"Design patterns are the vocabulary".** The Gang of Four patterns were documented as recurring solutions in C++ and Smalltalk in 1994. Many exist to work around language limitations: Visitor, Strategy, and Observer are all compensating for missing first-class functions or pattern matching. Reaching for a pattern before understanding the problem adds accidental complexity.
 
-**"Good code is reusable code."** Reusability requires predicting how code will be reused, a form of future prediction. Making code reusable adds generality, parameters, and configuration that increase complexity *now* for hypothetical benefit *later*. Most "reusable" code is used exactly once. The assumption persists because reusability sounds economical.
+**"Good code is reusable code".** Reusability requires predicting how code will be reused, a form of future prediction. Making code reusable adds generality, parameters, and configuration that increase complexity *now* for hypothetical benefit *later*. Most "reusable" code is used exactly once. The assumption persists because reusability sounds economical.
 
 ## The Heuristics: Handle With Care
 
@@ -114,7 +114,7 @@ def ingest_from_migration(record: dict) -> dict:
     return record
 ```
 
-The first version is "DRY." It's also a combinatorial minefield where every new caller adds another boolean flag and another implicit code path. The second version has some repeated lines, but each function fits entirely in working memory. You can change `ingest_from_migration` without any risk of breaking the API ingestion path.
+The first version is "DRY". It's also a combinatorial minefield where every new caller adds another boolean flag and another implicit code path. The second version has some repeated lines, but each function fits entirely in working memory. You can change `ingest_from_migration` without any risk of breaking the API ingestion path.
 
 **Indirection for complexity management** works when the thing being hidden is genuinely complex. It fails when the indirection itself becomes the complexity. Every layer of indirection is a cognitive tax, justified only when the tax is less than the complexity it hides.
 
@@ -206,7 +206,7 @@ Combining these principles produces a process:
 4. When you find yourself making the same change in multiple places and getting it wrong, *then* deduplicate
 5. Regularly ask: "could I delete this component and rewrite it in a day?" If not, it's too big
 
-This is not "no design." It's design driven by empirical signals rather than speculative principles.
+This is not "no design". It's design driven by empirical signals rather than speculative principles.
 
 ### Should I Abstract This?
 
@@ -243,7 +243,7 @@ The pattern is consistent: systems that optimize for human understanding over ar
 
 ## But What About Large Systems?
 
-The biggest objection to this approach: "This works for small projects, but real systems at scale need architecture."
+The biggest objection to this approach: "This works for small projects, but real systems at scale need architecture".
 
 This conflates two things. Large systems *do* need structure. But that structure doesn't need to come from speculative upfront architecture or pattern catalogs. It can emerge from the same principles applied recursively.
 
