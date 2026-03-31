@@ -337,6 +337,31 @@ pre code {
     padding: 0;
 }
 
+/* Tables */
+.article-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    font-size: 0.9rem;
+}
+
+.article-content th,
+.article-content td {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--muted-color);
+}
+
+.article-content th {
+    font-weight: bold;
+    color: var(--primary-color);
+    border-bottom-width: 2px;
+}
+
+.article-content tr:last-child td {
+    border-bottom: none;
+}
+
 /* Blockquote */
 blockquote {
     border-left: 3px solid var(--primary-color);

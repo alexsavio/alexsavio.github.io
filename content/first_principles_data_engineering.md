@@ -130,13 +130,13 @@ Since the core problem is context mismatch between producers and consumers, the 
 
 This isn't theoretical. Tools like Andrew Jones' [Data Contract CLI](https://github.com/datacontract/datacontract-cli) let you define contracts in YAML and validate them in CI. Protobuf and JSON Schema work for schema enforcement. The format matters less than the practice of making the producer-consumer agreement explicit and testable.
 
-```mermaid
+<pre class="mermaid">
 graph LR
     P[Producer] -->|declares| C[Contract]
     C -->|schema + semantics + SLA| M[Mechanism]
     M -->|batch / stream / CDC / API| D[Consumer]
     D -->|declares needs| C
-```
+</pre>
 
 ### The pipeline is a consequence, not the product
 

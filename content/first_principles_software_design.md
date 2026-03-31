@@ -132,7 +132,7 @@ This produces three principles:
 
 Since we can't predict what will change but we know change will happen, the best design makes components easy to *remove and replace* rather than easy to extend. Small, independent units with clear boundaries. If you can delete a module and replace it with a different implementation without touching other modules, your design is good. You don't need plugin architectures or abstract factories. You need components small enough to throw away.
 
-```mermaid
+<pre class="mermaid">
 flowchart LR
     subgraph Conventional["Conventional: Extend"]
         A[Base Class] --> B[Extension A]
@@ -147,7 +147,7 @@ flowchart LR
         style F fill:#2ecc71,color:#fff
         style G fill:#2ecc71,color:#fff
     end
-```
+</pre>
 
 In the conventional model, the base class is a single point of failure for change. In the first-principles model, any module can be deleted and rewritten without cascading effects.
 
@@ -212,7 +212,7 @@ This is not "no design". It's design driven by empirical signals rather than spe
 
 When you're staring at similar code and feeling the DRY reflex, run through this:
 
-```mermaid
+<pre class="mermaid">
 flowchart TD
     A["I see similar code"] --> B{"Is the duplication<br/>causing actual bugs?"}
     B -- No --> C["Leave it. Duplication<br/>is fine for now."]
@@ -223,7 +223,7 @@ flowchart TD
     F -- Yes --> H{"Does the concrete code<br/>exceed working memory<br/>~4-7 chunks?"}
     H -- No --> I["The cost of indirection<br/>outweighs the benefit.<br/>Keep it inline."]
     H -- Yes --> J["Extract the abstraction.<br/>Name it after what<br/>varies, not what's shared."]
-```
+</pre>
 
 Most of the time, you end up on the left side. That's the point.
 
