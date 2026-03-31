@@ -238,12 +238,13 @@ Lost in spikes                </div>
 <h3>Start with data contracts, not&nbsp;pipelines</h3>
 <p>Since the core problem is context mismatch between producers and consumers, the first thing you build isn&#8217;t a pipeline. It&#8217;s a <strong>contract</strong>. Producers declare what they emit (schema, semantics, freshness guarantees). Consumers declare what they need. The engineering is in bridging the gap, and the contract makes the gap&nbsp;explicit.</p>
 <p>This isn&#8217;t theoretical. Tools like Andrew Jones&#8217; <a href="https://github.com/datacontract/datacontract-cli">Data Contract <span class="caps">CLI</span></a> let you define contracts in <span class="caps">YAML</span> and validate them in <span class="caps">CI</span>. Protobuf and <span class="caps">JSON</span> Schema work for schema enforcement. The format matters less than the practice of making the producer-consumer agreement explicit and&nbsp;testable.</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">graph</span><span class="w"> </span><span class="n">LR</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">P</span><span class="o">[</span><span class="n">Producer</span><span class="o">]</span><span class="w"> </span><span class="o">--&gt;|</span><span class="n">declares</span><span class="o">|</span><span class="w"> </span><span class="n">C</span><span class="o">[</span><span class="n">Contract</span><span class="o">]</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="o">--&gt;|</span><span class="k">schema</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">semantics</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SLA</span><span class="o">|</span><span class="w"> </span><span class="n">M</span><span class="o">[</span><span class="n">Mechanism</span><span class="o">]</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">M</span><span class="w"> </span><span class="o">--&gt;|</span><span class="n">batch</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">CDC</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">API</span><span class="o">|</span><span class="w"> </span><span class="n">D</span><span class="o">[</span><span class="n">Consumer</span><span class="o">]</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">D</span><span class="w"> </span><span class="c1">--&gt;|declares needs| C</span></span>
-<span class="code-line"></code></pre></div>
+<pre class="mermaid">
+graph LR
+    P[Producer] -->|declares| C[Contract]
+    C -->|schema + semantics + SLA| M[Mechanism]
+    M -->|batch / stream / CDC / API| D[Consumer]
+    D -->|declares needs| C
+</pre>
 
 <h3>The pipeline is a consequence, not the&nbsp;product</h3>
 <p>Once you have contracts, the implementation follows: you need some mechanism to get data from A to B while honoring the contract. This might be a batch job, a streaming consumer, a materialized view, a <span class="caps">CDC</span> feed, or a simple <span class="caps">API</span> call. The mechanism is chosen per-contract based on the latency-cost-complexity tradeoff, not imposed by a global architecture&nbsp;diagram.</p>
@@ -364,6 +365,10 @@ Lost in spikes                </div>
             </div>
         </div>
     </div>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
     <script>
     (function() {
         const terminalWindow = document.querySelector('.terminal-window');

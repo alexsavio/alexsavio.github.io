@@ -111,15 +111,24 @@
 &lt;h2&gt;Rebuilt From&amp;nbsp;Scratch&lt;/h2&gt;
 &lt;p&gt;Starting from only the five truths, here&amp;#8217;s what DevOps looks like designed from&amp;nbsp;zero.&lt;/p&gt;
 &lt;p&gt;The core insight is that operational complexity should scale with your coordination problem, not with industry trends. Most teams are somewhere on this spectrum but reaching for tools from the wrong&amp;nbsp;end:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;quadrantChart&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Automation&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Decision&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Matrix&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Low&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Frequency&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;High&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Frequency&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Low&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Complexity&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;High&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Complexity&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;quadrant&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Automate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;CI&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;CD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;deploys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;quadrant&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Platform&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;team&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;territory&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;quadrant&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Just&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;do&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;manually&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;quadrant&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Script&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kr"&gt;skip&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;framework&lt;/span&gt;&lt;/span&gt;
-&lt;span class="code-line"&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="mermaid"&gt;
+quadrantChart
+    title Automation Decision Matrix
+    x-axis Low Frequency --&gt; High Frequency
+    y-axis Low Complexity --&gt; High Complexity
+    quadrant-1 Automate
+    quadrant-2 Platform team territory
+    quadrant-3 Just do it manually
+    quadrant-4 Script it
+    CI/CD pipelines: [0.9, 0.75]
+    Deploys: [0.85, 0.5]
+    Monitoring setup: [0.6, 0.8]
+    DB migrations: [0.4, 0.7]
+    Quarterly reports: [0.15, 0.3]
+    SSL cert renewal: [0.2, 0.15]
+    Log rotation: [0.7, 0.2]
+    Dependency updates: [0.65, 0.35]
+&lt;/pre&gt;
 
 &lt;p&gt;The bottom-left quadrant is where most wasted automation effort lives: tasks that happen rarely and aren&amp;#8217;t complex, but somebody automated them anyway because &amp;#8220;automate everything&amp;#8221; sounded&amp;nbsp;right.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;1. Minimize the gap, not the tools.&lt;/strong&gt;
@@ -204,7 +213,7 @@ Before automating, ask: How often does this run? What&amp;#8217;s the cost of do
 &lt;li&gt;[ ] IaC: Non-negotiable. Everything in code, reviewed,&amp;nbsp;versioned.&lt;/li&gt;
 &lt;li&gt;[ ] Automation: Invest in self-service infrastructure. The platform team&amp;#8217;s job is to make the right thing the easy&amp;nbsp;thing.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;The boundaries are fuzzy. The principle is not: match your operational investment to your actual coordination&amp;nbsp;complexity.&lt;/p&gt;
+&lt;p&gt;The boundaries are fuzzy. The principle is: match your operational investment to your actual coordination&amp;nbsp;complexity.&lt;/p&gt;
 &lt;h2&gt;What to Do About&amp;nbsp;It&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Audit your toolchain for cargo-culting.&lt;/strong&gt; For each tool in your stack, ask: &amp;#8220;What specific problem at our scale does this solve?&amp;#8221; If the answer is &amp;#8220;everyone uses it&amp;#8221; or &amp;#8220;we might need it someday,&amp;#8221; it&amp;#8217;s a candidate for removal. Simpler systems have fewer failure&amp;nbsp;modes.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Kill the DevOps team (structurally, not the people).&lt;/strong&gt; Redistribute operational ownership to the teams that build the software. Platform engineering, building internal tools that reduce friction, is valuable. A team that acts as a gateway between dev and prod is&amp;nbsp;not.&lt;/p&gt;

@@ -246,21 +246,22 @@ Lost in spikes                </div>
 <p>This produces three&nbsp;principles:</p>
 <h3>Principle 1: Optimize for Deletion, Not&nbsp;Extension</h3>
 <p>Since we can&#8217;t predict what will change but we know change will happen, the best design makes components easy to <em>remove and replace</em> rather than easy to extend. Small, independent units with clear boundaries. If you can delete a module and replace it with a different implementation without touching other modules, your design is good. You don&#8217;t need plugin architectures or abstract factories. You need components small enough to throw&nbsp;away.</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">subgraph</span><span class="w"> </span><span class="n">Conventional</span><span class="p">[</span><span class="s">&quot;Conventional: Extend&quot;</span><span class="p">]</span></span>
-<span class="code-line"><span class="w">        </span><span class="n">A</span><span class="p">[</span><span class="n">Base</span><span class="w"> </span><span class="kt">Class</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="n">Extension</span><span class="w"> </span><span class="n">A</span><span class="p">]</span></span>
-<span class="code-line"><span class="w">        </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="n">Extension</span><span class="w"> </span><span class="n">B</span><span class="p">]</span></span>
-<span class="code-line"><span class="w">        </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">D</span><span class="p">[</span><span class="n">Extension</span><span class="w"> </span><span class="n">C</span><span class="p">]</span></span>
-<span class="code-line"><span class="w">        </span><span class="n">style</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">fill</span><span class="o">:</span><span class="err">#</span><span class="n">e74c3c</span><span class="p">,</span><span class="n">color</span><span class="o">:</span><span class="err">#</span><span class="n">fff</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">end</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">subgraph</span><span class="w"> </span><span class="n">FirstPrinciples</span><span class="p">[</span><span class="s">&quot;First Principles: Delete &amp; Replace&quot;</span><span class="p">]</span></span>
-<span class="code-line"><span class="w">        </span><span class="n">E</span><span class="p">[</span><span class="n">Module</span><span class="w"> </span><span class="n">A</span><span class="p">]</span><span class="w"> </span><span class="o">~~~</span><span class="w"> </span><span class="n">F</span><span class="p">[</span><span class="n">Module</span><span class="w"> </span><span class="n">B</span><span class="p">]</span></span>
-<span class="code-line"><span class="w">        </span><span class="n">E</span><span class="w"> </span><span class="o">~~~</span><span class="w"> </span><span class="n">G</span><span class="p">[</span><span class="n">Module</span><span class="w"> </span><span class="n">C</span><span class="p">]</span></span>
-<span class="code-line"><span class="w">        </span><span class="n">style</span><span class="w"> </span><span class="n">E</span><span class="w"> </span><span class="n">fill</span><span class="o">:</span><span class="err">#</span><span class="mi">2</span><span class="n">ecc71</span><span class="p">,</span><span class="n">color</span><span class="o">:</span><span class="err">#</span><span class="n">fff</span></span>
-<span class="code-line"><span class="w">        </span><span class="n">style</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="n">fill</span><span class="o">:</span><span class="err">#</span><span class="mi">2</span><span class="n">ecc71</span><span class="p">,</span><span class="n">color</span><span class="o">:</span><span class="err">#</span><span class="n">fff</span></span>
-<span class="code-line"><span class="w">        </span><span class="n">style</span><span class="w"> </span><span class="n">G</span><span class="w"> </span><span class="n">fill</span><span class="o">:</span><span class="err">#</span><span class="mi">2</span><span class="n">ecc71</span><span class="p">,</span><span class="n">color</span><span class="o">:</span><span class="err">#</span><span class="n">fff</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">end</span></span>
-<span class="code-line"></code></pre></div>
+<pre class="mermaid">
+flowchart LR
+    subgraph Conventional["Conventional: Extend"]
+        A[Base Class] --> B[Extension A]
+        A --> C[Extension B]
+        A --> D[Extension C]
+        style A fill:#e74c3c,color:#fff
+    end
+    subgraph FirstPrinciples["First Principles: Delete & Replace"]
+        E[Module A] ~~~ F[Module B]
+        E ~~~ G[Module C]
+        style E fill:#2ecc71,color:#fff
+        style F fill:#2ecc71,color:#fff
+        style G fill:#2ecc71,color:#fff
+    end
+</pre>
 
 <p>In the conventional model, the base class is a single point of failure for change. In the first-principles model, any module can be deleted and rewritten without cascading&nbsp;effects.</p>
 <p>Here&#8217;s the difference in code. The &#8220;extensible&#8221;&nbsp;version:</p>
@@ -311,17 +312,18 @@ Lost in spikes                </div>
 <p>This is not &#8220;no design&#8221;. It&#8217;s design driven by empirical signals rather than speculative&nbsp;principles.</p>
 <h3>Should I Abstract&nbsp;This?</h3>
 <p>When you&#8217;re staring at similar code and feeling the <span class="caps">DRY</span> reflex, run through&nbsp;this:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">TD</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">A</span><span class="p">[</span><span class="s2">&quot;I see similar code&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">B</span><span class="p">{</span><span class="s2">&quot;Is the duplication&lt;br/&gt;causing actual bugs?&quot;</span><span class="p">}</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">B</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="s2">&quot;Leave it. Duplication&lt;br/&gt;is fine for now.&quot;</span><span class="p">]</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">B</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">Yes</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">D</span><span class="p">{</span><span class="s2">&quot;Do you have 3+&lt;br/&gt;concrete cases?&quot;</span><span class="p">}</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">D</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">E</span><span class="p">[</span><span class="s2">&quot;Wait. Two cases&lt;br/&gt;aren&#39;t enough to see&lt;br/&gt;the real pattern.&quot;</span><span class="p">]</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">D</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">Yes</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F</span><span class="p">{</span><span class="s2">&quot;Can you name the&lt;br/&gt;axis of variation?&quot;</span><span class="p">}</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">F</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">G</span><span class="p">[</span><span class="s2">&quot;You don&#39;t understand&lt;br/&gt;the abstraction yet.&lt;br/&gt;Keep it concrete.&quot;</span><span class="p">]</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">F</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">Yes</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">H</span><span class="p">{</span><span class="s2">&quot;Does the concrete code&lt;br/&gt;exceed working memory&lt;br/&gt;~4-7 chunks?&quot;</span><span class="p">}</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">H</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">I</span><span class="p">[</span><span class="s2">&quot;The cost of indirection&lt;br/&gt;outweighs the benefit.&lt;br/&gt;Keep it inline.&quot;</span><span class="p">]</span></span>
-<span class="code-line"><span class="w">    </span><span class="n">H</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">Yes</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">J</span><span class="p">[</span><span class="s2">&quot;Extract the abstraction.&lt;br/&gt;Name it after what&lt;br/&gt;varies, not what&#39;s shared.&quot;</span><span class="p">]</span></span>
-<span class="code-line"></code></pre></div>
+<pre class="mermaid">
+flowchart TD
+    A["I see similar code"] --> B{"Is the duplication<br/>causing actual bugs?"}
+    B -- No --> C["Leave it. Duplication<br/>is fine for now."]
+    B -- Yes --> D{"Do you have 3+<br/>concrete cases?"}
+    D -- No --> E["Wait. Two cases<br/>aren't enough to see<br/>the real pattern."]
+    D -- Yes --> F{"Can you name the<br/>axis of variation?"}
+    F -- No --> G["You don't understand<br/>the abstraction yet.<br/>Keep it concrete."]
+    F -- Yes --> H{"Does the concrete code<br/>exceed working memory<br/>~4-7 chunks?"}
+    H -- No --> I["The cost of indirection<br/>outweighs the benefit.<br/>Keep it inline."]
+    H -- Yes --> J["Extract the abstraction.<br/>Name it after what<br/>varies, not what's shared."]
+</pre>
 
 <p>Most of the time, you end up on the left side. That&#8217;s the&nbsp;point.</p>
 <h2>Evidence From the&nbsp;Wild</h2>
@@ -439,6 +441,10 @@ Lost in spikes                </div>
             </div>
         </div>
     </div>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
     <script>
     (function() {
         const terminalWindow = document.querySelector('.terminal-window');

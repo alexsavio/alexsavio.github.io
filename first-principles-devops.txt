@@ -95,16 +95,24 @@ Starting from only the five truths, here's what DevOps looks like designed from 
 
 The core insight is that operational complexity should scale with your coordination problem, not with industry trends. Most teams are somewhere on this spectrum but reaching for tools from the wrong end:
 
-```mermaid
+<pre class="mermaid">
 quadrantChart
     title Automation Decision Matrix
     x-axis Low Frequency --> High Frequency
     y-axis Low Complexity --> High Complexity
-    quadrant-1 Automate (CI/CD, deploys)
+    quadrant-1 Automate
     quadrant-2 Platform team territory
     quadrant-3 Just do it manually
-    quadrant-4 Script it, skip the framework
-```
+    quadrant-4 Script it
+    CI/CD pipelines: [0.9, 0.75]
+    Deploys: [0.85, 0.5]
+    Monitoring setup: [0.6, 0.8]
+    DB migrations: [0.4, 0.7]
+    Quarterly reports: [0.15, 0.3]
+    SSL cert renewal: [0.2, 0.15]
+    Log rotation: [0.7, 0.2]
+    Dependency updates: [0.65, 0.35]
+</pre>
 
 The bottom-left quadrant is where most wasted automation effort lives: tasks that happen rarely and aren't complex, but somebody automated them anyway because "automate everything" sounded right.
 
@@ -169,7 +177,7 @@ The hardest part of first-principles DevOps is knowing where you actually sit. H
 - [ ] IaC: Non-negotiable. Everything in code, reviewed, versioned.
 - [ ] Automation: Invest in self-service infrastructure. The platform team's job is to make the right thing the easy thing.
 
-The boundaries are fuzzy. The principle is not: match your operational investment to your actual coordination complexity.
+The boundaries are fuzzy. The principle is: match your operational investment to your actual coordination complexity.
 
 ## What to Do About It
 
