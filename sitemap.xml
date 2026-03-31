@@ -5,35 +5,42 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://alexsavio.github.io/</loc>
-<lastmod>2026-03-21T02:05:45-00:00</lastmod>
+<lastmod>2026-03-31T11:44:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://alexsavio.github.io/tags.html</loc>
-<lastmod>2026-03-21T02:05:45-00:00</lastmod>
+<lastmod>2026-03-31T11:44:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://alexsavio.github.io/categories.html</loc>
-<lastmod>2026-03-21T02:05:45-00:00</lastmod>
+<lastmod>2026-03-31T11:44:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://alexsavio.github.io/authors.html</loc>
-<lastmod>2026-03-21T02:05:45-00:00</lastmod>
+<lastmod>2026-03-31T11:44:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://alexsavio.github.io/archives.html</loc>
-<lastmod>2026-03-21T02:05:45-00:00</lastmod>
+<lastmod>2026-03-31T11:44:30-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://alexsavio.github.io/first-principles-devops.html</loc>
+<lastmod>2026-03-30T12:00:00+02:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -159,7 +166,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://alexsavio.github.io/category/software-development.html</loc>
-<lastmod>2026-03-19T20:45:00+00:09</lastmod>
+<lastmod>2026-03-30T12:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -179,21 +186,49 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://alexsavio.github.io/tag/software-design.html</loc>
-<lastmod>2026-03-21T11:00:00+00:09</lastmod>
+<loc>https://alexsavio.github.io/tag/devops.html</loc>
+<lastmod>2026-03-30T12:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://alexsavio.github.io/tag/first-principles.html</loc>
-<lastmod>2026-03-21T11:00:00+00:09</lastmod>
+<lastmod>2026-03-30T12:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://alexsavio.github.io/tag/software-engineering.html</loc>
+<lastmod>2026-03-30T12:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://alexsavio.github.io/tag/automation.html</loc>
+<lastmod>2026-03-30T12:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://alexsavio.github.io/tag/observability.html</loc>
+<lastmod>2026-03-30T12:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://alexsavio.github.io/tag/infrastructure.html</loc>
+<lastmod>2026-03-30T12:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://alexsavio.github.io/tag/software-design.html</loc>
 <lastmod>2026-03-21T11:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
@@ -209,13 +244,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://alexsavio.github.io/tag/complexity.html</loc>
 <lastmod>2026-03-21T11:00:00+00:09</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://alexsavio.github.io/tag/observability.html</loc>
-<lastmod>2026-03-19T20:45:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -460,7 +488,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://alexsavio.github.io/author/alexandre-m-savio.html</loc>
-<lastmod>2026-03-21T11:00:00+00:09</lastmod>
+<lastmod>2026-03-30T12:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
