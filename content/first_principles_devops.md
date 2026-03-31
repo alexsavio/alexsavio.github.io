@@ -12,7 +12,7 @@ Status: published
 
 Most of what passes for "DevOps" is tool adoption dressed up as strategy. When you strip away inherited conventions and industry hype, only five truths survive: value dies in the gap between developer and user, feedback loops drive improvement, reproducibility reduces risk, handoffs cost superlinearly, and recovery beats prevention. Everything else, from Kubernetes to the "DevOps Engineer" job title, is implementation detail that should be proportional to your actual coordination problem.
 
-*This is the second post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's actually provable. The first one tackled [Software Observability]({filename}/first_principles_software_observability.md). DevOps felt like the natural next target, because few topics have a wider gap between what people say and what they actually do.*
+*This is the third post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's actually provable. The first one tackled [Software Observability]({filename}/first_principles_software_observability.md), the second one [Software Design]({filename}/first_principles_software_design.md). DevOps felt like the natural next target, because few topics have a wider gap between what people say and what they actually do.*
 
 ## The Conventional View
 
