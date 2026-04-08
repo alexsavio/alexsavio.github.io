@@ -1,18 +1,18 @@
 Title: First Principles: Data Engineering and ETLs
-Date: 2026-03-19 23:30:00
+Date: 2026-04-08 20:58:00
 Category: Software Development
 Tags: data-engineering, first-principles, software-engineering, etl, pipelines, data, rust, polars
 Slug: first-principles-data-engineering
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
 Summary: ETL is not a law of nature, it is a convention born from constraints that no longer exist. Strip data engineering down to its irreducible truths and rebuild it from scratch. What emerges is a discipline centered on contracts and observability, not pipelines and orchestrators.
-Status: draft
+Status: published
 
 ## TL;DR
 
 Most of what we call "data engineering" is a set of conventions inherited from an era of expensive compute and scarce storage. When you strip it down to first principles, only five truths survive: producers and consumers operate in different contexts, data must cross boundaries, semantic alignment is unavoidable, computation trades off time against money against complexity, and data without provenance is unreliable. Everything else, from the sacred ETL ordering to the "collect everything" data lake mentality, is implementation detail that should be questioned.
 
-*This is the third post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's provably true. The first one tackled [Software Observability]({filename}/first_principles_software_observability.md).*
+*This is the fourth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's provably true. The first one tackled [Software Observability]({filename}/first_principles_software_observability.md), the second [Software Design]({filename}/first_principles_software_design.md), and the third [DevOps]({filename}/first_principles_devops.md). Data engineering is the next natural target, because few disciplines have calcified around tooling as fast as this one.*
 
 ---
 
@@ -128,7 +128,11 @@ Starting from only the five irreducible truths, here's what data engineering loo
 
 Since the core problem is context mismatch between producers and consumers, the first thing you build isn't a pipeline. It's a **contract**. Producers declare what they emit (schema, semantics, freshness guarantees). Consumers declare what they need. The engineering is in bridging the gap, and the contract makes the gap explicit.
 
+If you're coming from backend engineering, the mental model is simple: **data contracts are OpenAPI for data**. The same way an API contract lets frontend and backend evolve independently as long as both sides honor the spec, a data contract lets producers and consumers evolve independently as long as the agreed-upon schema, semantics, and freshness guarantees hold. Nobody would ship a public API without documenting its shape, yet data teams routinely ship tables with no documented contract at all.
+
 This isn't theoretical. Tools like Andrew Jones' [Data Contract CLI](https://github.com/datacontract/datacontract-cli) let you define contracts in YAML and validate them in CI. Protobuf and JSON Schema work for schema enforcement. The format matters less than the practice of making the producer-consumer agreement explicit and testable.
+
+A contract without a version is just a snapshot. Real contracts need semantic versioning, deprecation windows, and an answer to "what happens when the producer needs to break compatibility?" Skip this and you recreate the schema-on-write failure mode one layer up: every upstream change becomes a silent incident for some consumer who was pinning to yesterday's assumptions. Treat contract evolution with the same discipline you'd apply to a public API: additive changes are safe, breaking changes require a new major version and a migration path.
 
 <pre class="mermaid">
 graph LR
@@ -145,6 +149,8 @@ Once you have contracts, the implementation follows: you need some mechanism to 
 ### Transform at the boundary, not in a dedicated layer
 
 Transformations exist to reconcile semantic mismatches. They should live as close to the boundary-crossing as possible: either at the producer (who understands the source context) or at the consumer (who understands the target context). A centralized "transformation layer" is an organizational crutch that obscures who owns the meaning.
+
+This is the same argument Zhamak Dehghani made for **data mesh**: push ownership to the domain that understands the data. The first-principles version doesn't require adopting the full data mesh organizational model. It just requires that whoever owns the meaning also owns the transformation that encodes it. The boundary is where semantics get negotiated, and the negotiation should happen between parties who actually understand both sides.
 
 ### Observe data, don't just test it
 
@@ -165,6 +171,8 @@ Instead of "ingest everything, schema later," the rebuilt approach: every data s
 ### Make lineage and freshness first-class
 
 Since data without known provenance is unreliable, lineage tracking isn't a nice-to-have dashboard. It's part of the data itself. Every record carries (or can be traced to) its origin, the transformations applied, and when it last reflected reality.
+
+[OpenLineage](https://openlineage.io/) is the emerging standard here, and it's worth adopting for the same reason OpenTelemetry won in observability: vendor-neutral metadata that any tool can emit and any tool can consume. Lineage captured in a proprietary format is lineage you'll lose when you change vendors. Lineage captured in an open standard travels with your data.
 
 ## The Tooling Is Catching Up
 
@@ -199,6 +207,7 @@ Quick diagnostic. If any of these sound familiar, you're optimizing conventions 
 - **Your schema changes break consumers without warning.** No contract means every upstream change is a surprise.
 - **You have a "data quality" team instead of quality built into every step.** Separating quality from production is like separating "driving safely" from "driving".
 - **Your Spark cluster processes datasets that fit in a laptop's RAM.** The tool should match the problem, not the resume.
+- **You measure data team success by pipeline count, not consumer outcomes.** "We shipped 40 pipelines this quarter" tells you nothing about whether anyone made a better decision because of them. The output metric is tables; the outcome metric is decisions. Confuse the two and you'll optimize for the wrong thing forever.
 
 ## What Changes
 
@@ -230,9 +239,13 @@ Quick diagnostic. If any of these sound familiar, you're optimizing conventions 
 
 1. First-principles analysis by the author, based on industry experience and reasoning from fundamentals
 2. [First Principles: Software Observability]({filename}/first_principles_software_observability.md) - First post in this series, applying the same method to observability
-3. [Data Contract CLI](https://github.com/datacontract/datacontract-cli) - Open-source tool for defining and validating data contracts
-4. [Great Expectations](https://greatexpectations.io/) - Data validation and profiling framework
-5. [Soda](https://www.soda.io/) - Data quality monitoring platform
-6. [Polars](https://pola.rs/) - Fast DataFrame library built on Rust
-7. [Apache Arrow DataFusion](https://datafusion.apache.org/) - Embeddable query engine in Rust
-8. [Delta-rs](https://github.com/delta-io/delta-rs) - Delta Lake implementation in Rust, no JVM required
+3. [First Principles: Software Design]({filename}/first_principles_software_design.md) - Second post in this series, stripping software design to its irreducible core
+4. [First Principles: DevOps]({filename}/first_principles_devops.md) - Third post in this series, questioning the conventions of modern DevOps
+5. [Data Contract CLI](https://github.com/datacontract/datacontract-cli) - Open-source tool for defining and validating data contracts
+6. [Great Expectations](https://greatexpectations.io/) - Data validation and profiling framework
+7. [Soda](https://www.soda.io/) - Data quality monitoring platform
+8. [OpenLineage](https://openlineage.io/) - Open standard for lineage metadata collection
+9. [Polars](https://pola.rs/) - Fast DataFrame library built on Rust
+10. [Apache Arrow DataFusion](https://datafusion.apache.org/) - Embeddable query engine in Rust
+11. [Delta-rs](https://github.com/delta-io/delta-rs) - Delta Lake implementation in Rust, no JVM required
+12. Zhamak Dehghani, *Data Mesh: Delivering Data-Driven Value at Scale* - Origin of the domain-ownership argument applied to data
