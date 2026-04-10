@@ -15,6 +15,8 @@ Most of what we call "data engineering" is a set of conventions inherited from a
 
 *This is the fourth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's provably true. The first one tackled [Software Observability]({filename}/first_principles_software_observability.md), the second [Software Design]({filename}/first_principles_software_design.md), and the third [DevOps]({filename}/first_principles_devops.md). Data engineering is the next natural target, because few disciplines have calcified around tooling as fast as this one.*
 
+[TOC]
+
 ---
 
 ## The Conventional View

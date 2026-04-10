@@ -15,6 +15,8 @@ Most of what passes for "DevOps" is tool adoption dressed up as strategy. When y
 
 *This is the third post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's actually provable. The first one tackled [Software Observability]({filename}/first_principles_software_observability.md), the second one [Software Design]({filename}/first_principles_software_design.md). DevOps felt like the natural next target, because few topics have a wider gap between what people say and what they actually do.*
 
+[TOC]
+
 ## The Conventional View
 
 DevOps is the practice of unifying software development and IT operations through shared tooling, culture, and automation. Most organizations interpret this as: adopt CI/CD pipelines, containerize everything, use Infrastructure as Code, monitor with dashboards, and hire people with "DevOps Engineer" in their title.
