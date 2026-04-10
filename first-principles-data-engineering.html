@@ -3,95 +3,89 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>First Principles: Data Engineering and ETLs | Interlines</title>
+
+<title>First Principles: Data Engineering and ETLs — Alexandre Manhães Savio</title>
+    <meta name="description" content="ETL is not a law of nature, it is a convention born from constraints that no longer exist. Strip data engineering down to its irreducible truths and rebuild it from scratch. What emerges is a discipline centered on contracts and observability, not pipelines and orchestrators." />
+    <meta name="author" content="Alexandre Manhães Savio" />
+    <link rel="canonical" href="https://alexsavio.github.io/first-principles-data-engineering.html" />
+
+    <meta property="og:site_name" content="Alexandre Manhães Savio" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="First Principles: Data Engineering and ETLs — Alexandre Manhães Savio" />
+    <meta property="og:description" content="ETL is not a law of nature, it is a convention born from constraints that no longer exist. Strip data engineering down to its irreducible truths and rebuild it from scratch. What emerges is a discipline centered on contracts and observability, not pipelines and orchestrators." />
+    <meta property="og:url" content="https://alexsavio.github.io/first-principles-data-engineering.html" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2026-04-08" />    <meta property="article:section" content="Software Development" />    <meta property="article:tag" content="data-engineering" />    <meta property="article:tag" content="first-principles" />    <meta property="article:tag" content="software-engineering" />    <meta property="article:tag" content="etl" />    <meta property="article:tag" content="pipelines" />    <meta property="article:tag" content="data" />    <meta property="article:tag" content="rust" />    <meta property="article:tag" content="polars" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="First Principles: Data Engineering and ETLs — Alexandre Manhães Savio" />
+    <meta name="twitter:description" content="ETL is not a law of nature, it is a convention born from constraints that no longer exist. Strip data engineering down to its irreducible truths and rebuild it from scratch. What emerges is a discipline centered on contracts and observability, not pipelines and orchestrators." />
+    <meta name="twitter:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+
     <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/style.css" />
-    <link href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Interlines Atom Feed" />
-    <link href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Interlines RSS Feed" />
+
+    <link href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Alexandre Manhães Savio Atom Feed" />
+    <link href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Alexandre Manhães Savio RSS Feed" />
+
     <style>
         :root {
 --bg-color: #e6e9ef;--terminal-bg: #eff1f5;--text-color: #4c4f69;--primary-color: #1e66f5;--accent-color: #8839ef;--muted-color: #6c6f85;--code-bg: #ccd0da;--link-color: #179299;--header-bg: #dce0e8;        }
     </style>
 </head>
 <body class="light-theme">
-    <div class="container">
-        <div class="terminal-window">
-            <div class="terminal-header">
-                <span class="terminal-btn close"></span>
-                <span class="terminal-btn minimize"></span>
-                <span class="terminal-btn maximize"></span>
-                <span class="terminal-title">zsh — alex@blog</span>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="terminal-strip" role="banner">
+                <div class="terminal-strip__chrome" aria-hidden="true">
+                    <span class="terminal-btn close"></span>
+                    <span class="terminal-btn minimize"></span>
+                    <span class="terminal-btn maximize"></span>
+                </div>
+                <div class="terminal-strip__prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span class="terminal-strip__cmd">whoami</span>
+                </div>
             </div>
-            <div class="terminal-body">
-                <div class="login-message">
-                    Last login: Today on ttys000<br>
-Lost in spikes                </div>
 
-                <div class="prompt">
-                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
-                    <span>./welcome.sh</span>
-                </div>
-                <div class="command-output">
-                    <h1><a href="https://alexsavio.github.io/">Interlines</a></h1>
-                </div>
+            <div class="site-identity">
+                <a class="site-identity__name" href="https://alexsavio.github.io/">Alexandre Manhães Savio</a>
+                <p class="site-identity__tagline">Freelance Software, Cloud & AI Engineer</p>
+            </div>
 
-                <div class="prompt">
-                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
-                    <span>ls -la</span>
-                </div>
-                <nav class="nav-menu command-output">
-                    <div class="nav-item">
-                        <span class="permissions">drwxr-xr-x</span>
-                        <a href="https://alexsavio.github.io/" class="dirname">home</a>
-                        <span class="description">→ Back to start</span>
-                    </div>
-                    <div class="nav-item">
-                        <span class="permissions">drwxr-xr-x</span>
-                        <a href="http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio" class="dirname">about_me</a>
-                        <span class="description">→ About Me</span>
-                    </div>
-                    <div class="nav-item">
-                        <span class="permissions">drwxr-xr-x</span>
-                        <a href="https://orcid.org/0000-0002-6608-6885" class="dirname">orcid</a>
-                        <span class="description">→ ORCID</span>
-                    </div>
-                    <div class="nav-item">
-                        <span class="permissions">drwxr-xr-x</span>
-                        <a href="http://www.surf-forecast.com/breaks/Zarautz/forecasts/latest/six_day" class="dirname">surf-forecast</a>
-                        <span class="description">→ Surf-Forecast</span>
-                    </div>
-                    <div class="nav-item">
-                        <span class="permissions">drwxr-xr-x</span>
-                        <a href="https://alexsavio.github.io/archives.html" class="dirname">archives</a>
-                        <span class="description">→ All posts</span>
-                    </div>
-                    <div class="nav-item">
-                        <span class="permissions">drwxr-xr-x</span>
-                        <a href="https://alexsavio.github.io/categories.html" class="dirname">categories</a>
-                        <span class="description">→ Browse by category</span>
-                    </div>
-                    <div class="nav-item">
-                        <span class="permissions">lrwxr-xr-x</span>
-                        <span class="dirname">links</span>
-                        <span class="description">→
-                            <a href="https://twitter.com/alex_savio">twitter-square</a> |                             <a href="https://github.com/alexsavio">github</a>                        </span>
-                    </div>
-                </nav>
-
-<div class="prompt">
-    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
-    <span>cat first-principles-data-engineering.md</span>
-</div>
-
-<article class="command-output">
-    <header>
-        <h2>First Principles: Data Engineering and&nbsp;ETLs</h2>
-        <div class="article-meta">
-            <span class="article-date">[2026-03-19 23:30]</span>
-            | author: <a href="https://alexsavio.github.io/author/alexandre-m-savio.html">Alexandre M. Savio</a>
-            | category: <a href="https://alexsavio.github.io/category/software-development.html">Software Development</a>
+            <nav class="site-nav" aria-label="Main navigation">
+                <ul>
+                    <li><a href="https://alexsavio.github.io/">Home</a></li>
+                    <li><a href="https://alexsavio.github.io/archives.html">Writing</a></li>
+                        <li><a href="https://alexsavio.github.io/pages/about.html">About</a></li>
+                        <li><a href="https://alexsavio.github.io/pages/work-with-me.html">Work with&nbsp;me</a></li>
+                </ul>
+            </nav>
         </div>
-        <div class="article-meta">
-            tags:
+    </header>
+
+    <main id="main" class="site-main">
+        <div class="container">
+<article class="article" itemscope itemtype="https://schema.org/BlogPosting">
+    <header class="article__header">
+        <p class="article__kicker">
+            <a href="https://alexsavio.github.io/category/software-development.html" itemprop="articleSection">Software Development</a>
+        </p>
+
+        <h1 class="article__title" itemprop="headline">First Principles: Data Engineering and&nbsp;ETLs</h1>
+
+        <div class="article__meta">
+            <time itemprop="datePublished" datetime="2026-04-08T20:58:00+02:00">
+                April 08, 2026
+            </time>
+            <span>· 17 min read</span>
+        </div>
+
+        <div class="article__meta" style="margin-top: 0.75rem;">
                 <a href="https://alexsavio.github.io/tag/data-engineering.html" class="tag">data-engineering</a>
                 <a href="https://alexsavio.github.io/tag/first-principles.html" class="tag">first-principles</a>
                 <a href="https://alexsavio.github.io/tag/software-engineering.html" class="tag">software-engineering</a>
@@ -101,12 +95,13 @@ Lost in spikes                </div>
                 <a href="https://alexsavio.github.io/tag/rust.html" class="tag">rust</a>
                 <a href="https://alexsavio.github.io/tag/polars.html" class="tag">polars</a>
         </div>
+
     </header>
 
-    <div class="article-content">
+    <div class="article__content" itemprop="articleBody">
         <h2><span class="caps">TL</span>;<span class="caps">DR</span></h2>
 <p>Most of what we call &#8220;data engineering&#8221; is a set of conventions inherited from an era of expensive compute and scarce storage. When you strip it down to first principles, only five truths survive: producers and consumers operate in different contexts, data must cross boundaries, semantic alignment is unavoidable, computation trades off time against money against complexity, and data without provenance is unreliable. Everything else, from the sacred <span class="caps">ETL</span> ordering to the &#8220;collect everything&#8221; data lake mentality, is implementation detail that should be&nbsp;questioned.</p>
-<p><em>This is the third post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what&#8217;s provably true. The first one tackled <a href="https://alexsavio.github.io/first-principles-software-observability.html">Software Observability</a>.</em></p>
+<p><em>This is the fourth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what&#8217;s provably true. The first one tackled <a href="https://alexsavio.github.io/first-principles-software-observability.html">Software Observability</a>, the second <a href="https://alexsavio.github.io/first-principles-software-design.html">Software Design</a>, and the third <a href="https://alexsavio.github.io/first-principles-devops.html">DevOps</a>. Data engineering is the next natural target, because few disciplines have calcified around tooling as fast as this&nbsp;one.</em></p>
 <hr>
 <h2>The Conventional&nbsp;View</h2>
 <p>Data engineering is about building <strong>pipelines</strong> that Extract data from sources, Transform it into a usable shape, and Load it into a destination (usually a warehouse). Teams invest heavily in orchestrators like Airflow, maintain complex DAGs, enforce strict schemas, and treat the warehouse as the single source of&nbsp;truth.</p>
@@ -237,7 +232,9 @@ Lost in spikes                </div>
 <p>Starting from only the five irreducible truths, here&#8217;s what data engineering looks like designed from&nbsp;zero.</p>
 <h3>Start with data contracts, not&nbsp;pipelines</h3>
 <p>Since the core problem is context mismatch between producers and consumers, the first thing you build isn&#8217;t a pipeline. It&#8217;s a <strong>contract</strong>. Producers declare what they emit (schema, semantics, freshness guarantees). Consumers declare what they need. The engineering is in bridging the gap, and the contract makes the gap&nbsp;explicit.</p>
+<p>If you&#8217;re coming from backend engineering, the mental model is simple: <strong>data contracts are OpenAPI for data</strong>. The same way an <span class="caps">API</span> contract lets frontend and backend evolve independently as long as both sides honor the spec, a data contract lets producers and consumers evolve independently as long as the agreed-upon schema, semantics, and freshness guarantees hold. Nobody would ship a public <span class="caps">API</span> without documenting its shape, yet data teams routinely ship tables with no documented contract at&nbsp;all.</p>
 <p>This isn&#8217;t theoretical. Tools like Andrew Jones&#8217; <a href="https://github.com/datacontract/datacontract-cli">Data Contract <span class="caps">CLI</span></a> let you define contracts in <span class="caps">YAML</span> and validate them in <span class="caps">CI</span>. Protobuf and <span class="caps">JSON</span> Schema work for schema enforcement. The format matters less than the practice of making the producer-consumer agreement explicit and&nbsp;testable.</p>
+<p>A contract without a version is just a snapshot. Real contracts need semantic versioning, deprecation windows, and an answer to &#8220;what happens when the producer needs to break compatibility?&#8221; Skip this and you recreate the schema-on-write failure mode one layer up: every upstream change becomes a silent incident for some consumer who was pinning to yesterday&#8217;s assumptions. Treat contract evolution with the same discipline you&#8217;d apply to a public <span class="caps">API</span>: additive changes are safe, breaking changes require a new major version and a migration&nbsp;path.</p>
 <pre class="mermaid">
 graph LR
     P[Producer] -->|declares| C[Contract]
@@ -250,6 +247,7 @@ graph LR
 <p>Once you have contracts, the implementation follows: you need some mechanism to get data from A to B while honoring the contract. This might be a batch job, a streaming consumer, a materialized view, a <span class="caps">CDC</span> feed, or a simple <span class="caps">API</span> call. The mechanism is chosen per-contract based on the latency-cost-complexity tradeoff, not imposed by a global architecture&nbsp;diagram.</p>
 <h3>Transform at the boundary, not in a dedicated&nbsp;layer</h3>
 <p>Transformations exist to reconcile semantic mismatches. They should live as close to the boundary-crossing as possible: either at the producer (who understands the source context) or at the consumer (who understands the target context). A centralized &#8220;transformation layer&#8221; is an organizational crutch that obscures who owns the&nbsp;meaning.</p>
+<p>This is the same argument Zhamak Dehghani made for <strong>data mesh</strong>: push ownership to the domain that understands the data. The first-principles version doesn&#8217;t require adopting the full data mesh organizational model. It just requires that whoever owns the meaning also owns the transformation that encodes it. The boundary is where semantics get negotiated, and the negotiation should happen between parties who actually understand both&nbsp;sides.</p>
 <h3>Observe data, don&#8217;t just test&nbsp;it</h3>
 <p>Data quality isn&#8217;t a test suite problem. It&#8217;s an <strong>observability</strong> problem. Tests check known failure modes; observation surfaces unknown ones. You need continuous monitoring of distributions, volumes, freshness, and lineage, not&nbsp;just <code>assert not null</code>.</p>
 <p>This connects directly to <a href="https://alexsavio.github.io/first-principles-software-observability.html">the observability principles</a> I wrote about earlier. In that post, I argued that the &#8220;three pillars&#8221; (logs, metrics, traces) describe data formats, not observability itself. The same pattern appears here: &#8220;<span class="caps">ETL</span>&#8221; describes a data flow ordering, not data engineering itself. In both cases, vendor categories got mistaken for fundamentals. The fix is the same too: explore instead of monitor, alert on invariants rather than thresholds, and treat quality as a design property rather than an&nbsp;afterthought.</p>
@@ -260,6 +258,7 @@ graph LR
 <p>Instead of &#8220;ingest everything, schema later,&#8221; the rebuilt approach: every data source entering the system has a declared consumer and use case. If you can&#8217;t name one, don&#8217;t ingest it. You can always add it later. This inverts the &#8220;data lake&#8221;&nbsp;mentality.</p>
 <h3>Make lineage and freshness&nbsp;first-class</h3>
 <p>Since data without known provenance is unreliable, lineage tracking isn&#8217;t a nice-to-have dashboard. It&#8217;s part of the data itself. Every record carries (or can be traced to) its origin, the transformations applied, and when it last reflected&nbsp;reality.</p>
+<p><a href="https://openlineage.io/">OpenLineage</a> is the emerging standard here, and it&#8217;s worth adopting for the same reason OpenTelemetry won in observability: vendor-neutral metadata that any tool can emit and any tool can consume. Lineage captured in a proprietary format is lineage you&#8217;ll lose when you change vendors. Lineage captured in an open standard travels with your&nbsp;data.</p>
 <h2>The Tooling Is Catching&nbsp;Up</h2>
 <p>The incumbent stack tells a story about its era. <strong>Spark</strong> was built for a world where data didn&#8217;t fit on one machine, so you distributed it across a cluster. <strong>PySpark</strong> made that accessible to Python-native data teams, but at the cost of <span class="caps">JVM</span> overhead, serialization penalties, and cluster management complexity that most workloads never needed. <strong>dbt</strong> made <span class="caps">SQL</span> transformations testable and version-controlled, which was a genuine leap forward, but it also cemented the idea that transformations are a separate &#8220;layer&#8221; rather than a boundary&nbsp;responsibility.</p>
 <p>All three tools solved real problems. But they solved them with the constraints and assumptions of their time: <span class="caps">JVM</span>-based runtimes, Python&#8217;s <span class="caps">GIL</span>, single-threaded execution models, and the assumption that &#8220;big data&#8221; meant &#8220;distributed&nbsp;data&#8221;.</p>
@@ -285,6 +284,7 @@ graph LR
 <li><strong>Your schema changes break consumers without warning.</strong> No contract means every upstream change is a&nbsp;surprise.</li>
 <li><strong>You have a &#8220;data quality&#8221; team instead of quality built into every step.</strong> Separating quality from production is like separating &#8220;driving safely&#8221; from&nbsp;&#8220;driving&#8221;.</li>
 <li><strong>Your Spark cluster processes datasets that fit in a laptop&#8217;s <span class="caps">RAM</span>.</strong> The tool should match the problem, not the&nbsp;resume.</li>
+<li><strong>You measure data team success by pipeline count, not consumer outcomes.</strong> &#8220;We shipped 40 pipelines this quarter&#8221; tells you nothing about whether anyone made a better decision because of them. The output metric is tables; the outcome metric is decisions. Confuse the two and you&#8217;ll optimize for the wrong thing&nbsp;forever.</li>
 </ul>
 <h2>What&nbsp;Changes</h2>
 <table>
@@ -336,95 +336,60 @@ graph LR
 <ol>
 <li>First-principles analysis by the author, based on industry experience and reasoning from&nbsp;fundamentals</li>
 <li><a href="https://alexsavio.github.io/first-principles-software-observability.html">First Principles: Software Observability</a> - First post in this series, applying the same method to&nbsp;observability</li>
+<li><a href="https://alexsavio.github.io/first-principles-software-design.html">First Principles: Software Design</a> - Second post in this series, stripping software design to its irreducible&nbsp;core</li>
+<li><a href="https://alexsavio.github.io/first-principles-devops.html">First Principles: DevOps</a> - Third post in this series, questioning the conventions of modern&nbsp;DevOps</li>
 <li><a href="https://github.com/datacontract/datacontract-cli">Data Contract <span class="caps">CLI</span></a> - Open-source tool for defining and validating data&nbsp;contracts</li>
 <li><a href="https://greatexpectations.io/">Great Expectations</a> - Data validation and profiling&nbsp;framework</li>
 <li><a href="https://www.soda.io/">Soda</a> - Data quality monitoring&nbsp;platform</li>
+<li><a href="https://openlineage.io/">OpenLineage</a> - Open standard for lineage metadata&nbsp;collection</li>
 <li><a href="https://pola.rs/">Polars</a> - Fast DataFrame library built on&nbsp;Rust</li>
 <li><a href="https://datafusion.apache.org/">Apache Arrow DataFusion</a> - Embeddable query engine in&nbsp;Rust</li>
 <li><a href="https://github.com/delta-io/delta-rs">Delta-rs</a> - Delta Lake implementation in Rust, no <span class="caps">JVM</span>&nbsp;required</li>
+<li>Zhamak Dehghani, <em>Data Mesh: Delivering Data-Driven Value at Scale</em> - Origin of the domain-ownership argument applied to&nbsp;data</li>
 </ol>
     </div>
 
-</article>
 
-<div class="prompt" style="margin-top: 30px;">
-    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
-    <span>ls -1 | head</span>
-</div>
-<div class="command-output pagination">
-    <span></span>
-</div>
-
-                <div class="footer">
-                    <div class="prompt">
-                        <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
-                        <span class="cursor"></span>
-                    </div>
-                    <p>&copy; Alexandre Manhães Savio | Powered by <a href="http://getpelican.com/">Pelican</a> | Theme: fancy-terminal</p>
-                </div>
-            </div>
+    <aside class="article__byline" aria-label="About the author">
+        <img src="https://alexsavio.github.io/imgs/alex_headshot.png"
+             alt="Alexandre Manhães Savio" width="64" height="64" />
+        <div class="article__byline__text">
+            <strong>Alexandre Manhães Savio</strong>
+            Freelance Software, Cloud &amp; AI engineer. Ex-academia (neuroimaging, ML).
+            Currently accepting new engagements —
+            <a href="https://alexsavio.github.io/pages/work-with-me.html">work with me</a>.
         </div>
-    </div>
+    </aside>
+
+</article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer__grid">
+                <div class="site-footer__availability">
+                    <strong>Available for freelance engagements.</strong>
+                    <span>Accepting new engagements for Q2 2026.</span>
+                    <a class="site-footer__cta" href="mailto:alexsavio@gmail.com">alexsavio@gmail.com</a>
+                </div>
+                <ul class="site-footer__social">
+                    <li><a href="https://github.com/alexsavio" rel="me">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/alexsavio/" rel="me">LinkedIn</a></li>
+                    <li><a href="https://orcid.org/0000-0002-6608-6885" rel="me">ORCID</a></li>
+                    <li><a href="/feeds/all.atom.xml" rel="me">RSS</a></li>
+                </ul>
+            </div>
+            <p class="site-footer__colophon">
+                &copy;  Alexandre Manhães Savio.
+                Built with <a href="https://getpelican.com/">Pelican</a>.
+            </p>
+        </div>
+    </footer>
+
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
-    </script>
-    <script>
-    (function() {
-        const terminalWindow = document.querySelector('.terminal-window');
-        const terminalBody = document.querySelector('.terminal-body');
-        const closeBtn = document.querySelector('.terminal-btn.close');
-        const minimizeBtn = document.querySelector('.terminal-btn.minimize');
-        const maximizeBtn = document.querySelector('.terminal-btn.maximize');
-
-        let isMinimized = false;
-        let isMaximized = false;
-
-        // Close button - shows "session ended" message
-        closeBtn.addEventListener('click', function() {
-            terminalBody.innerHTML = `
-                <div class="login-message" style="text-align: center; padding: 40px 0;">
-                    <p>logout</p>
-                    <p style="margin-top: 20px;">[Process completed]</p>
-                    <p style="margin-top: 30px; font-size: 0.85em;">
-                        <a href="https://alexsavio.github.io/" style="color: var(--link-color);">→ Start new session</a>
-                    </p>
-                </div>
-            `;
-            terminalWindow.classList.add('closed');
-        });
-
-        // Minimize button - collapses terminal body
-        minimizeBtn.addEventListener('click', function() {
-            isMinimized = !isMinimized;
-            if (isMinimized) {
-                terminalBody.style.display = 'none';
-                terminalWindow.classList.add('minimized');
-            } else {
-                terminalBody.style.display = 'block';
-                terminalWindow.classList.remove('minimized');
-            }
-        });
-
-        // Maximize button - toggles fullscreen
-        maximizeBtn.addEventListener('click', function() {
-            isMaximized = !isMaximized;
-            if (isMaximized) {
-                terminalWindow.classList.add('maximized');
-                document.body.style.overflow = 'hidden';
-            } else {
-                terminalWindow.classList.remove('maximized');
-                document.body.style.overflow = '';
-            }
-        });
-
-        // Double-click header to maximize
-        document.querySelector('.terminal-header').addEventListener('dblclick', function(e) {
-            if (!e.target.classList.contains('terminal-btn')) {
-                maximizeBtn.click();
-            }
-        });
-    })();
     </script>
 </body>
 </html>
