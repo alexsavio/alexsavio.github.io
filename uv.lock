@@ -19,6 +19,9 @@ dependencies = [
     { name = "lxml" },
     { name = "markupsafe" },
     { name = "pelican", extra = ["markdown"] },
+    { name = "pelican-related-posts" },
+    { name = "pelican-series" },
+    { name = "pelican-sitemap" },
     { name = "pillow" },
     { name = "python-dateutil" },
     { name = "pytz" },
@@ -48,6 +51,9 @@ requires-dist = [
     { name = "lxml", specifier = ">=6.0.2" },
     { name = "markupsafe", specifier = ">=3.0.3" },
     { name = "pelican", extras = ["markdown"], specifier = ">=4.9.0" },
+    { name = "pelican-related-posts", specifier = ">=1.0.0" },
+    { name = "pelican-series", specifier = ">=3.1.1" },
+    { name = "pelican-sitemap", specifier = ">=1.2.2" },
     { name = "pillow", specifier = ">=12.1.0" },
     { name = "python-dateutil", specifier = ">=2.9.0" },
     { name = "pytz", specifier = ">=2025.2" },
@@ -449,6 +455,42 @@ wheels = [
 [package.optional-dependencies]
 markdown = [
     { name = "markdown" },
+]
+
+[[package]]
+name = "pelican-related-posts"
+version = "1.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pelican" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/3f/f3/d8beebc2c39c7b95d3711bea72d3c7dfd6913169eb150b2dc29fed7230fa/pelican-related-posts-1.0.0.tar.gz", hash = "sha256:e106487e279368ccc7ab74609197a5f298d54f6d4e1eeb36f8bc0c2291227222", size = 3734, upload-time = "2020-08-29T17:23:03.167Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/51/db/680ae2076b7caa5abcaa1234ea08e8fed98569752198d2d221f5e8d8e425/pelican_related_posts-1.0.0-py3-none-any.whl", hash = "sha256:0f1dcdf34f90c41f275aba428879a5fde24e166cf0154d3a07d59cc5071976d5", size = 3449, upload-time = "2020-08-29T17:23:05.15Z" },
+]
+
+[[package]]
+name = "pelican-series"
+version = "3.1.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pelican" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/51/8d/7f04ad7bb0115879e47bfbcf307144102d41dd05047330e7ee63d75c7b49/pelican_series-3.1.1.tar.gz", hash = "sha256:0609d90729f6f5508e7357316106c4893217ba3f17539c1dfd9d6005307f9892", size = 6454, upload-time = "2026-04-04T10:50:49.88Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5e/25/b5f116569f010d83ab15ee7b95d56ad425184ec3bf872d366b3acad93dc3/pelican_series-3.1.1-py3-none-any.whl", hash = "sha256:4f9134a6466ca50c3f4742a3b902fddd2a3c5421fabc32ac8cafcaf3f5246cc7", size = 8177, upload-time = "2026-04-04T10:50:48.637Z" },
+]
+
+[[package]]
+name = "pelican-sitemap"
+version = "1.2.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pelican" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/5c/c1/d9e1d539decfba947d711bcb37427ad15914557a728418bd928d56e58a32/pelican_sitemap-1.2.2.tar.gz", hash = "sha256:93f72d035dd0ec2f5cee38b2766bbd7f6a54bf186635ae1261a6deac422dcfb7", size = 8013, upload-time = "2025-10-12T15:24:36.727Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/68/c2/d2f98364b49a40bac9f315f29d8c22322b47bc4ebdec6a8e3a4f657ebc24/pelican_sitemap-1.2.2-py3-none-any.whl", hash = "sha256:09ba150dd1b54ef855f18e7ec920160d7118e932e0dac1c6e8bf3a41e938e682", size = 8046, upload-time = "2025-10-12T15:24:35.678Z" },
 ]
 
 [[package]]

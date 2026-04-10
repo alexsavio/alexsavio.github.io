@@ -24,6 +24,9 @@ dependencies = [
     "pillow>=12.1.0",
     "invoke>=2.2.0",
     "ghp-import>=2.1.0",
+    "pelican-sitemap>=1.2.2",
+    "pelican-series>=3.1.1",
+    "pelican-related-posts>=1.0.0",
 ]
 
 [tool.uv]

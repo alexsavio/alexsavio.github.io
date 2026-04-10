@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from pathlib import Path
-
 VERSION = "1.0.0"
 
 AUTHOR = "Alexandre Manhães Savio"
@@ -49,24 +47,13 @@ PDF_GENERATOR = True
 OUTPUT_PATH = "output"
 DELETE_OUTPUT_DIRECTORY = False
 
-PLUGIN_PATHS = [str(Path(__file__).resolve().parent / "plugins")]
-PLUGINS = [
-    "assets",
-    "sitemap",
-    "code_include",
-    "ical",
-    "gravatar",
-    "feed_summary",
-    "read_more_link",
-    "render_math",
-    "liquid_tags",
-    "optimize_images",
-    "summary",
-    "thumbnailer",
-    "github_activity",
-    "better_codeblock_line_numbering",
-    "dateish",
-]
+# Plugins are installed from PyPI under the pelican.plugins.* namespace
+# and auto-discovered when PLUGINS is None.
+#   pelican-sitemap       — XML sitemap for SEO
+#   pelican-series        — First Principles series navigation (Series:/Series_index: metadata)
+#   pelican-related-posts — "You might also like" on article pages
+PLUGINS = None
+RELATED_POSTS_MAX = 4
 
 SITEMAP = {
     "format": "xml",
@@ -147,6 +134,9 @@ MARKDOWN = {
         "markdown.extensions.codehilite": {"css_class": "highlight"},
         "markdown.extensions.extra": {},
         "markdown.extensions.meta": {},
+        # Enables {{ article.toc }} on long-form posts. Headings get id="..."
+        # anchors for linking.
+        "markdown.extensions.toc": {"permalink": False, "toc_depth": "2-3"},
     },
     "output_format": "html5",
 }
