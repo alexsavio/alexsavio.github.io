@@ -1,8 +1,9 @@
 Title: First Principles: Software Design
 Date: 2026-03-21 11:00:00
-Category: Development
-Tags: software-design, first-principles, software-engineering, architecture, complexity
+Category: Engineering
+Tags: first-principles, software-design, architecture, complexity, cognitive-load
 Slug: first-principles-software-design
+Series: First Principles
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
 Summary: Strip away the design patterns, the SOLID principles, and the architecture astronautics. What's actually true about software design when you reason from fundamentals? Five irreducible truths, three reconstruction principles, and a framework for making design decisions based on cognitive load, not convention.

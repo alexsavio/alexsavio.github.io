@@ -1,7 +1,7 @@
 Title: How to set up different versions of GCC
 Date: 2014-06-03 11:00:00
-Category: Ubuntu
-Tags: ubuntu, gcc, config, update-alternatives
+Category: Tools
+Tags: gcc, ubuntu, compiler, linux
 Slug: setup-gcc-versions
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com

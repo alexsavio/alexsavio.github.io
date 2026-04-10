@@ -14,7 +14,7 @@
     <meta property="og:title" content="How to set up different versions of GCC — Alexandre Manhães Savio" />
     <meta property="og:description" content="How to set up different versions of GCC" />
     <meta property="og:url" content="https://alexsavio.github.io/setup-gcc-versions.html" />
-    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2014-06-03" />    <meta property="article:section" content="Ubuntu" />    <meta property="article:tag" content="ubuntu" />    <meta property="article:tag" content="gcc" />    <meta property="article:tag" content="config" />    <meta property="article:tag" content="update-alternatives" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2014-06-03" />    <meta property="article:section" content="Tools" />    <meta property="article:tag" content="gcc" />    <meta property="article:tag" content="ubuntu" />    <meta property="article:tag" content="compiler" />    <meta property="article:tag" content="linux" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="How to set up different versions of GCC — Alexandre Manhães Savio" />
     <meta name="twitter:description" content="How to set up different versions of GCC" />
@@ -73,7 +73,7 @@
 <article class="article" itemscope itemtype="https://schema.org/BlogPosting">
     <header class="article__header">
         <p class="article__kicker">
-            <a href="https://alexsavio.github.io/category/ubuntu.html" itemprop="articleSection">Ubuntu</a>
+            <a href="https://alexsavio.github.io/category/tools.html" itemprop="articleSection">Tools</a>
         </p>
 
         <h1 class="article__title" itemprop="headline">How to set up different versions of <span class="caps">GCC</span></h1>
@@ -86,24 +86,24 @@
         </div>
 
         <div class="article__meta" style="margin-top: 0.75rem;">
-                <a href="https://alexsavio.github.io/tag/ubuntu.html" class="tag">ubuntu</a>
                 <a href="https://alexsavio.github.io/tag/gcc.html" class="tag">gcc</a>
-                <a href="https://alexsavio.github.io/tag/config.html" class="tag">config</a>
-                <a href="https://alexsavio.github.io/tag/update-alternatives.html" class="tag">update-alternatives</a>
+                <a href="https://alexsavio.github.io/tag/ubuntu.html" class="tag">ubuntu</a>
+                <a href="https://alexsavio.github.io/tag/compiler.html" class="tag">compiler</a>
+                <a href="https://alexsavio.github.io/tag/linux.html" class="tag">linux</a>
         </div>
 
     </header>
 
     <div class="article__content" itemprop="articleBody">
         <p>When I need to change versions of software I use on Ubuntu, e.g., gcc and g++ and&nbsp;Java.</p>
-<h3>Update-alternatives</h3>
+<h3 id="update-alternatives">Update-alternatives</h3>
 <p>A neat way to do it is using <em>update-alternatives</em>. This how you have to do it with&nbsp;gcc:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6</span>
-<span class="code-line">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7</span>
-<span class="code-line">sudo update-alternatives --config gcc</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7
+sudo update-alternatives --config gcc
+</code></pre></div>
 
-<h3>References</h3>
+<h3 id="references">References</h3>
 <p>[1] <a href="http://charette.no-ip.com:81/programming/2011-12-24_GCCv47/">http://charette.no-ip.com:81/programming/2011-12-24_GCCv47/</a></p>
     </div>
 
@@ -118,6 +118,7 @@
             <a href="https://alexsavio.github.io/pages/work-with-me.html">work with me</a>.
         </div>
     </aside>
+
 
 </article>
         </div>

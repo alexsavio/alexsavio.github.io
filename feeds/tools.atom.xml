@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Alexandre Manhães Savio - Tools</title><link href="https://alexsavio.github.io/" rel="alternate"/><link href="https://alexsavio.github.io/feeds/tools.atom.xml" rel="self"/><id>https://alexsavio.github.io/</id><updated>2026-01-18T00:00:00+01:00</updated><subtitle>Freelance Software, Cloud &amp; AI Engineer</subtitle><entry><title>Taming Your Dev Chaos with direnv, .env, and .envrc (Plus a Sneak Peek at mise-en-place)</title><link href="https://alexsavio.github.io/direnv-dotenv-envrc.html" rel="alternate"/><published>2026-01-18T00:00:00+01:00</published><updated>2026-01-18T00:00:00+01:00</updated><author><name>Alexandre Manhães Savio</name></author><id>tag:alexsavio.github.io,2026-01-18:/direnv-dotenv-envrc.html</id><summary type="html">&lt;p&gt;Stop manually juggling env vars like a clown — learn how direnv auto-magically handles your dev environments with .env and .envrc files. Includes a sick custom layout uv function for Python projects and a teaser on mise-en-place, the dev tool that does it&amp;nbsp;all.&lt;/p&gt;</summary><content type="html">&lt;h1 id="taming-your-dev-chaos-with-direnv-env-and-envrc"&gt;Taming Your Dev Chaos with direnv, .env, and&amp;nbsp;.envrc&lt;/h1&gt;
+&lt;p&gt;Ever felt like you&amp;#8217;re playing whack-a-mole with environment variables across a dozen projects? One project&amp;#8217;s&amp;nbsp;got &lt;code&gt;DEBUG=true&lt;/code&gt;, another&amp;#8217;s screaming&amp;nbsp;for &lt;code&gt;API_KEY=secret-sauce&lt;/code&gt;, and you&amp;#8217;re just there manually sourcing shit like it&amp;#8217;s 1999? Yeah, we&amp;#8217;ve all been there, sweating bullets trying not to mix up prod and dev configs.
+Enter &lt;strong&gt;direnv&lt;/strong&gt; — the lazy dev&amp;#8217;s best friend that automatically loads and unloads your env vars based on where&amp;nbsp;you &lt;code&gt;cd&lt;/code&gt;. It&amp;#8217;s like having a personal assistant that whispers &amp;#8220;you&amp;#8217;re in the wrong project, dumbass&amp;#8221; before you fuck&amp;nbsp;up.&lt;/p&gt;
+&lt;h2 id="what-the-hell-is-direnv"&gt;What the Hell is&amp;nbsp;direnv?&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt; is basically a shell extension that gives your terminal superpowers. It hooks into bash, zsh, fish, and whatever else you&amp;#8217;re using, automatically loading or unloading environment variables as you bounce between directories. No more &amp;#8220;oh shit, I forgot to activate the venv&amp;#8221; moments.&amp;nbsp;Just &lt;code&gt;cd&lt;/code&gt; and boom — your environment&amp;#8217;s ready to&amp;nbsp;party.&lt;/p&gt;
+&lt;h3 id="getting-this-bad-boy-installed"&gt;Getting This Bad Boy&amp;nbsp;Installed&lt;/h3&gt;
+&lt;p&gt;On macOS with Homebrew (because who doesn&amp;#8217;t love&amp;nbsp;brew?):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;direnv
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On Ubuntu/Debian (for you Linux&amp;nbsp;warriors):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;direnv
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now hook it into your shell. For zsh (the cool kids&amp;#8217; choice), slap this in&amp;nbsp;your &lt;code&gt;~/.zshrc&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;direnv&lt;span class="w"&gt; &lt;/span&gt;hook&lt;span class="w"&gt; &lt;/span&gt;zsh&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Restart your terminal and you&amp;#8217;re golden. Pro tip: If you&amp;#8217;re still using bash, no judgment, but maybe upgrade your life while you&amp;#8217;re at&amp;nbsp;it.&lt;/p&gt;
+&lt;h2 id="the-envrc-file-your-new-bestie"&gt;The .envrc File: Your New&amp;nbsp;Bestie&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;.envrc&lt;/code&gt; file is direnv&amp;#8217;s command center — it&amp;#8217;s basically a bash script that runs every time you enter the directory. Think of it as your project&amp;#8217;s personal hype man. Here&amp;#8217;s a basic&amp;nbsp;example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .envrc&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;DATABASE_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;postgres://localhost/mydb&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;DEBUG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After you create or tweak&amp;nbsp;your &lt;code&gt;.envrc&lt;/code&gt;, you gotta approve&amp;nbsp;it:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;direnv&lt;span class="w"&gt; &lt;/span&gt;allow
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Yeah, it&amp;#8217;s got security vibes — direnv ain&amp;#8217;t about to run random code without your say-so. Smart move, prevents you from accidentally nuking your system with some sketchy&amp;nbsp;project&amp;#8217;s &lt;code&gt;.envrc&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id="the-env-file-and-that-sweet-dotenv_if_exists-magic"&gt;The .env File and That&amp;nbsp;Sweet &lt;code&gt;dotenv_if_exists&lt;/code&gt; Magic&lt;/h2&gt;
+&lt;p&gt;Most apps these days&amp;nbsp;use &lt;code&gt;.env&lt;/code&gt; files for their secrets (thanks to that &lt;a href="https://12factor.net/config"&gt;twelve-factor app&lt;/a&gt; gospel). It&amp;#8217;s just key-value pairs, no&amp;nbsp;frills:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .env&lt;/span&gt;
+&lt;span class="nv"&gt;SECRET_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;mysupersecretkey
+&lt;span class="nv"&gt;API_TOKEN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;abc123
+&lt;span class="nv"&gt;DATABASE_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;postgres://user:pass@localhost/db
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Direnv can slurp these up automatically&amp;nbsp;with &lt;code&gt;dotenv_if_exists&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .envrc&lt;/span&gt;
+dotenv_if_exists
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;What it&amp;nbsp;does:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Checks&amp;nbsp;if &lt;code&gt;.env&lt;/code&gt; exists in your current&amp;nbsp;dir&lt;/li&gt;
+&lt;li&gt;If yes, loads all the&amp;nbsp;vars&lt;/li&gt;
+&lt;li&gt;If no, shrugs and moves on (no&amp;nbsp;drama)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Why this&amp;nbsp;slaps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;.env&lt;/code&gt; goes&amp;nbsp;in &lt;code&gt;.gitignore&lt;/code&gt; (secrets stay secret,&amp;nbsp;duh)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.envrc&lt;/code&gt; gets committed (tells your team what vars they&amp;nbsp;need)&lt;/li&gt;
+&lt;li&gt;Everyone on the team can have their&amp;nbsp;own &lt;code&gt;.env&lt;/code&gt; with different values — no more &amp;#8220;why is this broken on my&amp;nbsp;machine?&amp;#8221;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="leveling-up-python-projects-with-layout-uv"&gt;Leveling Up Python Projects&amp;nbsp;with &lt;code&gt;layout uv&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;With &lt;a href="https://github.com/astral-sh/uv"&gt;uv&lt;/a&gt; dropping like a boss as the fastest Python package manager around, I cooked up a&amp;nbsp;custom &lt;code&gt;layout uv&lt;/code&gt; function that pairs perfectly with direnv. It&amp;#8217;s&amp;nbsp;lit.&lt;/p&gt;
+&lt;p&gt;Drop this in&amp;nbsp;your &lt;code&gt;~/.config/direnv/direnvrc&lt;/code&gt; (or &lt;code&gt;~/.direnvrc&lt;/code&gt; if you&amp;#8217;re old&amp;nbsp;school):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;layout_uv&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$#&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-gt&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;shift&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-d&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.venv&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nv"&gt;VIRTUAL_ENV&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$UV_PROJECT_ENVIRONMENT&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-z&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$VIRTUAL_ENV&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;!&lt;span class="w"&gt; &lt;/span&gt;-d&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$VIRTUAL_ENV&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;log_status&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;No virtual environment exists. Executing \`uv venv\` to create one.&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;uv&lt;span class="w"&gt; &lt;/span&gt;venv&lt;span class="w"&gt; &lt;/span&gt;--allow-existing
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nv"&gt;VIRTUAL_ENV&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$UV_PROJECT_ENVIRONMENT&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;PATH_add&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$VIRTUAL_ENV&lt;/span&gt;&lt;span class="s2"&gt;/bin&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;UV_ACTIVE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# or VENV_ACTIVE=1&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;VIRTUAL_ENV
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then in your&amp;nbsp;project&amp;#8217;s &lt;code&gt;.envrc&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .envrc&lt;/span&gt;
+dotenv_if_exists
+layout&lt;span class="w"&gt; &lt;/span&gt;uv
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="what-does-this-layout-uv-sorcery-actually-do"&gt;What Does&amp;nbsp;This &lt;code&gt;layout uv&lt;/code&gt; Sorcery Actually&amp;nbsp;Do?&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Checks for existing venv&lt;/strong&gt;:&amp;nbsp;If &lt;code&gt;.venv&lt;/code&gt; is already chilling there, it rolls with&amp;nbsp;it&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Creates one if needed&lt;/strong&gt;: No venv? No problem —&amp;nbsp;runs &lt;code&gt;uv venv&lt;/code&gt; and makes&amp;nbsp;one&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Activates it&lt;/strong&gt;: Slaps the&amp;nbsp;venv&amp;#8217;s &lt;code&gt;bin&lt;/code&gt; into&amp;nbsp;your &lt;code&gt;PATH&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sets the flags&lt;/strong&gt;:&amp;nbsp;Exports &lt;code&gt;UV_ACTIVE=1&lt;/code&gt; and &lt;code&gt;VIRTUAL_ENV&lt;/code&gt; for tools that&amp;nbsp;care&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="watch-the-magic-happen"&gt;Watch the Magic&amp;nbsp;Happen&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/projects/my-python-project
+direnv:&lt;span class="w"&gt; &lt;/span&gt;loading&lt;span class="w"&gt; &lt;/span&gt;~/projects/my-python-project/.envrc
+direnv:&lt;span class="w"&gt; &lt;/span&gt;No&lt;span class="w"&gt; &lt;/span&gt;virtual&lt;span class="w"&gt; &lt;/span&gt;environment&lt;span class="w"&gt; &lt;/span&gt;exists.&lt;span class="w"&gt; &lt;/span&gt;Executing&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;uv&lt;span class="w"&gt; &lt;/span&gt;venv&lt;span class="sb"&gt;`&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;to&lt;span class="w"&gt; &lt;/span&gt;create&lt;span class="w"&gt; &lt;/span&gt;one.
+Using&lt;span class="w"&gt; &lt;/span&gt;CPython&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.13.0
+Creating&lt;span class="w"&gt; &lt;/span&gt;virtual&lt;span class="w"&gt; &lt;/span&gt;environment&lt;span class="w"&gt; &lt;/span&gt;at:&lt;span class="w"&gt; &lt;/span&gt;.venv
+Activate&lt;span class="w"&gt; &lt;/span&gt;with:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;.venv/bin/activate
+direnv:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;+UV_ACTIVE&lt;span class="w"&gt; &lt;/span&gt;+VIRTUAL_ENV&lt;span class="w"&gt; &lt;/span&gt;~PATH
+
+$&lt;span class="w"&gt; &lt;/span&gt;which&lt;span class="w"&gt; &lt;/span&gt;python
+/Users/alex/projects/my-python-project/.venv/bin/python
+
+$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~
+direnv:&lt;span class="w"&gt; &lt;/span&gt;unloading
+
+$&lt;span class="w"&gt; &lt;/span&gt;which&lt;span class="w"&gt; &lt;/span&gt;python
+/usr/bin/python
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Boom. Automatic venv activation. Your future self will thank&amp;nbsp;you.&lt;/p&gt;
+&lt;h2 id="pro-tips-to-not-fuck-this-up"&gt;Pro Tips to Not Fuck This&amp;nbsp;Up&lt;/h2&gt;
+&lt;h3 id="1-secrets-in-env-structure-in-envrc"&gt;1. Secrets&amp;nbsp;in &lt;code&gt;.env&lt;/code&gt;, Structure&amp;nbsp;in &lt;code&gt;.envrc&lt;/code&gt;&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .envrc (commit this shit)&lt;/span&gt;
+dotenv_if_exists
+layout&lt;span class="w"&gt; &lt;/span&gt;uv
+
+&lt;span class="c1"&gt;# Required environment variables (document this for your team)&lt;/span&gt;
+&lt;span class="c1"&gt;# DATABASE_URL - PostgreSQL connection string&lt;/span&gt;
+&lt;span class="c1"&gt;# API_KEY - Your API key from example.com&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .env (keep this out of git, you idiot)&lt;/span&gt;
+&lt;span class="nv"&gt;DATABASE_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;postgres://localhost/mydb
+&lt;span class="nv"&gt;API_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;secret123
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="2-drop-a-envexample-template"&gt;2. Drop&amp;nbsp;a &lt;code&gt;.env.example&lt;/code&gt; Template&lt;/h3&gt;
+&lt;p&gt;Make&amp;nbsp;a &lt;code&gt;.env.example&lt;/code&gt; that shows what vars are needed, minus the actual&amp;nbsp;secrets:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .env.example&lt;/span&gt;
+&lt;span class="nv"&gt;DATABASE_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;postgres://user:password@localhost/dbname
+&lt;span class="nv"&gt;API_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;your-api-key-here
+&lt;span class="nv"&gt;DEBUG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="3-use-direnv-allow-like-your-life-depends-on-it"&gt;3.&amp;nbsp;Use &lt;code&gt;direnv allow&lt;/code&gt; Like Your Life Depends on&amp;nbsp;It&lt;/h3&gt;
+&lt;p&gt;Only&amp;nbsp;allow &lt;code&gt;.envrc&lt;/code&gt; files from projects you trust. This ain&amp;#8217;t a free-for-all — malicious code could ruin your&amp;nbsp;day.&lt;/p&gt;
+&lt;h3 id="4-team-up-with-uvs-pyprojecttoml"&gt;4. Team Up with uv&amp;#8217;s&amp;nbsp;pyproject.toml&lt;/h3&gt;
+&lt;p&gt;With &lt;code&gt;layout uv&lt;/code&gt; and&amp;nbsp;a &lt;code&gt;pyproject.toml&lt;/code&gt;, your whole Python setup is declarative &lt;span class="caps"&gt;AF&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# pyproject.toml&lt;/span&gt;
+&lt;span class="k"&gt;[project]&lt;/span&gt;
+&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;my-project&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;requires-python&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;gt;=3.11&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;dependencies&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;requests&amp;gt;=2.31.0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;click&amp;gt;=8.1.0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;cd&lt;/code&gt; into your project and everything&amp;#8217;s ready to roll. No more &amp;#8220;pip install&amp;#8221;&amp;nbsp;nightmares.&lt;/p&gt;
+&lt;h2 id="wrapping-this-shit-up"&gt;Wrapping This Shit&amp;nbsp;Up&lt;/h2&gt;
+&lt;p&gt;Direnv&amp;nbsp;+ &lt;code&gt;.env&lt;/code&gt; +&amp;nbsp;custom &lt;code&gt;layout uv&lt;/code&gt; = dev environment&amp;nbsp;heaven:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Automatic &lt;span class="caps"&gt;AF&lt;/span&gt;&lt;/strong&gt;: No more forgetting to activate&amp;nbsp;venvs&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Secure as Fuck&lt;/strong&gt;: Secrets stay out of&amp;nbsp;git&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Blazing Fast&lt;/strong&gt;: uv creates venvs in the blink of an&amp;nbsp;eye&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Team-Friendly&lt;/strong&gt;:&amp;nbsp;Share &lt;code&gt;.envrc&lt;/code&gt;, keep&amp;nbsp;personal &lt;code&gt;.env&lt;/code&gt; files&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Try it out — once you go automatic, you&amp;#8217;ll wonder how you survived the manual era. Your productivity will skyrocket, and you&amp;#8217;ll have more time for&amp;nbsp;memes.&lt;/p&gt;
+&lt;h2 id="future-vibes-mise-en-place"&gt;Future Vibes:&amp;nbsp;mise-en-place&lt;/h2&gt;
+&lt;p&gt;Direnv is solid and battle-tested, but peep this new kid on the block: &lt;strong&gt;&lt;a href="https://mise.jdx.dev/"&gt;mise-en-place&lt;/a&gt;&lt;/strong&gt; (say it like &amp;#8220;meez&amp;#8221;). It&amp;#8217;s the dev tool that wants to be your&amp;nbsp;everything.&lt;/p&gt;
+&lt;p&gt;Mise&amp;nbsp;combines:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Tool version management&lt;/strong&gt; (think asdf/nvm/pyenv but&amp;nbsp;better)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Environment variable handling&lt;/strong&gt; (direnv&amp;#8217;s&amp;nbsp;job)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Task running&lt;/strong&gt; (make/just&amp;nbsp;territory)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The big win? &lt;strong&gt;One tool to rule them all&lt;/strong&gt;. No more juggling direnv + asdf + make like a circus act.&amp;nbsp;One &lt;code&gt;mise.toml&lt;/code&gt; config file handles it&amp;nbsp;all:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# mise.toml&lt;/span&gt;
+&lt;span class="k"&gt;[tools]&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;3.13&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;node&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;20&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;[env]&lt;/span&gt;
+&lt;span class="n"&gt;DATABASE_URL&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;postgres://localhost/mydb&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;[tasks.dev]&lt;/span&gt;
+&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;python manage.py runserver&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It auto-activates Python venvs,&amp;nbsp;loads &lt;code&gt;.env&lt;/code&gt; files, and plays nice with&amp;nbsp;existing &lt;code&gt;.tool-versions&lt;/code&gt; from asdf. Built in Rust, so it&amp;#8217;s faster than your ex moving on. If you&amp;#8217;re drowning in tool sprawl, mise might be your lifesaver. I&amp;#8217;ll drop a full migration guide soon — stay&amp;nbsp;woke!&lt;/p&gt;
+&lt;h2 id="links-and-shit"&gt;Links and&amp;nbsp;Shit&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://direnv.net/"&gt;direnv docs&lt;/a&gt; - The &lt;span class="caps"&gt;OG&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/astral-sh/uv"&gt;uv - Python&amp;#8217;s speed&amp;nbsp;demon&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://12factor.net/config"&gt;Twelve-Factor App - Config&amp;nbsp;wisdom&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://mise.jdx.dev/"&gt;mise-en-place&lt;/a&gt; - The unified&amp;nbsp;beast&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Tools"/><category term="direnv"/><category term="environment"/><category term="shell"/><category term="uv"/><category term="python"/><category term="mise"/></entry><entry><title>Git usage guidelines for team collaboration</title><link href="https://alexsavio.github.io/git-collaboration-guidelines.html" rel="alternate"/><published>2020-06-11T12:00:00+02:00</published><updated>2020-06-11T12:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2020-06-11:/git-collaboration-guidelines.html</id><summary type="html">&lt;p&gt;Suggestions on how to use a code repository with git for&amp;nbsp;teams.&lt;/p&gt;</summary><content type="html">&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;This is a set of rules that I have been gathering in the past few years which work well for most of the projects I worked on with small teams of 3-8 people. These guidelines are heavily based on the &lt;a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines"&gt;angular.js/&lt;span class="caps"&gt;DEVELOPERS&lt;/span&gt;.md document on  GitHub&lt;/a&gt; and this is not about &lt;a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow"&gt;GitFlow&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="branching-model"&gt;Branching&amp;nbsp;model&lt;/h2&gt;
+&lt;p&gt;Always create a new branch from an up-to-date &amp;#8220;main&amp;#8221; branch.
+The branches should have a short life (no more than 2 days) and have a very determined objective.
+Once the objective is reached, a Pull Request (&lt;span class="caps"&gt;PR&lt;/span&gt;) should be created to merge the branch to main.
+Once the branch is merged, it should be deleted.
+Always merge to&amp;nbsp;main.&lt;/p&gt;
+&lt;h3 id="branch-names"&gt;Branch&amp;nbsp;names&lt;/h3&gt;
+&lt;p&gt;The branch names are not that important in very small teams, but when the team is bigger or work remotely,
+a pattern for the branch names is also good to follow. Here is a&amp;nbsp;suggestion:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;type&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;[&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;ticket_id&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;]&lt;/span&gt;&lt;span class="nx"&gt;_&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;subject&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="err"&gt;```&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Some tools like &lt;a href="https://www.sourcetreeapp.com/"&gt;Sourcetree&lt;/a&gt; pick&amp;nbsp;the &lt;code&gt;/&lt;/code&gt; from the branch name and splits the name in their &lt;span class="caps"&gt;GUI&lt;/span&gt;,
+so you can see the different types of branches as in different&amp;nbsp;folders.&lt;/p&gt;
+&lt;h4 id="type"&gt;Type&lt;/h4&gt;
+&lt;p&gt;The &lt;type&gt; describes the generic objective of the branch, it can be one of the&amp;nbsp;following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;feat&lt;/strong&gt;: a new&amp;nbsp;feature,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;fix&lt;/strong&gt;: a bug&amp;nbsp;fix,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;docs&lt;/strong&gt;: documentation only changes (in or out of the&amp;nbsp;code),&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;tests&lt;/strong&gt;: new tests or fixes in&amp;nbsp;tests,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;refactor&lt;/strong&gt;: code change that neither fixes a bug or adds a&amp;nbsp;feature,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;style&lt;/strong&gt;: code changes that&amp;nbsp;neither,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;chore&lt;/strong&gt;: Changes to the build process or auxiliary tools for the project&amp;nbsp;maintenance,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;perf&lt;/strong&gt;: A code change that improves&amp;nbsp;performance.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="ticket-id"&gt;Ticket &lt;span class="caps"&gt;ID&lt;/span&gt;&lt;/h4&gt;
+&lt;p&gt;This is optional, but is good if the purpose of the branch is too complex or if you follow a Scrum development process.
+The &lt;ticket_id&gt; should be the identifier of the ticket or user story that the branch is going to solve.
+The format depends on the project management tool you are using, but usually it has a project acronym and a&amp;nbsp;number: &lt;code&gt;PRJ_123&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id="subject"&gt;Subject&lt;/h4&gt;
+&lt;p&gt;The &lt;subject&gt; part should be no more than 3 or 4 words about the specific objective of the branch.
+If you don’t put a ticket &lt;span class="caps"&gt;ID&lt;/span&gt;, the specificity of the name is more&amp;nbsp;relevant.&lt;/p&gt;
+&lt;h3 id="commit-messages"&gt;Commit&amp;nbsp;messages&lt;/h3&gt;
+&lt;p&gt;Here we follow a very specific pattern in order to be able to parse the commit messages to automatically generate a
+change log for each release in a &lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;span class="caps"&gt;CD&lt;/span&gt; process and also semantic release version bumps
+with tools like semantic-release (available for Node.js and&amp;nbsp;Python).&lt;/p&gt;
+&lt;h4 id="format"&gt;Format&lt;/h4&gt;
+&lt;p&gt;Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a&amp;nbsp;subject:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;type&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;(&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;scope&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;):&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;subject&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;BLANK&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;LINE&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;BLANK&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;LINE&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="err"&gt;```&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The header is mandatory and the scope of the header is optional.
+Any line of the commit message cannot be longer 100 characters!
+This allows the message to be easier to read on GitHub as well as in various git&amp;nbsp;tools.&lt;/p&gt;
+&lt;h5 id="type_1"&gt;Type&lt;/h5&gt;
+&lt;p&gt;The &lt;type&gt; describes the generic objective of the commit, use the same types used for branches. I will repeat them&amp;nbsp;here:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;feat&lt;/strong&gt;: a new&amp;nbsp;feature,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;fix&lt;/strong&gt;: a bug&amp;nbsp;fix,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;docs&lt;/strong&gt;: documentation only changes (in or out of the&amp;nbsp;code),&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;tests&lt;/strong&gt;: new tests or fixes in&amp;nbsp;tests,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;refactor&lt;/strong&gt;: code change that neither fixes a bug or adds a&amp;nbsp;feature,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;style&lt;/strong&gt;: code changes that&amp;nbsp;neither,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;chore&lt;/strong&gt;: Changes to the build process or auxiliary tools for the project&amp;nbsp;maintenance,&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;perf&lt;/strong&gt;: A code change that improves&amp;nbsp;performance.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id="scope"&gt;Scope&lt;/h5&gt;
+&lt;p&gt;The &lt;scope&gt; could be anything specifying place of the commit change. A scope should be a part of the project that the stakeholders understand.
+The possible scopes can be agreed beforehand with the developers and/or stakeholders.
+You can use * when the change affects more than a single scope, but you can also not put anything (remove the parentheses as&amp;nbsp;well).&lt;/p&gt;
+&lt;h5 id="subject_1"&gt;Subject&lt;/h5&gt;
+&lt;p&gt;The &lt;subject&gt; contains succinct description of the&amp;nbsp;change:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;use the imperative, present tense: &amp;#8220;change&amp;#8221; not &amp;#8220;changed&amp;#8221; nor&amp;nbsp;&amp;#8220;changes&amp;#8221;&lt;/li&gt;
+&lt;li&gt;don&amp;#8217;t capitalize first&amp;nbsp;letter&lt;/li&gt;
+&lt;li&gt;no dot (.) at the&amp;nbsp;end&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Don’t use generic subjects as: &amp;#8216;debug&amp;#8217; or &amp;#8216;few fixes&amp;#8217;. Be clear and&amp;nbsp;specific.&lt;/p&gt;
+&lt;h5 id="body"&gt;Body&lt;/h5&gt;
+&lt;p&gt;The &lt;body&gt; is optional, but if you use it, just as in the subject, use the imperative, present tense: &amp;#8220;change&amp;#8221; not &amp;#8220;changed&amp;#8221; nor &amp;#8220;changes&amp;#8221;.
+The body should include the motivation for the change and contrast
+this with the previous&amp;nbsp;behavior.&lt;/p&gt;
+&lt;h5 id="footer"&gt;Footer&lt;/h5&gt;
+&lt;p&gt;The &lt;footer&gt; is optional. The footer should contain any information about Breaking Changes and is also the place to reference GitHub issues that this commit closes.
+Breaking Changes should start with the word &lt;span class="caps"&gt;BREAKING&lt;/span&gt; &lt;span class="caps"&gt;CHANGE&lt;/span&gt;: with a space or two newlines. The rest of the commit message is then used for this.
+A detailed explanation can be found in the Angular.js&amp;nbsp;document.&lt;/p&gt;
+&lt;h3 id="pull-requests"&gt;Pull&amp;nbsp;Requests&lt;/h3&gt;
+&lt;p&gt;The Pull or Merge Requests (&lt;span class="caps"&gt;PR&lt;/span&gt;) are used to share with your co-developers the code changes
+you did in your branch and ask them to review it. Here we always do a &lt;span class="caps"&gt;PR&lt;/span&gt; from your branch to
+the &amp;#8216;main&amp;#8217;&amp;nbsp;branch.&lt;/p&gt;
+&lt;p&gt;In a &lt;span class="caps"&gt;PR&lt;/span&gt;, your colleagues will have a view of the differences between the branches and the
+commits. You must also add a title and a&amp;nbsp;description.&lt;/p&gt;
+&lt;p&gt;The title should be sufficient to understand what is being&amp;nbsp;changed.&lt;/p&gt;
+&lt;p&gt;In the description you&amp;nbsp;should:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;make a useful&amp;nbsp;description,&lt;/li&gt;
+&lt;li&gt;describe what was changed in the pull&amp;nbsp;request,&lt;/li&gt;
+&lt;li&gt;explain why this &lt;span class="caps"&gt;PR&lt;/span&gt;&amp;nbsp;exists,&lt;/li&gt;
+&lt;li&gt;make it clear how it does what it sets out to do. E.g: Does it change a column in the&amp;nbsp;database?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;How is this being done? What happens to the old&amp;nbsp;data?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;you may want to use screenshots to demonstrate what has changed if there is a
+&lt;span class="caps"&gt;GUI&lt;/span&gt; involved in the&amp;nbsp;project.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Pull request size:&lt;/strong&gt; It should be small. The pull request must have a maximum of 250 lines of change.
+&lt;strong&gt;Feature breaking:&lt;/strong&gt; Whenever it’s possible break pull requests into smaller ones.
+&lt;strong&gt;Single Responsibility Principle:&lt;/strong&gt; The pull request should do only 1&amp;nbsp;thing.&lt;/p&gt;
+&lt;h3 id="cicd"&gt;&lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;span class="caps"&gt;CD&lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;With this setup your &lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;span class="caps"&gt;CD&lt;/span&gt; pipeline&amp;nbsp;would:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;run your checks and tests for every push to a &lt;span class="caps"&gt;PR&lt;/span&gt; and every merge to&amp;nbsp;&amp;#8216;main&amp;#8217;,&lt;/li&gt;
+&lt;li&gt;run a deployment to your test environment every merge to &amp;#8216;main&amp;#8217;,&amp;nbsp;and&lt;/li&gt;
+&lt;li&gt;enable a manual deployment to your production environment for every merge to&amp;nbsp;&amp;#8216;main&amp;#8217;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This deployment should trigger a release first, with automatic version bumping
+and change log generation. Bitbucket-pipelines supports&amp;nbsp;this.&lt;/p&gt;
+&lt;h3 id="remember-git-is-a-collaboration-tool-not-a-reporting-tool"&gt;&lt;span style="color:red"&gt;Remember: git is a collaboration tool, not a reporting&amp;nbsp;tool.&lt;/span&gt;&lt;/h3&gt;
+&lt;h3 id="references"&gt;References&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://medium.com/@hugooodias/the-anatomy-of-a-perfect-pull-request-567382bb6067"&gt;The anatomy of a perfect pull request – Hugo Dias –&amp;nbsp;Medium&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.conventionalcommits.org/en/v1.0.0-beta.4/#specification"&gt;Conventional&amp;nbsp;Commits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow"&gt;Gitflow Workflow | Atlassian Git&amp;nbsp;Tutorial&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines"&gt;angular.js/&lt;span class="caps"&gt;DEVELOPERS&lt;/span&gt;.md at master · angular/angular.js ·&amp;nbsp;GitHub&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/semantic-release/semantic-release"&gt;GitHub - semantic-release/semantic-release: Fully automated version management and package&amp;nbsp;publishing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.sourcetreeapp.com/"&gt;Sourcetree&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Tools"/><category term="git"/><category term="workflow"/><category term="collaboration"/></entry><entry><title>Remove big files from a git repository</title><link href="https://alexsavio.github.io/git-cleanup-bfg.html" rel="alternate"/><published>2017-12-30T12:28:00+01:00</published><updated>2017-12-30T12:28:00+01:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2017-12-30:/git-cleanup-bfg.html</id><summary type="html">&lt;p&gt;Remove large blobs from your git repository&amp;nbsp;history&lt;/p&gt;</summary><content type="html">&lt;h3 id="introduction"&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://rtyley.github.io/bfg-repo-cleaner/"&gt;&lt;span class="caps"&gt;BFG&lt;/span&gt; Repo-Cleaner&lt;/a&gt; is a tool to &amp;#8220;remove large or troublesome blobs&amp;#8221; from Git&amp;nbsp;repositories.&lt;/p&gt;
+&lt;p&gt;Here goes a quick guide on how to remove files larger than 10&amp;nbsp;MiB.&lt;/p&gt;
+&lt;h3 id="installation"&gt;Installation&lt;/h3&gt;
+&lt;p&gt;Download the lastest release from https://rtyley.github.io/bfg-repo-cleaner/.
+It includes&amp;nbsp;a &lt;code&gt;.jar&lt;/code&gt; file which we will use through the command&amp;nbsp;line.&lt;/p&gt;
+&lt;p&gt;You can&amp;nbsp;use &lt;code&gt;bfg&lt;/code&gt; as an alias&amp;nbsp;for &lt;code&gt;java -jar ~/Software/bfg-1.12.16.jar&lt;/code&gt;.
+Meaning that&amp;nbsp;&amp;#8220;&lt;code&gt;~/Software/bfg-1.12.16.jar&lt;/code&gt;&amp;#8221; is wherever you downloaded&amp;nbsp;the &lt;code&gt;.jar&lt;/code&gt; file.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;bfg&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;java&lt;span class="w"&gt; &lt;/span&gt;-jar&lt;span class="w"&gt; &lt;/span&gt;~/Software/bfg-1.12.16.jar
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="first-step"&gt;First&amp;nbsp;step&lt;/h3&gt;
+&lt;p&gt;First you must delete the blobs that you want to delete from the &lt;span class="caps"&gt;HEAD&lt;/span&gt; of your repository, commit, and&amp;nbsp;push.&lt;/p&gt;
+&lt;h3 id="usage"&gt;Usage&lt;/h3&gt;
+&lt;p&gt;Clone your repository in mirror&amp;nbsp;mode:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;--mirror&lt;span class="w"&gt; &lt;/span&gt;git://example.com/some-big-repo.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Run &lt;span class="caps"&gt;BFG&lt;/span&gt; to delete files bigger than 10MiB (see more examples in the project&amp;nbsp;documentation):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;bfg&lt;span class="w"&gt; &lt;/span&gt;--strip-blobs-bigger-than&lt;span class="w"&gt; &lt;/span&gt;10M&lt;span class="w"&gt; &lt;/span&gt;some-big-repo.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Prune the reference log entries and&amp;nbsp;push:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;some-big-repo.git
+git&lt;span class="w"&gt; &lt;/span&gt;reflog&lt;span class="w"&gt; &lt;/span&gt;expire&lt;span class="w"&gt; &lt;/span&gt;--expire&lt;span class="o"&gt;=&lt;/span&gt;now&lt;span class="w"&gt; &lt;/span&gt;--all&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;gc&lt;span class="w"&gt; &lt;/span&gt;--prune&lt;span class="o"&gt;=&lt;/span&gt;now&lt;span class="w"&gt; &lt;/span&gt;--aggressive
+git&lt;span class="w"&gt; &lt;/span&gt;push
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="references"&gt;References&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://rtyley.github.io/bfg-repo-cleaner/"&gt;https://rtyley.github.io/bfg-repo-cleaner/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Tools"/><category term="git"/><category term="bfg"/><category term="cleanup"/><category term="history-rewrite"/></entry><entry><title>How to use Byobu</title><link href="https://alexsavio.github.io/how-to-byobu.html" rel="alternate"/><published>2014-07-06T10:00:00+02:00</published><updated>2014-07-06T10:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-07-06:/how-to-byobu.html</id><summary type="html">&lt;p&gt;A short manual for Byobu and a list of its&amp;nbsp;advantages.&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="http://byobu.co"&gt;Byobu&lt;/a&gt;, in the same way as &lt;a href="http://tmux.sourceforge.net/"&gt;tmux&lt;/a&gt;, allows to
+manage many terminals through just one. In summary, it is a terminal-based terminal multiplexer and session&amp;nbsp;manager.&lt;/p&gt;
+&lt;p&gt;It can be very helpful when working with a server through &lt;span class="caps"&gt;SSH&lt;/span&gt;. Instead of opening a terminal
+and connecting to your server every time you nedd another terminal, you can
+setup your server to run Byobu or tmux at the beginning of your session and have as many terminals as you need. Byobu also keeps terminal sessions alive after detaching from&amp;nbsp;them.&lt;/p&gt;
+&lt;p&gt;Byobu is an enhancement that connects to and uses Screen or tmux (you choose), but offers useful statistics and easy-to-use hotkeys for the basic&amp;nbsp;commands.&lt;/p&gt;
+&lt;h2 id="installing-byobu"&gt;Installing&amp;nbsp;Byobu&lt;/h2&gt;
+&lt;p&gt;In&amp;nbsp;Ubuntu:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;byobu.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Else take a look at &lt;a href="http://byobu.co/downloads.html"&gt;http://byobu.co/downloads.html&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="start-byobu"&gt;Start&amp;nbsp;Byobu&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;byobu
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id="configure-ubuntu-to-run-byobu-from-the-beginning"&gt;Configure Ubuntu to run Byobu from the&amp;nbsp;beginning&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;byobu-config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Feel free to change&amp;nbsp;anything.&lt;/p&gt;
+&lt;p&gt;The important setting to change is: &amp;#8220;&lt;em&gt;Byobu currently launches at login (toggle on)&lt;/em&gt;&amp;#8221;. Select that and press&amp;nbsp;return.&lt;/p&gt;
+&lt;p&gt;Now you can go back to the menu and exit byobu-config (tab to the exit choice and hit&amp;nbsp;return).&lt;/p&gt;
+&lt;h2 id="resume-previous-sessions"&gt;Resume previous&amp;nbsp;sessions&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;byobu&lt;span class="w"&gt; &lt;/span&gt;–r&lt;span class="w"&gt; &lt;/span&gt;session_title
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id="hotkeys"&gt;Hotkeys&lt;/h2&gt;
+&lt;p&gt;Byobu has easy keybindings that use the function&amp;nbsp;keys:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;F2&lt;/strong&gt;: Create a new&amp;nbsp;window&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F3&lt;/strong&gt;: Move to previous&amp;nbsp;window&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F4&lt;/strong&gt;: Move to next&amp;nbsp;window&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F5&lt;/strong&gt;: Reload&amp;nbsp;profile&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F6&lt;/strong&gt;: Detach from this&amp;nbsp;session&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F7&lt;/strong&gt;: Enter copy/scrollback&amp;nbsp;mode&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F8&lt;/strong&gt;: Re-title a&amp;nbsp;window&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F9&lt;/strong&gt;: Configuration Menu, can also be summoned by &lt;strong&gt;Ctrl+a&lt;/strong&gt;, &lt;strong&gt;Ctrl+@&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F12&lt;/strong&gt;: Lock current&amp;nbsp;session&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="how-detaching-works-or-how-to-maintain-a-session"&gt;How detaching works or How to maintain a&amp;nbsp;session&lt;/h2&gt;
+&lt;p&gt;Perform a short demo. Issue the&amp;nbsp;command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;hello
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now exit the session by pressing &lt;strong&gt;F6&lt;/strong&gt; to detach from Byobu and then run: &lt;em&gt;exit&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Now &lt;span class="caps"&gt;SSH&lt;/span&gt; back into your machine.
+You can notice that the &lt;em&gt;echo hello&lt;/em&gt; command is still on the&amp;nbsp;screen.&lt;/p&gt;
+&lt;p&gt;Detaching does not end your session, it gives you access to another session.
+That means you can log in, run a long running task, and then detach and come back later when you;ve finished the&amp;nbsp;task.&lt;/p&gt;
+&lt;h2 id="note-for-vim-users"&gt;Note for vim&amp;nbsp;users&lt;/h2&gt;
+&lt;p&gt;You might find now a strange behaviour when using &lt;strong&gt;Ctrl-Left&lt;/strong&gt; and &lt;strong&gt;Ctrl-Right&lt;/strong&gt; keys to skip words using vim and also other&amp;nbsp;programs.&lt;/p&gt;
+&lt;p&gt;The best solution I found&amp;nbsp;was:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;:set term=xterm&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;~/.vim/vimrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;&lt;/blockquote&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;unbind-key -n C-Left&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;~/.byobu/keybindings.tmux
+&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;unbind-key -n C-Right&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;~/.byobu/keybindings.tmux
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;&lt;/blockquote&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;set-window-option -g xterm-keys on&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;~/.byobu/.tmux.conf
+&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;set -g terminal-overrides &amp;#39;xterm*:smcup@:rmcup@&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;~/.byobu/.tmux.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="references"&gt;References&lt;/h3&gt;
+&lt;p&gt;[1] &lt;a href="http://www.saltycrane.com/blog/2012/10/how-start-long-running-process-screen-and-detach-it/"&gt;http://www.saltycrane.com/blog/2012/10/how-start-long-running-process-screen-and-detach-it/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2] &lt;a href="http://tmux.sourceforge.net/"&gt;http://tmux.sourceforge.net/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[3] &lt;a href="http://byobu.co/documentation.html"&gt;http://byobu.co/documentation.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[4] &lt;a href="http://www.howtogeek.com/58487/how-to-easily-multitask-in-a-linux-terminal-with-byobu/"&gt;http://www.howtogeek.com/58487/how-to-easily-multitask-in-a-linux-terminal-with-byobu/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[5] &lt;a href="http://blog.smartlogicsolutions.com/2010/01/22/ubuntu-byobu-landscape/"&gt;http://blog.smartlogicsolutions.com/2010/01/22/ubuntu-byobu-landscape/&lt;/a&gt;&lt;/p&gt;</content><category term="Tools"/><category term="byobu"/><category term="terminal"/><category term="tmux"/><category term="ssh"/><category term="productivity"/></entry><entry><title>How to set up different versions of GCC</title><link href="https://alexsavio.github.io/setup-gcc-versions.html" rel="alternate"/><published>2014-06-03T11:00:00+02:00</published><updated>2014-06-03T11:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-06-03:/setup-gcc-versions.html</id><summary type="html">&lt;p&gt;How to set up different versions of &lt;span class="caps"&gt;GCC&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;When I need to change versions of software I use on Ubuntu, e.g., gcc and g++ and&amp;nbsp;Java.&lt;/p&gt;
+&lt;h3 id="update-alternatives"&gt;Update-alternatives&lt;/h3&gt;
+&lt;p&gt;A neat way to do it is using &lt;em&gt;update-alternatives&lt;/em&gt;. This how you have to do it with&amp;nbsp;gcc:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7
+sudo update-alternatives --config gcc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="references"&gt;References&lt;/h3&gt;
+&lt;p&gt;[1] &lt;a href="http://charette.no-ip.com:81/programming/2011-12-24_GCCv47/"&gt;http://charette.no-ip.com:81/programming/2011-12-24_GCCv47/&lt;/a&gt;&lt;/p&gt;</content><category term="Tools"/><category term="gcc"/><category term="ubuntu"/><category term="compiler"/><category term="linux"/></entry><entry><title>Using BibLatex with Lyx and JabRef</title><link href="https://alexsavio.github.io/biblatex_lyx_jabref_encoding.html" rel="alternate"/><published>2014-02-27T18:11:46+01:00</published><updated>2014-02-27T18:11:46+01:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2014-02-27:/biblatex_lyx_jabref_encoding.html</id><summary type="html">&lt;p&gt;Configuring BibLatex in Lyx to benefit of &lt;span class="caps"&gt;UTF&lt;/span&gt;-8&amp;nbsp;encoding&lt;/p&gt;</summary><content type="html">&lt;h3 id="introduction"&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;For publishing articles with Lyx I&amp;#8217;ve used Zotero, JabRef and Lyx during my PhD.
+I&amp;#8217;ve always had problems with the encoding of the BibTex files and ended up
+editing them in JabRef, removing/replacing strange&amp;nbsp;characters.&lt;/p&gt;
+&lt;p&gt;Today my beloved girlfriend (are you happy now?) indicated me
+&lt;a href="http://www.ctan.org/pkg/biblatex"&gt;BibLatex&lt;/a&gt;.
+She showed me that we can configure Lyx to use it through
+&lt;a href="http://biblatex-biber.sourceforge.net/"&gt;biber&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This is a list of steps that you should perform to be able to use BibLatex on&amp;nbsp;Lyx.&lt;/p&gt;
+&lt;h3 id="step-1-reconfigure-encodings-in-zotero-and-jabref"&gt;Step 1: Reconfigure encodings in Zotero and&amp;nbsp;JabRef&lt;/h3&gt;
+&lt;p&gt;Setup Zotero to export to &lt;span class="caps"&gt;UTF&lt;/span&gt;-8.&lt;/p&gt;
+&lt;p&gt;Setup JabRef to use the default encoding as &lt;span class="caps"&gt;UTF&lt;/span&gt;-8.&lt;/p&gt;
+&lt;h3 id="step-2-install-biblatex-and-biber"&gt;Step 2: Install biblatex and&amp;nbsp;biber&lt;/h3&gt;
+&lt;p&gt;In Ubuntu I installed the packages: &lt;em&gt;biblatex texlive-latex-extra&amp;nbsp;texlive-bibtex-extra&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id="step-3-create-the-biblatexmodule-file"&gt;Step 3: Create the biblatex.module&amp;nbsp;file&lt;/h3&gt;
+&lt;p&gt;Create a file named biblatex.module with the following&amp;nbsp;content:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#\DeclareLyXModule{Biblatex-citation-styles}&lt;/span&gt;
+&lt;span class="c1"&gt;#DescriptionBegin&lt;/span&gt;
+&lt;span class="c1"&gt;#A prerequisite for using the biblatex package. This module&lt;/span&gt;
+&lt;span class="c1"&gt;#enables the author/year citation styles without actually loading natbib.&lt;/span&gt;
+&lt;span class="c1"&gt;#Biblatex itself needs to be loaded manually. Cf.&lt;/span&gt;
+&lt;span class="c1"&gt;#http://wiki.lyx.org/BibTeX/Biblatex&lt;/span&gt;
+&lt;span class="c1"&gt;#DescriptionEnd&lt;/span&gt;
+
+&lt;span class="n"&gt;Format&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;
+
+&lt;span class="c1"&gt;# this is biblatex actually&lt;/span&gt;
+&lt;span class="n"&gt;Provides&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;natbib&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Put the file biblatex.module in the layouts folder in your user directory
+(Help→About LyX tells you where you can find this directory; in the latest versions of &lt;span class="caps"&gt;OSX&lt;/span&gt; the correct layouts folder is in the applications&amp;nbsp;folder).&lt;/p&gt;
+&lt;p&gt;In Ubuntu:&amp;nbsp;~/.lyx&lt;/p&gt;
+&lt;p&gt;Run Tools→Reconfigure, restart&amp;nbsp;LyX.&lt;/p&gt;
+&lt;h3 id="step-4-creating-the-lyx-file"&gt;Step 4: Creating the .lyx&amp;nbsp;file&lt;/h3&gt;
+&lt;h4 id="add-the-biblatex-module"&gt;Add the biblatex&amp;nbsp;module&lt;/h4&gt;
+&lt;p&gt;Add to &amp;#8220;Selected&amp;#8221; the module &amp;#8220;Biblatex-citation-styles&amp;#8221; from&amp;nbsp;Document→Settings→Modules.&lt;/p&gt;
+&lt;h4 id="load-biblatex-in-the-preamble"&gt;Load biblatex in the&amp;nbsp;preamble&lt;/h4&gt;
+&lt;p&gt;In the document preamble (Document→Settings→Preamble) you have to load biblatex manually,&amp;nbsp;with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="nx"&gt;usepackage&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;natbib&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;style&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;numeric&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;backend&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;biber&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;maxnames&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;doi&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;url&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;bibencoding&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;utf8&lt;/span&gt;&lt;span class="p"&gt;]{&lt;/span&gt;&lt;span class="nx"&gt;biblatex&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id="load-the-bibliography-in-the-preamble"&gt;Load the bibliography in the&amp;nbsp;preamble&lt;/h4&gt;
+&lt;p&gt;Load your bibliography database in the&amp;nbsp;preamble:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;\addbibresource{/home/alexandre/mybibs.bib}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You must load the databases must using \addbibresource&amp;nbsp;commands.&lt;/p&gt;
+&lt;p&gt;Please refer to the &lt;a href="http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf"&gt;biblatex documentation&lt;/a&gt; for further&amp;nbsp;options.&lt;/p&gt;
+&lt;h4 id="set-biber-as-the-bibtex-processor"&gt;Set biber as the BibTex&amp;nbsp;processor&lt;/h4&gt;
+&lt;p&gt;In  Document→Settings→Bibliography, set the Processor as&amp;nbsp;biber.&lt;/p&gt;
+&lt;h4 id="load-the-bibliography-in-a-note"&gt;Load the bibliography in a&amp;nbsp;note&lt;/h4&gt;
+&lt;p&gt;In the document, insert the BibTeX inset (Insert→List/&lt;span class="caps"&gt;TOC&lt;/span&gt;→BibTeX Bibliography&amp;#8230; ) in a LyX note or comment,
+such that LyX finds the citations, but no \bibliography command is output to&amp;nbsp;LaTeX.&lt;/p&gt;
+&lt;p&gt;It does not matter which style you chose here, so you can stick with &amp;#8220;plain&amp;#8221;.
+To use the citation dialog, you&amp;#8217;ll have to choose the correct databases (i.e. those you loaded above in item&amp;nbsp;(3)).&lt;/p&gt;
+&lt;p&gt;You must do this if you are going to use the citation dialog. I use JabRef to push the citations&amp;nbsp;instead.&lt;/p&gt;
+&lt;h4 id="put-the-printbibliography-command"&gt;Put the printbibliography&amp;nbsp;command&lt;/h4&gt;
+&lt;p&gt;In the document, enter \printbibliography in &lt;span class="caps"&gt;ERT&lt;/span&gt; (TeX mode) at the place where you want the bibliography to&amp;nbsp;appear.&lt;/p&gt;
+&lt;h4 id="view-the-file-in-pdf"&gt;View the file in &lt;span class="caps"&gt;PDF&lt;/span&gt;&lt;/h4&gt;
+&lt;p&gt;And this should do&amp;nbsp;it.&lt;/p&gt;
+&lt;h3 id="references"&gt;References&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://wiki.lyx.org/BibTeX/Tips"&gt;http://wiki.lyx.org/BibTeX/Tips&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://wiki.lyx.org/BibTeX/Biblatex"&gt;http://wiki.lyx.org/BibTeX/Biblatex&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://wiki.lyx.org/BibTeX/BiblatexStyles"&gt;http://wiki.lyx.org/BibTeX/BiblatexStyles&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The biblatex.module file: &lt;a href="http://wiki.lyx.org/uploads/BibTeX/biblatex.module"&gt;http://wiki.lyx.org/uploads/BibTeX/biblatex.module&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The bibtexall script: &lt;a href="http://wiki.lyx.org/uploads/BibTeX/bibtexall"&gt;http://wiki.lyx.org/uploads/BibTeX/bibtexall&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Tools"/><category term="latex"/><category term="lyx"/><category term="bibtex"/><category term="biblatex"/><category term="bibliography"/></entry></feed>

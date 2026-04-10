@@ -14,7 +14,7 @@
     <meta property="og:title" content="First Principles: Distributed Systems (Most of Yours Should Not Exist) — Alexandre Manhães Savio" />
     <meta property="og:description" content="Distributed systems thinking is drowning in inherited wisdom — microservices by default, horizontal scaling as a reflex, eventual consistency as a catchphrase. Strip it down to six irreducible truths and most of that architectural baggage falls away. The uncomfortable..." />
     <meta property="og:url" content="https://alexsavio.github.io/first-principles-distributed-systems.html" />
-    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2026-04-09" />    <meta property="article:section" content="Software Development" />    <meta property="article:tag" content="distributed-systems" />    <meta property="article:tag" content="first-principles" />    <meta property="article:tag" content="software-engineering" />    <meta property="article:tag" content="architecture" />    <meta property="article:tag" content="backend" />    <meta property="article:tag" content="scalability" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2026-04-09" />    <meta property="article:section" content="Engineering" />    <meta property="article:tag" content="first-principles" />    <meta property="article:tag" content="distributed-systems" />    <meta property="article:tag" content="architecture" />    <meta property="article:tag" content="microservices" />    <meta property="article:tag" content="scalability" />    <meta property="article:tag" content="backend" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="First Principles: Distributed Systems (Most of Yours Should Not Exist) — Alexandre Manhães Savio" />
     <meta name="twitter:description" content="Distributed systems thinking is drowning in inherited wisdom — microservices by default, horizontal scaling as a reflex, eventual consistency as a catchphrase. Strip it down to six irreducible truths and most of that architectural baggage falls away. The uncomfortable..." />
@@ -73,7 +73,7 @@
 <article class="article" itemscope itemtype="https://schema.org/BlogPosting">
     <header class="article__header">
         <p class="article__kicker">
-            <a href="https://alexsavio.github.io/category/software-development.html" itemprop="articleSection">Software Development</a>
+            <a href="https://alexsavio.github.io/category/engineering.html" itemprop="articleSection">Engineering</a>
         </p>
 
         <h1 class="article__title" itemprop="headline">First Principles: Distributed Systems (Most of Yours Should Not&nbsp;Exist)</h1>
@@ -86,25 +86,30 @@
         </div>
 
         <div class="article__meta" style="margin-top: 0.75rem;">
-                <a href="https://alexsavio.github.io/tag/distributed-systems.html" class="tag">distributed-systems</a>
                 <a href="https://alexsavio.github.io/tag/first-principles.html" class="tag">first-principles</a>
-                <a href="https://alexsavio.github.io/tag/software-engineering.html" class="tag">software-engineering</a>
+                <a href="https://alexsavio.github.io/tag/distributed-systems.html" class="tag">distributed-systems</a>
                 <a href="https://alexsavio.github.io/tag/architecture.html" class="tag">architecture</a>
-                <a href="https://alexsavio.github.io/tag/backend.html" class="tag">backend</a>
+                <a href="https://alexsavio.github.io/tag/microservices.html" class="tag">microservices</a>
                 <a href="https://alexsavio.github.io/tag/scalability.html" class="tag">scalability</a>
+                <a href="https://alexsavio.github.io/tag/backend.html" class="tag">backend</a>
         </div>
 
+        <p class="article__series">
+            <strong>Part of the First Principles series</strong> —
+            Part 5 of 5.
+            <br>← Previous: <a href="https://alexsavio.github.io/first-principles-data-engineering.html">First Principles: Data Engineering and&nbsp;ETLs</a>
+        </p>
     </header>
 
     <div class="article__content" itemprop="articleBody">
-        <h2><span class="caps">TL</span>;<span class="caps">DR</span></h2>
+        <h2 id="tldr"><span class="caps">TL</span>;<span class="caps">DR</span></h2>
 <p>Distributed systems thinking is drowning in inherited wisdom: microservices by default, horizontal scaling as a reflex, eventual consistency as a catchphrase. Strip the topic down to its irreducible truths, the six things that are actually provable, and most of that architectural baggage falls away. The uncomfortable conclusion: the first, cheapest, most reliable distributed system is the one you did not build. Everything else is a tax you should only pay when you can prove it buys you&nbsp;something.</p>
 <p><em>This is the fifth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what&#8217;s actually provable. Previous entries: <a href="https://alexsavio.github.io/first-principles-software-observability.html">Software Observability</a>, <a href="https://alexsavio.github.io/first-principles-software-design.html">Software Design</a>, <a href="https://alexsavio.github.io/first-principles-devops.html">DevOps</a>, and <a href="https://alexsavio.github.io/first-principles-data-engineering.html">Data Engineering</a>. Distributed systems felt like the right next target because few topics have a wider gap between what engineers repeat and what they&#8217;ve actually&nbsp;measured.</em></p>
 <hr>
-<h2>The Conventional&nbsp;View</h2>
+<h2 id="the-conventional-view">The Conventional&nbsp;View</h2>
 <p>Ask any backend engineer how to scale a system and the answer comes out reflexively: split the work across nodes, replicate for reliability, reach for consensus when you need agreement, accept that complexity is the price of scale. <em>&#8220;You need a distributed system&#8221;</em> has quietly become the default answer for any non-trivial backend. Microservices are &#8220;modern&#8221;. A monolith is &#8220;legacy&#8221;. Kubernetes is table&nbsp;stakes.</p>
 <p>This post is not about how to build a better service mesh. It is about whether you should be building one at all, and what distributed systems look like when you stop copying the architecture of a company 1,000× your size and reason forward from the things that are actually&nbsp;true.</p>
-<h2>What People Just&nbsp;Assume</h2>
+<h2 id="what-people-just-assume">What People Just&nbsp;Assume</h2>
 <p>Before you can tear something down, you have to name the inherited thinking. Here are the beliefs most engineers carry into distributed systems without ever having checked&nbsp;them:</p>
 <table>
 <thead>
@@ -179,7 +184,7 @@
 </tbody>
 </table>
 <p>The point of that table is not contrarianism. It is compression. Most of what engineers treat as &#8220;distributed systems knowledge&#8221; is a mix of convention dressed up as constraint and heuristics borrowed from companies operating at a scale you do not&nbsp;have.</p>
-<h2>What Actually Survives&nbsp;Scrutiny</h2>
+<h2 id="what-actually-survives-scrutiny">What Actually Survives&nbsp;Scrutiny</h2>
 <p>Six things remain once you strip the heuristics and the baggage. These are irreducible, true regardless of era, stack, or cloud&nbsp;provider.</p>
 <p><strong>1. The network is not a reliable communication medium.</strong> Packets are dropped, reordered, duplicated, and delayed. This is a property of shared infrastructure and the speed of light, not a bug you can engineer around. Every message you send may or may not arrive, may arrive late, and may arrive more than&nbsp;once.</p>
 <p><strong>2. You cannot distinguish a crashed node from a slow one.</strong> This is the famous <span class="caps">FLP</span> impossibility result in plain clothes. No timeout is &#8220;correct&#8221;. You are always choosing between declaring live nodes dead (false positive) and waiting forever on dead ones (false&nbsp;negative).</p>
@@ -188,7 +193,7 @@
 <p><strong>5. Failure modes multiply, they do not add.</strong> One machine at 99.9% uptime is straightforward. <em>N</em> machines each at 99.9% uptime gives you a failure probability that approaches certainty as <em>N</em> grows. Redundancy only helps if the failures are genuinely independent and the coordination layer is not itself the&nbsp;bottleneck.</p>
 <p><strong>6. State is the hard part, compute is trivial.</strong> Moving code across nodes is easy: it is just bytes. Moving or sharing state is where every hard problem lives: consistency, ordering, replication,&nbsp;recovery.</p>
 <p>That is the whole bedrock. Six statements. Notice what is <em>not</em> on the list: microservices, Kubernetes, consensus, eventual consistency, horizontal scaling. None of those are fundamental. They are tools, patterns, or rebrandings of organizational&nbsp;choices.</p>
-<h2>What Falls&nbsp;Away</h2>
+<h2 id="what-falls-away">What Falls&nbsp;Away</h2>
 <p>Once you stop at &#8220;only what is provably true&#8221;, the conventional architecture advice starts looking&nbsp;suspicious.</p>
 <ul>
 <li>
@@ -207,7 +212,7 @@
 <p><strong><span class="dquo">&#8220;</span><span class="caps">CAP</span> forces a binary choice.&#8221;</strong> <span class="caps">CAP</span> describes what happens <em>during a partition</em>. Most systems are not partitioned most of the time. The real tradeoff every day is latency vs. consistency (<span class="caps">PACELC</span>), and blast-radius vs. coordination&nbsp;cost.</p>
 </li>
 </ul>
-<h2>Rebuilt From&nbsp;Scratch</h2>
+<h2 id="rebuilt-from-scratch">Rebuilt From&nbsp;Scratch</h2>
 <p>If you only started from the six truths and never heard of Kubernetes, this is what you would&nbsp;design.</p>
 <p><strong>Default to one machine.</strong> The cheapest, fastest, most reliable distributed system is the one you did not build. Scale vertically until the machine itself is the bottleneck, not until your conference talk demands horizontal scaling. A single node has zero coordination cost, zero network unreliability, one clock, and trivially consistent&nbsp;state.</p>
 <p>And &#8220;one machine&#8221; in 2026 is not what it was in 2012. An <span class="caps">AWS</span> <code>m7i.48xlarge</code> gives you 192 vCPUs, 768 GiB of <span class="caps">RAM</span>, and 50 Gbps of network. If you need to go&nbsp;further, <code>u7in-32tb.224xlarge</code> offers 896 vCPUs and 32 TiB of <span class="caps">RAM</span>, enough to hold almost any <span class="caps">OLTP</span> working set entirely in memory. Most teams have never done the math on what actually fits on a single box because they never considered it an option. That is the assumption talking, not the&nbsp;hardware.</p>
@@ -235,7 +240,7 @@ flowchart LR
 </pre>
 
 <p>Nine round trips for one logical request. Half of them exist because somebody wanted a microservice on their résumé. This is the picture you should draw for every request path in your system. Most teams have never drawn&nbsp;it.</p>
-<h2>What Changes When You Think This&nbsp;Way</h2>
+<h2 id="what-changes-when-you-think-this-way">What Changes When You Think This&nbsp;Way</h2>
 <ul>
 <li><strong>Vertical scaling stops being a dirty word.</strong> The first question is not &#8220;how do we shard?&#8221;. It is &#8220;what does this look like on one very large machine with good&nbsp;observability?&#8221;.</li>
 <li><strong>Microservices become a last resort, not a first instinct.</strong> You adopt them when the team structure demands it (Conway&#8217;s Law) or when you have genuinely independent&nbsp;workloads.</li>
@@ -245,7 +250,7 @@ flowchart LR
 </ul>
 <p>Eli Bendersky&#8217;s <a href="https://eli.thegreenplace.net/2020/implementing-raft-part-0-introduction/">Raft implementation series</a> makes this point in plain language: Raft is &#8220;much better suited for coarse-grained distributed primitives, like implementing a lock server, electing leaders for higher-level protocols, replicating critical configuration data&#8221;. Not for user-facing transactional workloads. Not for the hot path of your <span class="caps">API</span>. Every Raft round trip writes to durable storage on a majority of replicas before a client hears back. That is the right price for etcd and Kubernetes coordination. It is the wrong price for&nbsp;your <code>/users/profile</code> endpoint.</p>
 <p>The complexity tax becomes visible. Most teams pay it and get nothing back because their workload never needed distribution in the first&nbsp;place.</p>
-<h2>When You Actually Need&nbsp;Distribution</h2>
+<h2 id="when-you-actually-need-distribution">When You Actually Need&nbsp;Distribution</h2>
 <p>To be fair to the other side: distribution is sometimes the right answer. Here are the only honest triggers. If none of them apply, you are paying the tax for no&nbsp;reason.</p>
 <ol>
 <li><strong>Your working set does not fit on one machine.</strong> Your database plus hot cache plus in-flight state cannot physically live on a single node, even a very large one. This is rarer than people think once you actually do the&nbsp;arithmetic.</li>
@@ -254,11 +259,11 @@ flowchart LR
 <li><strong>Your organisation genuinely requires independent deploys.</strong> Conway&#8217;s Law made flesh: multiple teams that must ship on independent cadences without coordinating every release. This is an organisational trigger, not a technical one, and it should be named as&nbsp;such.</li>
 </ol>
 <p>Notice what is <em>not</em> on the list: &#8220;we want to learn Kubernetes&#8221;, &#8220;everyone else is doing microservices&#8221;, &#8220;the architect diagram will look impressive in the design review&#8221;. Those are not engineering reasons. Those are social reasons dressed up as engineering&nbsp;ones.</p>
-<h2>The Honest Architectural&nbsp;Test</h2>
+<h2 id="the-honest-architectural-test">The Honest Architectural&nbsp;Test</h2>
 <p>Before your next design review, try one exercise. Draw your current architecture on a whiteboard. Then delete half the boxes, any half, and ask: <em>&#8220;what survives, and was the rest worth the coordination cost?&#8221;</em> If the answer is &#8220;most of the value survives&#8221;, the boxes you just deleted were baggage, not&nbsp;architecture.</p>
 <p>Distributed systems are not a badge of sophistication. They are an expensive last resort with well-understood failure modes and a coordination cost that grows faster than the benefit for most workloads. The engineers who ship boring, single-machine systems and scale them for years are not behind the curve. They are the ones who read the curve carefully and decided not to buy into somebody else&#8217;s scaling&nbsp;story.</p>
 <p>First principles thinking is not about rejecting everything popular. It is about refusing to pay for complexity you cannot justify. Next time someone on your team says &#8220;we need to split this into services&#8221;, ask them which of the six fundamentals forced that decision. If they cannot answer, you just found a box to&nbsp;delete.</p>
-<h2>References</h2>
+<h2 id="references">References</h2>
 <ol>
 <li><a href="https://en.wikipedia.org/wiki/Fallacies_of_distributed_computing">Fallacies of Distributed Computing</a>. Peter Deutsch&#8217;s original list, still&nbsp;correct.</li>
 <li><a href="https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf">Impossibility of Distributed Consensus with One Faulty Process (<span class="caps">FLP</span>)</a>. Fischer, Lynch, Paterson,&nbsp;1985.</li>
@@ -284,6 +289,36 @@ flowchart LR
             <a href="https://alexsavio.github.io/pages/work-with-me.html">work with me</a>.
         </div>
     </aside>
+
+    <section class="article__related" aria-labelledby="related-heading">
+        <h2 id="related-heading">You might also like</h2>
+        <ul class="article__related__list">
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-03-21T11:00:00+01:00">Mar 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-software-design.html">First Principles: Software&nbsp;Design</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-04-08T20:58:00+02:00">Apr 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-data-engineering.html">First Principles: Data Engineering and&nbsp;ETLs</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-03-30T12:00:00+02:00">Mar 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-devops.html">First Principles:&nbsp;DevOps</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-03-19T20:45:00+01:00">Mar 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-software-observability.html">First Principles: Software&nbsp;Observability</a>
+            </li>
+        </ul>
+    </section>
 
 </article>
         </div>

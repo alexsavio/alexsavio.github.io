@@ -484,6 +484,47 @@ pre {
     font-style: italic;
 }
 
+/* Related posts (powered by pelican-related-posts) */
+.article__related {
+    margin: var(--space-12) 0 var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--code-bg);
+}
+.article__related h2 {
+    margin: 0 0 var(--space-4);
+    font-size: var(--fs-lg);
+    font-weight: 600;
+}
+.article__related__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.article__related__list li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding: var(--space-2) 0;
+    border-bottom: 1px dotted var(--code-bg);
+    font-size: var(--fs-sm);
+}
+.article__related__list li:last-child { border-bottom: none; }
+.article__related__date {
+    flex-shrink: 0;
+    width: 7ch;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--muted-color);
+}
+.article__related__list a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+.article__related__list a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
 /* Article footer — byline + prev/next */
 .article__byline {
     display: flex;

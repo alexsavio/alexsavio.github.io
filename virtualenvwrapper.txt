@@ -1,7 +1,7 @@
 Title: How to create virtualenvs with Virtualenvwrapper
 Date: 2014-02-08 21:16:14
 Category: Python
-Tags: python, virtualenv, install
+Tags: python, virtualenv, virtualenvwrapper
 Slug: virtualenvwrapper
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com

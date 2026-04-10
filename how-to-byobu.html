@@ -14,7 +14,7 @@
     <meta property="og:title" content="How to use Byobu — Alexandre Manhães Savio" />
     <meta property="og:description" content="A short manual for Byobu and a list of its advantages." />
     <meta property="og:url" content="https://alexsavio.github.io/how-to-byobu.html" />
-    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2014-07-06" />    <meta property="article:section" content="SysAdmin" />    <meta property="article:tag" content="terminal" />    <meta property="article:tag" content="config" />    <meta property="article:tag" content="ssh" />    <meta property="article:tag" content="multi-tasking" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2014-07-06" />    <meta property="article:section" content="Tools" />    <meta property="article:tag" content="byobu" />    <meta property="article:tag" content="terminal" />    <meta property="article:tag" content="tmux" />    <meta property="article:tag" content="ssh" />    <meta property="article:tag" content="productivity" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="How to use Byobu — Alexandre Manhães Savio" />
     <meta name="twitter:description" content="A short manual for Byobu and a list of its advantages." />
@@ -73,7 +73,7 @@
 <article class="article" itemscope itemtype="https://schema.org/BlogPosting">
     <header class="article__header">
         <p class="article__kicker">
-            <a href="https://alexsavio.github.io/category/sysadmin.html" itemprop="articleSection">SysAdmin</a>
+            <a href="https://alexsavio.github.io/category/tools.html" itemprop="articleSection">Tools</a>
         </p>
 
         <h1 class="article__title" itemprop="headline">How to use&nbsp;Byobu</h1>
@@ -86,10 +86,11 @@
         </div>
 
         <div class="article__meta" style="margin-top: 0.75rem;">
+                <a href="https://alexsavio.github.io/tag/byobu.html" class="tag">byobu</a>
                 <a href="https://alexsavio.github.io/tag/terminal.html" class="tag">terminal</a>
-                <a href="https://alexsavio.github.io/tag/config.html" class="tag">config</a>
+                <a href="https://alexsavio.github.io/tag/tmux.html" class="tag">tmux</a>
                 <a href="https://alexsavio.github.io/tag/ssh.html" class="tag">ssh</a>
-                <a href="https://alexsavio.github.io/tag/multi-tasking.html" class="tag">multi-tasking</a>
+                <a href="https://alexsavio.github.io/tag/productivity.html" class="tag">productivity</a>
         </div>
 
     </header>
@@ -101,28 +102,28 @@ manage many terminals through just one. In summary, it is a terminal-based termi
 and connecting to your server every time you nedd another terminal, you can
 setup your server to run Byobu or tmux at the beginning of your session and have as many terminals as you need. Byobu also keeps terminal sessions alive after detaching from&nbsp;them.</p>
 <p>Byobu is an enhancement that connects to and uses Screen or tmux (you choose), but offers useful statistics and easy-to-use hotkeys for the basic&nbsp;commands.</p>
-<h2>Installing&nbsp;Byobu</h2>
+<h2 id="installing-byobu">Installing&nbsp;Byobu</h2>
 <p>In&nbsp;Ubuntu:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>apt-get<span class="w"> </span>install<span class="w"> </span>byobu.</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>apt-get<span class="w"> </span>install<span class="w"> </span>byobu.
+</code></pre></div>
 
 <p>Else take a look at <a href="http://byobu.co/downloads.html">http://byobu.co/downloads.html</a></p>
-<h2>Start&nbsp;Byobu</h2>
-<div class="highlight"><pre><span class="code-line"><span></span><code>byobu</span>
-<span class="code-line"></code></pre></div>
+<h2 id="start-byobu">Start&nbsp;Byobu</h2>
+<div class="highlight"><pre><span></span><code>byobu
+</code></pre></div>
 
-<h2>Configure Ubuntu to run Byobu from the&nbsp;beginning</h2>
-<div class="highlight"><pre><span class="code-line"><span></span><code>byobu-config</span>
-<span class="code-line"></code></pre></div>
+<h2 id="configure-ubuntu-to-run-byobu-from-the-beginning">Configure Ubuntu to run Byobu from the&nbsp;beginning</h2>
+<div class="highlight"><pre><span></span><code>byobu-config
+</code></pre></div>
 
 <p>Feel free to change&nbsp;anything.</p>
 <p>The important setting to change is: &#8220;<em>Byobu currently launches at login (toggle on)</em>&#8221;. Select that and press&nbsp;return.</p>
 <p>Now you can go back to the menu and exit byobu-config (tab to the exit choice and hit&nbsp;return).</p>
-<h2>Resume previous&nbsp;sessions</h2>
-<div class="highlight"><pre><span class="code-line"><span></span><code>byobu<span class="w"> </span>–r<span class="w"> </span>session_title</span>
-<span class="code-line"></code></pre></div>
+<h2 id="resume-previous-sessions">Resume previous&nbsp;sessions</h2>
+<div class="highlight"><pre><span></span><code>byobu<span class="w"> </span>–r<span class="w"> </span>session_title
+</code></pre></div>
 
-<h2>Hotkeys</h2>
+<h2 id="hotkeys">Hotkeys</h2>
 <p>Byobu has easy keybindings that use the function&nbsp;keys:</p>
 <ul>
 <li><strong>F2</strong>: Create a new&nbsp;window</li>
@@ -135,33 +136,33 @@ setup your server to run Byobu or tmux at the beginning of your session and have
 <li><strong>F9</strong>: Configuration Menu, can also be summoned by <strong>Ctrl+a</strong>, <strong>Ctrl+@</strong></li>
 <li><strong>F12</strong>: Lock current&nbsp;session</li>
 </ul>
-<h2>How detaching works or How to maintain a&nbsp;session</h2>
+<h2 id="how-detaching-works-or-how-to-maintain-a-session">How detaching works or How to maintain a&nbsp;session</h2>
 <p>Perform a short demo. Issue the&nbsp;command:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span><span class="w"> </span>hello</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span>hello
+</code></pre></div>
 
 <p>Now exit the session by pressing <strong>F6</strong> to detach from Byobu and then run: <em>exit</em>.</p>
 <p>Now <span class="caps">SSH</span> back into your machine.
 You can notice that the <em>echo hello</em> command is still on the&nbsp;screen.</p>
 <p>Detaching does not end your session, it gives you access to another session.
 That means you can log in, run a long running task, and then detach and come back later when you;ve finished the&nbsp;task.</p>
-<h2>Note for vim&nbsp;users</h2>
+<h2 id="note-for-vim-users">Note for vim&nbsp;users</h2>
 <p>You might find now a strange behaviour when using <strong>Ctrl-Left</strong> and <strong>Ctrl-Right</strong> keys to skip words using vim and also other&nbsp;programs.</p>
 <p>The best solution I found&nbsp;was:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;:set term=xterm&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.vim/vimrc</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;:set term=xterm&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.vim/vimrc
+</code></pre></div>
 
 <blockquote></blockquote>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;unbind-key -n C-Left&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/keybindings.tmux</span>
-<span class="code-line"><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;unbind-key -n C-Right&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/keybindings.tmux</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;unbind-key -n C-Left&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/keybindings.tmux
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;unbind-key -n C-Right&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/keybindings.tmux
+</code></pre></div>
 
 <blockquote></blockquote>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;set-window-option -g xterm-keys on&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/.tmux.conf</span>
-<span class="code-line"><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;set -g terminal-overrides &#39;xterm*:smcup@:rmcup@&#39;&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/.tmux.conf</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;set-window-option -g xterm-keys on&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/.tmux.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;set -g terminal-overrides &#39;xterm*:smcup@:rmcup@&#39;&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/.tmux.conf
+</code></pre></div>
 
-<h3>References</h3>
+<h3 id="references">References</h3>
 <p>[1] <a href="http://www.saltycrane.com/blog/2012/10/how-start-long-running-process-screen-and-detach-it/">http://www.saltycrane.com/blog/2012/10/how-start-long-running-process-screen-and-detach-it/</a></p>
 <p>[2] <a href="http://tmux.sourceforge.net/">http://tmux.sourceforge.net/</a></p>
 <p>[3] <a href="http://byobu.co/documentation.html">http://byobu.co/documentation.html</a></p>
@@ -180,6 +181,7 @@ That means you can log in, run a long running task, and then detach and come bac
             <a href="https://alexsavio.github.io/pages/work-with-me.html">work with me</a>.
         </div>
     </aside>
+
 
 </article>
         </div>

@@ -1,7 +1,7 @@
 Title: Git usage guidelines for team collaboration
 Date: 2020-06-11 12:00:00
-Category: Git
-Tags: git, collaboration, team
+Category: Tools
+Tags: git, workflow, collaboration
 Slug: git-collaboration-guidelines
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com

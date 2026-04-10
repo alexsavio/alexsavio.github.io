@@ -1,7 +1,7 @@
 Title: How to use Byobu
 Date: 2014-07-06 10:00:00
-Category: SysAdmin
-Tags: terminal, config, ssh, multi-tasking
+Category: Tools
+Tags: byobu, terminal, tmux, ssh, productivity
 Slug: how-to-byobu
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com

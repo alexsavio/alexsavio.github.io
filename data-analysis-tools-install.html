@@ -14,7 +14,7 @@
     <meta property="og:title" content="Installing common Python data analysis tools in virtualenv — Alexandre Manhães Savio" />
     <meta property="og:description" content="Installing Python data analysis tools" />
     <meta property="og:url" content="https://alexsavio.github.io/data-analysis-tools-install.html" />
-    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2014-04-26" />    <meta property="article:section" content="Python" />    <meta property="article:tag" content="python" />    <meta property="article:tag" content="virtualenv" />    <meta property="article:tag" content="data" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2014-04-26" />    <meta property="article:section" content="Python" />    <meta property="article:tag" content="python" />    <meta property="article:tag" content="virtualenv" />    <meta property="article:tag" content="numpy" />    <meta property="article:tag" content="scipy" />    <meta property="article:tag" content="data-analysis" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Installing common Python data analysis tools in virtualenv — Alexandre Manhães Savio" />
     <meta name="twitter:description" content="Installing Python data analysis tools" />
@@ -88,233 +88,235 @@
         <div class="article__meta" style="margin-top: 0.75rem;">
                 <a href="https://alexsavio.github.io/tag/python.html" class="tag">python</a>
                 <a href="https://alexsavio.github.io/tag/virtualenv.html" class="tag">virtualenv</a>
-                <a href="https://alexsavio.github.io/tag/data.html" class="tag">data</a>
+                <a href="https://alexsavio.github.io/tag/numpy.html" class="tag">numpy</a>
+                <a href="https://alexsavio.github.io/tag/scipy.html" class="tag">scipy</a>
+                <a href="https://alexsavio.github.io/tag/data-analysis.html" class="tag">data-analysis</a>
         </div>
 
     </header>
 
     <div class="article__content" itemprop="articleBody">
         <p>Tested on Ubuntu 13.10 and&nbsp;14.04.</p>
-<h3>Requirements</h3>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">apt</span><span class="o">-</span><span class="n">get</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">python</span><span class="o">-</span><span class="n">pip</span><span class="w"> </span><span class="n">python</span><span class="o">-</span><span class="n">dev</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="n">sudo</span><span class="w"> </span><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">virtualenv</span><span class="w"> </span><span class="n">virtualenvwrapper</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="n">echo</span><span class="w"> </span><span class="s2">&quot;export WORKON_HOME=~/envs&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span></span>
-<span class="code-line"><span class="n">echo</span><span class="w"> </span><span class="s2">&quot;source /usr/local/bin/virtualenvwrapper.sh&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span></span>
-<span class="code-line"><span class="n">echo</span><span class="w"> </span><span class="s2">&quot;export PIP_REQUIRE_VIRTUALENV=true&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span></span>
-<span class="code-line"><span class="n">source</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span></span>
-<span class="code-line"></code></pre></div>
+<h3 id="requirements">Requirements</h3>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">apt</span><span class="o">-</span><span class="n">get</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">python</span><span class="o">-</span><span class="n">pip</span><span class="w"> </span><span class="n">python</span><span class="o">-</span><span class="n">dev</span>
 
-<h3>Create a virtual&nbsp;environment</h3>
-<div class="highlight"><pre><span class="code-line"><span></span><code>mkvirtualenv &lt;env_name&gt; -p &lt;path_to_python&gt;*</span>
-<span class="code-line"></span>
-<span class="code-line">*&lt;path_to_python&gt; can be either /usr/bin/python2 or /usr/bin/python3,</span>
-<span class="code-line">or whatever you need.</span>
-<span class="code-line"></code></pre></div>
+<span class="n">sudo</span><span class="w"> </span><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">virtualenv</span><span class="w"> </span><span class="n">virtualenvwrapper</span>
 
-<h3>Install&nbsp;modules</h3>
+<span class="n">echo</span><span class="w"> </span><span class="s2">&quot;export WORKON_HOME=~/envs&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span>
+<span class="n">echo</span><span class="w"> </span><span class="s2">&quot;source /usr/local/bin/virtualenvwrapper.sh&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span>
+<span class="n">echo</span><span class="w"> </span><span class="s2">&quot;export PIP_REQUIRE_VIRTUALENV=true&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span>
+<span class="n">source</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span>
+</code></pre></div>
+
+<h3 id="create-a-virtual-environment">Create a virtual&nbsp;environment</h3>
+<div class="highlight"><pre><span></span><code>mkvirtualenv &lt;env_name&gt; -p &lt;path_to_python&gt;*
+
+*&lt;path_to_python&gt; can be either /usr/bin/python2 or /usr/bin/python3,
+or whatever you need.
+</code></pre></div>
+
+<h3 id="install-modules">Install&nbsp;modules</h3>
 <p><a href="http://ipython.org/">IPython</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">ipython</span><span class="o">[</span><span class="n">all</span><span class="o">]</span></span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">ipython</span><span class="o">[</span><span class="n">all</span><span class="o">]</span>
+</code></pre></div>
 
 <p><a href="http://www.numpy.org/">Numpy</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>pip install numpy</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>pip install numpy
+</code></pre></div>
 
 <p>Test&nbsp;numpy</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">nose</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="n">python</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="s1">&#39;import numpy; numpy.test()&#39;</span></span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">nose</span>
+
+<span class="n">python</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="s1">&#39;import numpy; numpy.test()&#39;</span>
+</code></pre></div>
 
 <p><a href="http://cython.org/">Cython</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>pip install cython</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>pip install cython
+</code></pre></div>
 
 <p><a href="http://www.scipy.org/">Scipy</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get build-dep python-scipy</span>
-<span class="code-line"></span>
-<span class="code-line">sudo apt-get install libblas-dev liblapack-dev</span>
-<span class="code-line"></span>
-<span class="code-line">pip install scipy</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt-get build-dep python-scipy
+
+sudo apt-get install libblas-dev liblapack-dev
+
+pip install scipy
+</code></pre></div>
 
 <p><a href="http://docs.python.org/3.3/library/readline.html">Readline</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get install libncurses5-dev</span>
-<span class="code-line"></span>
-<span class="code-line">pip install readline</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt-get install libncurses5-dev
+
+pip install readline
+</code></pre></div>
 
 <p>Other&nbsp;dependencies</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>pip install python-dateutil sphinx pygments tornado</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>pip install python-dateutil sphinx pygments tornado
+</code></pre></div>
 
-<h3>Graphical libraries for <span class="caps">GUI</span> building and IPython <span class="caps">QT</span>&nbsp;console</h3>
-<h4>You can either install them inside the virtual&nbsp;environment:</h4>
-<div class="highlight"><pre><span class="code-line"><span></span><code> pip install pyside</span>
-<span class="code-line"></code></pre></div>
+<h3 id="graphical-libraries-for-gui-building-and-ipython-qt-console">Graphical libraries for <span class="caps">GUI</span> building and IPython <span class="caps">QT</span>&nbsp;console</h3>
+<h4 id="you-can-either-install-them-inside-the-virtual-environment">You can either install them inside the virtual&nbsp;environment:</h4>
+<div class="highlight"><pre><span></span><code> pip install pyside
+</code></pre></div>
 
 <p>You must install PyQt4&nbsp;globally:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code> sudo apt-get install python3-pyqt4 python3-sip python-qt4-dev</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code> sudo apt-get install python3-pyqt4 python3-sip python-qt4-dev
+</code></pre></div>
 
 <p>or</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code> sudo apt-get install python-pyqt4 python-sip python-qt4-dev</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code> sudo apt-get install python-pyqt4 python-sip python-qt4-dev
+</code></pre></div>
 
-<h4>I recommend installing them globally then linking from the virtual&nbsp;environment:</h4>
+<h4 id="i-recommend-installing-them-globally-then-linking-from-the-virtual-environment">I recommend installing them globally then linking from the virtual&nbsp;environment:</h4>
 <p>First install&nbsp;them:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get install python3-pyqt4 python3-pyside python3-sip</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt-get install python3-pyqt4 python3-pyside python3-sip
+</code></pre></div>
 
 <p>or</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get install python-qt4 python-pyside python-sip python-qt4-dev</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt-get install python-qt4 python-pyside python-sip python-qt4-dev
+</code></pre></div>
 
 <p>Then link them (with the virtualenv&nbsp;activated):</p>
 <p>In [3] we can see a script to link any library to the virtual environment (save
 it in, e.g. symlink_pyqt4_and_sip.sh or ${WORKON_HOME}/postmkvirtualenv and
 execute&nbsp;it):</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="code-line"><span class="normal"> 1</span></span>
-<span class="code-line"><span class="normal"> 2</span></span>
-<span class="code-line"><span class="normal"> 3</span></span>
-<span class="code-line"><span class="normal"> 4</span></span>
-<span class="code-line"><span class="normal"> 5</span></span>
-<span class="code-line"><span class="normal"> 6</span></span>
-<span class="code-line"><span class="normal"> 7</span></span>
-<span class="code-line"><span class="normal"> 8</span></span>
-<span class="code-line"><span class="normal"> 9</span></span>
-<span class="code-line"><span class="normal">10</span></span>
-<span class="code-line"><span class="normal">11</span></span>
-<span class="code-line"><span class="normal">12</span></span>
-<span class="code-line"><span class="normal">13</span></span>
-<span class="code-line"><span class="normal">14</span></span>
-<span class="code-line"><span class="normal">15</span></span>
-<span class="code-line"><span class="normal">16</span></span>
-<span class="code-line"><span class="normal">17</span></span>
-<span class="code-line"><span class="normal">18</span></span>
-<span class="code-line"><span class="normal">19</span></span>
-<span class="code-line"><span class="normal">20</span></span>
-<span class="code-line"><span class="normal">21</span></span>
-<span class="code-line"><span class="normal">22</span></span>
-<span class="code-line"><span class="normal">23</span></span>
-<span class="code-line"><span class="normal">24</span></span>
-<span class="code-line"><span class="normal">25</span></span>
-<span class="code-line"><span class="normal">26</span></span>
-<span class="code-line"><span class="normal">27</span></span>
-<span class="code-line"><span class="normal">28</span></span>
-<span class="code-line"><span class="normal">29</span></span>
-<span class="code-line"><span class="normal">30</span></span>
-<span class="code-line"><span class="normal">31</span></span>
-<span class="code-line"><span class="normal">32</span></span>
-<span class="code-line"><span class="normal">33</span></span>
-<span class="code-line"><span class="normal">34</span></span>
-<span class="code-line"><span class="normal">35</span></pre></div></td><td class="code"><div><pre><span class="code-line"><span></span><code><span class="ch">#!/bin/bash</span></span>
-<span class="code-line"><span class="c1"># This hook is executed after a new virtualenv is activated.</span></span>
-<span class="code-line"><span class="c1"># ~/.virtualenvs/postmkvirtualenv</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="k">function</span><span class="w"> </span>find_real_lib<span class="w"> </span><span class="o">{</span></span>
-<span class="code-line"><span class="w">    </span><span class="nv">syspy</span><span class="o">=</span><span class="nv">$1</span></span>
-<span class="code-line"><span class="w">    </span><span class="nv">libname</span><span class="o">=</span><span class="nv">$2</span></span>
-<span class="code-line"><span class="w">    </span><span class="nv">syspath</span><span class="o">=</span><span class="k">$(</span><span class="nv">$syspy</span><span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print(&#39; &#39;.join(sys.path).strip())&quot;</span><span class="k">)</span></span>
-<span class="code-line"><span class="w">    </span><span class="k">for</span><span class="w"> </span>libdir<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$syspath</span><span class="p">;</span><span class="w"> </span><span class="k">do</span></span>
-<span class="code-line"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-e<span class="w"> </span><span class="nv">$libdir</span>/<span class="nv">$libname</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span></span>
-<span class="code-line"><span class="w">            </span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$3</span><span class="s2">=</span><span class="nv">$libdir</span><span class="s2">/</span><span class="nv">$libname</span><span class="s2">&quot;</span></span>
-<span class="code-line"><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="m">0</span></span>
-<span class="code-line"><span class="w">        </span><span class="k">fi</span></span>
-<span class="code-line"><span class="w">    </span><span class="k">done</span></span>
-<span class="code-line"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">1</span></span>
-<span class="code-line"><span class="o">}</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="nv">libs</span><span class="o">=(</span><span class="w"> </span>PyQt4<span class="w"> </span>sip.so<span class="w"> </span>PySide<span class="w"> </span>sip.cpython-34m-x86_64-linux-gnu.so<span class="w"> </span><span class="o">)</span></span>
-<span class="code-line"><span class="c1">#other_libs = ( vtk cairo )</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="nv">python_version</span><span class="o">=</span>python<span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print (str(sys.version_info[0])+&#39;.&#39;+str(sys.version_info[1]))&quot;</span><span class="k">)</span></span>
-<span class="code-line"><span class="nv">var</span><span class="o">=(</span><span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>-a<span class="w"> </span><span class="nv">$python_version</span><span class="k">)</span><span class="w"> </span><span class="o">)</span></span>
-<span class="code-line"><span class="nv">syspy</span><span class="o">=</span><span class="si">${</span><span class="nv">var</span><span class="p">[-1]</span><span class="si">}</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="nv">get_python_lib_cmd</span><span class="o">=</span><span class="s2">&quot;from distutils.sysconfig import get_python_lib; print (get_python_lib())&quot;</span></span>
-<span class="code-line"><span class="nv">lib_virtualenv_path</span><span class="o">=</span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$get_python_lib_cmd</span><span class="s2">&quot;</span><span class="k">)</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="k">for</span><span class="w"> </span>lib<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">libs</span><span class="p">[@]</span><span class="si">}</span></span>
-<span class="code-line"><span class="k">do</span></span>
-<span class="code-line"><span class="w">    </span><span class="nv">libsyspath</span><span class="o">=</span><span class="s1">&#39;&#39;</span></span>
-<span class="code-line"><span class="w">    </span>find_real_lib<span class="w"> </span><span class="nv">$syspy</span><span class="w"> </span><span class="nv">$lib</span><span class="w"> </span>libsyspath</span>
-<span class="code-line"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span></span>
-<span class="code-line"><span class="w">        </span>ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$libsyspath</span><span class="w"> </span><span class="nv">$lib_virtualenv_path</span>/<span class="nv">$lib</span></span>
-<span class="code-line"><span class="w">    </span><span class="k">fi</span></span>
-<span class="code-line"><span class="k">done</span></span>
-<span class="code-line"></code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># This hook is executed after a new virtualenv is activated.</span>
+<span class="c1"># ~/.virtualenvs/postmkvirtualenv</span>
 
-<h3>Other interesting&nbsp;modules</h3>
+<span class="k">function</span><span class="w"> </span>find_real_lib<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nv">syspy</span><span class="o">=</span><span class="nv">$1</span>
+<span class="w">    </span><span class="nv">libname</span><span class="o">=</span><span class="nv">$2</span>
+<span class="w">    </span><span class="nv">syspath</span><span class="o">=</span><span class="k">$(</span><span class="nv">$syspy</span><span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print(&#39; &#39;.join(sys.path).strip())&quot;</span><span class="k">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>libdir<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$syspath</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-e<span class="w"> </span><span class="nv">$libdir</span>/<span class="nv">$libname</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$3</span><span class="s2">=</span><span class="nv">$libdir</span><span class="s2">/</span><span class="nv">$libname</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="o">}</span>
+
+<span class="nv">libs</span><span class="o">=(</span><span class="w"> </span>PyQt4<span class="w"> </span>sip.so<span class="w"> </span>PySide<span class="w"> </span>sip.cpython-34m-x86_64-linux-gnu.so<span class="w"> </span><span class="o">)</span>
+<span class="c1">#other_libs = ( vtk cairo )</span>
+
+<span class="nv">python_version</span><span class="o">=</span>python<span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print (str(sys.version_info[0])+&#39;.&#39;+str(sys.version_info[1]))&quot;</span><span class="k">)</span>
+<span class="nv">var</span><span class="o">=(</span><span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>-a<span class="w"> </span><span class="nv">$python_version</span><span class="k">)</span><span class="w"> </span><span class="o">)</span>
+<span class="nv">syspy</span><span class="o">=</span><span class="si">${</span><span class="nv">var</span><span class="p">[-1]</span><span class="si">}</span>
+
+<span class="nv">get_python_lib_cmd</span><span class="o">=</span><span class="s2">&quot;from distutils.sysconfig import get_python_lib; print (get_python_lib())&quot;</span>
+<span class="nv">lib_virtualenv_path</span><span class="o">=</span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$get_python_lib_cmd</span><span class="s2">&quot;</span><span class="k">)</span>
+
+<span class="k">for</span><span class="w"> </span>lib<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">libs</span><span class="p">[@]</span><span class="si">}</span>
+<span class="k">do</span>
+<span class="w">    </span><span class="nv">libsyspath</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span>find_real_lib<span class="w"> </span><span class="nv">$syspy</span><span class="w"> </span><span class="nv">$lib</span><span class="w"> </span>libsyspath
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$libsyspath</span><span class="w"> </span><span class="nv">$lib_virtualenv_path</span>/<span class="nv">$lib</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="k">done</span>
+</code></pre></div></td></tr></table></div>
+
+<h3 id="other-interesting-modules">Other interesting&nbsp;modules</h3>
 <p><a href="http://matplotlib.org/">matplotlib</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get build-dep python-matplotlib</span>
-<span class="code-line"></span>
-<span class="code-line">pip install pyparsing</span>
-<span class="code-line"></span>
-<span class="code-line">pip install matplotlib</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt-get build-dep python-matplotlib
+
+pip install pyparsing
+
+pip install matplotlib
+</code></pre></div>
 
 <p><a href="http://scikit-image.org/">scikit-image</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>pip install scikit-image</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>pip install scikit-image
+</code></pre></div>
 
 <p><a href="http://scikit-learn.org">scikit-learn</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>pip install scikit-learn</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>pip install scikit-learn
+</code></pre></div>
 
 <p><a href="https://github.com/scikit-fuzzy/scikit-fuzzy">scikit-fuzzy</a></p>
 <p><a href="http://pandas.pydata.org/">Pandas</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get install libhdf5-dev</span>
-<span class="code-line"></span>
-<span class="code-line">pip install numexpr</span>
-<span class="code-line">pip install tables</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt-get install libhdf5-dev
+
+pip install numexpr
+pip install tables
+</code></pre></div>
 
 <p>If you have problems importing tables, it might help downloading and compiling the <a href="http://www.hdfgroup.org/HDF5/release/obtainsrc.html"><span class="caps">HDF5</span> library</a>.</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>pip install pandas</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>pip install pandas
+</code></pre></div>
 
 <p><a href="http://www.h5py.org/">h5py</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>sudo apt-get install libhdf5-dev</span>
-<span class="code-line"></span>
-<span class="code-line">pip install h5py</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>sudo apt-get install libhdf5-dev
+
+pip install h5py
+</code></pre></div>
 
 <p><a href="http://patsy.readthedocs.org/en/latest/">patsy</a> and <a href="http://statsmodels.sourceforge.net/">statsmodels</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>pip install patsy</span>
-<span class="code-line">pip install statsmodels</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>pip install patsy
+pip install statsmodels
+</code></pre></div>
 
 <p><a href="http://pymc-devs.github.io/pymc/">pymc</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>pip install pymc</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>pip install pymc
+</code></pre></div>
 
-<h3>Speed up&nbsp;execution</h3>
+<h3 id="speed-up-execution">Speed up&nbsp;execution</h3>
 <p><a href="https://pypi.python.org/pypi/Bottleneck">bottleneck</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>pip install bottleneck</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>pip install bottleneck
+</code></pre></div>
 
 <p><a href="https://github.com/twiecki/CythonGSL">cythongsl</a>
  <a href="http://nbviewer.ipython.org/github/twiecki/CythonGSL/blob/master/examples/cython_gsl_ipythonnb.ipynb">cythongsl-demo</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>pip install cythongsl</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>pip install cythongsl
+</code></pre></div>
 
-<h3>Neuroscience&nbsp;tools:</h3>
+<h3 id="neuroscience-tools">Neuroscience&nbsp;tools:</h3>
 <p><a href="http://nipy.org/nibabel/">Nibabel</a></p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>pip install nibabel</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>pip install nibabel
+</code></pre></div>
 
 <p><a href="http://nipy.org/">Nipy</a>&nbsp;Dependencies:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>pip install sphinx sympy networkx traits</span>
-<span class="code-line"></span>
-<span class="code-line">pip install nipy</span>
-<span class="code-line"></span>
-<span class="code-line">pip install nipype dipy nitime</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>pip install sphinx sympy networkx traits
 
-<h3>References</h3>
+pip install nipy
+
+pip install nipype dipy nitime
+</code></pre></div>
+
+<h3 id="references">References</h3>
 <ol>
 <li>
 <p><a href="http://www.cs.dartmouth.edu/~nfoti/blog/blog/2012/07/17/setting-up-
@@ -340,6 +342,36 @@ virtualenv-for-data-analysis-on-osx/">http://www.cs.dartmouth.edu/~nfoti/blog/bl
             <a href="https://alexsavio.github.io/pages/work-with-me.html">work with me</a>.
         </div>
     </aside>
+
+    <section class="article__related" aria-labelledby="related-heading">
+        <h2 id="related-heading">You might also like</h2>
+        <ul class="article__related__list">
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2014-04-08T22:00:00+02:00">Apr 2014</time>
+                </span>
+                <a href="https://alexsavio.github.io/numpy_scipy_mkl.html">Compile Numpy and Scipy against Intel <span class="caps">MKL</span></a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2014-02-08T21:16:14+01:00">Feb 2014</time>
+                </span>
+                <a href="https://alexsavio.github.io/virtualenvwrapper.html">How to create virtualenvs with&nbsp;Virtualenvwrapper</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-01-18T00:00:00+01:00">Jan 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/direnv-dotenv-envrc.html">Taming Your Dev Chaos with direnv, .env, and .envrc (Plus a Sneak Peek at&nbsp;mise-en-place)</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2015-05-14T19:11:46+02:00">May 2015</time>
+                </span>
+                <a href="https://alexsavio.github.io/gspread_oauth2client_intro.html">Access Google Spreadsheets using gspread and&nbsp;OAuth2Client</a>
+            </li>
+        </ul>
+    </section>
 
 </article>
         </div>

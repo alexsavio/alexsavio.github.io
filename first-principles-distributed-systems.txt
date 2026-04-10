@@ -1,8 +1,9 @@
 Title: First Principles: Distributed Systems (Most of Yours Should Not Exist)
 Date: 2026-04-09 18:00:00
-Category: Software Development
-Tags: distributed-systems, first-principles, software-engineering, architecture, backend, scalability
+Category: Engineering
+Tags: first-principles, distributed-systems, architecture, microservices, scalability, backend
 Slug: first-principles-distributed-systems
+Series: First Principles
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
 Summary: Distributed systems thinking is drowning in inherited wisdom — microservices by default, horizontal scaling as a reflex, eventual consistency as a catchphrase. Strip it down to six irreducible truths and most of that architectural baggage falls away. The uncomfortable conclusion: the first, cheapest, most reliable distributed system is the one you did not build.

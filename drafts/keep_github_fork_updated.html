@@ -14,7 +14,7 @@
     <meta property="og:title" content="How to keep a GitHub fork updated — Alexandre Manhães Savio" />
     <meta property="og:description" content="How to keep a GitHub fork updated" />
     <meta property="og:url" content="https://alexsavio.github.io/drafts/keep_github_fork_updated.html" />
-    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2014-05-30" />    <meta property="article:section" content="Software" />    <meta property="article:tag" content="git" />    <meta property="article:tag" content="unix" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2014-05-30" />    <meta property="article:section" content="Tools" />    <meta property="article:tag" content="git" />    <meta property="article:tag" content="github" />    <meta property="article:tag" content="fork" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="How to keep a GitHub fork updated — Alexandre Manhães Savio" />
     <meta name="twitter:description" content="How to keep a GitHub fork updated" />
@@ -73,7 +73,7 @@
 <article class="article" itemscope itemtype="https://schema.org/BlogPosting">
     <header class="article__header">
         <p class="article__kicker">
-            <a href="https://alexsavio.github.io/category/software.html" itemprop="articleSection">Software</a>
+            <a href="https://alexsavio.github.io/category/tools.html" itemprop="articleSection">Tools</a>
         </p>
 
         <h1 class="article__title" itemprop="headline">How to keep a GitHub fork&nbsp;updated</h1>
@@ -87,38 +87,39 @@
 
         <div class="article__meta" style="margin-top: 0.75rem;">
                 <a href="https://alexsavio.github.io/tag/git.html" class="tag">git</a>
-                <a href="https://alexsavio.github.io/tag/unix.html" class="tag">unix</a>
+                <a href="https://alexsavio.github.io/tag/github.html" class="tag">github</a>
+                <a href="https://alexsavio.github.io/tag/fork.html" class="tag">fork</a>
         </div>
 
     </header>
 
     <div class="article__content" itemprop="articleBody">
         <p>Keep a forked repository of <strong>git/git</strong> like <strong>alexsavio/git</strong>&nbsp;updated:</p>
-<h3>Clone the forked&nbsp;repo</h3>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">```</span><span class="n">bash</span></span>
-<span class="code-line"><span class="n">git</span><span class="w"> </span><span class="n">clone</span><span class="w"> </span><span class="n">git</span><span class="nv">@github</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="n">alexsavio</span><span class="o">/</span><span class="n">git</span><span class="p">.</span><span class="n">git</span></span>
-<span class="code-line"><span class="n">cd</span><span class="w"> </span><span class="n">git</span></span>
-<span class="code-line"><span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">add</span><span class="w"> </span><span class="n">upstream</span><span class="w"> </span><span class="n">git</span><span class="nv">@github</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="n">git</span><span class="o">/</span><span class="n">git</span><span class="p">.</span><span class="n">git</span></span>
-<span class="code-line"><span class="err">```</span></span>
-<span class="code-line"></code></pre></div>
+<h3 id="clone-the-forked-repo">Clone the forked&nbsp;repo</h3>
+<div class="highlight"><pre><span></span><code><span class="err">```</span><span class="n">bash</span>
+<span class="n">git</span><span class="w"> </span><span class="n">clone</span><span class="w"> </span><span class="n">git</span><span class="nv">@github</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="n">alexsavio</span><span class="o">/</span><span class="n">git</span><span class="p">.</span><span class="n">git</span>
+<span class="n">cd</span><span class="w"> </span><span class="n">git</span>
+<span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">add</span><span class="w"> </span><span class="n">upstream</span><span class="w"> </span><span class="n">git</span><span class="nv">@github</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="n">git</span><span class="o">/</span><span class="n">git</span><span class="p">.</span><span class="n">git</span>
+<span class="err">```</span>
+</code></pre></div>
 
-<h3>Update&nbsp;it</h3>
+<h3 id="update-it">Update&nbsp;it</h3>
 <p>To update the forked repo from the local <strong>master</strong>&nbsp;branch:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>```bash</span>
-<span class="code-line">git fetch upstream</span>
-<span class="code-line">git rebase upstream/master</span>
-<span class="code-line">```</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>```bash
+git fetch upstream
+git rebase upstream/master
+```
+</code></pre></div>
 
-<h3>Commit rights&nbsp;upstream</h3>
+<h3 id="commit-rights-upstream">Commit rights&nbsp;upstream</h3>
 <p>If you also have commit rights to the upstream repo, you can create a
 local <strong>upstream</strong> branch and do work that will go upstream&nbsp;there.</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>```bash</span>
-<span class="code-line">git checkout -b upstream upstream/master</span>
-<span class="code-line">```</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>```bash
+git checkout -b upstream upstream/master
+```
+</code></pre></div>
 
-<h4>References</h4>
+<h4 id="references">References</h4>
 <p>[1]<a href="http://robots.thoughtbot.com/keeping-a-github-fork-updated">http://robots.thoughtbot.com/keeping-a-github-fork-updated</a></p>
     </div>
 
@@ -133,6 +134,24 @@ local <strong>upstream</strong> branch and do work that will go upstream&nbsp;th
             <a href="https://alexsavio.github.io/pages/work-with-me.html">work with me</a>.
         </div>
     </aside>
+
+    <section class="article__related" aria-labelledby="related-heading">
+        <h2 id="related-heading">You might also like</h2>
+        <ul class="article__related__list">
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2020-06-11T12:00:00+02:00">Jun 2020</time>
+                </span>
+                <a href="https://alexsavio.github.io/git-collaboration-guidelines.html">Git usage guidelines for team&nbsp;collaboration</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2017-12-30T12:28:00+01:00">Dec 2017</time>
+                </span>
+                <a href="https://alexsavio.github.io/git-cleanup-bfg.html">Remove big files from a git&nbsp;repository</a>
+            </li>
+        </ul>
+    </section>
 
 </article>
         </div>

@@ -14,7 +14,7 @@
     <meta property="og:title" content="Testing Python pipelining modules for a simple neuroimaging task — Alexandre Manhães Savio" />
     <meta property="og:description" content="Here I show examples of using different pipeline/workflow definition modules for controlled parallel execution of a simple neuro-imaging task based on a command line." />
     <meta property="og:url" content="https://alexsavio.github.io/drafts/test_python_neuroimaging_pipelining.html" />
-    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2015-08-28" />    <meta property="article:section" content="Python" />    <meta property="article:tag" content="python" />    <meta property="article:tag" content="neuroimage" />    <meta property="article:tag" content="pipeline" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2015-08-28" />    <meta property="article:section" content="Python" />    <meta property="article:tag" content="python" />    <meta property="article:tag" content="neuroimaging" />    <meta property="article:tag" content="pipelines" />    <meta property="article:tag" content="nipype" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Testing Python pipelining modules for a simple neuroimaging task — Alexandre Manhães Savio" />
     <meta name="twitter:description" content="Here I show examples of using different pipeline/workflow definition modules for controlled parallel execution of a simple neuro-imaging task based on a command line." />
@@ -87,23 +87,24 @@
 
         <div class="article__meta" style="margin-top: 0.75rem;">
                 <a href="https://alexsavio.github.io/tag/python.html" class="tag">python</a>
-                <a href="https://alexsavio.github.io/tag/neuroimage.html" class="tag">neuroimage</a>
-                <a href="https://alexsavio.github.io/tag/pipeline.html" class="tag">pipeline</a>
+                <a href="https://alexsavio.github.io/tag/neuroimaging.html" class="tag">neuroimaging</a>
+                <a href="https://alexsavio.github.io/tag/pipelines.html" class="tag">pipelines</a>
+                <a href="https://alexsavio.github.io/tag/nipype.html" class="tag">nipype</a>
         </div>
 
     </header>
 
     <div class="article__content" itemprop="articleBody">
-        <h2>Introduction</h2>
+        <h2 id="introduction">Introduction</h2>
 <p>Current neuroimaging software offer users an incredible opportunity to analyze data using a variety of different algorithms.
 However, this has resulted in a heterogeneous collection of specialized applications without transparent interoperability or a uniform operating interface. In addition, the growth of the datasets makes the use of a computer cluster indispensable, which creates the need of task-dependency checks for finer grain parallel task splitting for easier&nbsp;automatization.</p>
 <p>I have programmed brain magnetic resonance image (<span class="caps">MRI</span>) processing pipelines and tasks in Bash, Matlab, R and Python. Most of them were hard coded, most of the code base is hardly reproducible and not reusable.
 In summary, I&#8217;m looking for an existing or a good module that allows to define pipelines made of Python functions and command line call tasks and run it in a computer cluster or a multi-core workstation with automatic task-dependency checks. Preferably on Python &gt;=&nbsp;3.4.</p>
 <p><strong>Note:</strong> <em>I will be updating this post adding more&nbsp;experiments.</em></p>
-<h2>Materials</h2>
+<h2 id="materials">Materials</h2>
 <p>I will use a public available database that I will name <a href="http://fcon_1000.projects.nitrc.org/indi/retro/cobre.html"><span class="caps">COBRE</span></a>.
 This database consist of raw anatomical (T1) and functional (fMRI) <span class="caps">MR</span> data from 72 patients with Schizophrenia and 75 healthy controls (ages ranging from 18 to 65 in each group). For further reference, I have it downloaded&nbsp;in <code>~/data/cobre</code>.</p>
-<h3>Method</h3>
+<h3 id="method">Method</h3>
 <p>The experiment I want to try is a non-linear registration using <span class="caps">FSL</span> <a href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FLIRT"><span class="caps">FLIRT</span></a> and <a href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FNIRT"><span class="caps">FNIRT</span></a>. I want to keep the registration results as well as the linear and non-linear transformation matrices for further&nbsp;processes.</p>
 <p>This experiment allows to check important details about the modules under&nbsp;test:</p>
 <ul>
@@ -111,32 +112,32 @@ This database consist of raw anatomical (T1) and functional (fMRI) <span class="
 <li>multiple outputs&nbsp;aware,</li>
 <li>control of the resulting files&nbsp;location.</li>
 </ul>
-<h4>Bash&nbsp;shell</h4>
+<h4 id="bash-shell">Bash&nbsp;shell</h4>
 <p>A sequential way to execute this task in shell would be&nbsp;this:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code>```bash</span>
-<span class="code-line">#!/bin/bash</span>
-<span class="code-line">d=~/data/cobre</span>
-<span class="code-line"></span>
-<span class="code-line">in=anat.nii.gz</span>
-<span class="code-line">FNIRT_CFG=<span class="cp">${</span><span class="n">d</span><span class="cp">}</span>/T1_2_MNI152_2mm.cnf</span>
-<span class="code-line"></span>
-<span class="code-line">cd<span class="w"> </span><span class="nv">$d</span></span>
-<span class="code-line"></span>
-<span class="code-line">lst=`find<span class="w"> </span>-name<span class="w"> </span><span class="cp">${</span><span class="ow">in</span><span class="cp">}</span>`</span>
-<span class="code-line">for<span class="w"> </span>i<span class="w"> </span>in<span class="w"> </span><span class="nv">$lst</span>;<span class="w"> </span>do</span>
-<span class="code-line">wd=`dirname<span class="w"> </span><span class="nv">$i</span>`</span>
-<span class="code-line">cd<span class="w"> </span><span class="cp">${</span><span class="n">wd</span><span class="cp">}</span></span>
-<span class="code-line">echo<span class="w"> </span><span class="cp">${</span><span class="n">wd</span><span class="cp">}</span></span>
-<span class="code-line"></span>
-<span class="code-line">flirt<span class="w"> </span>-ref<span class="w"> </span>/usr/share/fsl/4.1/data/standard/MNI152_T1_2mm<span class="w"> </span>-in<span class="w"> </span>anat<span class="w"> </span>-omat<span class="w"> </span>anat.to.MNI.mat<span class="w"> </span>-out<span class="w"> </span>anat_flirted</span>
-<span class="code-line">fnirt<span class="w"> </span>--in=anat.nii<span class="w"> </span>--aff=anat.to.MNI.mat<span class="w"> </span>--config=<span class="cp">${</span><span class="n">FNIRT_CFG</span><span class="cp">}</span><span class="w"> </span>--cout=anat.to.MNI_field<span class="w"> </span>--iout=anat_fnirted</span>
-<span class="code-line">applywarp<span class="w"> </span>--ref=/usr/share/fsl/data/standard/MNI152_T1_2mm<span class="w"> </span>--in=anat<span class="w"> </span>--warp=anat.to.MNI_field.nii.gz<span class="w"> </span>--out=wanat.nii.gz</span>
-<span class="code-line"></span>
-<span class="code-line">cd<span class="w"> </span><span class="cp">${</span><span class="n">d</span><span class="cp">}</span></span>
-<span class="code-line"></span>
-<span class="code-line">done</span>
-<span class="code-line">```</span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code>```bash
+#!/bin/bash
+d=~/data/cobre
+
+in=anat.nii.gz
+FNIRT_CFG=<span class="cp">${</span><span class="n">d</span><span class="cp">}</span>/T1_2_MNI152_2mm.cnf
+
+cd<span class="w"> </span><span class="nv">$d</span>
+
+lst=`find<span class="w"> </span>-name<span class="w"> </span><span class="cp">${</span><span class="ow">in</span><span class="cp">}</span>`
+for<span class="w"> </span>i<span class="w"> </span>in<span class="w"> </span><span class="nv">$lst</span>;<span class="w"> </span>do
+wd=`dirname<span class="w"> </span><span class="nv">$i</span>`
+cd<span class="w"> </span><span class="cp">${</span><span class="n">wd</span><span class="cp">}</span>
+echo<span class="w"> </span><span class="cp">${</span><span class="n">wd</span><span class="cp">}</span>
+
+flirt<span class="w"> </span>-ref<span class="w"> </span>/usr/share/fsl/4.1/data/standard/MNI152_T1_2mm<span class="w"> </span>-in<span class="w"> </span>anat<span class="w"> </span>-omat<span class="w"> </span>anat.to.MNI.mat<span class="w"> </span>-out<span class="w"> </span>anat_flirted
+fnirt<span class="w"> </span>--in=anat.nii<span class="w"> </span>--aff=anat.to.MNI.mat<span class="w"> </span>--config=<span class="cp">${</span><span class="n">FNIRT_CFG</span><span class="cp">}</span><span class="w"> </span>--cout=anat.to.MNI_field<span class="w"> </span>--iout=anat_fnirted
+applywarp<span class="w"> </span>--ref=/usr/share/fsl/data/standard/MNI152_T1_2mm<span class="w"> </span>--in=anat<span class="w"> </span>--warp=anat.to.MNI_field.nii.gz<span class="w"> </span>--out=wanat.nii.gz
+
+cd<span class="w"> </span><span class="cp">${</span><span class="n">d</span><span class="cp">}</span>
+
+done
+```
+</code></pre></div>
 
 <p>This is quick, right? But this just provides application specific scalability, and is not easy to port across different&nbsp;architectures.</p>
 <p>This could be parallelized&nbsp;using <code>fsl_sub</code>, a tool provided by <span class="caps">FSL</span>. It is compatible with <span class="caps">SGE</span>, <span class="caps">PBS</span> and HTCondor. The latter using <a href="https://github.com/octomike/fsl_overlay/blob/master/fsl_sub">patched versions</a> that take advantage of the&nbsp;HTCondor <code>qsub</code> emulation. Given that you have a scheduler set up,&nbsp;enabling <code>fsl_sub</code> is as simple as&nbsp;appending <code>fsl_sub</code> to the beginning of each task call in the previous&nbsp;code.</p>
@@ -148,10 +149,10 @@ This database consist of raw anatomical (T1) and functional (fMRI) <span class="
 <li>re-using the pipeline for further experiments would require recoding,&nbsp;etc.</li>
 </ol>
 <p>Please note that the location of the resulting files is also important for&nbsp;me.</p>
-<h3>Selection</h3>
+<h3 id="selection">Selection</h3>
 <p>I based my search on this list of pipeline modules:&nbsp;https://github.com/pditommaso/awesome-pipeline.</p>
 <p>In the next paragraphs I present a list of requirements and desired additions for the modules and a list of the&nbsp;candidates.</p>
-<h4>Requirements</h4>
+<h4 id="requirements">Requirements</h4>
 <ul>
 <li>Executable in a computer&nbsp;cluster.</li>
 <li>Automatic task dependency&nbsp;checks.</li>
@@ -164,7 +165,7 @@ This database consist of raw anatomical (T1) and functional (fMRI) <span class="
 <li><a href="http://www.adaptivecomputing.com/products/open-source/torque/"><span class="caps">TORQUE</span></a>&nbsp;or</li>
 <li><a href="http://www.celeryproject.org/">Celery</a>.</li>
 </ul>
-<h4>Appreciated&nbsp;additions</h4>
+<h4 id="appreciated-additions">Appreciated&nbsp;additions</h4>
 <ul>
 <li>Being usable from Python 3 in <span class="caps">GNU</span>/Linux and Mac <span class="caps">OS</span>.</li>
 <li>Workflow graph&nbsp;visualization.</li>
@@ -173,8 +174,8 @@ This database consist of raw anatomical (T1) and functional (fMRI) <span class="
 <li>Capacity of resuming the pipeline from an intermediate point, recovering from an&nbsp;error.</li>
 <li>Compatible with <a href="http://www.drmaa.org/"><code>drmaa</code></a>.</li>
 </ul>
-<h4>Candidates</h4>
-<h5>1. <a href="https://github.com/nipy/nipype">Nipype</a></h5>
+<h4 id="candidates">Candidates</h4>
+<h5 id="1-nipype">1. <a href="https://github.com/nipy/nipype">Nipype</a></h5>
 <p>Nipype is <strong>the</strong> neuroimaging pipelining module in Python. It &#8220;<em>provides a uniform interface to existing neuroimaging software and facilitates interaction between these packages within a single workflow</em>&#8221;.</p>
 <p>According to its website, it allows you&nbsp;to:</p>
 <ul>
@@ -193,7 +194,7 @@ This database consist of raw anatomical (T1) and functional (fMRI) <span class="
 </ul>
 <p>I suspect that most of the readers would say: &#8220;<em>Why don&#8217;t you use nypipe and that&#8217;s it?!</em>&#8221;.
 New workflow definition modules are appearing either from companies (Luigi, Airflow) and from other research areas, specially genetic sequency analysis (Ruffus, Cosmos). These modules offer better Workflow definition design <span class="caps">API</span> than NiPype, at first sight they seem as powerful, but simpler and less&nbsp;wordy.</p>
-<h5><a href="https://github.com/spotify/luigi">Luigi</a></h5>
+<h5 id="luigi"><a href="https://github.com/spotify/luigi">Luigi</a></h5>
 <p>Luigi is a Python module that helps you build complex pipelines of batch jobs. It handles dependency resolution, workflow management, visualization etc. It also comes with Hadoop support built&nbsp;in.</p>
 <ul>
 <li>
@@ -203,31 +204,31 @@ New workflow definition modules are appearing either from companies (Luigi, Airf
 <p><strong>Cons:</strong>&nbsp;-</p>
 </li>
 </ul>
-<h5><a href="http://www.ruffus.org.uk/">Ruffus</a></h5>
-<h5><a href="https://cosmos.hms.harvard.edu/documentation/index.html">Cosmos</a></h5>
-<h5><a href="https://github.com/airbnb/airflow">Airflow</a></h5>
-<h5><a href="http://docs.stackstorm.com/actionchain.html">ActionChain</a></h5>
-<h5><a href="http://ccl.cse.nd.edu/software/makeflow/">MakeFlow</a></h5>
-<h5><a href="http://www.nextflow.io">NextFlow</a></h5>
-<h5><a href="https://bitbucket.org/johanneskoester/snakemake/wiki/browse/">SnakeMake</a></h5>
-<h5><a href="">Common Workflow&nbsp;Language</a></h5>
-<h4>Winners</h4>
-<h3>The&nbsp;implementations</h3>
-<h4>Nipype</h4>
-<h4>Ruffus</h4>
-<h4>Airflow</h4>
-<h4><span class="caps">CWL</span>+Ruffus</h4>
-<h4>Luigi</h4>
-<h4><a href="http://swift-lang.org">Swift</a></h4>
-<h4><a href="http://wiki.ci.uchicago.edu/CNARI"><span class="caps">CNARI</span></a></h4>
-<h4><a href="http://worldmake.org">WorldMake</a></h4>
-<h4><a href="http://www.taverna.org.uk/">Taverna</a></h4>
+<h5 id="ruffus"><a href="http://www.ruffus.org.uk/">Ruffus</a></h5>
+<h5 id="cosmos"><a href="https://cosmos.hms.harvard.edu/documentation/index.html">Cosmos</a></h5>
+<h5 id="airflow"><a href="https://github.com/airbnb/airflow">Airflow</a></h5>
+<h5 id="actionchain"><a href="http://docs.stackstorm.com/actionchain.html">ActionChain</a></h5>
+<h5 id="makeflow"><a href="http://ccl.cse.nd.edu/software/makeflow/">MakeFlow</a></h5>
+<h5 id="nextflow"><a href="http://www.nextflow.io">NextFlow</a></h5>
+<h5 id="snakemake"><a href="https://bitbucket.org/johanneskoester/snakemake/wiki/browse/">SnakeMake</a></h5>
+<h5 id="common-workflow-language"><a href="">Common Workflow&nbsp;Language</a></h5>
+<h4 id="winners">Winners</h4>
+<h3 id="the-implementations">The&nbsp;implementations</h3>
+<h4 id="nipype">Nipype</h4>
+<h4 id="ruffus_1">Ruffus</h4>
+<h4 id="airflow_1">Airflow</h4>
+<h4 id="cwlruffus"><span class="caps">CWL</span>+Ruffus</h4>
+<h4 id="luigi_1">Luigi</h4>
+<h4 id="swift"><a href="http://swift-lang.org">Swift</a></h4>
+<h4 id="cnari"><a href="http://wiki.ci.uchicago.edu/CNARI"><span class="caps">CNARI</span></a></h4>
+<h4 id="worldmake"><a href="http://worldmake.org">WorldMake</a></h4>
+<h4 id="taverna"><a href="http://www.taverna.org.uk/">Taverna</a></h4>
 <p>http://stanford.edu/~mwaskom/software/lyman/workflow.html#process-the-data</p>
 <p>http://mia.sourceforge.net/</p>
 <p>http://fcp-indi.github.io/</p>
-<h3>Execution&nbsp;times</h3>
-<h2>Conclusion</h2>
-<h2>References</h2>
+<h3 id="execution-times">Execution&nbsp;times</h3>
+<h2 id="conclusion">Conclusion</h2>
+<h2 id="references">References</h2>
 <ul>
 <li>https://github.com/pditommaso/awesome-pipeline</li>
 <li>Gorgolewski K, Burns <span class="caps">CD</span>, Madison C, Clark D, Halchenko <span class="caps">YO</span>, Waskom <span class="caps">ML</span>, Ghosh <span class="caps">SS</span>. (2011). Nipype: a flexible, lightweight and extensible neuroimaging data processing framework in Python. Front. Neuroinform.&nbsp;5:13.</li>
@@ -258,6 +259,36 @@ New workflow definition modules are appearing either from companies (Luigi, Airf
             <a href="https://alexsavio.github.io/pages/work-with-me.html">work with me</a>.
         </div>
     </aside>
+
+    <section class="article__related" aria-labelledby="related-heading">
+        <h2 id="related-heading">You might also like</h2>
+        <ul class="article__related__list">
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-01-18T00:00:00+01:00">Jan 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/direnv-dotenv-envrc.html">Taming Your Dev Chaos with direnv, .env, and .envrc (Plus a Sneak Peek at&nbsp;mise-en-place)</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2015-05-14T19:11:46+02:00">May 2015</time>
+                </span>
+                <a href="https://alexsavio.github.io/gspread_oauth2client_intro.html">Access Google Spreadsheets using gspread and&nbsp;OAuth2Client</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2014-11-11T22:11:46+01:00">Nov 2014</time>
+                </span>
+                <a href="https://alexsavio.github.io/quick-bokeh.html">Install Bokeh from&nbsp;sources</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2014-04-26T18:38:37+02:00">Apr 2014</time>
+                </span>
+                <a href="https://alexsavio.github.io/data-analysis-tools-install.html">Installing common Python data analysis tools in&nbsp;virtualenv</a>
+            </li>
+        </ul>
+    </section>
 
 </article>
         </div>

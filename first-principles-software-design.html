@@ -14,7 +14,7 @@
     <meta property="og:title" content="First Principles: Software Design — Alexandre Manhães Savio" />
     <meta property="og:description" content="Strip away the design patterns, the SOLID principles, and the architecture astronautics. What’s actually true about software design when you reason from fundamentals? Five irreducible truths, three reconstruction principles, and a framework for making design decisions based..." />
     <meta property="og:url" content="https://alexsavio.github.io/first-principles-software-design.html" />
-    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2026-03-21" />    <meta property="article:section" content="Development" />    <meta property="article:tag" content="software-design" />    <meta property="article:tag" content="first-principles" />    <meta property="article:tag" content="software-engineering" />    <meta property="article:tag" content="architecture" />    <meta property="article:tag" content="complexity" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2026-03-21" />    <meta property="article:section" content="Engineering" />    <meta property="article:tag" content="first-principles" />    <meta property="article:tag" content="software-design" />    <meta property="article:tag" content="architecture" />    <meta property="article:tag" content="complexity" />    <meta property="article:tag" content="cognitive-load" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="First Principles: Software Design — Alexandre Manhães Savio" />
     <meta name="twitter:description" content="Strip away the design patterns, the SOLID principles, and the architecture astronautics. What’s actually true about software design when you reason from fundamentals? Five irreducible truths, three reconstruction principles, and a framework for making design decisions based..." />
@@ -73,7 +73,7 @@
 <article class="article" itemscope itemtype="https://schema.org/BlogPosting">
     <header class="article__header">
         <p class="article__kicker">
-            <a href="https://alexsavio.github.io/category/development.html" itemprop="articleSection">Development</a>
+            <a href="https://alexsavio.github.io/category/engineering.html" itemprop="articleSection">Engineering</a>
         </p>
 
         <h1 class="article__title" itemprop="headline">First Principles: Software&nbsp;Design</h1>
@@ -86,22 +86,28 @@
         </div>
 
         <div class="article__meta" style="margin-top: 0.75rem;">
-                <a href="https://alexsavio.github.io/tag/software-design.html" class="tag">software-design</a>
                 <a href="https://alexsavio.github.io/tag/first-principles.html" class="tag">first-principles</a>
-                <a href="https://alexsavio.github.io/tag/software-engineering.html" class="tag">software-engineering</a>
+                <a href="https://alexsavio.github.io/tag/software-design.html" class="tag">software-design</a>
                 <a href="https://alexsavio.github.io/tag/architecture.html" class="tag">architecture</a>
                 <a href="https://alexsavio.github.io/tag/complexity.html" class="tag">complexity</a>
+                <a href="https://alexsavio.github.io/tag/cognitive-load.html" class="tag">cognitive-load</a>
         </div>
 
+        <p class="article__series">
+            <strong>Part of the First Principles series</strong> —
+            Part 2 of 5.
+            <br>← Previous: <a href="https://alexsavio.github.io/first-principles-software-observability.html">First Principles: Software&nbsp;Observability</a>
+            <br>→ Next: <a href="https://alexsavio.github.io/first-principles-devops.html">First Principles:&nbsp;DevOps</a>
+        </p>
     </header>
 
     <div class="article__content" itemprop="articleBody">
-        <h2><span class="caps">TL</span>;<span class="caps">DR</span></h2>
+        <h2 id="tldr"><span class="caps">TL</span>;<span class="caps">DR</span></h2>
 <p>Most software design advice is convention dressed up as truth. When you strip away the inherited thinking, only five things survive scrutiny: software transforms input to output, human working memory is limited, change costs dominate creation costs, coupling determines blast radius, and naming compresses complexity. Rebuilding from these truths produces a discipline centered on cognitive load management and deletability, not extensibility and pattern&nbsp;compliance.</p>
-<h2>The Conventional&nbsp;View</h2>
+<h2 id="the-conventional-view">The Conventional&nbsp;View</h2>
 <p>Software design, as typically taught and practiced, is about organizing code into clean abstractions, following established patterns (<span class="caps">MVC</span>, microservices, hexagonal architecture), applying <span class="caps">SOLID</span> principles, and writing extensible systems that anticipate future change. Good design means separation of concerns, low coupling, high cohesion, and layers of indirection that make the system&nbsp;&#8220;flexible&#8221;.</p>
 <p>Most of this is convention. Some of it is useful. Very little of it is&nbsp;fundamental.</p>
-<h2>The Assumptions We&nbsp;Carry</h2>
+<h2 id="the-assumptions-we-carry">The Assumptions We&nbsp;Carry</h2>
 <p>Before deconstructing, let&#8217;s name the beliefs most developers absorb without&nbsp;questioning:</p>
 <table>
 <thead>
@@ -176,7 +182,7 @@
 </tbody>
 </table>
 <p>That&#8217;s three fundamentals, three heuristics, and four pieces of baggage. Let&#8217;s see what&nbsp;survives.</p>
-<h2>What Survives&nbsp;Scrutiny</h2>
+<h2 id="what-survives-scrutiny">What Survives&nbsp;Scrutiny</h2>
 <p>Each assumption was tested against three questions: Is this a law or a convention? What&#8217;s the evidence? What function does the assumption&nbsp;serve?</p>
 <p>Five irreducible truths&nbsp;emerged:</p>
 <p><strong>1. Software exists to model a transformation from input to output.</strong> At its most fundamental, every program takes some state of the world and produces a different state. Design is the act of choosing how to decompose that transformation. This is mathematical, it survives regardless of language, paradigm, or&nbsp;era.</p>
@@ -184,62 +190,62 @@
 <p><strong>3. The cost of change dominates the cost of creation.</strong> Empirically, across decades of industry data, modifying existing systems costs far more than writing them initially. Design choices compound: each decision constrains or enables future&nbsp;decisions.</p>
 <p><strong>4. Coupling between components determines the blast radius of change.</strong> When A depends on B, changing B risks breaking A. This is structural, not opinion. The fewer dependencies a component has, the cheaper it is to change in isolation. Parnas demonstrated this in 1972 and nothing has invalidated&nbsp;it.</p>
 <p><strong>5. Naming is compression.</strong> A name (function, module, variable) lets humans treat a complex thing as a single chunk in working memory. Good names reduce cognitive load. Bad names increase it. This follows directly from truth&nbsp;#2.</p>
-<h2>What Falls&nbsp;Away</h2>
+<h2 id="what-falls-away">What Falls&nbsp;Away</h2>
 <p>Four assumptions classified as baggage, and the reasons they&nbsp;persisted:</p>
 <p><strong><span class="dquo">&#8220;</span>Anticipate future requirements&#8221;.</strong> This feels responsible and professional. In practice, humans are terrible at predicting what will change. Studies show that speculative generality creates more waste than it prevents. The assumption confuses <em>making change cheap</em> (valuable) with <em>predicting what will change</em>&nbsp;(impossible).</p>
 <p><strong><span class="dquo">&#8220;</span>More abstraction = better design&#8221;.</strong> Abstraction has a cost: indirection. Every layer you add is a layer someone must navigate to understand the system. Abstractions feel intellectually satisfying and they&#8217;re easy to teach. But abstraction is only valuable when it reduces net cognitive load, when the thing being hidden is more complex than the interface replacing it. Premature abstraction <em>increases</em> total&nbsp;complexity.</p>
 <p><strong><span class="dquo">&#8220;</span>Design patterns are the vocabulary&#8221;.</strong> The Gang of Four patterns were documented as recurring solutions in C++ and Smalltalk in 1994. Many exist to work around language limitations: Visitor, Strategy, and Observer are all compensating for missing first-class functions or pattern matching. Reaching for a pattern before understanding the problem adds accidental&nbsp;complexity.</p>
 <p><strong><span class="dquo">&#8220;</span>Good code is reusable code&#8221;.</strong> Reusability requires predicting how code will be reused, a form of future prediction. Making code reusable adds generality, parameters, and configuration that increase complexity <em>now</em> for hypothetical benefit <em>later</em>. Most &#8220;reusable&#8221; code is used exactly once. The assumption persists because reusability sounds&nbsp;economical.</p>
-<h2>The Heuristics: Handle With&nbsp;Care</h2>
+<h2 id="the-heuristics-handle-with-care">The Heuristics: Handle With&nbsp;Care</h2>
 <p>Three assumptions survived as context-dependent guidelines, not&nbsp;laws:</p>
 <p><strong><span class="caps">DRY</span></strong> is useful when duplication causes <em>bugs</em> (changing one copy but forgetting the other). It&#8217;s harmful when it creates premature abstractions that couple unrelated things. The question is not &#8220;is this duplicated?&#8221; but &#8220;is this duplication causing actual&nbsp;problems?&#8221;</p>
 <p>Here&#8217;s what happens when <span class="caps">DRY</span> goes wrong. You notice three functions that look similar, so you &#8220;extract the&nbsp;commonality&#8221;:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="c1"># The DRY trap: one function, 16 code paths, nobody understands it</span></span>
-<span class="code-line"><span class="k">def</span> <span class="nf">process_record</span><span class="p">(</span></span>
-<span class="code-line">    <span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span></span>
-<span class="code-line">    <span class="n">validate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span></span>
-<span class="code-line">    <span class="n">enrich</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span></span>
-<span class="code-line">    <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span></span>
-<span class="code-line">    <span class="n">emit_event</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span></span>
-<span class="code-line"><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span></span>
-<span class="code-line">    <span class="k">if</span> <span class="n">validate</span><span class="p">:</span></span>
-<span class="code-line">        <span class="n">_validate</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></span>
-<span class="code-line">    <span class="k">if</span> <span class="n">enrich</span><span class="p">:</span></span>
-<span class="code-line">        <span class="n">record</span> <span class="o">=</span> <span class="n">_fetch_enrichment</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></span>
-<span class="code-line">    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span></span>
-<span class="code-line">        <span class="n">record</span> <span class="o">=</span> <span class="n">_normalize</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></span>
-<span class="code-line">        <span class="k">if</span> <span class="n">enrich</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">validate</span><span class="p">:</span></span>
-<span class="code-line">            <span class="n">record</span> <span class="o">=</span> <span class="n">_special_case_enriched_unnormalized</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></span>
-<span class="code-line">    <span class="k">if</span> <span class="n">emit_event</span><span class="p">:</span></span>
-<span class="code-line">        <span class="n">_publish</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></span>
-<span class="code-line">    <span class="k">return</span> <span class="n">record</span></span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># The DRY trap: one function, 16 code paths, nobody understands it</span>
+<span class="k">def</span> <span class="nf">process_record</span><span class="p">(</span>
+    <span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">validate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">enrich</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">emit_event</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">validate</span><span class="p">:</span>
+        <span class="n">_validate</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">enrich</span><span class="p">:</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="n">_fetch_enrichment</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="n">_normalize</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">enrich</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">validate</span><span class="p">:</span>
+            <span class="n">record</span> <span class="o">=</span> <span class="n">_special_case_enriched_unnormalized</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">emit_event</span><span class="p">:</span>
+        <span class="n">_publish</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">record</span>
+</code></pre></div>
 
 <p>Versus the &#8220;duplicated&#8221;&nbsp;version:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="c1"># Three functions, each trivially understandable</span></span>
-<span class="code-line"><span class="k">def</span> <span class="nf">ingest_from_api</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span></span>
-<span class="code-line">    <span class="n">validate</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></span>
-<span class="code-line">    <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="k">def</span> <span class="nf">ingest_from_partner</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span></span>
-<span class="code-line">    <span class="n">validate</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></span>
-<span class="code-line">    <span class="n">record</span> <span class="o">=</span> <span class="n">fetch_enrichment</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></span>
-<span class="code-line">    <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="k">def</span> <span class="nf">ingest_from_migration</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span></span>
-<span class="code-line">    <span class="n">record</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></span>
-<span class="code-line">    <span class="n">publish</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></span>
-<span class="code-line">    <span class="k">return</span> <span class="n">record</span></span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Three functions, each trivially understandable</span>
+<span class="k">def</span> <span class="nf">ingest_from_api</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="n">validate</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">ingest_from_partner</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="n">validate</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="n">record</span> <span class="o">=</span> <span class="n">fetch_enrichment</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">ingest_from_migration</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="n">record</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="n">publish</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">record</span>
+</code></pre></div>
 
 <p>The first version is &#8220;<span class="caps">DRY</span>&#8221;. It&#8217;s also a combinatorial minefield where every new caller adds another boolean flag and another implicit code path. The second version has some repeated lines, but each function fits entirely in working memory. You can&nbsp;change <code>ingest_from_migration</code> without any risk of breaking the <span class="caps">API</span> ingestion&nbsp;path.</p>
 <p><strong>Indirection for complexity management</strong> works when the thing being hidden is genuinely complex. It fails when the indirection itself becomes the complexity. Every layer of indirection is a cognitive tax, justified only when the tax is less than the complexity it&nbsp;hides.</p>
 <p><strong>Tests as design validation</strong> provides signal about the external behavior of a system, not about its internal design quality. Tests can pass for poorly designed systems and fail for well-designed ones during refactoring. Tests verify <em>what</em> the system does, not <em>how well</em> it&#8217;s&nbsp;structured.</p>
-<h2>Rebuilt From&nbsp;Scratch</h2>
+<h2 id="rebuilt-from-scratch">Rebuilt From&nbsp;Scratch</h2>
 <p>Starting from only the five truths, here&#8217;s software design rebuilt from the ground&nbsp;up:</p>
 <p><strong>Design is cognitive load management.</strong> Every design decision should be evaluated by one question: <em>does this make the system easier or harder for a human to hold in their head?</em> Not &#8220;is this clean,&#8221; not &#8220;does this follow <span class="caps">SOLID</span>,&#8221; not &#8220;is this extensible,&#8221; but does it reduce the number of things a person must simultaneously understand to make a correct&nbsp;change?</p>
 <p>This produces three&nbsp;principles:</p>
-<h3>Principle 1: Optimize for Deletion, Not&nbsp;Extension</h3>
+<h3 id="principle-1-optimize-for-deletion-not-extension">Principle 1: Optimize for Deletion, Not&nbsp;Extension</h3>
 <p>Since we can&#8217;t predict what will change but we know change will happen, the best design makes components easy to <em>remove and replace</em> rather than easy to extend. Small, independent units with clear boundaries. If you can delete a module and replace it with a different implementation without touching other modules, your design is good. You don&#8217;t need plugin architectures or abstract factories. You need components small enough to throw&nbsp;away.</p>
 <pre class="mermaid">
 flowchart LR
@@ -260,42 +266,42 @@ flowchart LR
 
 <p>In the conventional model, the base class is a single point of failure for change. In the first-principles model, any module can be deleted and rewritten without cascading&nbsp;effects.</p>
 <p>Here&#8217;s the difference in code. The &#8220;extensible&#8221;&nbsp;version:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="c1"># The Strategy Pattern way: 5 files, 3 abstractions, 1 actual behavior</span></span>
-<span class="code-line"><span class="k">class</span> <span class="nc">NotificationStrategy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span></span>
-<span class="code-line">    <span class="nd">@abstractmethod</span></span>
-<span class="code-line">    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="k">class</span> <span class="nc">EmailStrategy</span><span class="p">(</span><span class="n">NotificationStrategy</span><span class="p">):</span></span>
-<span class="code-line">    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span></span>
-<span class="code-line">        <span class="n">smtp_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="k">class</span> <span class="nc">NotificationService</span><span class="p">:</span></span>
-<span class="code-line">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="p">:</span> <span class="n">NotificationStrategy</span><span class="p">):</span></span>
-<span class="code-line">        <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span> <span class="o">=</span> <span class="n">strategy</span></span>
-<span class="code-line"></span>
-<span class="code-line">    <span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span></span>
-<span class="code-line">        <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="c1"># Usage: requires a factory or DI container to wire up</span></span>
-<span class="code-line"><span class="n">service</span> <span class="o">=</span> <span class="n">NotificationService</span><span class="p">(</span><span class="n">EmailStrategy</span><span class="p">())</span></span>
-<span class="code-line"><span class="n">service</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;Hello&quot;</span><span class="p">)</span></span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># The Strategy Pattern way: 5 files, 3 abstractions, 1 actual behavior</span>
+<span class="k">class</span> <span class="nc">NotificationStrategy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+<span class="k">class</span> <span class="nc">EmailStrategy</span><span class="p">(</span><span class="n">NotificationStrategy</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">smtp_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">NotificationService</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="p">:</span> <span class="n">NotificationStrategy</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span> <span class="o">=</span> <span class="n">strategy</span>
+
+    <span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+<span class="c1"># Usage: requires a factory or DI container to wire up</span>
+<span class="n">service</span> <span class="o">=</span> <span class="n">NotificationService</span><span class="p">(</span><span class="n">EmailStrategy</span><span class="p">())</span>
+<span class="n">service</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+</code></pre></div>
 
 <p>The &#8220;deletable&#8221;&nbsp;version:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="c1"># The direct way: 1 file, 0 abstractions, same behavior</span></span>
-<span class="code-line"><span class="k">def</span> <span class="nf">send_email</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span></span>
-<span class="code-line">    <span class="n">smtp_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="c1"># Usage: call the function</span></span>
-<span class="code-line"><span class="n">send_email</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;Hello&quot;</span><span class="p">)</span></span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># The direct way: 1 file, 0 abstractions, same behavior</span>
+<span class="k">def</span> <span class="nf">send_email</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">smtp_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+<span class="c1"># Usage: call the function</span>
+<span class="n">send_email</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+</code></pre></div>
 
 <p>The second version is three lines. A new developer understands it instantly. When you need <span class="caps">SMS</span> notifications six months from now, you&nbsp;write <code>send_sms()</code> next to it. You don&#8217;t need to predict whether notifications will vary by channel, by urgency, by user preference, or by some axis you haven&#8217;t imagined yet. You just write the next function when you need&nbsp;it.</p>
-<h3>Principle 2: Inline Until It Hurts, Then&nbsp;Extract</h3>
+<h3 id="principle-2-inline-until-it-hurts-then-extract">Principle 2: Inline Until It Hurts, Then&nbsp;Extract</h3>
 <p>Since abstraction has a cost (cognitive load of indirection) and a benefit (cognitive load reduction via naming), the right time to abstract is when the <em>concrete</em> code exceeds working memory, not before. Start with the simplest, most direct implementation. Duplicate if necessary. When you see <em>actual</em> repetition causing <em>actual</em> bugs or <em>actual</em> difficulty understanding the code, extract an abstraction. The abstraction is justified by present pain, not hypothetical future&nbsp;benefit.</p>
-<h3>Principle 3: Make Dependencies Visible and&nbsp;Explicit</h3>
+<h3 id="principle-3-make-dependencies-visible-and-explicit">Principle 3: Make Dependencies Visible and&nbsp;Explicit</h3>
 <p>Since coupling determines blast radius, and since humans need to understand impact before making changes, dependencies should be obvious in the code structure. No action-at-a-distance. No implicit global state. No &#8220;magic&#8221; that connects things behind the scenes. A developer reading a module should be able to see, without tooling, what it depends on and what depends on&nbsp;it.</p>
-<h2>The Design Process That&nbsp;Follows</h2>
+<h2 id="the-design-process-that-follows">The Design Process That&nbsp;Follows</h2>
 <p>Combining these principles produces a&nbsp;process:</p>
 <ol>
 <li>Write the simplest code that transforms input to output&nbsp;correctly</li>
@@ -305,7 +311,7 @@ flowchart LR
 <li>Regularly ask: &#8220;could I delete this component and rewrite it in a day?&#8221; If not, it&#8217;s too&nbsp;big</li>
 </ol>
 <p>This is not &#8220;no design&#8221;. It&#8217;s design driven by empirical signals rather than speculative&nbsp;principles.</p>
-<h3>Should I Abstract&nbsp;This?</h3>
+<h3 id="should-i-abstract-this">Should I Abstract&nbsp;This?</h3>
 <p>When you&#8217;re staring at similar code and feeling the <span class="caps">DRY</span> reflex, run through&nbsp;this:</p>
 <pre class="mermaid">
 flowchart TD
@@ -321,14 +327,14 @@ flowchart TD
 </pre>
 
 <p>Most of the time, you end up on the left side. That&#8217;s the&nbsp;point.</p>
-<h2>Evidence From the&nbsp;Wild</h2>
+<h2 id="evidence-from-the-wild">Evidence From the&nbsp;Wild</h2>
 <p>These principles aren&#8217;t theoretical. Some of the most successful software projects in history embody them, often without using the&nbsp;vocabulary.</p>
 <p><strong>SQLite</strong> is a single C file (amalgamation) with no external dependencies. It&#8217;s the most deployed database in the world, running on every smartphone, browser, and embedded device. Its design optimizes ruthlessly for understandability: one file, clear module boundaries within that file, and zero abstraction layers between you and the <span class="caps">SQL</span> engine. Any developer can read it top to bottom. The result? Decades of reliability with a tiny&nbsp;team.</p>
 <p><strong>Redis</strong> started as a flat, single-threaded C codebase with almost no abstraction layers. Salvatore Sanfilippo famously resisted adding features that would require architectural complexity. Each data structure is its own self-contained implementation. The result is a system that a single developer can hold in their head, which is why it has remarkably few bugs for its&nbsp;ubiquity.</p>
 <p><strong>Go&#8217;s standard library</strong> takes the opposite approach from Java&#8217;s. Instead of deep inheritance hierarchies and abstract factories, it uses flat packages with concrete types.&nbsp;The <code>net/http</code> package is a good example: you can read the Handler interface (two lines) and start building. No framework, no middleware abstractions, no dependency injection. When you need middleware, you write a function that wraps a Handler. The &#8220;design pattern&#8221; is just functions calling&nbsp;functions.</p>
 <p>Contrast these with <strong>early Enterprise Java</strong> (<span class="caps">EJB</span> 2.x era), where a simple &#8220;save a record to a database&#8221; required a Home interface, a Remote interface, a Bean implementation, a deployment descriptor, and a <span class="caps">JNDI</span> lookup. Six files and three abstraction layers for something that should be one function call. The cognitive load was so extreme that an entire cottage industry of &#8220;simplification&#8221; frameworks (Spring, Hibernate) emerged just to make Java usable, each adding their own layers of&nbsp;indirection.</p>
 <p>The pattern is consistent: systems that optimize for human understanding over architectural purity tend to be more reliable, longer-lived, and maintained by smaller&nbsp;teams.</p>
-<h2>But What About Large&nbsp;Systems?</h2>
+<h2 id="but-what-about-large-systems">But What About Large&nbsp;Systems?</h2>
 <p>The biggest objection to this approach: &#8220;This works for small projects, but real systems at scale need&nbsp;architecture&#8221;.</p>
 <p>This conflates two things. Large systems <em>do</em> need structure. But that structure doesn&#8217;t need to come from speculative upfront architecture or pattern catalogs. It can emerge from the same principles applied&nbsp;recursively.</p>
 <p>The <strong>Linux kernel</strong> is over 30 million lines of code. It has no grand architectural diagram that was designed before coding started. Instead, it&#8217;s organized as subsystems (networking, filesystems, drivers, scheduling) where each subsystem is relatively independent, with clear interfaces at the boundaries. Individual subsystems are small enough that their maintainers can hold them in their heads. The macro structure emerged from decades of applying &#8220;keep components independent and boundaries clear&#8221; at every&nbsp;scale.</p>
@@ -340,7 +346,7 @@ flowchart TD
 <li>When a component gets too big to understand, split&nbsp;it</li>
 </ul>
 <p>The difference between a well-structured large system and a &#8220;big ball of mud&#8221; is not the presence of design patterns or architectural frameworks. It&#8217;s whether each piece is small enough to understand and independent enough to change&nbsp;safely.</p>
-<h2>What&nbsp;Changes</h2>
+<h2 id="what-changes">What&nbsp;Changes</h2>
 <table>
 <thead>
 <tr>
@@ -383,7 +389,7 @@ flowchart TD
 </tr>
 </tbody>
 </table>
-<h2>Implications</h2>
+<h2 id="implications">Implications</h2>
 <ul>
 <li>
 <p><strong>Measure design quality by time-to-understand.</strong> When reviewing code, ask: &#8220;How long would it take a new team member to understand this module well enough to change it safely?&#8221; That&#8217;s your design quality metric. Not how many <span class="caps">SOLID</span> principles it&nbsp;follows.</p>
@@ -403,7 +409,7 @@ flowchart TD
 </ul>
 <p>This approach connects to the same reasoning in <a href="https://alexsavio.github.io/first-principles-software-observability.html">First Principles: Software Observability</a>, where stripping away the &#8220;three pillars&#8221; marketing reveals that observability is really about answering novel questions about system behavior. Both disciplines converge on the same meta-principle: optimize for human understanding of complex systems, not for adherence to inherited&nbsp;frameworks.</p>
 <hr>
-<h2>References</h2>
+<h2 id="references">References</h2>
 <ol>
 <li>Parnas, <span class="caps">D.L.</span>(1972). &#8220;On the Criteria To Be Used in Decomposing Systems into Modules&#8221; - foundational work on information hiding and&nbsp;coupling</li>
 <li>Gamma, E. et al. (1994). &#8220;Design Patterns: Elements of Reusable Object-Oriented Software&#8221; - the Gang of Four&nbsp;book</li>
@@ -427,6 +433,36 @@ flowchart TD
             <a href="https://alexsavio.github.io/pages/work-with-me.html">work with me</a>.
         </div>
     </aside>
+
+    <section class="article__related" aria-labelledby="related-heading">
+        <h2 id="related-heading">You might also like</h2>
+        <ul class="article__related__list">
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-04-09T18:00:00+02:00">Apr 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-distributed-systems.html">First Principles: Distributed Systems (Most of Yours Should Not&nbsp;Exist)</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-04-08T20:58:00+02:00">Apr 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-data-engineering.html">First Principles: Data Engineering and&nbsp;ETLs</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-03-30T12:00:00+02:00">Mar 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-devops.html">First Principles:&nbsp;DevOps</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-03-19T20:45:00+01:00">Mar 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-software-observability.html">First Principles: Software&nbsp;Observability</a>
+            </li>
+        </ul>
+    </section>
 
 </article>
         </div>

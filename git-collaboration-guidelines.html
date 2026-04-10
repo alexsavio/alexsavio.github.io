@@ -14,7 +14,7 @@
     <meta property="og:title" content="Git usage guidelines for team collaboration — Alexandre Manhães Savio" />
     <meta property="og:description" content="Suggestions on how to use a code repository with git for teams." />
     <meta property="og:url" content="https://alexsavio.github.io/git-collaboration-guidelines.html" />
-    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2020-06-11" />    <meta property="article:section" content="Git" />    <meta property="article:tag" content="git" />    <meta property="article:tag" content="collaboration" />    <meta property="article:tag" content="team" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2020-06-11" />    <meta property="article:section" content="Tools" />    <meta property="article:tag" content="git" />    <meta property="article:tag" content="workflow" />    <meta property="article:tag" content="collaboration" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Git usage guidelines for team collaboration — Alexandre Manhães Savio" />
     <meta name="twitter:description" content="Suggestions on how to use a code repository with git for teams." />
@@ -73,7 +73,7 @@
 <article class="article" itemscope itemtype="https://schema.org/BlogPosting">
     <header class="article__header">
         <p class="article__kicker">
-            <a href="https://alexsavio.github.io/category/git.html" itemprop="articleSection">Git</a>
+            <a href="https://alexsavio.github.io/category/tools.html" itemprop="articleSection">Tools</a>
         </p>
 
         <h1 class="article__title" itemprop="headline">Git usage guidelines for team&nbsp;collaboration</h1>
@@ -87,32 +87,32 @@
 
         <div class="article__meta" style="margin-top: 0.75rem;">
                 <a href="https://alexsavio.github.io/tag/git.html" class="tag">git</a>
+                <a href="https://alexsavio.github.io/tag/workflow.html" class="tag">workflow</a>
                 <a href="https://alexsavio.github.io/tag/collaboration.html" class="tag">collaboration</a>
-                <a href="https://alexsavio.github.io/tag/team.html" class="tag">team</a>
         </div>
 
     </header>
 
     <div class="article__content" itemprop="articleBody">
-        <h2>Introduction</h2>
+        <h2 id="introduction">Introduction</h2>
 <p>This is a set of rules that I have been gathering in the past few years which work well for most of the projects I worked on with small teams of 3-8 people. These guidelines are heavily based on the <a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines">angular.js/<span class="caps">DEVELOPERS</span>.md document on  GitHub</a> and this is not about <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">GitFlow</a>.</p>
-<h2>Branching&nbsp;model</h2>
+<h2 id="branching-model">Branching&nbsp;model</h2>
 <p>Always create a new branch from an up-to-date &#8220;main&#8221; branch.
 The branches should have a short life (no more than 2 days) and have a very determined objective.
 Once the objective is reached, a Pull Request (<span class="caps">PR</span>) should be created to merge the branch to main.
 Once the branch is merged, it should be deleted.
 Always merge to&nbsp;main.</p>
-<h3>Branch&nbsp;names</h3>
+<h3 id="branch-names">Branch&nbsp;names</h3>
 <p>The branch names are not that important in very small teams, but when the team is bigger or work remotely,
 a pattern for the branch names is also good to follow. Here is a&nbsp;suggestion:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">```</span></span>
-<span class="code-line"><span class="p">&lt;</span><span class="k">type</span><span class="p">&gt;</span><span class="o">/</span><span class="p">[&lt;</span><span class="nx">ticket_id</span><span class="p">&gt;]</span><span class="nx">_</span><span class="p">&lt;</span><span class="nx">subject</span><span class="p">&gt;</span></span>
-<span class="code-line"><span class="err">```</span></span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">```</span>
+<span class="p">&lt;</span><span class="k">type</span><span class="p">&gt;</span><span class="o">/</span><span class="p">[&lt;</span><span class="nx">ticket_id</span><span class="p">&gt;]</span><span class="nx">_</span><span class="p">&lt;</span><span class="nx">subject</span><span class="p">&gt;</span>
+<span class="err">```</span>
+</code></pre></div>
 
 <p>Some tools like <a href="https://www.sourcetreeapp.com/">Sourcetree</a> pick&nbsp;the <code>/</code> from the branch name and splits the name in their <span class="caps">GUI</span>,
 so you can see the different types of branches as in different&nbsp;folders.</p>
-<h4>Type</h4>
+<h4 id="type">Type</h4>
 <p>The <type> describes the generic objective of the branch, it can be one of the&nbsp;following:</p>
 <ul>
 <li><strong>feat</strong>: a new&nbsp;feature,</li>
@@ -124,32 +124,32 @@ so you can see the different types of branches as in different&nbsp;folders.</p>
 <li><strong>chore</strong>: Changes to the build process or auxiliary tools for the project&nbsp;maintenance,</li>
 <li><strong>perf</strong>: A code change that improves&nbsp;performance.</li>
 </ul>
-<h4>Ticket <span class="caps">ID</span></h4>
+<h4 id="ticket-id">Ticket <span class="caps">ID</span></h4>
 <p>This is optional, but is good if the purpose of the branch is too complex or if you follow a Scrum development process.
 The <ticket_id> should be the identifier of the ticket or user story that the branch is going to solve.
 The format depends on the project management tool you are using, but usually it has a project acronym and a&nbsp;number: <code>PRJ_123</code>.</p>
-<h4>Subject</h4>
+<h4 id="subject">Subject</h4>
 <p>The <subject> part should be no more than 3 or 4 words about the specific objective of the branch.
 If you don’t put a ticket <span class="caps">ID</span>, the specificity of the name is more&nbsp;relevant.</p>
-<h3>Commit&nbsp;messages</h3>
+<h3 id="commit-messages">Commit&nbsp;messages</h3>
 <p>Here we follow a very specific pattern in order to be able to parse the commit messages to automatically generate a
 change log for each release in a <span class="caps">CI</span>/<span class="caps">CD</span> process and also semantic release version bumps
 with tools like semantic-release (available for Node.js and&nbsp;Python).</p>
-<h4>Format</h4>
+<h4 id="format">Format</h4>
 <p>Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a&nbsp;subject:</p>
-<div class="highlight"><pre><span class="code-line"><span></span><code><span class="err">```</span></span>
-<span class="code-line"><span class="p">&lt;</span><span class="k">type</span><span class="p">&gt;(&lt;</span><span class="nx">scope</span><span class="p">&gt;):</span><span class="w"> </span><span class="p">&lt;</span><span class="nx">subject</span><span class="p">&gt;</span></span>
-<span class="code-line"><span class="p">&lt;</span><span class="nx">BLANK</span><span class="w"> </span><span class="nx">LINE</span><span class="p">&gt;</span></span>
-<span class="code-line"><span class="p">&lt;</span><span class="nx">body</span><span class="p">&gt;</span></span>
-<span class="code-line"><span class="p">&lt;</span><span class="nx">BLANK</span><span class="w"> </span><span class="nx">LINE</span><span class="p">&gt;</span></span>
-<span class="code-line"><span class="p">&lt;</span><span class="nx">footer</span><span class="p">&gt;</span></span>
-<span class="code-line"><span class="err">```</span></span>
-<span class="code-line"></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">```</span>
+<span class="p">&lt;</span><span class="k">type</span><span class="p">&gt;(&lt;</span><span class="nx">scope</span><span class="p">&gt;):</span><span class="w"> </span><span class="p">&lt;</span><span class="nx">subject</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nx">BLANK</span><span class="w"> </span><span class="nx">LINE</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nx">body</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nx">BLANK</span><span class="w"> </span><span class="nx">LINE</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nx">footer</span><span class="p">&gt;</span>
+<span class="err">```</span>
+</code></pre></div>
 
 <p>The header is mandatory and the scope of the header is optional.
 Any line of the commit message cannot be longer 100 characters!
 This allows the message to be easier to read on GitHub as well as in various git&nbsp;tools.</p>
-<h5>Type</h5>
+<h5 id="type_1">Type</h5>
 <p>The <type> describes the generic objective of the commit, use the same types used for branches. I will repeat them&nbsp;here:</p>
 <ul>
 <li><strong>feat</strong>: a new&nbsp;feature,</li>
@@ -161,11 +161,11 @@ This allows the message to be easier to read on GitHub as well as in various git
 <li><strong>chore</strong>: Changes to the build process or auxiliary tools for the project&nbsp;maintenance,</li>
 <li><strong>perf</strong>: A code change that improves&nbsp;performance.</li>
 </ul>
-<h5>Scope</h5>
+<h5 id="scope">Scope</h5>
 <p>The <scope> could be anything specifying place of the commit change. A scope should be a part of the project that the stakeholders understand.
 The possible scopes can be agreed beforehand with the developers and/or stakeholders.
 You can use * when the change affects more than a single scope, but you can also not put anything (remove the parentheses as&nbsp;well).</p>
-<h5>Subject</h5>
+<h5 id="subject_1">Subject</h5>
 <p>The <subject> contains succinct description of the&nbsp;change:</p>
 <ul>
 <li>use the imperative, present tense: &#8220;change&#8221; not &#8220;changed&#8221; nor&nbsp;&#8220;changes&#8221;</li>
@@ -173,15 +173,15 @@ You can use * when the change affects more than a single scope, but you can also
 <li>no dot (.) at the&nbsp;end</li>
 </ul>
 <p>Don’t use generic subjects as: &#8216;debug&#8217; or &#8216;few fixes&#8217;. Be clear and&nbsp;specific.</p>
-<h5>Body</h5>
+<h5 id="body">Body</h5>
 <p>The <body> is optional, but if you use it, just as in the subject, use the imperative, present tense: &#8220;change&#8221; not &#8220;changed&#8221; nor &#8220;changes&#8221;.
 The body should include the motivation for the change and contrast
 this with the previous&nbsp;behavior.</p>
-<h5>Footer</h5>
+<h5 id="footer">Footer</h5>
 <p>The <footer> is optional. The footer should contain any information about Breaking Changes and is also the place to reference GitHub issues that this commit closes.
 Breaking Changes should start with the word <span class="caps">BREAKING</span> <span class="caps">CHANGE</span>: with a space or two newlines. The rest of the commit message is then used for this.
 A detailed explanation can be found in the Angular.js&nbsp;document.</p>
-<h3>Pull&nbsp;Requests</h3>
+<h3 id="pull-requests">Pull&nbsp;Requests</h3>
 <p>The Pull or Merge Requests (<span class="caps">PR</span>) are used to share with your co-developers the code changes
 you did in your branch and ask them to review it. Here we always do a <span class="caps">PR</span> from your branch to
 the &#8216;main&#8217;&nbsp;branch.</p>
@@ -203,7 +203,7 @@ commits. You must also add a title and a&nbsp;description.</p>
 <p><strong>Pull request size:</strong> It should be small. The pull request must have a maximum of 250 lines of change.
 <strong>Feature breaking:</strong> Whenever it’s possible break pull requests into smaller ones.
 <strong>Single Responsibility Principle:</strong> The pull request should do only 1&nbsp;thing.</p>
-<h3><span class="caps">CI</span>/<span class="caps">CD</span></h3>
+<h3 id="cicd"><span class="caps">CI</span>/<span class="caps">CD</span></h3>
 <p>With this setup your <span class="caps">CI</span>/<span class="caps">CD</span> pipeline&nbsp;would:</p>
 <ol>
 <li>run your checks and tests for every push to a <span class="caps">PR</span> and every merge to&nbsp;&#8216;main&#8217;,</li>
@@ -212,8 +212,8 @@ commits. You must also add a title and a&nbsp;description.</p>
 </ol>
 <p>This deployment should trigger a release first, with automatic version bumping
 and change log generation. Bitbucket-pipelines supports&nbsp;this.</p>
-<h3><span style="color:red">Remember: git is a collaboration tool, not a reporting&nbsp;tool.</span></h3>
-<h3>References</h3>
+<h3 id="remember-git-is-a-collaboration-tool-not-a-reporting-tool"><span style="color:red">Remember: git is a collaboration tool, not a reporting&nbsp;tool.</span></h3>
+<h3 id="references">References</h3>
 <ul>
 <li><a href="https://medium.com/@hugooodias/the-anatomy-of-a-perfect-pull-request-567382bb6067">The anatomy of a perfect pull request – Hugo Dias –&nbsp;Medium</a></li>
 <li><a href="https://www.conventionalcommits.org/en/v1.0.0-beta.4/#specification">Conventional&nbsp;Commits</a></li>
@@ -235,6 +235,18 @@ and change log generation. Bitbucket-pipelines supports&nbsp;this.</p>
             <a href="https://alexsavio.github.io/pages/work-with-me.html">work with me</a>.
         </div>
     </aside>
+
+    <section class="article__related" aria-labelledby="related-heading">
+        <h2 id="related-heading">You might also like</h2>
+        <ul class="article__related__list">
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2017-12-30T12:28:00+01:00">Dec 2017</time>
+                </span>
+                <a href="https://alexsavio.github.io/git-cleanup-bfg.html">Remove big files from a git&nbsp;repository</a>
+            </li>
+        </ul>
+    </section>
 
 </article>
         </div>
