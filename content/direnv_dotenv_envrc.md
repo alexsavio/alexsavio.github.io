@@ -1,7 +1,7 @@
 Title: Taming Your Dev Chaos with direnv, .env, and .envrc (Plus a Sneak Peek at mise-en-place)
 Date: 2026-01-18
-Category: Development
-Tags: direnv, python, uv, environment, shell, productivity, mise
+Category: Tools
+Tags: direnv, environment, shell, uv, python, mise
 Slug: direnv-dotenv-envrc
 Summary: Stop manually juggling env vars like a clown — learn how direnv auto-magically handles your dev environments with .env and .envrc files. Includes a sick custom layout uv function for Python projects and a teaser on mise-en-place, the dev tool that does it all.
 

@@ -1,7 +1,7 @@
 Title: Installing Mayavi2
 Date: 2014-02-08 20:44:37
 Category: Python
-Tags: python, virtualenv, data
+Tags: python, mayavi, visualisation, neuroimaging
 Slug: data-analysis-tools-install
 Author: Alexandre M. Savio
 Summary: Installing Python data analysis tools

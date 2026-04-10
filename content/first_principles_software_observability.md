@@ -1,8 +1,9 @@
 Title: First Principles: Software Observability
 Date: 2026-03-19 20:45:00
-Category: Software Development
-Tags: observability, monitoring, software-engineering, first-principles
+Category: Engineering
+Tags: first-principles, observability, monitoring, logging, metrics, tracing
 Slug: first-principles-software-observability
+Series: First Principles
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
 Summary: Everyone knows observability means logs, metrics, and traces. But what if you strip away the vendor marketing, the inherited conventions, and the cargo-culted dashboards? What's actually true? A first-principles deconstruction of software observability.

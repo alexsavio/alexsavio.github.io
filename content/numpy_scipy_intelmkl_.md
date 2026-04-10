@@ -1,7 +1,7 @@
 Title: Compile Numpy and Scipy against Intel MKL
 Date: 2014-04-08 22:00
 Category: Python
-Tags: Numpy, Scipy, MKL, Python, OpenBLAS
+Tags: python, numpy, scipy, mkl, openblas, performance
 Slug: numpy_scipy_mkl
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com

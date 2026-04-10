@@ -1,7 +1,7 @@
 Title: How to keep a GitHub fork updated
 Date: 2014-05-30 21:00:00
-Category: Software
-Tags: git, unix
+Category: Tools
+Tags: git, github, fork
 Slug: keep_github_fork_updated
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com

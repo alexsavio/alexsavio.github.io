@@ -1,7 +1,7 @@
 Title: Installing common Python data analysis tools in virtualenv
 Date: 2014-04-26 18:38:37
 Category: Python
-Tags: python, virtualenv, data
+Tags: python, virtualenv, numpy, scipy, data-analysis
 Slug: data-analysis-tools-install
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com

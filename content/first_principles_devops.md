@@ -1,8 +1,9 @@
 Title: First Principles: DevOps
 Date: 2026-03-30 12:00:00
-Category: Software Development
-Tags: devops, first-principles, software-engineering, automation, observability, infrastructure
+Category: Engineering
+Tags: first-principles, devops, automation, infrastructure, kubernetes, ci-cd
 Slug: first-principles-devops
+Series: First Principles
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
 Summary: Strip away the Kubernetes hype, the "DevOps Engineer" job titles, and the cargo-culted CI/CD pipelines. What's actually true about DevOps when you reason from first principles? Five irreducible truths, six design principles, and a clear framework for right-sizing your operational complexity.

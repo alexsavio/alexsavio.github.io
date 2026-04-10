@@ -1,7 +1,7 @@
 Title: Testing Python pipelining modules for a simple neuroimaging task
 Date: 2015-08-28 22:15:00
 Category: Python
-Tags: python, neuroimage, pipeline
+Tags: python, neuroimaging, pipelines, nipype
 Slug: test_python_neuroimaging_pipelining
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com

@@ -1,7 +1,7 @@
 Title: Design patterns for a REST API built with Hug
 Date: 2018-10-08 22:15:00
 Category: Python
-Tags: python, api, web, rest
+Tags: python, hug, rest, api, web
 Slug: rest_api_patterns_with_hug
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com

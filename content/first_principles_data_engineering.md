@@ -1,8 +1,9 @@
 Title: First Principles: Data Engineering and ETLs
 Date: 2026-04-08 20:58:00
-Category: Software Development
-Tags: data-engineering, first-principles, software-engineering, etl, pipelines, data, rust, polars
+Category: Engineering
+Tags: first-principles, data-engineering, etl, pipelines, polars, rust
 Slug: first-principles-data-engineering
+Series: First Principles
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
 Summary: ETL is not a law of nature, it is a convention born from constraints that no longer exist. Strip data engineering down to its irreducible truths and rebuild it from scratch. What emerges is a discipline centered on contracts and observability, not pipelines and orchestrators.

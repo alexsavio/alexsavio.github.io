@@ -1,7 +1,7 @@
 Title: I Built a Full Trading Bot in 16 Days With AI: Here Is What Actually Happened
 Date: 2026-03-22
-Category: Software Development
-Tags: ai, agents, software-development, rust, trading, code-generation
+Category: Engineering
+Tags: ai, agents, claude-code, rust, trading, code-generation
 Slug: building-a-trading-bot-in-16-days-with-ai
 Author: Alexandre M. Savio
 Summary: From zero to a 225-commit Rust trading platform in 16 days — the real story of building begiravela with AI coding agents, including a database crisis that forced a full migration mid-sprint.

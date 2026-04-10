@@ -1,7 +1,7 @@
 Title: Remove big files from a git repository
 Date: 2017-12-30 12:28:00
-Category: Git
-Tags: git, clean, trash
+Category: Tools
+Tags: git, bfg, cleanup, history-rewrite
 Slug: git-cleanup-bfg
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com

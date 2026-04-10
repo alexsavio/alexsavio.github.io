@@ -1,7 +1,7 @@
 Title: Using BibLatex with Lyx and JabRef
 Date: 2014-02-27 18:11:46
-Category: LaTex
-Tags: latex, lyx, bibtex
+Category: Tools
+Tags: latex, lyx, bibtex, biblatex, bibliography
 Slug: biblatex_lyx_jabref_encoding
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com

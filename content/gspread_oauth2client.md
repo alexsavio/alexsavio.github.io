@@ -2,7 +2,7 @@ Title: Access Google Spreadsheets using gspread and OAuth2Client
 Date: 2015-05-14 19:11:46
 Modified: 2016-03-29 13:30:00
 Category: Python
-Tags: python, gspread, google, authentication
+Tags: python, google-sheets, gspread, oauth, api
 Slug: gspread_oauth2client_intro
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com

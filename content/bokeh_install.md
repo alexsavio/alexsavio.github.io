@@ -1,7 +1,7 @@
 Title: Install Bokeh from sources
 Date: 2014-11-11 22:11:46
 Category: Python
-Tags: python, plots, install
+Tags: python, bokeh, visualisation
 Slug: quick-bokeh
 Author: Alexandre M. Savio
 Email: alexsavio@gmail.com
