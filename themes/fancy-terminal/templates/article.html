@@ -72,6 +72,22 @@
         </div>
     </aside>
 
+    {% if article.related_posts %}
+    <section class="article__related" aria-labelledby="related-heading">
+        <h2 id="related-heading">You might also like</h2>
+        <ul class="article__related__list">
+            {% for related in article.related_posts[:4] %}
+            <li>
+                <span class="article__related__date">
+                    <time datetime="{{ related.date.isoformat() }}">{{ related.date|strftime('%b %Y') }}</time>
+                </span>
+                <a href="{{ SITEURL }}/{{ related.url }}">{{ related.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
     {% if article.prev_article or article.next_article %}
     <nav class="article__pager" aria-label="Post navigation">
         {% if article.prev_article %}
