@@ -3,8 +3,67 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}{{ SITENAME }}{% endblock %}</title>
+
+    {# --- Page metadata --------------------------------------------------- #}
+    {%- if article -%}
+        {%- set page_title = article.title|striptags ~ ' — ' ~ SITENAME -%}
+        {%- set page_description = (article.summary|striptags|truncate(280)) if article.summary else SITEDESCRIPTION -%}
+        {%- set page_url = SITEURL ~ '/' ~ article.url -%}
+        {%- set page_type = 'article' -%}
+        {%- set page_image = (SITEURL ~ '/' ~ (article.header_image if article.header_image else OG_DEFAULT_IMAGE)) -%}
+    {%- elif page -%}
+        {%- set page_title = page.title|striptags ~ ' — ' ~ SITENAME -%}
+        {%- set page_description = (page.summary|striptags|truncate(280)) if page.summary else SITEDESCRIPTION -%}
+        {%- set page_url = SITEURL ~ '/' ~ page.url -%}
+        {%- set page_type = 'profile' -%}
+        {%- set page_image = SITEURL ~ '/' ~ OG_DEFAULT_IMAGE -%}
+    {%- else -%}
+        {%- set page_title = SITENAME ~ ' — ' ~ SITESUBTITLE -%}
+        {%- set page_description = SITEDESCRIPTION -%}
+        {%- set page_url = SITEURL ~ '/' -%}
+        {%- set page_type = 'website' -%}
+        {%- set page_image = SITEURL ~ '/' ~ OG_DEFAULT_IMAGE -%}
+    {%- endif -%}
+
+    <title>{% block title %}{{ page_title }}{% endblock %}</title>
+    <meta name="description" content="{{ page_description }}" />
+    <meta name="author" content="{{ AUTHOR }}" />
+    <link rel="canonical" href="{{ page_url }}" />
+
+    {# --- Open Graph ------------------------------------------------------ #}
+    <meta property="og:site_name" content="{{ SITENAME }}" />
+    <meta property="og:type" content="{{ page_type }}" />
+    <meta property="og:title" content="{{ page_title }}" />
+    <meta property="og:description" content="{{ page_description }}" />
+    <meta property="og:url" content="{{ page_url }}" />
+    <meta property="og:image" content="{{ page_image }}" />
+    {%- if article %}
+    <meta property="article:published_time" content="{{ article.date|strftime('%Y-%m-%d') }}" />
+    {%- if article.modified %}
+    <meta property="article:modified_time" content="{{ article.modified|strftime('%Y-%m-%d') }}" />
+    {%- endif %}
+    {%- if article.category %}
+    <meta property="article:section" content="{{ article.category }}" />
+    {%- endif %}
+    {%- for tag in article.tags or [] %}
+    <meta property="article:tag" content="{{ tag }}" />
+    {%- endfor %}
+    {%- endif %}
+
+    {# --- Twitter card ---------------------------------------------------- #}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ page_title }}" />
+    <meta name="twitter:description" content="{{ page_description }}" />
+    <meta name="twitter:image" content="{{ page_image }}" />
+
+    {# --- Fonts ----------------------------------------------------------- #}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+
     <link rel="stylesheet" href="{{ SITEURL }}/theme/css/style.css" />
+
     {% if FEED_ALL_ATOM %}
     <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Atom Feed" />
     {% endif %}
@@ -12,6 +71,7 @@
     <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} RSS Feed" />
     {% endif %}
     {% block extra_head %}{% endblock %}
+
     {# Theme color overrides from config #}
     {% if THEME_COLORS %}
     <style>
@@ -30,157 +90,82 @@
     {% endif %}
 </head>
 <body{% if THEME_LIGHT_MODE %} class="light-theme"{% endif %}>
-    <div class="container">
-        <div class="terminal-window">
-            <div class="terminal-header">
-                <span class="terminal-btn close"></span>
-                <span class="terminal-btn minimize"></span>
-                <span class="terminal-btn maximize"></span>
-                <span class="terminal-title">{{ TERMINAL_TITLE|default('bash') }} — {{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}@{{ TERMINAL_HOST|default('blog') }}</span>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    {# --- Compact terminal strip as identity / brand header --------------- #}
+    <header class="site-header">
+        <div class="container">
+            <div class="terminal-strip" role="banner">
+                <div class="terminal-strip__chrome" aria-hidden="true">
+                    <span class="terminal-btn close"></span>
+                    <span class="terminal-btn minimize"></span>
+                    <span class="terminal-btn maximize"></span>
+                </div>
+                <div class="terminal-strip__prompt">
+                    <span class="prompt-user">{{ TERMINAL_USER|default('alex') }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span class="terminal-strip__cmd">whoami</span>
+                </div>
             </div>
-            <div class="terminal-body">
-                {# Login message #}
-                <div class="login-message">
-                    Last login: {{ now().strftime('%a %b %d %Y') if now is defined else 'Today' }} on ttys000<br>
-                    {% if SITESUBTITLE %}{{ SITESUBTITLE }}{% endif %}
-                </div>
 
-                {# Prompt with site name #}
-                <div class="prompt">
-                    <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
-                    <span>./welcome.sh</span>
-                </div>
-                <div class="command-output">
-                    <h1><a href="{{ SITEURL }}/">{{ SITENAME }}</a></h1>
-                </div>
+            <div class="site-identity">
+                <a class="site-identity__name" href="{{ SITEURL }}/">{{ SITENAME }}</a>
+                <p class="site-identity__tagline">{{ SITESUBTITLE }}</p>
+            </div>
 
-                {# Navigation menu as ls -la output #}
-                <div class="prompt">
-                    <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
-                    <span>ls -la</span>
-                </div>
-                <nav class="nav-menu command-output">
-                    <div class="nav-item">
-                        <span class="permissions">drwxr-xr-x</span>
-                        <a href="{{ SITEURL }}/" class="dirname">home</a>
-                        <span class="description">→ Back to start</span>
-                    </div>
-                    {% for title, link in MENUITEMS %}
-                    <div class="nav-item">
-                        <span class="permissions">drwxr-xr-x</span>
-                        <a href="{{ link }}" class="dirname">{{ title|lower|replace(' ', '_') }}</a>
-                        <span class="description">→ {{ title }}</span>
-                    </div>
-                    {% endfor %}
+            <nav class="site-nav" aria-label="Main navigation">
+                <ul>
+                    <li><a href="{{ SITEURL }}/">Home</a></li>
+                    <li><a href="{{ SITEURL }}/archives.html">Writing</a></li>
                     {% if DISPLAY_PAGES_ON_MENU %}
-                    {% for p in pages %}
-                    <div class="nav-item">
-                        <span class="permissions">-rw-r--r--</span>
-                        <a href="{{ SITEURL }}/{{ p.url }}" class="dirname">{{ p.title|lower|replace(' ', '_') }}</a>
-                        <span class="description">→ {{ p.title }}</span>
-                    </div>
-                    {% endfor %}
-                    {% endif %}
-                    <div class="nav-item">
-                        <span class="permissions">drwxr-xr-x</span>
-                        <a href="{{ SITEURL }}/archives.html" class="dirname">archives</a>
-                        <span class="description">→ All posts</span>
-                    </div>
-                    {% if DISPLAY_CATEGORIES_ON_MENU %}
-                    <div class="nav-item">
-                        <span class="permissions">drwxr-xr-x</span>
-                        <a href="{{ SITEURL }}/categories.html" class="dirname">categories</a>
-                        <span class="description">→ Browse by category</span>
-                    </div>
-                    {% endif %}
-                    {% if SOCIAL %}
-                    <div class="nav-item">
-                        <span class="permissions">lrwxr-xr-x</span>
-                        <span class="dirname">links</span>
-                        <span class="description">→
-                        {% for name, link in SOCIAL %}
-                            <a href="{{ link }}">{{ name }}</a>{% if not loop.last %} | {% endif %}
+                        {% for p in pages %}
+                        <li><a href="{{ SITEURL }}/{{ p.url }}"{% if page and page.url == p.url %} aria-current="page"{% endif %}>{{ p.title }}</a></li>
                         {% endfor %}
-                        </span>
-                    </div>
                     {% endif %}
-                </nav>
-
-                {# Main content #}
-                {% block content %}{% endblock %}
-
-                {# Footer prompt #}
-                <div class="footer">
-                    <div class="prompt">
-                        <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
-                        <span class="cursor"></span>
-                    </div>
-                    <p>&copy; {{ AUTHOR }} | Powered by <a href="http://getpelican.com/">Pelican</a> | Theme: fancy-terminal</p>
-                </div>
-            </div>
+                    {% for title, link in MENUITEMS %}
+                    <li><a href="{{ link }}">{{ title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
         </div>
-    </div>
+    </header>
+
+    <main id="main" class="site-main">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer__grid">
+                <div class="site-footer__availability">
+                    {% if SITE_AVAILABILITY %}
+                    <strong>Available for freelance engagements.</strong>
+                    <span>{{ SITE_AVAILABILITY }}.</span>
+                    {% endif %}
+                    {% if CONTACT_EMAIL %}
+                    <a class="site-footer__cta" href="mailto:{{ CONTACT_EMAIL }}">{{ CONTACT_EMAIL }}</a>
+                    {% endif %}
+                </div>
+                {% if SOCIAL %}
+                <ul class="site-footer__social">
+                    {% for name, link in SOCIAL %}
+                    <li><a href="{{ link }}" rel="me">{{ name }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <p class="site-footer__colophon">
+                &copy; {{ now().year if now is defined else '' }} {{ AUTHOR }}.
+                Built with <a href="https://getpelican.com/">Pelican</a>.
+            </p>
+        </div>
+    </footer>
+
     {% include "analytics.html" %}
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
-    </script>
-    <script>
-    (function() {
-        const terminalWindow = document.querySelector('.terminal-window');
-        const terminalBody = document.querySelector('.terminal-body');
-        const closeBtn = document.querySelector('.terminal-btn.close');
-        const minimizeBtn = document.querySelector('.terminal-btn.minimize');
-        const maximizeBtn = document.querySelector('.terminal-btn.maximize');
-
-        let isMinimized = false;
-        let isMaximized = false;
-
-        // Close button - shows "session ended" message
-        closeBtn.addEventListener('click', function() {
-            terminalBody.innerHTML = `
-                <div class="login-message" style="text-align: center; padding: 40px 0;">
-                    <p>logout</p>
-                    <p style="margin-top: 20px;">[Process completed]</p>
-                    <p style="margin-top: 30px; font-size: 0.85em;">
-                        <a href="{{ SITEURL }}/" style="color: var(--link-color);">→ Start new session</a>
-                    </p>
-                </div>
-            `;
-            terminalWindow.classList.add('closed');
-        });
-
-        // Minimize button - collapses terminal body
-        minimizeBtn.addEventListener('click', function() {
-            isMinimized = !isMinimized;
-            if (isMinimized) {
-                terminalBody.style.display = 'none';
-                terminalWindow.classList.add('minimized');
-            } else {
-                terminalBody.style.display = 'block';
-                terminalWindow.classList.remove('minimized');
-            }
-        });
-
-        // Maximize button - toggles fullscreen
-        maximizeBtn.addEventListener('click', function() {
-            isMaximized = !isMaximized;
-            if (isMaximized) {
-                terminalWindow.classList.add('maximized');
-                document.body.style.overflow = 'hidden';
-            } else {
-                terminalWindow.classList.remove('maximized');
-                document.body.style.overflow = '';
-            }
-        });
-
-        // Double-click header to maximize
-        document.querySelector('.terminal-header').addEventListener('dblclick', function(e) {
-            if (!e.target.classList.contains('terminal-btn')) {
-                maximizeBtn.click();
-            }
-        });
-    })();
     </script>
 </body>
 </html>

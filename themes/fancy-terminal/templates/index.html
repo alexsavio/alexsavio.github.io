@@ -1,38 +1,60 @@
 {% extends "base.html" %}
 
 {% block content %}
-{# Command to list articles #}
-<div class="prompt">
-    <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
-    <span>cat latest.log</span>
-</div>
+{% set is_first_page = (articles_page.number == 1) %}
 
-<section id="content" class="command-output">
-    <div class="article-list">
+{% if is_first_page and articles_page.object_list %}
+    {% set hero = articles_page.object_list[0] %}
+    <section class="post-hero" aria-labelledby="hero-title">
+        <p class="post-hero__eyebrow">Latest writing</p>
+        <h1 id="hero-title" class="post-hero__title">
+            <a href="{{ SITEURL }}/{{ hero.url }}">{{ hero.title }}</a>
+        </h1>
+        <p class="post-list__date">
+            <time datetime="{{ hero.date.isoformat() }}">{{ hero.date|strftime('%B %d, %Y') }}</time>
+            {% if hero.category %} · <a href="{{ SITEURL }}/{{ hero.category.url }}">{{ hero.category }}</a>{% endif %}
+        </p>
+        {% if hero.summary %}
+        <p class="post-hero__summary">{{ hero.summary|striptags|truncate(280) }}</p>
+        {% endif %}
+        <a class="post-hero__cta" href="{{ SITEURL }}/{{ hero.url }}">Read the post →</a>
+    </section>
+{% endif %}
+
+<section aria-labelledby="more-posts">
+    <h2 id="more-posts" class="sr-only" style="position:absolute;left:-9999px;">More posts</h2>
+    <ul class="post-list">
         {% for article in articles_page.object_list %}
-        <div class="article-entry">
-            <span class="article-date">[{{ article.date|strftime('%Y-%m-%d') }}]</span>
-            <a href="{{ SITEURL }}/{{ article.url }}" class="article-title">{{ article.title }}</a>
-            <div class="article-meta">
-                {% if article.category %}
-                category: <a href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a>
+            {% if not (is_first_page and loop.first) %}
+            <li class="post-list__item">
+                <span class="post-list__date">
+                    <time datetime="{{ article.date.isoformat() }}">{{ article.date|strftime('%B %d, %Y') }}</time>
+                </span>
+                <h3 class="post-list__title">
+                    <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+                </h3>
+                {% if article.summary %}
+                <p class="post-list__summary">{{ article.summary|striptags|truncate(220) }}</p>
                 {% endif %}
-                {% if article.tags %}
-                | tags:
-                {% for tag in article.tags %}
-                    <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }}</a>
-                {% endfor %}
-                {% endif %}
-            </div>
-            {% if article.summary %}
-            <div class="article-summary">{{ article.summary }}</div>
+                <div class="post-list__meta">
+                    {% if article.category %}
+                    <span><a href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a></span>
+                    {% endif %}
+                    {% if article.tags %}
+                    <span>
+                        {% for tag in article.tags[:4] %}
+                            <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }}</a>
+                        {% endfor %}
+                    </span>
+                    {% endif %}
+                </div>
+            </li>
             {% endif %}
-        </div>
         {% endfor %}
-    </div>
-
-    {% if articles_page.has_other_pages() %}
-    {% include "pagination.html" %}
-    {% endif %}
+    </ul>
 </section>
+
+{% if articles_page.has_other_pages() %}
+    {% include "pagination.html" %}
+{% endif %}
 {% endblock %}

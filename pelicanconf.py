@@ -5,8 +5,13 @@ from pathlib import Path
 VERSION = "1.0.0"
 
 AUTHOR = "Alexandre Manhães Savio"
-SITENAME = "Interlines"
-SITESUBTITLE = "Lost in spikes"
+SITENAME = "Alexandre Manhães Savio"
+SITESUBTITLE = "Freelance Software, Cloud & AI Engineer"
+SITEDESCRIPTION = (
+    "Freelance engineer building software, cloud and AI systems for R&D-heavy teams. "
+    "Ex-academia with 8+ years in medical imaging and machine learning."
+)
+SITE_AVAILABILITY = "Accepting new engagements for Q2 2026"
 SITEURL = ""  # Set to production URL in publishconf.py
 
 TIMEZONE = "Europe/Paris"
@@ -35,8 +40,9 @@ THEME_COLORS = {
 }
 
 COVER_IMG_URL = "imgs/blog_wallpaper.jpeg"
-PROFILE_IMAGE_URL = "imgs/neurita.png"
-TAGLINE = "Software Engineer. Cloud, IoT, DevOps, neuroimaging, machine-learning, Python and C++ coder. ACPySS and ex-EuroPython."
+PROFILE_IMAGE_URL = "imgs/alex_headshot.png"
+OG_DEFAULT_IMAGE = "imgs/alex_headshot.png"
+TAGLINE = "Freelance Software, Cloud & AI Engineer. Ex-academia (neuroimaging, ML). ACPySS and ex-EuroPython."
 
 PDF_GENERATOR = True
 
@@ -83,19 +89,20 @@ CATEGORY_FEED_ATOM = "feeds/{slug}.atom.xml"
 FEED_ALL_RSS = "feeds/all.rss.xml"
 CATEGORY_FEED_RSS = "feeds/{slug}.rss.xml"
 
-# Blogroll
-LINKS = (
-    ("Pelican", "http://getpelican.com/"),
-    ("Python.org", "http://python.org/"),
-)
+# Blogroll — intentionally empty; real links live in SOCIAL + MENUITEMS.
+LINKS = ()
 
-# Social widget
+# Contact
+CONTACT_EMAIL = "alexsavio@gmail.com"
+
+# Social links (name, url) — name is also used as a short label in the footer.
 SOCIAL = (
-    ("twitter-square", "https://twitter.com/alex_savio"),
-    ("github", "https://github.com/alexsavio"),
+    ("GitHub", "https://github.com/alexsavio"),
+    ("LinkedIn", "https://www.linkedin.com/in/alexsavio/"),
+    ("ORCID", "https://orcid.org/0000-0002-6608-6885"),
+    ("RSS", "/feeds/all.atom.xml"),
 )
 
-TWITTER_USERNAME = "alex_savio"
 GITHUB_URL = "https://github.com/alexsavio"
 GITHUB_ACTIVITY_FEED = "https://github.com/alexsavio.atom"
 
@@ -110,6 +117,7 @@ DEFAULT_PAGINATION = 10
 # STATIC_SAVE_AS = '{path}'
 # STATIC_URL = '{path}'
 PATH = "content"
+PAGE_PATHS = ["pages"]
 
 STATIC_PATHS = [
     "imgs",
@@ -117,19 +125,14 @@ STATIC_PATHS = [
     "keybase.txt",
 ]
 
-
-# TEMPLATE_PAGES = {'pages/about.md': 'about.html',}
-#                  '/resume.': 'resume.html',
-#                  'pages/contact.html': 'contact.html'}
-
 # code blocks with line numbers
 PYGMENTS_RST_OPTIONS = {"classprefix": "pgcss", "linenos": "table"}
 
-MENUITEMS = [  # ('About', 'about.html'),
-    ("About Me", "http://www.ehu.es/ccwintco/index.php?title=Usuario:Alexsavio"),
-    ("ORCID", "https://orcid.org/0000-0002-6608-6885"),
-    ("Surf-Forecast", "http://www.surf-forecast.com/breaks/Zarautz/forecasts/latest/six_day"),
-]
+# Menu is driven by DISPLAY_PAGES_ON_MENU (about, work-with-me)
+# plus the items below for non-page destinations.
+# Note: SITEURL is prepended in the template for menu items, so use relative paths here.
+MENUITEMS = []
+DISPLAY_CATEGORIES_ON_MENU = False
 DATE_FORMATS = {
     "en_US": "%a, %b %d %Y",
 }

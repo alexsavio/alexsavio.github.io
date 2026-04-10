@@ -1,25 +1,27 @@
 {% extends "base.html" %}
 
-{% block title %}Tag: {{ tag }} | {{ SITENAME }}{% endblock %}
+{% block title %}#{{ tag }} — {{ SITENAME }}{% endblock %}
 
 {% block content %}
-<div class="prompt">
-    <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
-    <span>grep -l "{{ tag }}" *.md</span>
-</div>
-
-<section class="command-output">
-    <h2># Posts tagged: <span class="tag">{{ tag }}</span></h2>
-    <div class="article-list">
+<section>
+    <h1>Tagged <span class="tag">{{ tag }}</span></h1>
+    <p class="post-list__summary" style="max-width:68ch;">
+        {{ articles|length }} post{{ 's' if articles|length != 1 else '' }} tagged with <code>{{ tag }}</code>.
+    </p>
+    <ul class="post-list">
         {% for article in articles %}
-        <div class="article-entry">
-            <span class="article-date">[{{ article.date|strftime('%Y-%m-%d') }}]</span>
-            <a href="{{ SITEURL }}/{{ article.url }}" class="article-title">{{ article.title }}</a>
+        <li class="post-list__item">
+            <span class="post-list__date">
+                <time datetime="{{ article.date.isoformat() }}">{{ article.date|strftime('%B %d, %Y') }}</time>
+            </span>
+            <h3 class="post-list__title">
+                <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+            </h3>
             {% if article.summary %}
-            <div class="article-summary">{{ article.summary|truncate(150) }}</div>
+            <p class="post-list__summary">{{ article.summary|striptags|truncate(220) }}</p>
             {% endif %}
-        </div>
+        </li>
         {% endfor %}
-    </div>
+    </ul>
 </section>
 {% endblock %}

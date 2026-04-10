@@ -1,31 +1,25 @@
 {% extends "base.html" %}
 
-{% block title %}Archives | {{ SITENAME }}{% endblock %}
+{% block title %}Writing — {{ SITENAME }}{% endblock %}
 
 {% block content %}
-<div class="prompt">
-    <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
-    <span>ls -la --sort=time</span>
-</div>
+<section class="archives" aria-labelledby="archives-heading">
+    <h1 id="archives-heading">Writing</h1>
+    <p class="archives__intro">
+        Long-form pieces on software, cloud, and the first-principles series
+        on engineering practice. Newest first.
+    </p>
 
-<section class="command-output">
-    <h2># Archives</h2>
-    <div class="article-list">
-        {% set current_year = None %}
-        {% for article in dates %}
-        {% set article_year = article.date.year %}
-        {% if article_year != current_year %}
-        {% if current_year != None %}</div>{% endif %}
-        <h3># {{ article_year }}</h3>
-        <div class="year-articles">
-        {% set current_year = article_year %}
-        {% endif %}
-        <div class="article-entry">
-            <span class="article-date">[{{ article.date|strftime('%Y-%m-%d') }}]</span>
-            <a href="{{ SITEURL }}/{{ article.url }}" class="article-title">{{ article.title }}</a>
-        </div>
+    {% for year, posts in dates|groupby('date.year')|reverse %}
+    <h2 class="archives__year">{{ year }}</h2>
+    <ul class="archive-list">
+        {% for article in posts %}
+        <li>
+            <time datetime="{{ article.date.isoformat() }}">{{ article.date|strftime('%b %d') }}</time>
+            <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+        </li>
         {% endfor %}
-        </div>
-    </div>
+    </ul>
+    {% endfor %}
 </section>
 {% endblock %}

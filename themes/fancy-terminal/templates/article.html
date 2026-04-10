@@ -1,40 +1,54 @@
 {% extends "base.html" %}
 
-{% block title %}{{ article.title|striptags }} | {{ SITENAME }}{% endblock %}
+{% block title %}{{ article.title|striptags }} — {{ SITENAME }}{% endblock %}
 
 {% block content %}
-{# Command to read article #}
-<div class="prompt">
-    <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
-    <span>cat {{ article.slug }}.md</span>
-</div>
+<article class="article" itemscope itemtype="https://schema.org/BlogPosting">
+    <header class="article__header">
+        {% if article.category %}
+        <p class="article__kicker">
+            <a href="{{ SITEURL }}/{{ article.category.url }}" itemprop="articleSection">{{ article.category }}</a>
+        </p>
+        {% endif %}
 
-<article class="command-output">
-    <header>
-        <h2>{{ article.title }}</h2>
-        <div class="article-meta">
-            <span class="article-date">[{{ article.date|strftime('%Y-%m-%d %H:%M') }}]</span>
+        <h1 class="article__title" itemprop="headline">{{ article.title }}</h1>
+
+        <div class="article__meta">
+            <time itemprop="datePublished" datetime="{{ article.date.isoformat() }}">
+                {{ article.date|strftime('%B %d, %Y') }}
+            </time>
             {% if article.modified %}
-            | modified: {{ article.modified|strftime('%Y-%m-%d') }}
+            <span>· updated <time itemprop="dateModified" datetime="{{ article.modified.isoformat() }}">{{ article.modified|strftime('%b %d, %Y') }}</time></span>
             {% endif %}
-            {% if article.author %}
-            | author: <a href="{{ SITEURL }}/{{ article.author.url }}">{{ article.author }}</a>
-            {% endif %}
-            {% if article.category %}
-            | category: <a href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a>
+            {% if article.content %}
+            {% set wordcount = article.content|striptags|wordcount %}
+            <span>· {{ (wordcount / 220)|round(0, 'ceil')|int }} min read</span>
             {% endif %}
         </div>
+
         {% if article.tags %}
-        <div class="article-meta">
-            tags:
+        <div class="article__meta" style="margin-top: 0.75rem;">
             {% for tag in article.tags %}
                 <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }}</a>
             {% endfor %}
         </div>
         {% endif %}
+
+        {% if article.series %}
+        <p class="article__series">
+            <strong>Part of the {{ article.series.name }} series</strong> —
+            Part {{ article.series.index }} of {{ article.series.all|length }}.
+            {% if article.series.previous %}
+            <br>← Previous: <a href="{{ SITEURL }}/{{ article.series.previous.url }}">{{ article.series.previous.title }}</a>
+            {% endif %}
+            {% if article.series.next %}
+            <br>→ Next: <a href="{{ SITEURL }}/{{ article.series.next.url }}">{{ article.series.next.title }}</a>
+            {% endif %}
+        </p>
+        {% endif %}
     </header>
 
-    <div class="article-content">
+    <div class="article__content" itemprop="articleBody">
         {{ article.content }}
     </div>
 
@@ -46,21 +60,35 @@
         {% endfor %}
     </div>
     {% endif %}
-</article>
 
-{# Navigation between articles #}
-<div class="prompt" style="margin-top: 30px;">
-    <span class="prompt-user">{{ TERMINAL_USER|default(AUTHOR|default('user'))|lower }}</span><span class="prompt-at">@</span><span class="prompt-host">{{ TERMINAL_HOST|default('blog') }}</span><span class="prompt-separator">:</span><span class="prompt-path">~/posts</span><span class="prompt-symbol">$</span>
-    <span>ls -1 | head</span>
-</div>
-<div class="command-output pagination">
-    {% if article.prev_article %}
-    <a href="{{ SITEURL }}/{{ article.prev_article.url }}">← {{ article.prev_article.title|truncate(40) }}</a>
-    {% else %}
-    <span></span>
+    <aside class="article__byline" aria-label="About the author">
+        <img src="{{ SITEURL }}/imgs/alex_headshot.png"
+             alt="{{ AUTHOR }}" width="64" height="64" />
+        <div class="article__byline__text">
+            <strong>{{ AUTHOR }}</strong>
+            Freelance Software, Cloud &amp; AI engineer. Ex-academia (neuroimaging, ML).
+            Currently accepting new engagements —
+            <a href="{{ SITEURL }}/pages/work-with-me.html">work with me</a>.
+        </div>
+    </aside>
+
+    {% if article.prev_article or article.next_article %}
+    <nav class="article__pager" aria-label="Post navigation">
+        {% if article.prev_article %}
+        <a href="{{ SITEURL }}/{{ article.prev_article.url }}" rel="prev">
+            <span class="article__pager__label">← Previous</span>
+            {{ article.prev_article.title|truncate(60) }}
+        </a>
+        {% else %}
+        <span></span>
+        {% endif %}
+        {% if article.next_article %}
+        <a class="article__pager__next" href="{{ SITEURL }}/{{ article.next_article.url }}" rel="next">
+            <span class="article__pager__label">Next →</span>
+            {{ article.next_article.title|truncate(60) }}
+        </a>
+        {% endif %}
+    </nav>
     {% endif %}
-    {% if article.next_article %}
-    <a href="{{ SITEURL }}/{{ article.next_article.url }}">{{ article.next_article.title|truncate(40) }} →</a>
-    {% endif %}
-</div>
+</article>
 {% endblock %}
