@@ -2,6 +2,20 @@
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Alexandre Manhães Savio</title><link href="https://alexsavio.github.io/" rel="alternate"/><link href="https://alexsavio.github.io/feeds/all.atom.xml" rel="self"/><id>https://alexsavio.github.io/</id><updated>2026-04-09T18:00:00+02:00</updated><subtitle>Freelance Software, Cloud &amp; AI Engineer</subtitle><entry><title>First Principles: Distributed Systems (Most of Yours Should Not Exist)</title><link href="https://alexsavio.github.io/first-principles-distributed-systems.html" rel="alternate"/><published>2026-04-09T18:00:00+02:00</published><updated>2026-04-09T18:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-04-09:/first-principles-distributed-systems.html</id><summary type="html">&lt;p&gt;Distributed systems thinking is drowning in inherited wisdom — microservices by default, horizontal scaling as a reflex, eventual consistency as a catchphrase. Strip it down to six irreducible truths and most of that architectural baggage falls away. The uncomfortable conclusion: the first, cheapest, most reliable distributed system is the one you did not&amp;nbsp;build.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
 &lt;p&gt;Distributed systems thinking is drowning in inherited wisdom: microservices by default, horizontal scaling as a reflex, eventual consistency as a catchphrase. Strip the topic down to its irreducible truths, the six things that are actually provable, and most of that architectural baggage falls away. The uncomfortable conclusion: the first, cheapest, most reliable distributed system is the one you did not build. Everything else is a tax you should only pay when you can prove it buys you&amp;nbsp;something.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;This is the fifth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what&amp;#8217;s actually provable. Previous entries: &lt;a href="https://alexsavio.github.io/first-principles-software-observability.html"&gt;Software Observability&lt;/a&gt;, &lt;a href="https://alexsavio.github.io/first-principles-software-design.html"&gt;Software Design&lt;/a&gt;, &lt;a href="https://alexsavio.github.io/first-principles-devops.html"&gt;DevOps&lt;/a&gt;, and &lt;a href="https://alexsavio.github.io/first-principles-data-engineering.html"&gt;Data Engineering&lt;/a&gt;. Distributed systems felt like the right next target because few topics have a wider gap between what engineers repeat and what they&amp;#8217;ve actually&amp;nbsp;measured.&lt;/em&gt;&lt;/p&gt;
+&lt;div class="toc"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-conventional-view"&gt;The Conventional&amp;nbsp;View&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-people-just-assume"&gt;What People Just&amp;nbsp;Assume&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-actually-survives-scrutiny"&gt;What Actually Survives&amp;nbsp;Scrutiny&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-falls-away"&gt;What Falls&amp;nbsp;Away&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#rebuilt-from-scratch"&gt;Rebuilt From&amp;nbsp;Scratch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-changes-when-you-think-this-way"&gt;What Changes When You Think This&amp;nbsp;Way&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#when-you-actually-need-distribution"&gt;When You Actually Need&amp;nbsp;Distribution&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-honest-architectural-test"&gt;The Honest Architectural&amp;nbsp;Test&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#references"&gt;References&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;hr&gt;
 &lt;h2 id="the-conventional-view"&gt;The Conventional&amp;nbsp;View&lt;/h2&gt;
 &lt;p&gt;Ask any backend engineer how to scale a system and the answer comes out reflexively: split the work across nodes, replicate for reliability, reach for consensus when you need agreement, accept that complexity is the price of scale. &lt;em&gt;&amp;#8220;You need a distributed system&amp;#8221;&lt;/em&gt; has quietly become the default answer for any non-trivial backend. Microservices are &amp;#8220;modern&amp;#8221;. A monolith is &amp;#8220;legacy&amp;#8221;. Kubernetes is table&amp;nbsp;stakes.&lt;/p&gt;
@@ -175,6 +189,46 @@ flowchart LR
 &lt;/ol&gt;</content><category term="Engineering"/><category term="first-principles"/><category term="distributed-systems"/><category term="architecture"/><category term="microservices"/><category term="scalability"/><category term="backend"/></entry><entry><title>First Principles: Data Engineering and ETLs</title><link href="https://alexsavio.github.io/first-principles-data-engineering.html" rel="alternate"/><published>2026-04-08T20:58:00+02:00</published><updated>2026-04-08T20:58:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-04-08:/first-principles-data-engineering.html</id><summary type="html">&lt;p&gt;&lt;span class="caps"&gt;ETL&lt;/span&gt; is not a law of nature, it is a convention born from constraints that no longer exist. Strip data engineering down to its irreducible truths and rebuild it from scratch. What emerges is a discipline centered on contracts and observability, not pipelines and&amp;nbsp;orchestrators.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
 &lt;p&gt;Most of what we call &amp;#8220;data engineering&amp;#8221; is a set of conventions inherited from an era of expensive compute and scarce storage. When you strip it down to first principles, only five truths survive: producers and consumers operate in different contexts, data must cross boundaries, semantic alignment is unavoidable, computation trades off time against money against complexity, and data without provenance is unreliable. Everything else, from the sacred &lt;span class="caps"&gt;ETL&lt;/span&gt; ordering to the &amp;#8220;collect everything&amp;#8221; data lake mentality, is implementation detail that should be&amp;nbsp;questioned.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;This is the fourth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what&amp;#8217;s provably true. The first one tackled &lt;a href="https://alexsavio.github.io/first-principles-software-observability.html"&gt;Software Observability&lt;/a&gt;, the second &lt;a href="https://alexsavio.github.io/first-principles-software-design.html"&gt;Software Design&lt;/a&gt;, and the third &lt;a href="https://alexsavio.github.io/first-principles-devops.html"&gt;DevOps&lt;/a&gt;. Data engineering is the next natural target, because few disciplines have calcified around tooling as fast as this&amp;nbsp;one.&lt;/em&gt;&lt;/p&gt;
+&lt;div class="toc"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-conventional-view"&gt;The Conventional&amp;nbsp;View&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-assumptions-we-carry"&gt;The Assumptions We Carry&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#when-the-heuristics-break"&gt;When the heuristics&amp;nbsp;break&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-survives-scrutiny"&gt;What Survives Scrutiny&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#1-producers-and-consumers-operate-in-different-contexts"&gt;1. Producers and consumers operate in different&amp;nbsp;contexts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#2-data-must-cross-context-boundaries"&gt;2. Data must cross context&amp;nbsp;boundaries&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#3-semantic-alignment-is-unavoidable"&gt;3. Semantic alignment is&amp;nbsp;unavoidable&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#4-computation-trades-off-time-money-and-complexity"&gt;4. Computation trades off time, money, and&amp;nbsp;complexity&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#5-data-without-provenance-is-unreliable"&gt;5. Data without provenance is&amp;nbsp;unreliable&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-airflow-cargo-cult"&gt;The Airflow Cargo&amp;nbsp;Cult&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-falls-away"&gt;What Falls Away&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#etl-as-the-defining-paradigm"&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;&lt;span class="caps"&gt;ETL&lt;/span&gt;&amp;#8221; as the defining&amp;nbsp;paradigm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#more-data-is-better"&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;More data is&amp;nbsp;better&amp;#8221;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#data-engineers-build-analysts-consume"&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Data engineers build, analysts&amp;nbsp;consume&amp;#8221;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#batch-is-default-streaming-is-special"&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Batch is default, streaming is&amp;nbsp;special&amp;#8221;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#rebuilt-from-scratch"&gt;Rebuilt From Scratch&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#start-with-data-contracts-not-pipelines"&gt;Start with data contracts, not&amp;nbsp;pipelines&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-pipeline-is-a-consequence-not-the-product"&gt;The pipeline is a consequence, not the&amp;nbsp;product&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#transform-at-the-boundary-not-in-a-dedicated-layer"&gt;Transform at the boundary, not in a dedicated&amp;nbsp;layer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#observe-data-dont-just-test-it"&gt;Observe data, don&amp;#8217;t just test&amp;nbsp;it&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#collect-data-when-you-can-articulate-who-will-use-it"&gt;Collect data when you can articulate who will use&amp;nbsp;it&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#make-lineage-and-freshness-first-class"&gt;Make lineage and freshness&amp;nbsp;first-class&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-tooling-is-catching-up"&gt;The Tooling Is Catching&amp;nbsp;Up&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#smell-test-are-you-carrying-baggage"&gt;Smell Test: Are You Carrying&amp;nbsp;Baggage?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-changes"&gt;What&amp;nbsp;Changes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#implications"&gt;Implications&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#references"&gt;References&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;hr&gt;
 &lt;h2 id="the-conventional-view"&gt;The Conventional&amp;nbsp;View&lt;/h2&gt;
 &lt;p&gt;Data engineering is about building &lt;strong&gt;pipelines&lt;/strong&gt; that Extract data from sources, Transform it into a usable shape, and Load it into a destination (usually a warehouse). Teams invest heavily in orchestrators like Airflow, maintain complex DAGs, enforce strict schemas, and treat the warehouse as the single source of&amp;nbsp;truth.&lt;/p&gt;
@@ -422,6 +476,21 @@ graph LR
 &lt;/ol&gt;</content><category term="Engineering"/><category term="first-principles"/><category term="data-engineering"/><category term="etl"/><category term="pipelines"/><category term="polars"/><category term="rust"/></entry><entry><title>First Principles: DevOps</title><link href="https://alexsavio.github.io/first-principles-devops.html" rel="alternate"/><published>2026-03-30T12:00:00+02:00</published><updated>2026-03-30T12:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-03-30:/first-principles-devops.html</id><summary type="html">&lt;p&gt;Strip away the Kubernetes hype, the &amp;#8220;DevOps Engineer&amp;#8221; job titles, and the cargo-culted &lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;span class="caps"&gt;CD&lt;/span&gt; pipelines. What&amp;#8217;s actually true about DevOps when you reason from first principles? Five irreducible truths, six design principles, and a clear framework for right-sizing your operational&amp;nbsp;complexity.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
 &lt;p&gt;Most of what passes for &amp;#8220;DevOps&amp;#8221; is tool adoption dressed up as strategy. When you strip away inherited conventions and industry hype, only five truths survive: value dies in the gap between developer and user, feedback loops drive improvement, reproducibility reduces risk, handoffs cost superlinearly, and recovery beats prevention. Everything else, from Kubernetes to the &amp;#8220;DevOps Engineer&amp;#8221; job title, is implementation detail that should be proportional to your actual coordination&amp;nbsp;problem.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;This is the third post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what&amp;#8217;s actually provable. The first one tackled &lt;a href="https://alexsavio.github.io/first-principles-software-observability.html"&gt;Software Observability&lt;/a&gt;, the second one &lt;a href="https://alexsavio.github.io/first-principles-software-design.html"&gt;Software Design&lt;/a&gt;. DevOps felt like the natural next target, because few topics have a wider gap between what people say and what they actually&amp;nbsp;do.&lt;/em&gt;&lt;/p&gt;
+&lt;div class="toc"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-conventional-view"&gt;The Conventional&amp;nbsp;View&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-assumptions-we-carry"&gt;The Assumptions We&amp;nbsp;Carry&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-survives-scrutiny"&gt;What Survives&amp;nbsp;Scrutiny&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-falls-away"&gt;What Falls&amp;nbsp;Away&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-steel-case-for-convention"&gt;The Steel Case for&amp;nbsp;Convention&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#rebuilt-from-scratch"&gt;Rebuilt From&amp;nbsp;Scratch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-changes"&gt;What&amp;nbsp;Changes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#right-sizing-checklist"&gt;Right-Sizing&amp;nbsp;Checklist&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-to-do-about-it"&gt;What to Do About&amp;nbsp;It&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#references"&gt;References&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;h2 id="the-conventional-view"&gt;The Conventional&amp;nbsp;View&lt;/h2&gt;
 &lt;p&gt;DevOps is the practice of unifying software development and &lt;span class="caps"&gt;IT&lt;/span&gt; operations through shared tooling, culture, and automation. Most organizations interpret this as: adopt &lt;span class="caps"&gt;CI&lt;/span&gt;/&lt;span class="caps"&gt;CD&lt;/span&gt; pipelines, containerize everything, use Infrastructure as Code, monitor with dashboards, and hire people with &amp;#8220;DevOps Engineer&amp;#8221; in their&amp;nbsp;title.&lt;/p&gt;
 &lt;p&gt;The conversation typically centers on tools (Kubernetes, Terraform, Jenkins, GitHub Actions) rather than on the underlying problem being solved. This is the first sign that something has gone wrong: when the answer comes before the&amp;nbsp;question.&lt;/p&gt;
@@ -649,6 +718,31 @@ Before automating, ask: How often does this run? What&amp;#8217;s the cost of do
 &lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-software-observability.html"&gt;First Principles: Software Observability&lt;/a&gt; - Related post applying the same first-principles method to&amp;nbsp;observability&lt;/li&gt;
 &lt;/ol&gt;</content><category term="Engineering"/><category term="first-principles"/><category term="devops"/><category term="automation"/><category term="infrastructure"/><category term="kubernetes"/><category term="ci-cd"/></entry><entry><title>First Principles: Software Design</title><link href="https://alexsavio.github.io/first-principles-software-design.html" rel="alternate"/><published>2026-03-21T11:00:00+01:00</published><updated>2026-03-21T11:00:00+01:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-03-21:/first-principles-software-design.html</id><summary type="html">&lt;p&gt;Strip away the design patterns, the &lt;span class="caps"&gt;SOLID&lt;/span&gt; principles, and the architecture astronautics. What&amp;#8217;s actually true about software design when you reason from fundamentals? Five irreducible truths, three reconstruction principles, and a framework for making design decisions based on cognitive load, not&amp;nbsp;convention.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
 &lt;p&gt;Most software design advice is convention dressed up as truth. When you strip away the inherited thinking, only five things survive scrutiny: software transforms input to output, human working memory is limited, change costs dominate creation costs, coupling determines blast radius, and naming compresses complexity. Rebuilding from these truths produces a discipline centered on cognitive load management and deletability, not extensibility and pattern&amp;nbsp;compliance.&lt;/p&gt;
+&lt;div class="toc"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-conventional-view"&gt;The Conventional&amp;nbsp;View&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-assumptions-we-carry"&gt;The Assumptions We&amp;nbsp;Carry&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-survives-scrutiny"&gt;What Survives&amp;nbsp;Scrutiny&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-falls-away"&gt;What Falls&amp;nbsp;Away&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-heuristics-handle-with-care"&gt;The Heuristics: Handle With&amp;nbsp;Care&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#rebuilt-from-scratch"&gt;Rebuilt From Scratch&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#principle-1-optimize-for-deletion-not-extension"&gt;Principle 1: Optimize for Deletion, Not&amp;nbsp;Extension&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#principle-2-inline-until-it-hurts-then-extract"&gt;Principle 2: Inline Until It Hurts, Then&amp;nbsp;Extract&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#principle-3-make-dependencies-visible-and-explicit"&gt;Principle 3: Make Dependencies Visible and&amp;nbsp;Explicit&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-design-process-that-follows"&gt;The Design Process That Follows&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#should-i-abstract-this"&gt;Should I Abstract&amp;nbsp;This?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#evidence-from-the-wild"&gt;Evidence From the&amp;nbsp;Wild&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#but-what-about-large-systems"&gt;But What About Large&amp;nbsp;Systems?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-changes"&gt;What&amp;nbsp;Changes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#implications"&gt;Implications&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#references"&gt;References&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;h2 id="the-conventional-view"&gt;The Conventional&amp;nbsp;View&lt;/h2&gt;
 &lt;p&gt;Software design, as typically taught and practiced, is about organizing code into clean abstractions, following established patterns (&lt;span class="caps"&gt;MVC&lt;/span&gt;, microservices, hexagonal architecture), applying &lt;span class="caps"&gt;SOLID&lt;/span&gt; principles, and writing extensible systems that anticipate future change. Good design means separation of concerns, low coupling, high cohesion, and layers of indirection that make the system&amp;nbsp;&amp;#8220;flexible&amp;#8221;.&lt;/p&gt;
 &lt;p&gt;Most of this is convention. Some of it is useful. Very little of it is&amp;nbsp;fundamental.&lt;/p&gt;
@@ -746,7 +840,7 @@ Before automating, ask: How often does this run? What&amp;#8217;s the cost of do
 &lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;DRY&lt;/span&gt;&lt;/strong&gt; is useful when duplication causes &lt;em&gt;bugs&lt;/em&gt; (changing one copy but forgetting the other). It&amp;#8217;s harmful when it creates premature abstractions that couple unrelated things. The question is not &amp;#8220;is this duplicated?&amp;#8221; but &amp;#8220;is this duplication causing actual&amp;nbsp;problems?&amp;#8221;&lt;/p&gt;
 &lt;p&gt;Here&amp;#8217;s what happens when &lt;span class="caps"&gt;DRY&lt;/span&gt; goes wrong. You notice three functions that look similar, so you &amp;#8220;extract the&amp;nbsp;commonality&amp;#8221;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# The DRY trap: one function, 16 code paths, nobody understands it&lt;/span&gt;
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;process_record&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;process_record&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="n"&gt;validate&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;bool&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="n"&gt;enrich&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;bool&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -768,16 +862,16 @@ Before automating, ask: How often does this run? What&amp;#8217;s the cost of do
 
 &lt;p&gt;Versus the &amp;#8220;duplicated&amp;#8221;&amp;nbsp;version:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Three functions, each trivially understandable&lt;/span&gt;
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;ingest_from_api&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;ingest_from_api&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;validate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;normalize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;ingest_from_partner&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;ingest_from_partner&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;validate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;record&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fetch_enrichment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;normalize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;ingest_from_migration&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;ingest_from_migration&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;record&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;normalize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;publish&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;record&lt;/span&gt;
@@ -812,19 +906,19 @@ flowchart LR
 &lt;p&gt;In the conventional model, the base class is a single point of failure for change. In the first-principles model, any module can be deleted and rewritten without cascading&amp;nbsp;effects.&lt;/p&gt;
 &lt;p&gt;Here&amp;#8217;s the difference in code. The &amp;#8220;extensible&amp;#8221;&amp;nbsp;version:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# The Strategy Pattern way: 5 files, 3 abstractions, 1 actual behavior&lt;/span&gt;
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;NotificationStrategy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ABC&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;NotificationStrategy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ABC&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="nd"&gt;@abstractmethod&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;send&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;User&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;send&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;User&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
 
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;EmailStrategy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NotificationStrategy&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;send&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;User&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;EmailStrategy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NotificationStrategy&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;send&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;User&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="n"&gt;smtp_client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;send&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;email&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;NotificationService&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strategy&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;NotificationStrategy&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;NotificationService&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strategy&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;NotificationStrategy&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
         &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_strategy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;strategy&lt;/span&gt;
 
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;User&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;User&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_strategy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;send&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="c1"&gt;# Usage: requires a factory or DI container to wire up&lt;/span&gt;
@@ -834,7 +928,7 @@ flowchart LR
 
 &lt;p&gt;The &amp;#8220;deletable&amp;#8221;&amp;nbsp;version:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# The direct way: 1 file, 0 abstractions, same behavior&lt;/span&gt;
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;send_email&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;User&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;send_email&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;User&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;smtp_client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;send&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;email&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="c1"&gt;# Usage: call the function&lt;/span&gt;
@@ -966,6 +1060,34 @@ flowchart TD
 &lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-software-observability.html"&gt;First Principles: Software Observability&lt;/a&gt; - related first-principles&amp;nbsp;analysis&lt;/li&gt;
 &lt;/ol&gt;</content><category term="Engineering"/><category term="first-principles"/><category term="software-design"/><category term="architecture"/><category term="complexity"/><category term="cognitive-load"/></entry><entry><title>First Principles: Software Observability</title><link href="https://alexsavio.github.io/first-principles-software-observability.html" rel="alternate"/><published>2026-03-19T20:45:00+01:00</published><updated>2026-03-19T20:45:00+01:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-03-19:/first-principles-software-observability.html</id><summary type="html">&lt;p&gt;Everyone knows observability means logs, metrics, and traces. But what if you strip away the vendor marketing, the inherited conventions, and the cargo-culted dashboards? What&amp;#8217;s actually true? A first-principles deconstruction of software&amp;nbsp;observability.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
 &lt;p&gt;The &amp;#8220;three pillars&amp;#8221; of observability (logs, metrics, traces) describe data formats, not observability itself. When you strip the concept down to what&amp;#8217;s provably true and rebuild from scratch, you get a fundamentally different approach: instrument decisions instead of outcomes, explore instead of monitor, alert on invariants instead of thresholds, and treat observability as a design property, not an ops&amp;nbsp;afterthought.&lt;/p&gt;
+&lt;div class="toc"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-conventional-view"&gt;The Conventional&amp;nbsp;View&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-assumptions-we-carry"&gt;The Assumptions We&amp;nbsp;Carry&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-survives-scrutiny"&gt;What Survives Scrutiny&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#1-a-system-is-observable-if-you-can-determine-its-internal-state-from-its-external-outputs"&gt;1. A system is observable if you can determine its internal state from its external&amp;nbsp;outputs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#2-you-cannot-debug-what-you-cannot-distinguish"&gt;2. You cannot debug what you cannot&amp;nbsp;distinguish&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#3-the-value-of-observability-is-proportional-to-the-speed-of-the-feedback-loop"&gt;3. The value of observability is proportional to the speed of the feedback&amp;nbsp;loop&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#4-systems-fail-in-ways-you-didnt-predict"&gt;4. Systems fail in ways you didn&amp;#8217;t&amp;nbsp;predict&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#5-signal-costs-attention-and-attention-is-finite"&gt;5. Signal costs attention, and attention is&amp;nbsp;finite&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-falls-away"&gt;What Falls&amp;nbsp;Away&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#rebuilt-from-scratch"&gt;Rebuilt From Scratch&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#build-systems-that-explain-themselves"&gt;Build systems that explain&amp;nbsp;themselves&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#one-event-model-not-three-pillars"&gt;One event model, not three&amp;nbsp;pillars&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#explore-dont-monitor"&gt;Explore, don&amp;#8217;t&amp;nbsp;monitor&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#alerts-from-invariants-not-thresholds"&gt;Alerts from invariants, not&amp;nbsp;thresholds&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#cost-is-proportional-to-questions-answered-not-data-stored"&gt;Cost is proportional to questions answered, not data&amp;nbsp;stored&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-developer-is-the-operator"&gt;The developer is the&amp;nbsp;operator&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-delta"&gt;The&amp;nbsp;Delta&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-you-can-do-monday-morning"&gt;What You Can Do Monday&amp;nbsp;Morning&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#references"&gt;References&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;hr&gt;
 &lt;h2 id="the-conventional-view"&gt;The Conventional&amp;nbsp;View&lt;/h2&gt;
 &lt;p&gt;Ask any engineer what &amp;#8220;observability&amp;#8221; means and you&amp;#8217;ll get the same answer: logs, metrics, and traces, the &amp;#8220;three pillars&amp;#8221;. Ship them to Datadog or Grafana, build dashboards, set up alerts, and you&amp;#8217;re observable. This is the version you&amp;#8217;ll hear at every conference talk and read in every vendor blog&amp;nbsp;post.&lt;/p&gt;
@@ -1565,16 +1687,16 @@ in &lt;span class="caps"&gt;RFC&lt;/span&gt;&amp;nbsp;5849.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;This is a snippet of how to obtain the data of a spreadsheet given its name in the&amp;nbsp;variable &lt;code&gt;wks&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;gspread&lt;/span&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;oauth2client.service_account&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ServiceAccountCredentials&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;oauth2client.service_account&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ServiceAccountCredentials&lt;/span&gt;
 
-&lt;span class="n"&gt;json_key&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;gspread-test.json&amp;#39;&lt;/span&gt;
-&lt;span class="n"&gt;scope&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://spreadsheets.google.com/feeds&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;json_key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;gspread-test.json&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;scope&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://spreadsheets.google.com/feeds&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 
-&lt;span class="n"&gt;credentials&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ServiceAccountCredentials&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;from_json_keyfile_name&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;google_api_key_file&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;scope&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ServiceAccountCredentials&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;from_json_keyfile_name&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;google_api_key_file&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;scope&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="n"&gt;gc&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;gspread&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;authorize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;credentials&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;gc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gspread&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;authorize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;credentials&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="n"&gt;wks&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;gc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Where is the money Lebowski?&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sheet1&lt;/span&gt;
+&lt;span class="n"&gt;wks&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Where is the money Lebowski?&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sheet1&lt;/span&gt;
 &lt;span class="err"&gt;```&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -1771,7 +1893,7 @@ python setup.py install
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2 id="download-sample-data"&gt;Download sample&amp;nbsp;data&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;import bokeh; bokeh.sampledata.download()&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;import bokeh; bokeh.sampledata.download()&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2 id="build-html"&gt;Build&amp;nbsp;html&lt;/h2&gt;
@@ -1891,9 +2013,9 @@ or whatever you need.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Test&amp;nbsp;numpy&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;pip&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;install&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;nose&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;nose&lt;/span&gt;
 
-&lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;import numpy; numpy.test()&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;import numpy; numpy.test()&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;a href="http://cython.org/"&gt;Cython&lt;/a&gt;&lt;/p&gt;
@@ -2245,22 +2367,22 @@ sudo ln -s /usr/bin/gcc-4.7 /usr/bin/gcc
 &lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;timeit&lt;/span&gt;
 
 &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;numpy.core._dotblas&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;FAST BLAS&amp;#39;&lt;/span&gt;
-&lt;span class="k"&gt;except&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;slow blas&amp;#39;&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;numpy.core._dotblas&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;FAST BLAS&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;ImportError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;slow blas&amp;#39;&lt;/span&gt;
 
-&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;version:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__version__&lt;/span&gt;
-&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;maxint:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;maxint&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;version:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__version__&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;maxint:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;maxint&lt;/span&gt;
 &lt;span class="nb"&gt;print&lt;/span&gt;
 
-&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 
-&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;import numpy; x = numpy.random.random((1000,1000))&amp;quot;&lt;/span&gt;
-&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="n"&gt;setup&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;import numpy; x = numpy.random.random((1000,1000))&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
 
-&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;timeit&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Timer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;numpy.dot(x, x.T)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;dot:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;timeit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sec&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;timeit&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Timer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;numpy.dot(x, x.T)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;dot:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;timeit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sec&amp;quot;&lt;/span&gt;
 &lt;span class="err"&gt;```&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -2419,7 +2541,7 @@ deactivate
 
 &lt;h3 id="run-ipython-within-the-virtualenv"&gt;Run ipython within the&amp;nbsp;virtualenv&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;&lt;span class="n"&gt;bash&lt;/span&gt;
-&lt;span class="k"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;ipy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt;\&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;python -c &amp;#39;import IPython;&lt;/span&gt;
+&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;ipy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;\&lt;span class="s2"&gt;&amp;quot;python -c &amp;#39;import IPython;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;IPython.terminal.ipapp.launch_new_instance()&amp;#8217;&amp;#34;
@@ -2427,17 +2549,17 @@ deactivate
 &lt;h3 id="run-ipython-with-other-options"&gt;Run ipython with other&amp;nbsp;options&lt;/h3&gt;
 &lt;p&gt;Add this to&amp;nbsp;.bashrc:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;```&lt;/span&gt;
-&lt;span class="k"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;ipy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;python -c &amp;#39;import IPython;&lt;/span&gt;
+&lt;span class="n"&gt;alias&lt;/span&gt; &lt;span class="n"&gt;ipy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;python -c &amp;#39;import IPython;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;IPython.terminal.ipapp.launch_new_instance()&amp;#8217;&amp;#8221;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ipyqt&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;import IPython;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="n"&gt;ipyqt&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+    &lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;import IPython;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;IPython.start_ipython([&amp;#8216;&amp;#8221;&amp;#8217;&amp;#8220;&amp;#8216;qtconsole&amp;#8217;&amp;#8221;&amp;#8217;&amp;#8221;&amp;#8217;]);&amp;#8217;&amp;nbsp;}&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ipynote&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;import IPython; IPython.start_ipython([&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;notebook&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;]);&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="n"&gt;ipynote&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+    &lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;import IPython; IPython.start_ipython([&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;notebook&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;]);&amp;#39;&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="err"&gt;```&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;

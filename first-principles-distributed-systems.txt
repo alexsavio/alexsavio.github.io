@@ -15,6 +15,8 @@ Distributed systems thinking is drowning in inherited wisdom: microservices by d
 
 *This is the fifth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's actually provable. Previous entries: [Software Observability]({filename}/first_principles_software_observability.md), [Software Design]({filename}/first_principles_software_design.md), [DevOps]({filename}/first_principles_devops.md), and [Data Engineering]({filename}/first_principles_data_engineering.md). Distributed systems felt like the right next target because few topics have a wider gap between what engineers repeat and what they've actually measured.*
 
+[TOC]
+
 ---
 
 ## The Conventional View

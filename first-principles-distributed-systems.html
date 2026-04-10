@@ -105,6 +105,20 @@
         <h2 id="tldr"><span class="caps">TL</span>;<span class="caps">DR</span></h2>
 <p>Distributed systems thinking is drowning in inherited wisdom: microservices by default, horizontal scaling as a reflex, eventual consistency as a catchphrase. Strip the topic down to its irreducible truths, the six things that are actually provable, and most of that architectural baggage falls away. The uncomfortable conclusion: the first, cheapest, most reliable distributed system is the one you did not build. Everything else is a tax you should only pay when you can prove it buys you&nbsp;something.</p>
 <p><em>This is the fifth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what&#8217;s actually provable. Previous entries: <a href="https://alexsavio.github.io/first-principles-software-observability.html">Software Observability</a>, <a href="https://alexsavio.github.io/first-principles-software-design.html">Software Design</a>, <a href="https://alexsavio.github.io/first-principles-devops.html">DevOps</a>, and <a href="https://alexsavio.github.io/first-principles-data-engineering.html">Data Engineering</a>. Distributed systems felt like the right next target because few topics have a wider gap between what engineers repeat and what they&#8217;ve actually&nbsp;measured.</em></p>
+<div class="toc">
+<ul>
+<li><a href="#tldr"><span class="caps">TL</span>;<span class="caps">DR</span></a></li>
+<li><a href="#the-conventional-view">The Conventional&nbsp;View</a></li>
+<li><a href="#what-people-just-assume">What People Just&nbsp;Assume</a></li>
+<li><a href="#what-actually-survives-scrutiny">What Actually Survives&nbsp;Scrutiny</a></li>
+<li><a href="#what-falls-away">What Falls&nbsp;Away</a></li>
+<li><a href="#rebuilt-from-scratch">Rebuilt From&nbsp;Scratch</a></li>
+<li><a href="#what-changes-when-you-think-this-way">What Changes When You Think This&nbsp;Way</a></li>
+<li><a href="#when-you-actually-need-distribution">When You Actually Need&nbsp;Distribution</a></li>
+<li><a href="#the-honest-architectural-test">The Honest Architectural&nbsp;Test</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
 <hr>
 <h2 id="the-conventional-view">The Conventional&nbsp;View</h2>
 <p>Ask any backend engineer how to scale a system and the answer comes out reflexively: split the work across nodes, replicate for reliability, reach for consensus when you need agreement, accept that complexity is the price of scale. <em>&#8220;You need a distributed system&#8221;</em> has quietly become the default answer for any non-trivial backend. Microservices are &#8220;modern&#8221;. A monolith is &#8220;legacy&#8221;. Kubernetes is table&nbsp;stakes.</p>

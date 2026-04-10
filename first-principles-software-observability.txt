@@ -13,6 +13,8 @@ Status: published
 
 The "three pillars" of observability (logs, metrics, traces) describe data formats, not observability itself. When you strip the concept down to what's provably true and rebuild from scratch, you get a fundamentally different approach: instrument decisions instead of outcomes, explore instead of monitor, alert on invariants instead of thresholds, and treat observability as a design property, not an ops afterthought.
 
+[TOC]
+
 ---
 
 ## The Conventional View

@@ -82,7 +82,7 @@
             <time itemprop="datePublished" datetime="2026-03-21T11:00:00+01:00">
                 March 21, 2026
             </time>
-            <span>· 14 min read</span>
+            <span>· 15 min read</span>
         </div>
 
         <div class="article__meta" style="margin-top: 0.75rem;">
@@ -104,6 +104,31 @@
     <div class="article__content" itemprop="articleBody">
         <h2 id="tldr"><span class="caps">TL</span>;<span class="caps">DR</span></h2>
 <p>Most software design advice is convention dressed up as truth. When you strip away the inherited thinking, only five things survive scrutiny: software transforms input to output, human working memory is limited, change costs dominate creation costs, coupling determines blast radius, and naming compresses complexity. Rebuilding from these truths produces a discipline centered on cognitive load management and deletability, not extensibility and pattern&nbsp;compliance.</p>
+<div class="toc">
+<ul>
+<li><a href="#tldr"><span class="caps">TL</span>;<span class="caps">DR</span></a></li>
+<li><a href="#the-conventional-view">The Conventional&nbsp;View</a></li>
+<li><a href="#the-assumptions-we-carry">The Assumptions We&nbsp;Carry</a></li>
+<li><a href="#what-survives-scrutiny">What Survives&nbsp;Scrutiny</a></li>
+<li><a href="#what-falls-away">What Falls&nbsp;Away</a></li>
+<li><a href="#the-heuristics-handle-with-care">The Heuristics: Handle With&nbsp;Care</a></li>
+<li><a href="#rebuilt-from-scratch">Rebuilt From Scratch</a><ul>
+<li><a href="#principle-1-optimize-for-deletion-not-extension">Principle 1: Optimize for Deletion, Not&nbsp;Extension</a></li>
+<li><a href="#principle-2-inline-until-it-hurts-then-extract">Principle 2: Inline Until It Hurts, Then&nbsp;Extract</a></li>
+<li><a href="#principle-3-make-dependencies-visible-and-explicit">Principle 3: Make Dependencies Visible and&nbsp;Explicit</a></li>
+</ul>
+</li>
+<li><a href="#the-design-process-that-follows">The Design Process That Follows</a><ul>
+<li><a href="#should-i-abstract-this">Should I Abstract&nbsp;This?</a></li>
+</ul>
+</li>
+<li><a href="#evidence-from-the-wild">Evidence From the&nbsp;Wild</a></li>
+<li><a href="#but-what-about-large-systems">But What About Large&nbsp;Systems?</a></li>
+<li><a href="#what-changes">What&nbsp;Changes</a></li>
+<li><a href="#implications">Implications</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
 <h2 id="the-conventional-view">The Conventional&nbsp;View</h2>
 <p>Software design, as typically taught and practiced, is about organizing code into clean abstractions, following established patterns (<span class="caps">MVC</span>, microservices, hexagonal architecture), applying <span class="caps">SOLID</span> principles, and writing extensible systems that anticipate future change. Good design means separation of concerns, low coupling, high cohesion, and layers of indirection that make the system&nbsp;&#8220;flexible&#8221;.</p>
 <p>Most of this is convention. Some of it is useful. Very little of it is&nbsp;fundamental.</p>
@@ -201,7 +226,7 @@
 <p><strong><span class="caps">DRY</span></strong> is useful when duplication causes <em>bugs</em> (changing one copy but forgetting the other). It&#8217;s harmful when it creates premature abstractions that couple unrelated things. The question is not &#8220;is this duplicated?&#8221; but &#8220;is this duplication causing actual&nbsp;problems?&#8221;</p>
 <p>Here&#8217;s what happens when <span class="caps">DRY</span> goes wrong. You notice three functions that look similar, so you &#8220;extract the&nbsp;commonality&#8221;:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># The DRY trap: one function, 16 code paths, nobody understands it</span>
-<span class="k">def</span> <span class="nf">process_record</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">process_record</span><span class="p">(</span>
     <span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">validate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">enrich</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -223,16 +248,16 @@
 
 <p>Versus the &#8220;duplicated&#8221;&nbsp;version:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Three functions, each trivially understandable</span>
-<span class="k">def</span> <span class="nf">ingest_from_api</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ingest_from_api</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="n">validate</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">ingest_from_partner</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ingest_from_partner</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="n">validate</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
     <span class="n">record</span> <span class="o">=</span> <span class="n">fetch_enrichment</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">ingest_from_migration</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ingest_from_migration</span><span class="p">(</span><span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="n">record</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
     <span class="n">publish</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">record</span>
@@ -267,19 +292,19 @@ flowchart LR
 <p>In the conventional model, the base class is a single point of failure for change. In the first-principles model, any module can be deleted and rewritten without cascading&nbsp;effects.</p>
 <p>Here&#8217;s the difference in code. The &#8220;extensible&#8221;&nbsp;version:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># The Strategy Pattern way: 5 files, 3 abstractions, 1 actual behavior</span>
-<span class="k">class</span> <span class="nc">NotificationStrategy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NotificationStrategy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
 
-<span class="k">class</span> <span class="nc">EmailStrategy</span><span class="p">(</span><span class="n">NotificationStrategy</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EmailStrategy</span><span class="p">(</span><span class="n">NotificationStrategy</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">smtp_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
 
-<span class="k">class</span> <span class="nc">NotificationService</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="p">:</span> <span class="n">NotificationStrategy</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NotificationService</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="p">:</span> <span class="n">NotificationStrategy</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span> <span class="o">=</span> <span class="n">strategy</span>
 
-    <span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
 
 <span class="c1"># Usage: requires a factory or DI container to wire up</span>
@@ -289,7 +314,7 @@ flowchart LR
 
 <p>The &#8220;deletable&#8221;&nbsp;version:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># The direct way: 1 file, 0 abstractions, same behavior</span>
-<span class="k">def</span> <span class="nf">send_email</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">send_email</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">smtp_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
 
 <span class="c1"># Usage: call the function</span>

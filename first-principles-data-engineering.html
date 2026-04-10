@@ -106,6 +106,46 @@
         <h2 id="tldr"><span class="caps">TL</span>;<span class="caps">DR</span></h2>
 <p>Most of what we call &#8220;data engineering&#8221; is a set of conventions inherited from an era of expensive compute and scarce storage. When you strip it down to first principles, only five truths survive: producers and consumers operate in different contexts, data must cross boundaries, semantic alignment is unavoidable, computation trades off time against money against complexity, and data without provenance is unreliable. Everything else, from the sacred <span class="caps">ETL</span> ordering to the &#8220;collect everything&#8221; data lake mentality, is implementation detail that should be&nbsp;questioned.</p>
 <p><em>This is the fourth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what&#8217;s provably true. The first one tackled <a href="https://alexsavio.github.io/first-principles-software-observability.html">Software Observability</a>, the second <a href="https://alexsavio.github.io/first-principles-software-design.html">Software Design</a>, and the third <a href="https://alexsavio.github.io/first-principles-devops.html">DevOps</a>. Data engineering is the next natural target, because few disciplines have calcified around tooling as fast as this&nbsp;one.</em></p>
+<div class="toc">
+<ul>
+<li><a href="#tldr"><span class="caps">TL</span>;<span class="caps">DR</span></a></li>
+<li><a href="#the-conventional-view">The Conventional&nbsp;View</a></li>
+<li><a href="#the-assumptions-we-carry">The Assumptions We Carry</a><ul>
+<li><a href="#when-the-heuristics-break">When the heuristics&nbsp;break</a></li>
+</ul>
+</li>
+<li><a href="#what-survives-scrutiny">What Survives Scrutiny</a><ul>
+<li><a href="#1-producers-and-consumers-operate-in-different-contexts">1. Producers and consumers operate in different&nbsp;contexts</a></li>
+<li><a href="#2-data-must-cross-context-boundaries">2. Data must cross context&nbsp;boundaries</a></li>
+<li><a href="#3-semantic-alignment-is-unavoidable">3. Semantic alignment is&nbsp;unavoidable</a></li>
+<li><a href="#4-computation-trades-off-time-money-and-complexity">4. Computation trades off time, money, and&nbsp;complexity</a></li>
+<li><a href="#5-data-without-provenance-is-unreliable">5. Data without provenance is&nbsp;unreliable</a></li>
+</ul>
+</li>
+<li><a href="#the-airflow-cargo-cult">The Airflow Cargo&nbsp;Cult</a></li>
+<li><a href="#what-falls-away">What Falls Away</a><ul>
+<li><a href="#etl-as-the-defining-paradigm"><span class="dquo">&#8220;</span><span class="caps">ETL</span>&#8221; as the defining&nbsp;paradigm</a></li>
+<li><a href="#more-data-is-better"><span class="dquo">&#8220;</span>More data is&nbsp;better&#8221;</a></li>
+<li><a href="#data-engineers-build-analysts-consume"><span class="dquo">&#8220;</span>Data engineers build, analysts&nbsp;consume&#8221;</a></li>
+<li><a href="#batch-is-default-streaming-is-special"><span class="dquo">&#8220;</span>Batch is default, streaming is&nbsp;special&#8221;</a></li>
+</ul>
+</li>
+<li><a href="#rebuilt-from-scratch">Rebuilt From Scratch</a><ul>
+<li><a href="#start-with-data-contracts-not-pipelines">Start with data contracts, not&nbsp;pipelines</a></li>
+<li><a href="#the-pipeline-is-a-consequence-not-the-product">The pipeline is a consequence, not the&nbsp;product</a></li>
+<li><a href="#transform-at-the-boundary-not-in-a-dedicated-layer">Transform at the boundary, not in a dedicated&nbsp;layer</a></li>
+<li><a href="#observe-data-dont-just-test-it">Observe data, don&#8217;t just test&nbsp;it</a></li>
+<li><a href="#collect-data-when-you-can-articulate-who-will-use-it">Collect data when you can articulate who will use&nbsp;it</a></li>
+<li><a href="#make-lineage-and-freshness-first-class">Make lineage and freshness&nbsp;first-class</a></li>
+</ul>
+</li>
+<li><a href="#the-tooling-is-catching-up">The Tooling Is Catching&nbsp;Up</a></li>
+<li><a href="#smell-test-are-you-carrying-baggage">Smell Test: Are You Carrying&nbsp;Baggage?</a></li>
+<li><a href="#what-changes">What&nbsp;Changes</a></li>
+<li><a href="#implications">Implications</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
 <hr>
 <h2 id="the-conventional-view">The Conventional&nbsp;View</h2>
 <p>Data engineering is about building <strong>pipelines</strong> that Extract data from sources, Transform it into a usable shape, and Load it into a destination (usually a warehouse). Teams invest heavily in orchestrators like Airflow, maintain complex DAGs, enforce strict schemas, and treat the warehouse as the single source of&nbsp;truth.</p>

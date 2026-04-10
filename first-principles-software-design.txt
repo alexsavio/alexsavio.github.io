@@ -13,6 +13,8 @@ Status: published
 
 Most software design advice is convention dressed up as truth. When you strip away the inherited thinking, only five things survive scrutiny: software transforms input to output, human working memory is limited, change costs dominate creation costs, coupling determines blast radius, and naming compresses complexity. Rebuilding from these truths produces a discipline centered on cognitive load management and deletability, not extensibility and pattern compliance.
 
+[TOC]
+
 ## The Conventional View
 
 Software design, as typically taught and practiced, is about organizing code into clean abstractions, following established patterns (MVC, microservices, hexagonal architecture), applying SOLID principles, and writing extensible systems that anticipate future change. Good design means separation of concerns, low coupling, high cohesion, and layers of indirection that make the system "flexible".

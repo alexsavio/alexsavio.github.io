@@ -106,6 +106,21 @@
         <h2 id="tldr"><span class="caps">TL</span>;<span class="caps">DR</span></h2>
 <p>Most of what passes for &#8220;DevOps&#8221; is tool adoption dressed up as strategy. When you strip away inherited conventions and industry hype, only five truths survive: value dies in the gap between developer and user, feedback loops drive improvement, reproducibility reduces risk, handoffs cost superlinearly, and recovery beats prevention. Everything else, from Kubernetes to the &#8220;DevOps Engineer&#8221; job title, is implementation detail that should be proportional to your actual coordination&nbsp;problem.</p>
 <p><em>This is the third post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what&#8217;s actually provable. The first one tackled <a href="https://alexsavio.github.io/first-principles-software-observability.html">Software Observability</a>, the second one <a href="https://alexsavio.github.io/first-principles-software-design.html">Software Design</a>. DevOps felt like the natural next target, because few topics have a wider gap between what people say and what they actually&nbsp;do.</em></p>
+<div class="toc">
+<ul>
+<li><a href="#tldr"><span class="caps">TL</span>;<span class="caps">DR</span></a></li>
+<li><a href="#the-conventional-view">The Conventional&nbsp;View</a></li>
+<li><a href="#the-assumptions-we-carry">The Assumptions We&nbsp;Carry</a></li>
+<li><a href="#what-survives-scrutiny">What Survives&nbsp;Scrutiny</a></li>
+<li><a href="#what-falls-away">What Falls&nbsp;Away</a></li>
+<li><a href="#the-steel-case-for-convention">The Steel Case for&nbsp;Convention</a></li>
+<li><a href="#rebuilt-from-scratch">Rebuilt From&nbsp;Scratch</a></li>
+<li><a href="#what-changes">What&nbsp;Changes</a></li>
+<li><a href="#right-sizing-checklist">Right-Sizing&nbsp;Checklist</a></li>
+<li><a href="#what-to-do-about-it">What to Do About&nbsp;It</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
 <h2 id="the-conventional-view">The Conventional&nbsp;View</h2>
 <p>DevOps is the practice of unifying software development and <span class="caps">IT</span> operations through shared tooling, culture, and automation. Most organizations interpret this as: adopt <span class="caps">CI</span>/<span class="caps">CD</span> pipelines, containerize everything, use Infrastructure as Code, monitor with dashboards, and hire people with &#8220;DevOps Engineer&#8221; in their&nbsp;title.</p>
 <p>The conversation typically centers on tools (Kubernetes, Terraform, Jenkins, GitHub Actions) rather than on the underlying problem being solved. This is the first sign that something has gone wrong: when the answer comes before the&nbsp;question.</p>

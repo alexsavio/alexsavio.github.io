@@ -104,6 +104,34 @@
     <div class="article__content" itemprop="articleBody">
         <h2 id="tldr"><span class="caps">TL</span>;<span class="caps">DR</span></h2>
 <p>The &#8220;three pillars&#8221; of observability (logs, metrics, traces) describe data formats, not observability itself. When you strip the concept down to what&#8217;s provably true and rebuild from scratch, you get a fundamentally different approach: instrument decisions instead of outcomes, explore instead of monitor, alert on invariants instead of thresholds, and treat observability as a design property, not an ops&nbsp;afterthought.</p>
+<div class="toc">
+<ul>
+<li><a href="#tldr"><span class="caps">TL</span>;<span class="caps">DR</span></a></li>
+<li><a href="#the-conventional-view">The Conventional&nbsp;View</a></li>
+<li><a href="#the-assumptions-we-carry">The Assumptions We&nbsp;Carry</a></li>
+<li><a href="#what-survives-scrutiny">What Survives Scrutiny</a><ul>
+<li><a href="#1-a-system-is-observable-if-you-can-determine-its-internal-state-from-its-external-outputs">1. A system is observable if you can determine its internal state from its external&nbsp;outputs</a></li>
+<li><a href="#2-you-cannot-debug-what-you-cannot-distinguish">2. You cannot debug what you cannot&nbsp;distinguish</a></li>
+<li><a href="#3-the-value-of-observability-is-proportional-to-the-speed-of-the-feedback-loop">3. The value of observability is proportional to the speed of the feedback&nbsp;loop</a></li>
+<li><a href="#4-systems-fail-in-ways-you-didnt-predict">4. Systems fail in ways you didn&#8217;t&nbsp;predict</a></li>
+<li><a href="#5-signal-costs-attention-and-attention-is-finite">5. Signal costs attention, and attention is&nbsp;finite</a></li>
+</ul>
+</li>
+<li><a href="#what-falls-away">What Falls&nbsp;Away</a></li>
+<li><a href="#rebuilt-from-scratch">Rebuilt From Scratch</a><ul>
+<li><a href="#build-systems-that-explain-themselves">Build systems that explain&nbsp;themselves</a></li>
+<li><a href="#one-event-model-not-three-pillars">One event model, not three&nbsp;pillars</a></li>
+<li><a href="#explore-dont-monitor">Explore, don&#8217;t&nbsp;monitor</a></li>
+<li><a href="#alerts-from-invariants-not-thresholds">Alerts from invariants, not&nbsp;thresholds</a></li>
+<li><a href="#cost-is-proportional-to-questions-answered-not-data-stored">Cost is proportional to questions answered, not data&nbsp;stored</a></li>
+<li><a href="#the-developer-is-the-operator">The developer is the&nbsp;operator</a></li>
+</ul>
+</li>
+<li><a href="#the-delta">The&nbsp;Delta</a></li>
+<li><a href="#what-you-can-do-monday-morning">What You Can Do Monday&nbsp;Morning</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
 <hr>
 <h2 id="the-conventional-view">The Conventional&nbsp;View</h2>
 <p>Ask any engineer what &#8220;observability&#8221; means and you&#8217;ll get the same answer: logs, metrics, and traces, the &#8220;three pillars&#8221;. Ship them to Datadog or Grafana, build dashboards, set up alerts, and you&#8217;re observable. This is the version you&#8217;ll hear at every conference talk and read in every vendor blog&nbsp;post.</p>
