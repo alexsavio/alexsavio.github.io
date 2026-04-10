@@ -134,3 +134,18 @@ check: format lint build
 
 # Full development cycle: clean, install, build, and serve
 setup: install clean-pelican build serve-dev
+
+# Re-index qmd search (skills + references)
+reindex:
+  rfx index
+  qmd update && qmd embed
+
+# Count files and lines
+stats:
+  @echo "Files:"
+  @find . -name "*.md" -not -path "./.git/*" | wc -l | xargs echo "  Markdown:"
+  @echo ""
+  @echo "Lines:"
+  @find skills -name "SKILL.md" -exec cat {} + | wc -l | xargs echo "  Skills total:"
+  @find .claude/skills/references -name "*.md" -exec cat {} + | wc -l | xargs echo "  References total:"
+

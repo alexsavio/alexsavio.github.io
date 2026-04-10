@@ -1,0 +1,5 @@
+# Local CI — these must pass before wt merge completes
+[pre-merge]
+format = "just format"
+lint = "just lint"
+build = "just build"

@@ -49,3 +49,27 @@ output/
 .env
 .envrc
 .vscode/
+.claude/
+
+# LinkedIn (kept local)
+.env.linkedin
+.env.linkedin.example
+.linkedin-token.json
+linkedin/
+scripts/linkedin.sh
+scripts/README.md
+
+# Dev.to (kept local)
+.env.devto
+.env.devto.example
+
+# Content workflow helpers (kept local)
+scratch/
+scripts/next-post.sh
+scripts/next-scratch.sh
+
+# Claude Code
+.claude/settings.local.json
+.claude/launch.json
+.reflex/
+.mcp.json
