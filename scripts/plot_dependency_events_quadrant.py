@@ -27,15 +27,20 @@ import matplotlib.pyplot as plt
 
 OUTPUT_LIGHT = Path("content/imgs/dependency_events_quadrant.png")
 
-# (label, x = detection delay normalized 0..1, y = blast radius normalized 0..1)
-POINTS: list[tuple[str, float, float]] = [
-    ("Typosquat", 0.05, 0.22),
-    ("Account compromise", 0.22, 0.55),
-    ("Bug / regression", 0.45, 0.30),
-    ("Breaking change", 0.40, 0.15),
-    ("Post-disclosure CVE fix", 0.04, 0.78),
-    ("Pre-disclosure CVE latency", 0.95, 0.78),
-    ("Long-dwell backdoor (xz)", 0.92, 0.96),
+# Point polarity. "bad" = something you want to avoid/contain; "good" = something
+# you actively want to adopt fast. The cooldown delays the only "good" event
+# in the set while failing to catch most of the "bad" ones.
+Polarity = str  # "bad" | "good"
+
+# (label, x = detection delay normalized 0..1, y = blast radius normalized 0..1, polarity)
+POINTS: list[tuple[str, float, float, Polarity]] = [
+    ("Typosquat",                     0.05, 0.22, "bad"),
+    ("Account compromise",            0.22, 0.55, "bad"),
+    ("Bug / regression",              0.45, 0.30, "bad"),
+    ("Breaking change",               0.40, 0.15, "bad"),
+    ("Post-disclosure CVE fix",       0.04, 0.78, "good"),
+    ("Pre-disclosure CVE latency",    0.95, 0.78, "bad"),
+    ("Long-dwell backdoor (xz)",      0.92, 0.96, "bad"),
 ]
 
 # Label offset per point to avoid overlaps (dx, dy in data coords)
@@ -61,7 +66,9 @@ def _render(outfile: Path, dark: bool) -> None:
     bg = "#1a1a1a" if dark else "#ffffff"
     fg = "#e0e0e0" if dark else "#2a2a2a"
     muted = "#666666" if dark else "#888888"
-    point_color = "#ff6b6b" if dark else "#c0392b"
+    bad_color = "#ff6b6b" if dark else "#c0392b"   # red: events to avoid
+    good_color = "#4caf50" if dark else "#1e8449"  # green: events to adopt fast
+    point_colors: dict[str, str] = {"bad": bad_color, "good": good_color}
     quadrant_bg_colors = (
         ["#2a1f1f", "#1f2a2a", "#1f1f2a", "#2a2a1f"] if dark
         else ["#fdecea", "#eaf4fd", "#ecebfa", "#fdfaea"]
@@ -91,10 +98,10 @@ def _render(outfile: Path, dark: bool) -> None:
         )
 
     # Points
-    for label, x, y in POINTS:
+    for label, x, y, polarity in POINTS:
         ax.scatter(
             x, y,
-            s=140, color=point_color, edgecolors=fg, linewidths=1.2,
+            s=140, color=point_colors[polarity], edgecolors=fg, linewidths=1.2,
             zorder=4,
         )
         dx, dy = LABEL_OFFSETS.get(label, (0.02, 0.02))
@@ -107,6 +114,26 @@ def _render(outfile: Path, dark: bool) -> None:
             ha=ha, va="center",
             zorder=5,
         )
+
+    # Legend so the green vs red distinction is explicit
+    from matplotlib.lines import Line2D  # local import keeps top of file tidy
+    legend_handles = [
+        Line2D([0], [0], marker="o", linestyle="", markersize=9,
+               markerfacecolor=bad_color, markeredgecolor=fg, markeredgewidth=1.0,
+               label="Event you want to contain"),
+        Line2D([0], [0], marker="o", linestyle="", markersize=9,
+               markerfacecolor=good_color, markeredgecolor=fg, markeredgewidth=1.0,
+               label="Event you want to adopt fast"),
+    ]
+    legend = ax.legend(
+        handles=legend_handles,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.12),
+        ncol=2,
+        frameon=False,
+        fontsize=10,
+        labelcolor=fg,
+    )
 
     # Axes styling
     ax.set_xlim(0, 1)
