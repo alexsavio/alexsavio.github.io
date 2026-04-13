@@ -360,7 +360,7 @@ $$&lt;/div&gt;
 &lt;p&gt;Notice what&amp;#8217;s missing from this table: &lt;strong&gt;a time window during which the resolver pretends new versions do not exist.&lt;/strong&gt; That policy does not appear in any row because no row benefits from it. Every legitimate concern has a better&amp;nbsp;home.&lt;/p&gt;
 &lt;p&gt;The operational rules that fall&amp;nbsp;out:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Lockfiles with hashes, always.&lt;/strong&gt; This is the supply-chain defense that actually&amp;nbsp;works.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Lockfiles with hashes, always.&lt;/strong&gt; This is the supply-chain defense that actually works.&amp;nbsp;Use &lt;code&gt;uv sync --locked&lt;/code&gt; or &lt;code&gt;--frozen&lt;/code&gt; in &lt;span class="caps"&gt;CI&lt;/span&gt; and deploy paths&lt;sup id="fnref:uv-sync-flags"&gt;&lt;a class="footnote-ref" href="#fn:uv-sync-flags"&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Audit on every resolve, block on &lt;span class="caps"&gt;HIGH&lt;/span&gt;/&lt;span class="caps"&gt;CRITICAL&lt;/span&gt;.&lt;/strong&gt;&amp;nbsp;Drives &lt;code&gt;audit_latency&lt;/code&gt; to one&amp;nbsp;cycle.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Upgrade frequently.&lt;/strong&gt;&amp;nbsp;Short &lt;code&gt;N&lt;/code&gt; between &lt;span class="caps"&gt;CVE&lt;/span&gt; disclosure and your patch. Frequency is safety, not&amp;nbsp;risk.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Staging bake for regression detection.&lt;/strong&gt; Your traffic beats community traffic for your workload. This is the same &amp;#8220;recovery beats prevention&amp;#8221; logic that falls out of &lt;a href="https://alexsavio.github.io/first-principles-devops.html"&gt;first principles in devops&lt;/a&gt;.&lt;/li&gt;
@@ -368,6 +368,7 @@ $$&lt;/div&gt;
 &lt;li&gt;&lt;strong&gt;Subscribe to advisories for critical-path packages.&lt;/strong&gt; Ten packages, maybe. Targeted vigilance is cheap and has no deadlock&amp;nbsp;cost.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Pin manually when you truly need to be paranoid about one package.&lt;/strong&gt; Surgical. No collateral damage. No allow-list&amp;nbsp;rot.&lt;/li&gt;
 &lt;/ol&gt;
+&lt;p&gt;A team I work with recently ripped out an 8-day flat cooldown from a Python monorepo and replaced it&amp;nbsp;with &lt;code&gt;pip-audit&lt;/code&gt; on every &lt;span class="caps"&gt;PR&lt;/span&gt; plus &lt;span class="caps"&gt;CODEOWNERS&lt;/span&gt; review on&amp;nbsp;any &lt;code&gt;pyproject.toml&lt;/code&gt; edit. The deadlock stopped recurring, &lt;span class="caps"&gt;CVE&lt;/span&gt; fixes now ship same-day, and the human-review budget landed on the one surface that actually matters: new&amp;nbsp;dependencies.&lt;/p&gt;
 &lt;p&gt;These rules are scoped by the caveat in section 8. At high enough stakes, you should layer one of the smarter variants from section 9 on top; at typical stakes, the rules above are the whole&amp;nbsp;answer.&lt;/p&gt;
 &lt;h2 id="11-summary"&gt;11.&amp;nbsp;Summary&lt;/h2&gt;
 &lt;table&gt;
@@ -425,6 +426,14 @@ $$&lt;/div&gt;
 &lt;li&gt;&lt;a href="https://www.cve.org/CVERecord?id=CVE-2024-3094"&gt;xz-utils backdoor (&lt;span class="caps"&gt;CVE&lt;/span&gt;-2024-3094)&lt;/a&gt;. Long-dwell supply-chain attack no cooldown could&amp;nbsp;catch.&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-devops.html"&gt;First Principles: DevOps&lt;/a&gt;. Related post on why feedback loops and recovery beat prevention in operational&amp;nbsp;systems.&lt;/li&gt;
 &lt;/ol&gt;
+&lt;div class="footnote"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:uv-sync-flags"&gt;
+&lt;p&gt;&lt;code&gt;--locked&lt;/code&gt; errors&amp;nbsp;if &lt;code&gt;uv.lock&lt;/code&gt; is out of sync&amp;nbsp;with &lt;code&gt;pyproject.toml&lt;/code&gt;, catching the case where someone edits a dependency and forgets to&amp;nbsp;re-lock. &lt;code&gt;--frozen&lt;/code&gt; goes further: installs exactly what the lockfile says and never&amp;nbsp;reads &lt;code&gt;pyproject.toml&lt;/code&gt; at all, so the deploy path is fully deterministic. A&amp;nbsp;bare &lt;code&gt;uv sync&lt;/code&gt; is fine for local development because &lt;a href="https://docs.astral.sh/uv/concepts/projects/sync/#automatic-lock-and-sync"&gt;uv does not consider a lockfile outdated just because new versions shipped upstream&lt;/a&gt;; the lockfile stays stable until someone explicitly&amp;nbsp;runs &lt;code&gt;uv lock --upgrade&lt;/code&gt;.&amp;#160;&lt;a class="footnote-backref" href="#fnref:uv-sync-flags" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

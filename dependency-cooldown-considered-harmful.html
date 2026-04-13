@@ -82,7 +82,7 @@
             <time itemprop="datePublished" datetime="2026-04-13T20:30:00+02:00">
                 April 13, 2026
             </time>
-            <span>· 22 min read</span>
+            <span>· 23 min read</span>
         </div>
 
         <div class="article__meta" style="margin-top: 0.75rem;">
@@ -458,7 +458,7 @@ $$</div>
 <p>Notice what&#8217;s missing from this table: <strong>a time window during which the resolver pretends new versions do not exist.</strong> That policy does not appear in any row because no row benefits from it. Every legitimate concern has a better&nbsp;home.</p>
 <p>The operational rules that fall&nbsp;out:</p>
 <ol>
-<li><strong>Lockfiles with hashes, always.</strong> This is the supply-chain defense that actually&nbsp;works.</li>
+<li><strong>Lockfiles with hashes, always.</strong> This is the supply-chain defense that actually works.&nbsp;Use <code>uv sync --locked</code> or <code>--frozen</code> in <span class="caps">CI</span> and deploy paths<sup id="fnref:uv-sync-flags"><a class="footnote-ref" href="#fn:uv-sync-flags">1</a></sup>.</li>
 <li><strong>Audit on every resolve, block on <span class="caps">HIGH</span>/<span class="caps">CRITICAL</span>.</strong>&nbsp;Drives <code>audit_latency</code> to one&nbsp;cycle.</li>
 <li><strong>Upgrade frequently.</strong>&nbsp;Short <code>N</code> between <span class="caps">CVE</span> disclosure and your patch. Frequency is safety, not&nbsp;risk.</li>
 <li><strong>Staging bake for regression detection.</strong> Your traffic beats community traffic for your workload. This is the same &#8220;recovery beats prevention&#8221; logic that falls out of <a href="https://alexsavio.github.io/first-principles-devops.html">first principles in devops</a>.</li>
@@ -466,6 +466,7 @@ $$</div>
 <li><strong>Subscribe to advisories for critical-path packages.</strong> Ten packages, maybe. Targeted vigilance is cheap and has no deadlock&nbsp;cost.</li>
 <li><strong>Pin manually when you truly need to be paranoid about one package.</strong> Surgical. No collateral damage. No allow-list&nbsp;rot.</li>
 </ol>
+<p>A team I work with recently ripped out an 8-day flat cooldown from a Python monorepo and replaced it&nbsp;with <code>pip-audit</code> on every <span class="caps">PR</span> plus <span class="caps">CODEOWNERS</span> review on&nbsp;any <code>pyproject.toml</code> edit. The deadlock stopped recurring, <span class="caps">CVE</span> fixes now ship same-day, and the human-review budget landed on the one surface that actually matters: new&nbsp;dependencies.</p>
 <p>These rules are scoped by the caveat in section 8. At high enough stakes, you should layer one of the smarter variants from section 9 on top; at typical stakes, the rules above are the whole&nbsp;answer.</p>
 <h2 id="11-summary">11.&nbsp;Summary</h2>
 <table>
@@ -523,6 +524,14 @@ $$</div>
 <li><a href="https://www.cve.org/CVERecord?id=CVE-2024-3094">xz-utils backdoor (<span class="caps">CVE</span>-2024-3094)</a>. Long-dwell supply-chain attack no cooldown could&nbsp;catch.</li>
 <li><a href="https://alexsavio.github.io/first-principles-devops.html">First Principles: DevOps</a>. Related post on why feedback loops and recovery beat prevention in operational&nbsp;systems.</li>
 </ol>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:uv-sync-flags">
+<p><code>--locked</code> errors&nbsp;if <code>uv.lock</code> is out of sync&nbsp;with <code>pyproject.toml</code>, catching the case where someone edits a dependency and forgets to&nbsp;re-lock. <code>--frozen</code> goes further: installs exactly what the lockfile says and never&nbsp;reads <code>pyproject.toml</code> at all, so the deploy path is fully deterministic. A&nbsp;bare <code>uv sync</code> is fine for local development because <a href="https://docs.astral.sh/uv/concepts/projects/sync/#automatic-lock-and-sync">uv does not consider a lockfile outdated just because new versions shipped upstream</a>; the lockfile stays stable until someone explicitly&nbsp;runs <code>uv lock --upgrade</code>.&#160;<a class="footnote-backref" href="#fnref:uv-sync-flags" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
