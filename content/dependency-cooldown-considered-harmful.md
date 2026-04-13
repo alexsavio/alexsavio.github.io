@@ -298,7 +298,7 @@ Notice what's missing from this table: **a time window during which the resolver
 
 The operational rules that fall out:
 
-1. **Lockfiles with hashes, always.** This is the supply-chain defense that actually works.
+1. **Lockfiles with hashes, always.** This is the supply-chain defense that actually works. In CI and production, run `uv sync --locked` (errors if `uv.lock` is out of sync with `pyproject.toml`, catching forgotten `uv lock` runs) or `--frozen` (installs exactly what the lockfile says, never touches `pyproject.toml` at all). A bare `uv sync` is fine for local development: [uv does not consider a lockfile outdated just because new versions shipped upstream](https://docs.astral.sh/uv/concepts/projects/sync/#automatic-lock-and-sync), so the lockfile stays stable until someone explicitly runs `uv lock --upgrade`. The reason to pin deploy paths to `--locked`/`--frozen` is to catch the case where someone edits `pyproject.toml` and forgets to re-lock, leaving the committed lockfile stale.
 2. **Audit on every resolve, block on HIGH/CRITICAL.** Drives `audit_latency` to one cycle.
 3. **Upgrade frequently.** Short `N` between CVE disclosure and your patch. Frequency is safety, not risk.
 4. **Staging bake for regression detection.** Your traffic beats community traffic for your workload. This is the same "recovery beats prevention" logic that falls out of [first principles in devops]({filename}/first_principles_devops.md).
