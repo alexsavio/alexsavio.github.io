@@ -1,5 +1,492 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Alexandre Manhães Savio - Alexandre M. Savio</title><link href="https://alexsavio.github.io/" rel="alternate"/><link href="https://alexsavio.github.io/feeds/alexandre-m-savio.atom.xml" rel="self"/><id>https://alexsavio.github.io/</id><updated>2026-04-09T18:00:00+02:00</updated><subtitle>Freelance Software, Cloud &amp; AI Engineer</subtitle><entry><title>First Principles: Distributed Systems (Most of Yours Should Not Exist)</title><link href="https://alexsavio.github.io/first-principles-distributed-systems.html" rel="alternate"/><published>2026-04-09T18:00:00+02:00</published><updated>2026-04-09T18:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-04-09:/first-principles-distributed-systems.html</id><summary type="html">&lt;p&gt;Distributed systems thinking is drowning in inherited wisdom — microservices by default, horizontal scaling as a reflex, eventual consistency as a catchphrase. Strip it down to six irreducible truths and most of that architectural baggage falls away. The uncomfortable conclusion: the first, cheapest, most reliable distributed system is the one you did not&amp;nbsp;build.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Alexandre Manhães Savio - Alexandre M. Savio</title><link href="https://alexsavio.github.io/" rel="alternate"/><link href="https://alexsavio.github.io/feeds/alexandre-m-savio.atom.xml" rel="self"/><id>https://alexsavio.github.io/</id><updated>2026-04-13T20:30:00+02:00</updated><subtitle>Freelance Software, Cloud &amp; AI Engineer</subtitle><entry><title>Dependency cooldowns considered harmful: a first-principles analysis</title><link href="https://alexsavio.github.io/dependency-cooldown-considered-harmful.html" rel="alternate"/><published>2026-04-13T20:30:00+02:00</published><updated>2026-04-13T20:30:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-04-13:/dependency-cooldown-considered-harmful.html</id><summary type="html">&lt;p&gt;Dependency cooldowns promise supply-chain safety by hiding releases for N days, but the math shows they guarantee extended &lt;span class="caps"&gt;CVE&lt;/span&gt; exposure while catching only a narrow band of attacks that lockfiles and staging already cover. The time buffer belongs in staging, not the&amp;nbsp;resolver.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Intro.&lt;/strong&gt; A &amp;#8220;dependency cooldown&amp;#8221; tells your resolver to ignore releases newer&amp;nbsp;than &lt;span class="math"&gt;\(N\)&lt;/span&gt; days, on the theory that the community will catch bad releases before you adopt them. In an April 2026 post, Astral laid out their internal security posture and listed cooldowns as one of the layers they lean on. It sounds cautious. It is in fact an unusually expensive hedge that optimizes for the wrong failure mode, deadlocks with the tools that protect you from the &lt;em&gt;actual&lt;/em&gt; high-frequency failure mode (CVEs), and cannot be rescued with a user-level&amp;nbsp;override.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Argument.&lt;/strong&gt; Reason from first principles about what can actually happen to a dependency, and a flat pre-resolver cooldown is dominated by buffering &lt;em&gt;later&lt;/em&gt; in the pipeline (at audit time, at merge time, at staging). Cooldowns trade a certain cost, extended &lt;span class="caps"&gt;CVE&lt;/span&gt; exposure every time a fix lands, for a speculative benefit, dodging fast-yanked malicious releases, that lockfiles, hashes, and staging already cover. A Monte Carlo simulation of the cost model (backed by a closed-form analytical check to machine precision) puts the break-even risk&amp;nbsp;ratio &lt;span class="math"&gt;\(I_{\text{attack}} / I_{\text{cve}}\)&lt;/span&gt; at roughly &lt;strong&gt;12,000&lt;/strong&gt; for an 8-day cooldown. For a typical non-financial-critical service, that is nowhere close, and the policy&amp;nbsp;loses.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Caveat.&lt;/strong&gt; The math flips at high enough stakes.&amp;nbsp;At &lt;span class="math"&gt;\(I_{\text{attack}} / I_{\text{cve}} \geq 10^5\)&lt;/span&gt; (think: payments, custodial crypto, identity), a real cooldown does pay. The right answer for those teams is not &amp;#8220;no cooldown&amp;#8221; but &amp;#8220;the least bad &lt;em&gt;variant&lt;/em&gt; of one&amp;#8221;, because the word &amp;#8220;cooldown&amp;#8221; today flattens eight different policies into a single switch and the default switch is the one that loses. Sections 8 and 9 name the&amp;nbsp;alternatives.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Conclusion.&lt;/strong&gt; Adopt fast. Verify hard. Buffer late. If you truly need a window in the resolver, do not reach for the flat&amp;nbsp;one.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;🧮 &lt;strong&gt;Reproduce the numbers.&lt;/strong&gt; Every number in this post (break-even ratio, compromise probabilities, the cooldown sweep, the &amp;#8220;one compromise every 69 years&amp;#8221;) comes from a self-contained Python script. It runs in ~3 seconds&amp;nbsp;via &lt;code&gt;uv run&lt;/code&gt; (&lt;span class="caps"&gt;PEP&lt;/span&gt; 723 inline metadata, numpy-only), asserts the Monte Carlo matches the analytical closed form to within 0.002, and prints a full cost-model&amp;nbsp;report.&lt;/p&gt;
+&lt;p&gt;👉 &lt;strong&gt;&lt;a href="https://gist.github.com/alexsavio/3cdf6f284614fd4ea4d7a2b865ec5249"&gt;Gist: &lt;code&gt;simulate_dependency_cooldown.py&lt;/code&gt; + captured&amp;nbsp;output&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Change any parameter&amp;nbsp;(&lt;span class="math"&gt;\(\lambda_{\text{cve}}\)&lt;/span&gt;, &lt;span class="math"&gt;\(r_{\text{attack}}\)&lt;/span&gt;, the detection-delay mixture, your audit latency) and re-run. If you disagree with the conclusion, disagree with the parameters, not the&amp;nbsp;math.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="0-what-this-is-not"&gt;0. What this is&amp;nbsp;not&lt;/h2&gt;
+&lt;p&gt;This is not an argument against Astral&amp;#8217;s broader security posture, most of which is excellent: trusted publishing, sigstore attestations, immutable releases, pinned actions, no caching during releases. Those layers genuinely move the needle. It is also not an argument against putting latency between a release and your production code. There should be latency. The question is &lt;em&gt;where in the pipeline&lt;/em&gt; that latency earns its keep. A cooldown places it before the resolver, which turns out to be the worst possible spot: it blinds the resolver to &lt;span class="caps"&gt;CVE&lt;/span&gt; fixes, deadlocks with live-&lt;span class="caps"&gt;DB&lt;/span&gt; auditors, and duplicates protections that lockfiles and staging already provide. Every other layer is strictly better at the&amp;nbsp;job.&lt;/p&gt;
+&lt;h2 id="1-the-scenario-ci-goes-red-on-a-security-fix"&gt;1. The scenario: &lt;span class="caps"&gt;CI&lt;/span&gt; goes red on a security&amp;nbsp;fix&lt;/h2&gt;
+&lt;p&gt;Start with the concrete situation that prompted this post. A typical modern Python upgrade pipeline looks like&amp;nbsp;this:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;uv lock --upgrade&lt;/code&gt; (respects&amp;nbsp;cooldown)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pip-audit&lt;/code&gt; (does not respect cooldown; queries live advisory &lt;span class="caps"&gt;DB&lt;/span&gt;)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;A &lt;span class="caps"&gt;CVE&lt;/span&gt; lands on package X. The maintainers cut a patch release X+1 the same day. Your scheduled Dependabot run fires. Here is what happens&amp;nbsp;next:&lt;/p&gt;
+&lt;pre class="mermaid"&gt;
+flowchart TD
+    A[uv lock --upgrade&lt;br/&gt;exclude-newer respects cooldown] --&gt; B[Resolver refuses&lt;br/&gt;to see X+1]
+    B --&gt; C[Lockfile pins X&lt;br/&gt;vulnerable version]
+    C --&gt; D[pip-audit queries&lt;br/&gt;live advisory DB]
+    D --&gt; E[Audit flags X&lt;br/&gt;CI fails RED]
+    E --&gt; F{Fix X+1?}
+    F --&gt;|blocked by cooldown| B
+    F --&gt;|wait C days| G[Window expires]
+    G --&gt; A
+&lt;/pre&gt;
+
+&lt;p&gt;There is no version constraint you can write to escape this.&amp;nbsp;Pinning &lt;code&gt;cryptography&amp;gt;=46.0.7&lt;/code&gt; directly&amp;nbsp;produces:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;× No solution found when resolving dependencies:
+╰─▶ Because only cryptography&amp;lt;=46.0.6 is available and your
+    project depends on cryptography&amp;gt;=46.0.7, we can conclude
+    that your project&amp;#39;s requirements are unsatisfiable.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;exclude-newer&lt;/code&gt; is a &lt;strong&gt;hard pre-filter on the catalog&lt;/strong&gt;, not a preference. The solver never sees filtered versions, so user constraints cannot recover them. The cooldown and the auditor deadlock, and the only way to break the deadlock is to wait for the window to expire. During those days, &lt;span class="caps"&gt;CI&lt;/span&gt; is red and the scheduled &lt;span class="caps"&gt;PR&lt;/span&gt; cannot&amp;nbsp;open.&lt;/p&gt;
+&lt;p&gt;This is not a tooling bug. It is the direct consequence of layering a &amp;#8220;hide new versions&amp;#8221; filter under a &amp;#8220;check against live &lt;span class="caps"&gt;CVE&lt;/span&gt; data&amp;#8221; auditor. The two policies are logically incompatible for the entire duration of every cooldown window in which a &lt;span class="caps"&gt;CVE&lt;/span&gt; lands. &lt;strong&gt;It will recur on every future &lt;span class="caps"&gt;CVE&lt;/span&gt; that ships inside the window.&lt;/strong&gt; That&amp;#8217;s the scenario. The rest of this post explains why it is structural, not fixable by clever configuration, and what to do&amp;nbsp;instead.&lt;/p&gt;
+&lt;h2 id="2-what-events-can-actually-happen-to-a-dependency"&gt;2. What events can actually happen to a&amp;nbsp;dependency&lt;/h2&gt;
+&lt;p&gt;To reason about the scenario from first principles, start by enumerating the things a package version can actually experience. At any&amp;nbsp;time &lt;span class="math"&gt;\(t\)&lt;/span&gt;, a released version is in exactly one of these&amp;nbsp;states:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Fine forever.&lt;/strong&gt; The vast&amp;nbsp;majority.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Latent bug&lt;/strong&gt;, discovered&amp;nbsp;at &lt;span class="math"&gt;\(t = D_{\text{bug}}\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Latent &lt;span class="caps"&gt;CVE&lt;/span&gt;&lt;/strong&gt;, present all along, disclosed&amp;nbsp;at &lt;span class="math"&gt;\(t = D_{\text{cve}}\)&lt;/span&gt;, fix released&amp;nbsp;at &lt;span class="math"&gt;\(t = D_{\text{cve}} + \varepsilon\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Malicious&lt;/strong&gt;: supply-chain attack, discovered and yanked&amp;nbsp;at &lt;span class="math"&gt;\(t = D_{\text{mal}}\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Intentional breaking change&lt;/strong&gt;, discovered via your own traffic&amp;nbsp;at &lt;span class="math"&gt;\(t = D_{\text{reg}}\)&lt;/span&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Each class has its own &lt;strong&gt;detection-delay distribution&lt;/strong&gt;, and they are wildly&amp;nbsp;different.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Class&lt;/th&gt;
+&lt;th&gt;Typical detection delay&lt;/th&gt;
+&lt;th&gt;Who notices&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;🕷️ Supply-chain attack (typosquat, account compromise)&lt;/td&gt;
+&lt;td&gt;⚡ hours to days&lt;/td&gt;
+&lt;td&gt;🤖 scanners, community&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🐛 Bug / regression&lt;/td&gt;
+&lt;td&gt;📅 days to weeks&lt;/td&gt;
+&lt;td&gt;👥 early adopters + your traffic&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🔓 &lt;span class="caps"&gt;CVE&lt;/span&gt; disclosed against existing version&lt;/td&gt;
+&lt;td&gt;⏳ already there; disclosure starts the clock&lt;/td&gt;
+&lt;td&gt;🔬 researchers, vendors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;💥 Breaking change&lt;/td&gt;
+&lt;td&gt;📅 days to weeks&lt;/td&gt;
+&lt;td&gt;👤 users&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Same content, different lens. Plot each class on&amp;nbsp;a &lt;code&gt;(detection speed, blast radius)&lt;/code&gt; plane and a visual story emerges about where a cooldown can actually&amp;nbsp;help:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Dependency events: detection speed vs blast radius" src="https://alexsavio.github.io/imgs/dependency_events_quadrant.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Chart generated by &lt;a href="https://github.com/alexsavio/alexsavio.github.io/blob/master/scripts/plot_dependency_events_quadrant.py"&gt;&lt;code&gt;scripts/plot_dependency_events_quadrant.py&lt;/code&gt;&lt;/a&gt; (matplotlib, &lt;span class="caps"&gt;PEP&lt;/span&gt; 723 inline script, runs&amp;nbsp;via &lt;code&gt;uv run&lt;/code&gt;).&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;A cooldown lives entirely in the left half of the plane: it only bites events it can &lt;em&gt;see&lt;/em&gt;, meaning ones with fast detection. Of the two left-half points worth catching, typosquats are already handled by new-dep review, and the post-disclosure &lt;span class="caps"&gt;CVE&lt;/span&gt; fix is exactly the event a cooldown &lt;strong&gt;delays&lt;/strong&gt;, not protects against. Everything in the right half (long-dwell, pre-disclosure &lt;span class="caps"&gt;CVE&lt;/span&gt; latency) is invisible to any cooldown window you could reasonably set. The quadrant that a cooldown is &lt;em&gt;supposed&lt;/em&gt; to own, top-left, is in practice almost empty once you subtract the events lockfiles and new-dep review already&amp;nbsp;cover.&lt;/p&gt;
+&lt;p&gt;These distributions are the entire game. A cooldown is a bet on one of them: specifically,&amp;nbsp;that &lt;span class="math"&gt;\(D_{\text{mal}} &amp;lt; C\)&lt;/span&gt; often enough to justify the cost. Everything else is&amp;nbsp;arithmetic.&lt;/p&gt;
+&lt;h2 id="3-the-critical-asymmetry-cves-run-the-clock-backwards"&gt;3. The critical asymmetry: CVEs run the clock&amp;nbsp;backwards&lt;/h2&gt;
+&lt;p&gt;The naive cooldown argument treats &amp;#8220;new version&amp;#8221; as the risky event. For CVEs this is backwards, and this single asymmetry is the whole reason the scenario in section 1 exists. The real time sequence for a &lt;span class="caps"&gt;CVE&lt;/span&gt;&amp;nbsp;is:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\begin{aligned}
+t = -\infty &amp;amp;\quad\text{you adopted vulnerable version } v_{\text{old}} \text{ (no warning)} \\
+t = 0       &amp;amp;\quad\text{CVE disclosed; fix } v_{\text{new}} \text{ released the same day} \\
+t = 0^{+}   &amp;amp;\quad\text{attackers start scanning the internet} \\
+t = N       &amp;amp;\quad\text{you upgrade to } v_{\text{new}}
+\end{aligned}
+$$&lt;/div&gt;
+&lt;p&gt;Your exposure window&amp;nbsp;is &lt;span class="math"&gt;\([0, N]\)&lt;/span&gt;. It does not start&amp;nbsp;when &lt;span class="math"&gt;\(v_{\text{new}}\)&lt;/span&gt; ships; it started whenever you&amp;nbsp;adopted &lt;span class="math"&gt;\(v_{\text{old}}\)&lt;/span&gt;, which was weeks or months&amp;nbsp;ago. &lt;span class="math"&gt;\(v_{\text{new}}\)&lt;/span&gt; is the &lt;em&gt;end&lt;/em&gt; of your exposure, not the&amp;nbsp;beginning.&lt;/p&gt;
+&lt;p&gt;A cooldown&amp;nbsp;forces &lt;span class="math"&gt;\(N \geq C\)&lt;/span&gt;. That does not &amp;#8220;delay risk.&amp;#8221; It &lt;strong&gt;guarantees the extension of an exposure window you were already in&lt;/strong&gt;. The cooldown is not caution; it is a commitment to stay vulnerable, paid up front, for every future &lt;span class="caps"&gt;CVE&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;This is the core confusion cooldowns bake in: they conflate &lt;strong&gt;novelty&lt;/strong&gt; with &lt;strong&gt;risk&lt;/strong&gt;. A new version is novel; it is not (usually) risky. A not-yet-patched old version is not novel; it is (definitely) risky. The policy taxes the wrong&amp;nbsp;axis.&lt;/p&gt;
+&lt;h2 id="4-the-time-sequence-for-a-supply-chain-attack"&gt;4. The time sequence for a supply-chain&amp;nbsp;attack&lt;/h2&gt;
+&lt;p&gt;Now the event the cooldown is actually trying to protect&amp;nbsp;against:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\begin{aligned}
+t = 0 &amp;amp;\quad\text{malicious } v_{\text{new}} \text{ published} \\
+t = D &amp;amp;\quad\text{community detects, yanks, rotates credentials} \\
+t = N &amp;amp;\quad\text{you adopt}
+\end{aligned}
+$$&lt;/div&gt;
+&lt;p&gt;You are compromised&amp;nbsp;iff &lt;span class="math"&gt;\(N &amp;lt; D\)&lt;/span&gt;. A cooldown with&amp;nbsp;window &lt;span class="math"&gt;\(C\)&lt;/span&gt; guarantees &lt;span class="math"&gt;\(N \geq C\)&lt;/span&gt;, so you are protected&amp;nbsp;iff &lt;span class="math"&gt;\(C &amp;gt; D\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;This is genuinely useful, but narrower than it&amp;nbsp;sounds:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Typosquats&lt;/strong&gt; are detected in hours. Any cooldown catches them. But you weren&amp;#8217;t going to&amp;nbsp;install &lt;code&gt;requessts&lt;/code&gt; anyway; this class is caught by new-dep review and pip&amp;#8217;s&amp;nbsp;warnings.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Compromised maintainer accounts&lt;/strong&gt; (event-stream, ua-parser-js) get detected in 1–5 days typically. An 8-day cooldown catches them &lt;em&gt;if&lt;/em&gt; you would have adopted the compromised version in those 1–5&amp;nbsp;days.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Long-dwell attacks&lt;/strong&gt; (xz-utils, the SolarWinds family) sit undetected for weeks to months. No reasonable cooldown catches&amp;nbsp;these.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Transitive compromises&lt;/strong&gt; don&amp;#8217;t care about your cooldown at all. The transitive is pinned in someone else&amp;#8217;s lockfile and updates on someone else&amp;#8217;s&amp;nbsp;schedule.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So the cooldown defends against the middle band: medium-dwell compromises of packages you were about to adopt in the danger window. A real class, but not &amp;#8220;supply chain attacks in&amp;nbsp;general.&amp;#8221;&lt;/p&gt;
+&lt;h2 id="5-expected-cost-math"&gt;5. Expected-cost&amp;nbsp;math&lt;/h2&gt;
+&lt;p&gt;Put numbers on it. Let me define the model cleanly before plugging in, because the sloppy version (where &amp;#8220;rate&amp;#8221; secretly contains a probability) leads to double&amp;nbsp;counting.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Parameters.&lt;/strong&gt; Over one year, for a typical non-trivial&amp;nbsp;service:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\lambda_{\text{cve}}\)&lt;/span&gt; = rate of &lt;span class="caps"&gt;CVE&lt;/span&gt; disclosures affecting packages in your dep tree. &lt;strong&gt;~25/year&lt;/strong&gt; for a non-trivial Python&amp;nbsp;service.&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(r_{\text{attack}}\)&lt;/span&gt; = rate of malicious releases published in packages you could plausibly adopt (before any mitigation). &lt;strong&gt;~0.1/year&lt;/strong&gt; is a reasonable guess for a team with lockfiles and new-dep review already in&amp;nbsp;place.&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(L\)&lt;/span&gt; = audit latency in days. One cycle (&lt;strong&gt;1 day&lt;/strong&gt;) if you audit on every&amp;nbsp;resolve.&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(C\)&lt;/span&gt; = cooldown window in days&amp;nbsp;(e.g., &lt;span class="math"&gt;\(C = 8\)&lt;/span&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(N_0\)&lt;/span&gt; = your natural adoption delay. Weekly upgrade cadence&amp;nbsp;means &lt;span class="math"&gt;\(N_0 \sim \mathrm{Uniform}(0, 7)\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(D\)&lt;/span&gt; = detection delay for a malicious release, drawn from a mixture of exponentials reflecting the classes in section&amp;nbsp;4:&lt;/p&gt;
+&lt;p&gt;
+&lt;div class="math"&gt;$$
+D \sim 0.5 \cdot \mathrm{Exp}(1/0.5) \;+\; 0.3 \cdot \mathrm{Exp}(1/3) \;+\; 0.2 \cdot \mathrm{Exp}(1/60)
+$$&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;(typosquats in hours, account compromises in days, long-dwell in months).&amp;nbsp;- &lt;span class="math"&gt;\(I_{\text{cve}}\)&lt;/span&gt; = cost of one vuln-day of known-vulnerable exposure.&amp;nbsp;- &lt;span class="math"&gt;\(I_{\text{attack}}\)&lt;/span&gt; = cost of one successful compromise. Both costs are in the same unit, so the quantity we really care about is the&amp;nbsp;ratio &lt;span class="math"&gt;\(I_{\text{attack}} / I_{\text{cve}}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Term (1): guaranteed &lt;span class="caps"&gt;CVE&lt;/span&gt; exposure.&lt;/strong&gt; Each disclosed &lt;span class="caps"&gt;CVE&lt;/span&gt; costs you the time between disclosure and upgrade. A cooldown forces that time to be at&amp;nbsp;least &lt;span class="math"&gt;\(C\)&lt;/span&gt;; auditing forces it to be at&amp;nbsp;least &lt;span class="math"&gt;\(L\)&lt;/span&gt;. So exposure-per-&lt;span class="caps"&gt;CVE&lt;/span&gt;&amp;nbsp;is &lt;span class="math"&gt;\(\max(C, L)\)&lt;/span&gt;. Annual&amp;nbsp;cost:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\text{CVE}(C) \;=\; \lambda_{\text{cve}} \cdot \max(C, L) \cdot I_{\text{cve}}
+$$&lt;/div&gt;
+&lt;p&gt;Plugging&amp;nbsp;in: &lt;span class="math"&gt;\(\text{CVE}(0) = 25 \cdot 1 = 25\)&lt;/span&gt; vuln-days/year. &lt;span class="math"&gt;\(\text{CVE}(8) = 25 \cdot 8 = 200\)&lt;/span&gt;. The cooldown&amp;#8217;s &lt;em&gt;guaranteed&lt;/em&gt; &lt;span class="caps"&gt;CVE&lt;/span&gt; tax is the &lt;strong&gt;difference&lt;/strong&gt;, &lt;span class="math"&gt;\(\lambda_{\text{cve}} \cdot (\max(C, L) - L) \cdot I_{\text{cve}} = 175 \cdot I_{\text{cve}}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Term (2): residual attack cost.&lt;/strong&gt; This is where the naive model went wrong. The clean decomposition is: a compromise happens iff you adopt before detection,&amp;nbsp;i.e., &lt;span class="math"&gt;\(N &amp;lt; D\)&lt;/span&gt;,&amp;nbsp;where &lt;span class="math"&gt;\(N\)&lt;/span&gt; is your effective adoption delay. Without a&amp;nbsp;cooldown, &lt;span class="math"&gt;\(N = N_0\)&lt;/span&gt;. With&amp;nbsp;cooldown &lt;span class="math"&gt;\(C\)&lt;/span&gt;, the resolver refuses versions newer&amp;nbsp;than &lt;span class="math"&gt;\(C\)&lt;/span&gt; days,&amp;nbsp;so &lt;span class="math"&gt;\(N = \max(C, N_0)\)&lt;/span&gt;. Annual attack&amp;nbsp;cost:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\text{Attack}(C) \;=\; r_{\text{attack}} \cdot \Pr\bigl(\max(C, N_0) &amp;lt; D\bigr) \cdot I_{\text{attack}}
+$$&lt;/div&gt;
+&lt;p&gt;No hidden probability&amp;nbsp;inside &lt;span class="math"&gt;\(r_{\text{attack}}\)&lt;/span&gt;. The probability of compromise is computed from the model, not&amp;nbsp;assumed.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Plugging in.&lt;/strong&gt;&amp;nbsp;For &lt;span class="math"&gt;\(N_0 \sim \mathrm{Uniform}(0, 7)\)&lt;/span&gt; and the detection-delay mixture above, a direct &lt;a href="https://gist.github.com/alexsavio/3cdf6f284614fd4ea4d7a2b865ec5249"&gt;Monte Carlo simulation&lt;/a&gt; (2 million samples, seed 42, results match analytical closed forms to four decimal places)&amp;nbsp;gives:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\Pr(N_0 &amp;lt; D) \approx 0.341 \qquad \Pr\bigl(\max(8, N_0) &amp;lt; D\bigr) \approx 0.196
+$$&lt;/div&gt;
+&lt;p&gt;So an 8-day cooldown&amp;nbsp;prevents &lt;span class="math"&gt;\(\Delta P \approx 0.145\)&lt;/span&gt; of attacks in absolute terms. Expected compromises per&amp;nbsp;year:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\text{compromises/year:} \quad r_{\text{attack}} \cdot \Pr(N &amp;lt; D) \;=\; 0.1 \cdot 0.341 \approx 0.034 \;\text{(no cooldown)}
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
+\qquad\qquad\qquad 0.1 \cdot 0.196 \approx 0.020 \;\text{(8-day cooldown)}
+$$&lt;/div&gt;
+&lt;p&gt;The cooldown prevents about &lt;strong&gt;one compromise every 69 years&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Total cost.&lt;/strong&gt; Combining both&amp;nbsp;terms:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\text{cost}(C) \;=\; \lambda_{\text{cve}} \cdot \max(C, L) \cdot I_{\text{cve}} \;+\; r_{\text{attack}} \cdot \Pr\bigl(\max(C, N_0) &amp;lt; D\bigr) \cdot I_{\text{attack}}
+$$&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Break-even.&lt;/strong&gt;&amp;nbsp;Setting &lt;span class="math"&gt;\(\text{cost}(8) = \text{cost}(0)\)&lt;/span&gt; and solving for the risk&amp;nbsp;ratio:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\frac{I_{\text{attack}}}{I_{\text{cve}}} \;=\; \frac{\lambda_{\text{cve}} \cdot (C - L)}{r_{\text{attack}} \cdot \bigl[\Pr(N_0 &amp;lt; D) - \Pr(\max(C, N_0) &amp;lt; D)\bigr]} \;=\; \frac{175}{0.0145} \approx 12{,}073
+$$&lt;/div&gt;
+&lt;p&gt;In plain language: one compromise would have to be as damaging as &lt;strong&gt;12,000 &lt;span class="caps"&gt;CVE&lt;/span&gt;-days of exposure&lt;/strong&gt; for an 8-day cooldown to pay off at these parameters. For most teams, nowhere close. The math gets worse when you notice that term (2) is &lt;strong&gt;already mostly mitigated&lt;/strong&gt; by lockfile hashes and new-dep review, which the cooldown does not&amp;nbsp;improve.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The shape of the tradeoff.&lt;/strong&gt;&amp;nbsp;Sweeping &lt;span class="math"&gt;\(C\)&lt;/span&gt; through common values (numbers taken directly from the &lt;a href="https://gist.github.com/alexsavio/3cdf6f284614fd4ea4d7a2b865ec5249"&gt;simulation gist&lt;/a&gt; output, section &amp;#8220;Shape of the&amp;nbsp;tradeoff&amp;#8221;):&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Cooldown &lt;span class="math"&gt;\(C\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;&lt;span class="caps"&gt;CVE&lt;/span&gt; exposure&lt;/th&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(\Pr(\text{compromise})\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;Compromises prevented&amp;nbsp;vs &lt;span class="math"&gt;\(C=0\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;Break-even &lt;span class="math"&gt;\(I_{\text{attack}} / I_{\text{cve}}\)&lt;/span&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;0 days&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;25 vuln-days/yr&lt;/td&gt;
+&lt;td&gt;0.3406&lt;/td&gt;
+&lt;td&gt;baseline&lt;/td&gt;
+&lt;td&gt;n/a&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🟢 &lt;strong&gt;1 day&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;25 vuln-days/yr&lt;/td&gt;
+&lt;td&gt;0.3134&lt;/td&gt;
+&lt;td&gt;1 per 368 yrs&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;0&lt;/strong&gt; (free&amp;nbsp;lunch: &lt;span class="math"&gt;\(C = L\)&lt;/span&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🟢 &lt;strong&gt;2 days&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;50 vuln-days/yr&lt;/td&gt;
+&lt;td&gt;0.2887&lt;/td&gt;
+&lt;td&gt;1 per 193 yrs&lt;/td&gt;
+&lt;td&gt;4,814&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🟡 &lt;strong&gt;5 days&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;125 vuln-days/yr&lt;/td&gt;
+&lt;td&gt;0.2354&lt;/td&gt;
+&lt;td&gt;1 per 95 yrs&lt;/td&gt;
+&lt;td&gt;9,511&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🟡 &lt;strong&gt;7 days&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;175 vuln-days/yr&lt;/td&gt;
+&lt;td&gt;0.2071&lt;/td&gt;
+&lt;td&gt;1 per 75 yrs&lt;/td&gt;
+&lt;td&gt;11,234&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🔴 &lt;strong&gt;14 days&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;350 vuln-days/yr&lt;/td&gt;
+&lt;td&gt;0.1612&lt;/td&gt;
+&lt;td&gt;1 per 56 yrs&lt;/td&gt;
+&lt;td&gt;18,117&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🔴 &lt;strong&gt;30 days&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;750 vuln-days/yr&lt;/td&gt;
+&lt;td&gt;0.1213&lt;/td&gt;
+&lt;td&gt;1 per 46 yrs&lt;/td&gt;
+&lt;td&gt;33,064&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Two things jump out. First, &lt;strong&gt;&lt;span class="math"&gt;\(C = 1\)&lt;/span&gt; is genuinely free&lt;/strong&gt;: it matches your audit latency, so &lt;span class="caps"&gt;CVE&lt;/span&gt; exposure does not move at all, yet it still catches an extra ~3% of compromises. If you &lt;em&gt;must&lt;/em&gt; have a cooldown, that is the one that does not cost you anything. Second, &lt;strong&gt;break-even grows faster than linearly&amp;nbsp;in &lt;span class="math"&gt;\(C\)&lt;/span&gt;&lt;/strong&gt;: doubling the window more than doubles the risk ratio at which the cooldown pays off, because the &lt;span class="caps"&gt;CVE&lt;/span&gt; tax grows linearly while the remaining attack surface shrinks sub-linearly. Long windows get punished&amp;nbsp;hard.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⚠️ &lt;strong&gt;Limits of this model.&lt;/strong&gt; The detection-delay&amp;nbsp;mixture, &lt;span class="math"&gt;\(r_{\text{attack}}\)&lt;/span&gt;, and the linearity&amp;nbsp;of &lt;span class="math"&gt;\(I_{\text{cve}}\)&lt;/span&gt; are priors, not measurements. Treat the break-even ratio as accurate to roughly &lt;strong&gt;one significant figure&lt;/strong&gt;: &amp;#8220;~12,000&amp;#8221; could plausibly be 6,000 or 30,000 depending on what you believe about long-dwell tail shape, how bursty fast-yank detection really is, and whether &lt;span class="caps"&gt;CVE&lt;/span&gt; cost escalates non-linearly with exposure time. The model is also blind to transitive deps, fleet multipliers, operational toil, attacker adaptation, and catastrophic tail events that expected-value math systematically undersizes. These biases point in both directions and mostly cancel; the best place to push back on this post is to &lt;strong&gt;challenge the parameters, not the structure&lt;/strong&gt;. What the model does &lt;em&gt;not&lt;/em&gt; depend on: the &lt;span class="caps"&gt;CVE&lt;/span&gt; clock-asymmetry argument (section 3), the auditor/resolver deadlock (section 1), or the operational-debt modes (section 7). Those are qualitative, distribution-free, and&amp;nbsp;robust.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="6-where-to-put-the-time-buffer"&gt;6. Where to put the time&amp;nbsp;buffer&lt;/h2&gt;
+&lt;p&gt;The real question is not &amp;#8220;should there be latency between a version shipping and prod running it.&amp;#8221; There should. The question is &lt;strong&gt;where in the pipeline to put that latency.&lt;/strong&gt; You have three&amp;nbsp;choices:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Buffer location&lt;/th&gt;
+&lt;th&gt;Fast &lt;span class="caps"&gt;CVE&lt;/span&gt; adoption?&lt;/th&gt;
+&lt;th&gt;Catches regressions?&lt;/th&gt;
+&lt;th&gt;Defends fast-yank attacks?&lt;/th&gt;
+&lt;th&gt;Deadlocks with audit tooling?&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;🚫 &lt;strong&gt;Pre-resolver&lt;/strong&gt; (cooldown)&lt;/td&gt;
+&lt;td&gt;❌ no&lt;/td&gt;
+&lt;td&gt;⚠️ weak, you hope the community flags it&lt;/td&gt;
+&lt;td&gt;⚠️ narrow band&lt;/td&gt;
+&lt;td&gt;❌ yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;⚙️ &lt;strong&gt;Post-resolver, pre-merge&lt;/strong&gt; (&lt;span class="caps"&gt;CI&lt;/span&gt; + audit + review)&lt;/td&gt;
+&lt;td&gt;✅ yes&lt;/td&gt;
+&lt;td&gt;❌ no&lt;/td&gt;
+&lt;td&gt;✅ yes, via hashes&lt;/td&gt;
+&lt;td&gt;✅ no&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🧪 &lt;strong&gt;Post-merge, pre-prod&lt;/strong&gt; (staging bake)&lt;/td&gt;
+&lt;td&gt;✅ yes&lt;/td&gt;
+&lt;td&gt;✅ yes, real traffic&lt;/td&gt;
+&lt;td&gt;✅ yes&lt;/td&gt;
+&lt;td&gt;✅ no&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Pre-resolver buffering is &lt;strong&gt;dominated&lt;/strong&gt; on every axis that matters for a typical service. There is one degenerate&amp;nbsp;exception: &lt;span class="math"&gt;\(C \approx L\)&lt;/span&gt;, a cooldown matched to your audit latency. That setting costs nothing extra in &lt;span class="caps"&gt;CVE&lt;/span&gt; exposure&amp;nbsp;(since &lt;span class="math"&gt;\(\max(C, L) = L\)&lt;/span&gt;) and still catches a few fast-yank attacks. It is the only version of a cooldown that is strictly non-harmful, and it is &lt;em&gt;not&lt;/em&gt; what anyone means when they enable one. Everything larger starts paying the &lt;span class="caps"&gt;CVE&lt;/span&gt; tax described in section&amp;nbsp;5.&lt;/p&gt;
+&lt;p&gt;If you have a weak argument for buffering &lt;em&gt;earlier&lt;/em&gt;, you have a strictly stronger argument for buffering &lt;em&gt;later&lt;/em&gt;. Staging bake is the killer comparison. It uses your own traffic to detect regressions. That is a &lt;strong&gt;higher-fidelity signal&lt;/strong&gt; than &amp;#8220;the community didn&amp;#8217;t yank it yet&amp;#8221;: you know whether &lt;em&gt;your&lt;/em&gt; code, &lt;em&gt;your&lt;/em&gt; workload, &lt;em&gt;your&lt;/em&gt; configuration breaks. The community cannot tell you that. A cooldown pretends community vigilance is a substitute. It&amp;nbsp;isn&amp;#8217;t.&lt;/p&gt;
+&lt;h2 id="7-additional-failure-modes"&gt;7. Additional failure&amp;nbsp;modes&lt;/h2&gt;
+&lt;p&gt;Beyond the deadlock, cooldowns accumulate operational&amp;nbsp;debt:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Per-package allow-lists&amp;nbsp;rot.&lt;/strong&gt; &lt;code&gt;uv&lt;/code&gt; offers &lt;code&gt;exclude-newer-package&lt;/code&gt; to exempt a package from the cooldown. Every &lt;span class="caps"&gt;CVE&lt;/span&gt; that lands in the window requires someone to add a line. Nobody removes the lines later. Within a year the allow-list covers every security-critical package you have (i.e., exactly the ones the cooldown was supposed to protect), and the cooldown applies only to packages where it has no&amp;nbsp;upside.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Silence is not safety.&lt;/strong&gt; When a release is yanked, you want to know &lt;em&gt;now&lt;/em&gt;, because you probably already adopted it in prior weeks. A cooldown-based policy hides yanks until the window expires. You get neither warning nor&amp;nbsp;action.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;False security against the wrong threat model.&lt;/strong&gt; Cooldowns optimize for malicious-release attacks you probably mitigate via lockfile hashes, while ignoring account compromise, dependency confusion, transitive bad actors, and long-dwell attacks. The marketing matches the real threat landscape&amp;nbsp;poorly.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Staleness tax compounds.&lt;/strong&gt; Over a year, an 8-day cooldown means every production service you ship is, on average, 4 days behind the ecosystem. Every bug fix, every performance improvement, every compatibility patch arrives late. None of that delay makes you safer; it just means you run older code continuously, forever, by&amp;nbsp;construction.&lt;/p&gt;
+&lt;h2 id="8-when-cooldowns-actually-win"&gt;8. When cooldowns actually&amp;nbsp;win&lt;/h2&gt;
+&lt;p&gt;Every model has a regime where its conclusion flips. Sweeping the total cost function from section 5 across cooldown windows at different risk&amp;nbsp;ratios &lt;span class="math"&gt;\(I_{\text{attack}} / I_{\text{cve}}\)&lt;/span&gt; reproduces the &lt;a href="https://gist.github.com/alexsavio/3cdf6f284614fd4ea4d7a2b865ec5249"&gt;simulation output&lt;/a&gt;:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(I_{\text{attack}} / I_{\text{cve}}\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;Optimal &lt;span class="math"&gt;\(C\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;What kind of service&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;🟢 &lt;span class="math"&gt;\(10^2 - 10^4\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;1 day&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;typical web service, internal tools, SaaS backend&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🟡 &lt;span class="math"&gt;\(10^5\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;14 days&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;high-value platform: fintech, identity, custodian&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🔴 &lt;span class="math"&gt;\(10^6\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;90 days&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;catastrophic-breach-class: payments, custodial crypto, critical infrastructure&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Read this as: a team that genuinely models one compromise as equivalent to &lt;strong&gt;100,000 &lt;span class="caps"&gt;CVE&lt;/span&gt;-days&lt;/strong&gt; of exposure should run a real cooldown. At that risk ratio, the 175-vuln-day tax is cheap insurance. For everyone else, it is&amp;nbsp;not.&lt;/p&gt;
+&lt;p&gt;The&amp;nbsp;break-even &lt;span class="math"&gt;\(I_{\text{attack}} / I_{\text{cve}}\)&lt;/span&gt; for an 8-day cooldown under the default detection-delay mixture is approximately &lt;strong&gt;12,000&lt;/strong&gt;. Below that, no cooldown&amp;nbsp;(or &lt;span class="math"&gt;\(C \approx L\)&lt;/span&gt;) wins. Above it, cooldowns start to pay and should grow with the&amp;nbsp;stakes.&lt;/p&gt;
+&lt;p&gt;Most teams are nowhere near 12,000. Estimate yours honestly before you&amp;nbsp;adopt.&lt;/p&gt;
+&lt;h2 id="9-the-word-cooldown-needs-better-semantics"&gt;9. The word &amp;#8220;cooldown&amp;#8221; needs better&amp;nbsp;semantics&lt;/h2&gt;
+&lt;p&gt;Part of the problem is that the term &amp;#8220;cooldown&amp;#8221; flattens at least eight distinct policies into one switch. Each has a different cost profile and a different threat model. Naming them separately turns a sterile debate about &amp;#8220;cooldowns yes/no&amp;#8221; into a design question about which filter you actually&amp;nbsp;want.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. Flat pre-resolver cooldown.&lt;/strong&gt; The thing&amp;nbsp;uv&amp;#8217;s &lt;code&gt;exclude-newer&lt;/code&gt; ships today. Hides every release younger&amp;nbsp;than &lt;span class="math"&gt;\(C\)&lt;/span&gt; days from the resolver. Uniform window, uniform package set. This is what the rest of the post argues&amp;nbsp;against.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. Audit-matched cooldown&lt;/strong&gt;&amp;nbsp;(&lt;span class="math"&gt;\(C = L\)&lt;/span&gt;). Set the cooldown equal to your audit latency. Zero &lt;span class="caps"&gt;CVE&lt;/span&gt; tax, catches the hours-class fast-yank attacks for free. The only version that is strictly non-harmful. Almost nobody configures this because it feels uselessly small. It&amp;nbsp;isn&amp;#8217;t.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. Additions-only cooldown.&lt;/strong&gt; Apply the cooldown only to packages not already in your lockfile. The threat model the cooldown actually addresses is malicious &lt;em&gt;new&lt;/em&gt; adoption; upgrades of already-vetted packages are a different attack surface. This isolates the benefit without the &lt;span class="caps"&gt;CVE&lt;/span&gt; tax on upgrades. Needs tooling&amp;nbsp;support; &lt;code&gt;exclude-newer-package&lt;/code&gt; can fake it via inverted&amp;nbsp;allow-lists.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4. Release-cadence-adaptive cooldown.&lt;/strong&gt; Window inversely proportional to recent release frequency. Packages that publish weekly have dense community traffic and short effective detection delays, so the cooldown contributes nothing and should be near zero. Packages that publish yearly have almost no community scrutiny, so the long-tail regime from section 4 applies and a longer window can matter. Addresses the long-dwell failure directly instead of picking one number for the whole dep&amp;nbsp;tree.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5. Canary cooldown&lt;/strong&gt; (fleet-staged adoption). Upgrade 10% of your fleet on day 1, the rest on&amp;nbsp;day &lt;span class="math"&gt;\(C\)&lt;/span&gt;. Compromises are detected by &lt;em&gt;your&lt;/em&gt; telemetry on the canary before the full rollout. This is just canary deployment applied to dependencies and it subsumes what a cooldown pretends to buy, because the detection signal is your actual traffic rather than community vigilance. Section 6 already argues this is a higher-fidelity&amp;nbsp;signal.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;6. Advisory-aware cooldown&lt;/strong&gt; (the resolver fix). The deadlock in section 1 exists because the resolver and the auditor do not talk. An advisory-aware resolver polls the &lt;span class="caps"&gt;CVE&lt;/span&gt; database at resolve time and exempts any version that &lt;em&gt;fixes&lt;/em&gt; a listed vulnerability from the cooldown. The policy would read: &amp;#8220;hide fresh releases &lt;em&gt;unless&lt;/em&gt; the fresh release is a security patch.&amp;#8221; That is the only form of cooldown whose failure mode is not a guaranteed &lt;span class="caps"&gt;CVE&lt;/span&gt;-exposure extension. It does not exist in any mainstream Python resolver today. It should. If I had one practical ask of the uv team, it would be&amp;nbsp;this.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;7. Information-theoretic cooldown.&lt;/strong&gt; A cooldown is a bet that community inaction provides meaningful signal about package safety. Ask the prior question: &lt;em&gt;how many of the packages in your dep tree actually have a community watching?&lt;/em&gt; The top ~1,000 PyPI packages have eyes on them. The long tail does not. For a package with no community watchers, a cooldown provides exactly &lt;strong&gt;zero bits of information&lt;/strong&gt;, because the absence of a yank means nothing, since nobody would have yanked it anyway. An honest cooldown implementation would apply only to packages with a measurable watcher population (GitHub stars above a threshold, weekly downloads above a threshold, recent security-advisory activity) and skip the rest. Most dep trees would end up with a cooldown on maybe 50 packages, not&amp;nbsp;500.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;A variant I originally listed and then cut&lt;/strong&gt;: &amp;#8220;differential cooldown by blast radius&amp;#8221;, where security-sensitive packages&amp;nbsp;get &lt;span class="math"&gt;\(C = 0\)&lt;/span&gt; and utility packages get a longer window. It sounds principled, but the end state is identical to the allow-list rot failure mode from section 7: the cooldown applies exactly where it has no upside and skips exactly where it would matter. Steelmanning it with &amp;#8220;utility packages have higher typosquat rates&amp;#8221; doesn&amp;#8217;t rescue it, because variant 2&amp;nbsp;(&lt;span class="math"&gt;\(C = L\)&lt;/span&gt;) already catches typosquats for free and your new-dep review (section 10) catches typosquat &lt;em&gt;additions&lt;/em&gt;. Freezing the rot pattern in configuration is still the rot&amp;nbsp;pattern.&lt;/p&gt;
+&lt;p&gt;Options 2 through 7 are all strictly better than option 1 in at least one dimension, and some of them strictly dominate it. If your package manager shipped any of them instead of option 1, the argument in this post would be much narrower and the Astral practice much more defensible. The problem is that when a blog post, a config flag, or a pipeline template says &amp;#8220;cooldown&amp;#8221;, everyone reads option 1, and option 1 is the one that&amp;nbsp;loses.&lt;/p&gt;
+&lt;h2 id="10-what-first-principles-actually-say"&gt;10. What first principles actually&amp;nbsp;say&lt;/h2&gt;
+&lt;p&gt;Work the sequence of events again, but from the defender&amp;#8217;s perspective. You want each class of risk handled at the point in the pipeline where detection is cheapest and most&amp;nbsp;accurate.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Threat&lt;/th&gt;
+&lt;th&gt;Best detection point&lt;/th&gt;
+&lt;th&gt;Cost&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;🔓 &lt;span class="caps"&gt;CVE&lt;/span&gt; fix needed&lt;/td&gt;
+&lt;td&gt;as soon as disclosed&lt;/td&gt;
+&lt;td&gt;🔍 audit on every resolve&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🐛 Latent bug / regression&lt;/td&gt;
+&lt;td&gt;under your own traffic&lt;/td&gt;
+&lt;td&gt;🧪 staging environment&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🕷️ Fast-yank supply-chain attack&lt;/td&gt;
+&lt;td&gt;at lock time, on new additions&lt;/td&gt;
+&lt;td&gt;🔐 lockfile hashes + new-dep review&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🐚 Long-dwell supply-chain attack&lt;/td&gt;
+&lt;td&gt;via advisory subscription and &lt;span class="caps"&gt;SBOM&lt;/span&gt; monitoring&lt;/td&gt;
+&lt;td&gt;📡 targeted vigilance&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;💥 Breaking change&lt;/td&gt;
+&lt;td&gt;in &lt;span class="caps"&gt;CI&lt;/span&gt; against your integration tests&lt;/td&gt;
+&lt;td&gt;✔️ tests&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Notice what&amp;#8217;s missing from this table: &lt;strong&gt;a time window during which the resolver pretends new versions do not exist.&lt;/strong&gt; That policy does not appear in any row because no row benefits from it. Every legitimate concern has a better&amp;nbsp;home.&lt;/p&gt;
+&lt;p&gt;The operational rules that fall&amp;nbsp;out:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Lockfiles with hashes, always.&lt;/strong&gt; This is the supply-chain defense that actually&amp;nbsp;works.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Audit on every resolve, block on &lt;span class="caps"&gt;HIGH&lt;/span&gt;/&lt;span class="caps"&gt;CRITICAL&lt;/span&gt;.&lt;/strong&gt;&amp;nbsp;Drives &lt;code&gt;audit_latency&lt;/code&gt; to one&amp;nbsp;cycle.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Upgrade frequently.&lt;/strong&gt;&amp;nbsp;Short &lt;code&gt;N&lt;/code&gt; between &lt;span class="caps"&gt;CVE&lt;/span&gt; disclosure and your patch. Frequency is safety, not&amp;nbsp;risk.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Staging bake for regression detection.&lt;/strong&gt; Your traffic beats community traffic for your workload. This is the same &amp;#8220;recovery beats prevention&amp;#8221; logic that falls out of &lt;a href="https://alexsavio.github.io/first-principles-devops.html"&gt;first principles in devops&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Manual review on new dependencies only.&lt;/strong&gt; Upgrades of existing deps are a small attack surface. Additions are the hot&amp;nbsp;spot.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Subscribe to advisories for critical-path packages.&lt;/strong&gt; Ten packages, maybe. Targeted vigilance is cheap and has no deadlock&amp;nbsp;cost.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pin manually when you truly need to be paranoid about one package.&lt;/strong&gt; Surgical. No collateral damage. No allow-list&amp;nbsp;rot.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;These rules are scoped by the caveat in section 8. At high enough stakes, you should layer one of the smarter variants from section 9 on top; at typical stakes, the rules above are the whole&amp;nbsp;answer.&lt;/p&gt;
+&lt;h2 id="11-summary"&gt;11.&amp;nbsp;Summary&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;✅ Pros of cooldowns&lt;/th&gt;
+&lt;th&gt;❌ Cons of cooldowns&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;✅ Catches fast-yank supply-chain attacks in a narrow window&lt;/td&gt;
+&lt;td&gt;❌ Guarantees extended &lt;span class="caps"&gt;CVE&lt;/span&gt; exposure every time a fix lands&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;✅ Trivial to enable&lt;/td&gt;
+&lt;td&gt;❌ Deadlocks with every live-&lt;span class="caps"&gt;DB&lt;/span&gt; vulnerability scanner&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;✅ Supported in most package managers&lt;/td&gt;
+&lt;td&gt;❌ Cannot be overridden by user version constraints&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;✅ Feels cautious&lt;/td&gt;
+&lt;td&gt;❌ Per-package allow-lists accumulate permanently&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;❌ Hides yank signals during the window&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;❌ Wrong threat model: protects against a narrow band that lockfiles + review already cover&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;❌ Silently delays every improvement, 100% of the time&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;❌ Confuses novelty with risk&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The flat pre-resolver cooldown that today&amp;#8217;s package managers ship optimizes for the wrong point in the pipeline, against the wrong threat model, at the cost of a certain and recurring operational debt. The real defense is layered: fast audits in &lt;span class="caps"&gt;CI&lt;/span&gt;, tight lockfiles with hashes, a staging bake against your own traffic, and manual review on the narrow surface where it pays, new dependencies. Once those layers exist, flat cooldowns add nothing but delay at typical risk ratios. If you need more than that, reach for one of the smarter variants in section 9, canary rollouts or advisory-aware resolvers before flat windows. Caution should be cheap when the thing you are cautious about is bad, and free when it is good. Flat cooldowns are instead expensive every day, in exchange for a contingent payoff that, for most services, the math cannot justify. If a policy makes you feel safer every day while making you measurably less safe every week, retire it and replace it with one that actually&amp;nbsp;pays.&lt;/p&gt;
+&lt;p&gt;Adopt fast. Verify hard. Buffer&amp;nbsp;late.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://gist.github.com/alexsavio/3cdf6f284614fd4ea4d7a2b865ec5249"&gt;Simulation&amp;nbsp;gist: &lt;code&gt;simulate_dependency_cooldown.py&lt;/code&gt; + output&lt;/a&gt;. Companion Python script backing every number in this post, plus the captured run output. Reproduce or challenge the results&amp;nbsp;end-to-end.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://astral.sh/blog/open-source-security-at-astral"&gt;Open source security at Astral&lt;/a&gt;, William Woodruff, April 2026. The original post this analysis responds&amp;nbsp;to.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.astral.sh/uv/reference/settings/#exclude-newer"&gt;uv: &lt;code&gt;exclude-newer&lt;/code&gt; documentation&lt;/a&gt;. The cooldown mechanism analyzed in this&amp;nbsp;post.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/pypa/pip-audit"&gt;pip-audit&lt;/a&gt;. Live advisory &lt;span class="caps"&gt;DB&lt;/span&gt; auditor referenced in the deadlock&amp;nbsp;example.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/dominictarr/event-stream/issues/116"&gt;event-stream incident (2018)&lt;/a&gt;. Canonical medium-dwell account-compromise supply-chain&amp;nbsp;attack.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.cve.org/CVERecord?id=CVE-2024-3094"&gt;xz-utils backdoor (&lt;span class="caps"&gt;CVE&lt;/span&gt;-2024-3094)&lt;/a&gt;. Long-dwell supply-chain attack no cooldown could&amp;nbsp;catch.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-devops.html"&gt;First Principles: DevOps&lt;/a&gt;. Related post on why feedback loops and recovery beat prevention in operational&amp;nbsp;systems.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Engineering"/><category term="first-principles"/><category term="python"/><category term="security"/><category term="dependencies"/><category term="supply-chain"/><category term="devops"/></entry><entry><title>First Principles: Distributed Systems (Most of Yours Should Not Exist)</title><link href="https://alexsavio.github.io/first-principles-distributed-systems.html" rel="alternate"/><published>2026-04-09T18:00:00+02:00</published><updated>2026-04-09T18:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-04-09:/first-principles-distributed-systems.html</id><summary type="html">&lt;p&gt;Distributed systems thinking is drowning in inherited wisdom — microservices by default, horizontal scaling as a reflex, eventual consistency as a catchphrase. Strip it down to six irreducible truths and most of that architectural baggage falls away. The uncomfortable conclusion: the first, cheapest, most reliable distributed system is the one you did not&amp;nbsp;build.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
 &lt;p&gt;Distributed systems thinking is drowning in inherited wisdom: microservices by default, horizontal scaling as a reflex, eventual consistency as a catchphrase. Strip the topic down to its irreducible truths, the six things that are actually provable, and most of that architectural baggage falls away. The uncomfortable conclusion: the first, cheapest, most reliable distributed system is the one you did not build. Everything else is a tax you should only pay when you can prove it buys you&amp;nbsp;something.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;This is the fifth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what&amp;#8217;s actually provable. Previous entries: &lt;a href="https://alexsavio.github.io/first-principles-software-observability.html"&gt;Software Observability&lt;/a&gt;, &lt;a href="https://alexsavio.github.io/first-principles-software-design.html"&gt;Software Design&lt;/a&gt;, &lt;a href="https://alexsavio.github.io/first-principles-devops.html"&gt;DevOps&lt;/a&gt;, and &lt;a href="https://alexsavio.github.io/first-principles-data-engineering.html"&gt;Data Engineering&lt;/a&gt;. Distributed systems felt like the right next target because few topics have a wider gap between what engineers repeat and what they&amp;#8217;ve actually&amp;nbsp;measured.&lt;/em&gt;&lt;/p&gt;
 &lt;div class="toc"&gt;
