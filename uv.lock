@@ -20,6 +20,7 @@ dependencies = [
     { name = "markupsafe" },
     { name = "pelican", extra = ["markdown"] },
     { name = "pelican-related-posts" },
+    { name = "pelican-render-math" },
     { name = "pelican-series" },
     { name = "pelican-sitemap" },
     { name = "pillow" },
@@ -53,6 +54,7 @@ requires-dist = [
     { name = "markupsafe", specifier = ">=3.0.3" },
     { name = "pelican", extras = ["markdown"], specifier = ">=4.9.0" },
     { name = "pelican-related-posts", specifier = ">=1.0.0" },
+    { name = "pelican-render-math", specifier = ">=1.0.5" },
     { name = "pelican-series", specifier = ">=3.1.1" },
     { name = "pelican-sitemap", specifier = ">=1.2.2" },
     { name = "pillow", specifier = ">=12.1.1" },
@@ -484,6 +486,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/3f/f3/d8beebc2c39c7b95d3711bea72d3c7dfd6913169eb150b2dc29fed7230fa/pelican-related-posts-1.0.0.tar.gz", hash = "sha256:e106487e279368ccc7ab74609197a5f298d54f6d4e1eeb36f8bc0c2291227222", size = 3734, upload-time = "2020-08-29T17:23:03.167Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/51/db/680ae2076b7caa5abcaa1234ea08e8fed98569752198d2d221f5e8d8e425/pelican_related_posts-1.0.0-py3-none-any.whl", hash = "sha256:0f1dcdf34f90c41f275aba428879a5fde24e166cf0154d3a07d59cc5071976d5", size = 3449, upload-time = "2020-08-29T17:23:05.15Z" },
+]
+
+[[package]]
+name = "pelican-render-math"
+version = "1.0.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pelican" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/39/ce/b7ca0f603d78811b944951ad2f83f28ad3018ef1b3653221deef81e068c5/pelican_render_math-1.0.5.tar.gz", hash = "sha256:dfb36fb5cb62f40ee05d747f47207ec15511f8d77635def8c22a00846cca742b", size = 29453, upload-time = "2025-10-22T09:13:58.185Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/51/0e/368abb67e18c4ce965ce88cf96aa67c6cb8be2f8e0b2ed1ec1f306be5dad/pelican_render_math-1.0.5-py3-none-any.whl", hash = "sha256:6383b798aba721ed033a67bbc71c8f555b72c7d35e22a32477c958286f719eca", size = 28788, upload-time = "2025-10-22T09:13:56.792Z" },
 ]
 
 [[package]]

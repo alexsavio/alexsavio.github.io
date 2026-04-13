@@ -27,6 +27,7 @@ dependencies = [
     "pelican-sitemap>=1.2.2",
     "pelican-series>=3.1.1",
     "pelican-related-posts>=1.0.0",
+    "pelican-render-math>=1.0.5",
     "pygments>=2.20.0",
 ]
 
