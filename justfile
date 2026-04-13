@@ -76,6 +76,14 @@ lint-ruff:
 # Run all code checks
 lint: lint-ruff lint-mypy
 
+##@ Content generation
+
+# Regenerate figures for blog posts (run when a plot script changes)
+generate-charts:
+  # Scripts use PEP 723 inline metadata, so dependencies are isolated
+  # and do not leak into the blog's main environment.
+  uv run --script scripts/plot_dependency_events_quadrant.py
+
 ##@ Pelican tasks
 
 # Build the blog
