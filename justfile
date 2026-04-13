@@ -106,8 +106,8 @@ serve-global port="8000" server="0.0.0.0":
 serve-dev port="8000":
   uv run pelican --listen --autoreload -s pelicanconf.py -p {{port}}
 
-# Build and serve the blog
-dev: rebuild serve-dev
+# Build and serve the blog (default port 8000)
+dev port="8000": rebuild (serve-dev port)
 
 # Upload the site via SSH
 ssh-upload ssh_host="localhost" ssh_port="22" ssh_user="root" ssh_target="/var/www": publish
