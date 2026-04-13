@@ -306,6 +306,8 @@ The operational rules that fall out:
 6. **Subscribe to advisories for critical-path packages.** Ten packages, maybe. Targeted vigilance is cheap and has no deadlock cost.
 7. **Pin manually when you truly need to be paranoid about one package.** Surgical. No collateral damage. No allow-list rot.
 
+A team I work with recently ripped out an 8-day flat cooldown from a Python monorepo and replaced it with `pip-audit` on every PR plus CODEOWNERS review on any `pyproject.toml` edit. The deadlock stopped recurring, CVE fixes now ship same-day, and the human-review budget landed on the one surface that actually matters: new dependencies.
+
 These rules are scoped by the caveat in section 8. At high enough stakes, you should layer one of the smarter variants from section 9 on top; at typical stakes, the rules above are the whole answer.
 
 ## 11. Summary
