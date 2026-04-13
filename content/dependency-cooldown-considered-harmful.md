@@ -298,7 +298,7 @@ Notice what's missing from this table: **a time window during which the resolver
 
 The operational rules that fall out:
 
-1. **Lockfiles with hashes, always.** This is the supply-chain defense that actually works. In CI and production, run `uv sync --locked` (errors if `uv.lock` is out of sync with `pyproject.toml`, catching forgotten `uv lock` runs) or `--frozen` (installs exactly what the lockfile says, never touches `pyproject.toml` at all). A bare `uv sync` is fine for local development: [uv does not consider a lockfile outdated just because new versions shipped upstream](https://docs.astral.sh/uv/concepts/projects/sync/#automatic-lock-and-sync), so the lockfile stays stable until someone explicitly runs `uv lock --upgrade`. The reason to pin deploy paths to `--locked`/`--frozen` is to catch the case where someone edits `pyproject.toml` and forgets to re-lock, leaving the committed lockfile stale.
+1. **Lockfiles with hashes, always.** This is the supply-chain defense that actually works. Use `uv sync --locked` or `--frozen` in CI and deploy paths[^uv-sync-flags].
 2. **Audit on every resolve, block on HIGH/CRITICAL.** Drives `audit_latency` to one cycle.
 3. **Upgrade frequently.** Short `N` between CVE disclosure and your patch. Frequency is safety, not risk.
 4. **Staging bake for regression detection.** Your traffic beats community traffic for your workload. This is the same "recovery beats prevention" logic that falls out of [first principles in devops]({filename}/first_principles_devops.md).
@@ -326,6 +326,8 @@ These rules are scoped by the caveat in section 8. At high enough stakes, you sh
 The flat pre-resolver cooldown that today's package managers ship optimizes for the wrong point in the pipeline, against the wrong threat model, at the cost of a certain and recurring operational debt. The real defense is layered: fast audits in CI, tight lockfiles with hashes, a staging bake against your own traffic, and manual review on the narrow surface where it pays, new dependencies. Once those layers exist, flat cooldowns add nothing but delay at typical risk ratios. If you need more than that, reach for one of the smarter variants in section 9, canary rollouts or advisory-aware resolvers before flat windows. Caution should be cheap when the thing you are cautious about is bad, and free when it is good. Flat cooldowns are instead expensive every day, in exchange for a contingent payoff that, for most services, the math cannot justify. If a policy makes you feel safer every day while making you measurably less safe every week, retire it and replace it with one that actually pays.
 
 Adopt fast. Verify hard. Buffer late.
+
+[^uv-sync-flags]: `--locked` errors if `uv.lock` is out of sync with `pyproject.toml`, catching the case where someone edits a dependency and forgets to re-lock. `--frozen` goes further: installs exactly what the lockfile says and never reads `pyproject.toml` at all, so the deploy path is fully deterministic. A bare `uv sync` is fine for local development because [uv does not consider a lockfile outdated just because new versions shipped upstream](https://docs.astral.sh/uv/concepts/projects/sync/#automatic-lock-and-sync); the lockfile stays stable until someone explicitly runs `uv lock --upgrade`.
 
 ---
 
