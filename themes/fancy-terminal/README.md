@@ -165,6 +165,41 @@ SOCIAL = [
 ]
 ```
 
+## Mermaid diagrams
+
+The theme ships a client-side Mermaid v11 loader in `base.html` that
+calls `mermaid.initialize({ startOnLoad: true })`. It picks up any
+element with `class="mermaid"` in the rendered HTML.
+
+**Gotcha:** do NOT use a fenced code block for Mermaid:
+
+    ```mermaid
+    flowchart TD
+        A --> B
+    ```
+
+The `codehilite` Markdown extension (enabled in `pelicanconf.py`)
+intercepts fenced blocks and wraps them in `<div class="highlight"><pre>`
+with Pygments tokens, so Mermaid's client-side loader never sees a
+`<pre class="mermaid">`. The diagram renders as highlighted source code.
+
+**Correct form:** embed raw HTML directly in the Markdown source:
+
+```html
+<pre class="mermaid">
+flowchart TD
+    A --> B
+</pre>
+```
+
+This works because Python-Markdown passes raw HTML blocks through
+unchanged, so the `class="mermaid"` attribute reaches the browser where
+Mermaid can find it.
+
+For charts too complex for Mermaid (e.g. scatter plots with many
+labeled points that need precise positioning), generate a static PNG
+with matplotlib and reference it via a standard image embed instead.
+
 ## Template Structure
 
 ```text
