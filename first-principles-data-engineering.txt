@@ -13,7 +13,7 @@ Status: published
 
 Most of what we call "data engineering" is a set of conventions inherited from an era of expensive compute and scarce storage. When you strip it down to first principles, only five truths survive: producers and consumers operate in different contexts, data must cross boundaries, semantic alignment is unavoidable, computation trades off time against money against complexity, and data without provenance is unreliable. Everything else, from the sacred ETL ordering to the "collect everything" data lake mentality, is implementation detail that should be questioned.
 
-*This is the fourth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's provably true. The first one tackled [Software Observability]({filename}/first_principles_software_observability.md), the second [Software Design]({filename}/first_principles_software_design.md), and the third [DevOps]({filename}/first_principles_devops.md). Data engineering is the next natural target, because few disciplines have calcified around tooling as fast as this one.*
+*This is the fourth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's provably true. The first one tackled [Software Observability]({filename}/2026-03-19_first_principles_software_observability.md), the second [Software Design]({filename}/2026-03-21_first_principles_software_design.md), and the third [DevOps]({filename}/2026-03-30_first_principles_devops.md). Data engineering is the next natural target, because few disciplines have calcified around tooling as fast as this one.*
 
 [TOC]
 
@@ -159,7 +159,7 @@ This is the same argument Zhamak Dehghani made for **data mesh**: push ownership
 
 Data quality isn't a test suite problem. It's an **observability** problem. Tests check known failure modes; observation surfaces unknown ones. You need continuous monitoring of distributions, volumes, freshness, and lineage, not just `assert not null`.
 
-This connects directly to [the observability principles]({filename}/first_principles_software_observability.md) I wrote about earlier. In that post, I argued that the "three pillars" (logs, metrics, traces) describe data formats, not observability itself. The same pattern appears here: "ETL" describes a data flow ordering, not data engineering itself. In both cases, vendor categories got mistaken for fundamentals. The fix is the same too: explore instead of monitor, alert on invariants rather than thresholds, and treat quality as a design property rather than an afterthought.
+This connects directly to [the observability principles]({filename}/2026-03-19_first_principles_software_observability.md) I wrote about earlier. In that post, I argued that the "three pillars" (logs, metrics, traces) describe data formats, not observability itself. The same pattern appears here: "ETL" describes a data flow ordering, not data engineering itself. In both cases, vendor categories got mistaken for fundamentals. The fix is the same too: explore instead of monitor, alert on invariants rather than thresholds, and treat quality as a design property rather than an afterthought.
 
 There's a deeper problem, though. Data engineering as a discipline has a **testing gap** that would be unacceptable in software engineering. Most pipeline code has zero unit tests. Transformations that encode critical business logic run without integration tests against realistic data. The entire testing culture amounts to "check if the DAG ran without errors," which tells you nothing about whether the *output* is correct.
 
@@ -241,9 +241,9 @@ Quick diagnostic. If any of these sound familiar, you're optimizing conventions 
 ## References
 
 1. First-principles analysis by the author, based on industry experience and reasoning from fundamentals
-2. [First Principles: Software Observability]({filename}/first_principles_software_observability.md) - First post in this series, applying the same method to observability
-3. [First Principles: Software Design]({filename}/first_principles_software_design.md) - Second post in this series, stripping software design to its irreducible core
-4. [First Principles: DevOps]({filename}/first_principles_devops.md) - Third post in this series, questioning the conventions of modern DevOps
+2. [First Principles: Software Observability]({filename}/2026-03-19_first_principles_software_observability.md) - First post in this series, applying the same method to observability
+3. [First Principles: Software Design]({filename}/2026-03-21_first_principles_software_design.md) - Second post in this series, stripping software design to its irreducible core
+4. [First Principles: DevOps]({filename}/2026-03-30_first_principles_devops.md) - Third post in this series, questioning the conventions of modern DevOps
 5. [Data Contract CLI](https://github.com/datacontract/datacontract-cli) - Open-source tool for defining and validating data contracts
 6. [Great Expectations](https://greatexpectations.io/) - Data validation and profiling framework
 7. [Soda](https://www.soda.io/) - Data quality monitoring platform

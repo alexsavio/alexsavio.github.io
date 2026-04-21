@@ -286,7 +286,7 @@ The difference between a well-structured large system and a "big ball of mud" is
 
 - **Stop designing for requirements you don't have.** The next time you're tempted to add a parameter, interface, or configuration option "in case we need it," don't. You're adding complexity now to solve a problem that probably won't arrive, and if it does, you'll probably solve it differently than you imagined.
 
-This approach connects to the same reasoning in [First Principles: Software Observability]({filename}/first_principles_software_observability.md), where stripping away the "three pillars" marketing reveals that observability is really about answering novel questions about system behavior. Both disciplines converge on the same meta-principle: optimize for human understanding of complex systems, not for adherence to inherited frameworks.
+This approach connects to the same reasoning in [First Principles: Software Observability]({filename}/2026-03-19_first_principles_software_observability.md), where stripping away the "three pillars" marketing reveals that observability is really about answering novel questions about system behavior. Both disciplines converge on the same meta-principle: optimize for human understanding of complex systems, not for adherence to inherited frameworks.
 
 ---
 
@@ -299,4 +299,4 @@ This approach connects to the same reasoning in [First Principles: Software Obse
 5. Miller, G.A. (1956). "The Magical Number Seven, Plus or Minus Two" - working memory limits
 6. Sweller, J. (1988). "Cognitive Load During Problem Solving" - Cognitive Load Theory, distinguishing intrinsic, extraneous, and germane load
 7. Sandi Metz (2014). "The Wrong Abstraction" - duplication vs wrong abstraction argument
-8. [First Principles: Software Observability]({filename}/first_principles_software_observability.md) - related first-principles analysis
+8. [First Principles: Software Observability]({filename}/2026-03-19_first_principles_software_observability.md) - related first-principles analysis

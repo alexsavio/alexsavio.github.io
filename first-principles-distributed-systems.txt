@@ -13,7 +13,7 @@ Status: published
 
 Distributed systems thinking is drowning in inherited wisdom: microservices by default, horizontal scaling as a reflex, eventual consistency as a catchphrase. Strip the topic down to its irreducible truths, the six things that are actually provable, and most of that architectural baggage falls away. The uncomfortable conclusion: the first, cheapest, most reliable distributed system is the one you did not build. Everything else is a tax you should only pay when you can prove it buys you something.
 
-*This is the fifth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's actually provable. Previous entries: [Software Observability]({filename}/first_principles_software_observability.md), [Software Design]({filename}/first_principles_software_design.md), [DevOps]({filename}/first_principles_devops.md), and [Data Engineering]({filename}/first_principles_data_engineering.md). Distributed systems felt like the right next target because few topics have a wider gap between what engineers repeat and what they've actually measured.*
+*This is the fifth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's actually provable. Previous entries: [Software Observability]({filename}/2026-03-19_first_principles_software_observability.md), [Software Design]({filename}/2026-03-21_first_principles_software_design.md), [DevOps]({filename}/2026-03-30_first_principles_devops.md), and [Data Engineering]({filename}/2026-04-08_first_principles_data_engineering.md). Distributed systems felt like the right next target because few topics have a wider gap between what engineers repeat and what they've actually measured.*
 
 [TOC]
 
@@ -156,7 +156,7 @@ First principles thinking is not about rejecting everything popular. It is about
 4. [PACELC](https://en.wikipedia.org/wiki/PACELC_theorem). Abadi's extension to CAP that captures the latency-consistency tradeoff.
 5. [Implementing Raft: Part 0 — Introduction](https://eli.thegreenplace.net/2020/implementing-raft-part-0-introduction/). Eli Bendersky on where Raft fits and where it does not.
 6. [Stack Overflow: The Architecture — 2016 Edition](https://nickcraver.com/blog/2016/02/17/stack-overflow-the-architecture-2016-edition/). Nick Craver's server counts, render times, and SQL Server setup.
-7. [First Principles: Software Observability]({filename}/first_principles_software_observability.md). Part 1 of this series.
-8. [First Principles: Software Design]({filename}/first_principles_software_design.md). Part 2 of this series.
-9. [First Principles: DevOps]({filename}/first_principles_devops.md). Part 3 of this series.
-10. [First Principles: Data Engineering and ETLs]({filename}/first_principles_data_engineering.md). Part 4 of this series.
+7. [First Principles: Software Observability]({filename}/2026-03-19_first_principles_software_observability.md). Part 1 of this series.
+8. [First Principles: Software Design]({filename}/2026-03-21_first_principles_software_design.md). Part 2 of this series.
+9. [First Principles: DevOps]({filename}/2026-03-30_first_principles_devops.md). Part 3 of this series.
+10. [First Principles: Data Engineering and ETLs]({filename}/2026-04-08_first_principles_data_engineering.md). Part 4 of this series.
