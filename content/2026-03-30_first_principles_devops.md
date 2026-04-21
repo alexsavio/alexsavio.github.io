@@ -13,7 +13,7 @@ Status: published
 
 Most of what passes for "DevOps" is tool adoption dressed up as strategy. When you strip away inherited conventions and industry hype, only five truths survive: value dies in the gap between developer and user, feedback loops drive improvement, reproducibility reduces risk, handoffs cost superlinearly, and recovery beats prevention. Everything else, from Kubernetes to the "DevOps Engineer" job title, is implementation detail that should be proportional to your actual coordination problem.
 
-*This is the third post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's actually provable. The first one tackled [Software Observability]({filename}/first_principles_software_observability.md), the second one [Software Design]({filename}/first_principles_software_design.md). DevOps felt like the natural next target, because few topics have a wider gap between what people say and what they actually do.*
+*This is the third post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what's actually provable. The first one tackled [Software Observability]({filename}/2026-03-19_first_principles_software_observability.md), the second one [Software Design]({filename}/2026-03-21_first_principles_software_design.md). DevOps felt like the natural next target, because few topics have a wider gap between what people say and what they actually do.*
 
 [TOC]
 
@@ -56,7 +56,7 @@ Strip away the heuristics and baggage, and five irreducible truths remain:
 
 **1. The gap between developer and user is where value is destroyed.** Software has zero value until it's running where users can reach it. Every delay, error, miscommunication, or manual step in that gap is pure waste.
 
-**2. Feedback loops are the mechanism by which systems improve.** You cannot control what you cannot observe. Without knowing what broke, what's slow, or what users actually do, improvement is impossible. This is an information-theoretic truth. (I explored this deeply in [First Principles: Software Observability]({filename}/first_principles_software_observability.md), where I stripped observability down to its own irreducible core.)
+**2. Feedback loops are the mechanism by which systems improve.** You cannot control what you cannot observe. Without knowing what broke, what's slow, or what users actually do, improvement is impossible. This is an information-theoretic truth. (I explored this deeply in [First Principles: Software Observability]({filename}/2026-03-19_first_principles_software_observability.md), where I stripped observability down to its own irreducible core.)
 
 **3. Reproducibility reduces risk.** If you can recreate an environment or deployment exactly, you can reason about failures and recover from them. Identical inputs produce identical outputs in deterministic systems.
 
@@ -201,4 +201,4 @@ The boundaries are fuzzy. The principle is: match your operational investment to
 1. First-principles analysis generated in-session
 2. Humble, J. & Farley, D. (2010). *Continuous Delivery*. Addison-Wesley
 3. Forsgren, N., Humble, J., & Kim, G. (2018). *Accelerate: The Science of Lean Software and DevOps*. IT Revolution Press
-4. [First Principles: Software Observability]({filename}/first_principles_software_observability.md) - Related post applying the same first-principles method to observability
+4. [First Principles: Software Observability]({filename}/2026-03-19_first_principles_software_observability.md) - Related post applying the same first-principles method to observability

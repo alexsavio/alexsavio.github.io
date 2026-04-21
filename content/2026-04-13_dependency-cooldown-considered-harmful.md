@@ -301,7 +301,7 @@ The operational rules that fall out:
 1. **Lockfiles with hashes, always.** This is the supply-chain defense that actually works. Use `uv sync --locked` or `--frozen` in CI and deploy paths[^uv-sync-flags].
 2. **Audit on every resolve, block on HIGH/CRITICAL.** Drives `audit_latency` to one cycle.
 3. **Upgrade frequently.** Short `N` between CVE disclosure and your patch. Frequency is safety, not risk.
-4. **Staging bake for regression detection.** Your traffic beats community traffic for your workload. This is the same "recovery beats prevention" logic that falls out of [first principles in devops]({filename}/first_principles_devops.md).
+4. **Staging bake for regression detection.** Your traffic beats community traffic for your workload. This is the same "recovery beats prevention" logic that falls out of [first principles in devops]({filename}/2026-03-30_first_principles_devops.md).
 5. **Manual review on new dependencies only.** Upgrades of existing deps are a small attack surface. Additions are the hot spot.
 6. **Subscribe to advisories for critical-path packages.** Ten packages, maybe. Targeted vigilance is cheap and has no deadlock cost.
 7. **Pin manually when you truly need to be paranoid about one package.** Surgical. No collateral damage. No allow-list rot.
@@ -339,4 +339,4 @@ Adopt fast. Verify hard. Buffer late.
 4. [pip-audit](https://github.com/pypa/pip-audit). Live advisory DB auditor referenced in the deadlock example.
 5. [event-stream incident (2018)](https://github.com/dominictarr/event-stream/issues/116). Canonical medium-dwell account-compromise supply-chain attack.
 6. [xz-utils backdoor (CVE-2024-3094)](https://www.cve.org/CVERecord?id=CVE-2024-3094). Long-dwell supply-chain attack no cooldown could catch.
-7. [First Principles: DevOps]({filename}/first_principles_devops.md). Related post on why feedback loops and recovery beat prevention in operational systems.
+7. [First Principles: DevOps]({filename}/2026-03-30_first_principles_devops.md). Related post on why feedback loops and recovery beat prevention in operational systems.

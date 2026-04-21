@@ -106,6 +106,10 @@ DEFAULT_PAGINATION = 10
 PATH = "content"
 PAGE_PATHS = ["pages"]
 
+# Extract date and slug from filenames shaped like 2026-04-13_my-post.md.
+# Metadata already set in a file's front matter wins over these defaults.
+FILENAME_METADATA = r"(?P<date>\d{4}-\d{2}-\d{2})_(?P<slug>.*)"
+
 STATIC_PATHS = [
     "imgs",
     "extra/robots.txt",
