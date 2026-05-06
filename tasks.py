@@ -6,7 +6,6 @@ import shutil
 import sys
 
 from invoke import task
-from invoke.util import cd
 from pelican.server import ComplexHTTPRequestHandler, RootedHTTPServer
 
 CONFIG = {
