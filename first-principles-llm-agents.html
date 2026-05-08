@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en_us">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>First Principles: LLM Agents (Most of Yours Are Chatbots Wearing a Hat) — Alexandre Manhães Savio</title>
+    <meta name="description" content="LLM agent design is buried under framework worship, multi-agent fantasies, and vector-DB orthodoxy. Strip it back to what is provably true and only six things survive. Most of the architecture teams reach for is a chatbot wearing a hat." />
+    <meta name="author" content="Alexandre Manhães Savio" />
+    <link rel="canonical" href="https://alexsavio.github.io/first-principles-llm-agents.html" />
+
+    <meta property="og:site_name" content="Alexandre Manhães Savio" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="First Principles: LLM Agents (Most of Yours Are Chatbots Wearing a Hat) — Alexandre Manhães Savio" />
+    <meta property="og:description" content="LLM agent design is buried under framework worship, multi-agent fantasies, and vector-DB orthodoxy. Strip it back to what is provably true and only six things survive. Most of the architecture teams reach for is a chatbot wearing a hat." />
+    <meta property="og:url" content="https://alexsavio.github.io/first-principles-llm-agents.html" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2026-05-08" />    <meta property="article:section" content="Engineering" />    <meta property="article:tag" content="first-principles" />    <meta property="article:tag" content="llm" />    <meta property="article:tag" content="agents" />    <meta property="article:tag" content="ai" />    <meta property="article:tag" content="architecture" />    <meta property="article:tag" content="prompt-engineering" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="First Principles: LLM Agents (Most of Yours Are Chatbots Wearing a Hat) — Alexandre Manhães Savio" />
+    <meta name="twitter:description" content="LLM agent design is buried under framework worship, multi-agent fantasies, and vector-DB orthodoxy. Strip it back to what is provably true and only six things survive. Most of the architecture teams reach for is a chatbot wearing a hat." />
+    <meta name="twitter:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/style.css" />
+
+    <link href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Alexandre Manhães Savio Atom Feed" />
+    <link href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Alexandre Manhães Savio RSS Feed" />
+
+    <style>
+        :root {
+--bg-color: #e6e9ef;--terminal-bg: #eff1f5;--text-color: #4c4f69;--primary-color: #1e66f5;--accent-color: #8839ef;--muted-color: #6c6f85;--code-bg: #ccd0da;--link-color: #179299;--header-bg: #dce0e8;        }
+    </style>
+</head>
+<body class="light-theme">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="terminal-strip" role="banner">
+                <div class="terminal-strip__chrome" aria-hidden="true">
+                    <span class="terminal-btn close"></span>
+                    <span class="terminal-btn minimize"></span>
+                    <span class="terminal-btn maximize"></span>
+                </div>
+                <div class="terminal-strip__prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span class="terminal-strip__cmd">whoami</span>
+                </div>
+            </div>
+
+            <div class="site-identity">
+                <a class="site-identity__name" href="https://alexsavio.github.io/">Alexandre Manhães Savio</a>
+                <p class="site-identity__tagline">Freelance Software, Cloud & AI Engineer</p>
+            </div>
+
+            <nav class="site-nav" aria-label="Main navigation">
+                <ul>
+                    <li><a href="https://alexsavio.github.io/">Home</a></li>
+                    <li><a href="https://alexsavio.github.io/archives.html">Writing</a></li>
+                        <li><a href="https://alexsavio.github.io/pages/about.html">About</a></li>
+                        <li><a href="https://alexsavio.github.io/pages/work-with-me.html">Work with&nbsp;me</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="site-main">
+        <div class="container">
+<article class="article" itemscope itemtype="https://schema.org/BlogPosting">
+    <header class="article__header">
+        <p class="article__kicker">
+            <a href="https://alexsavio.github.io/category/engineering.html" itemprop="articleSection">Engineering</a>
+        </p>
+
+        <h1 class="article__title" itemprop="headline">First Principles: <span class="caps">LLM</span> Agents (Most of Yours Are Chatbots Wearing a&nbsp;Hat)</h1>
+
+        <div class="article__meta">
+            <time itemprop="datePublished" datetime="2026-05-08T12:00:00+02:00">
+                May 08, 2026
+            </time>
+            <span>· 14 min read</span>
+        </div>
+
+        <div class="article__meta" style="margin-top: 0.75rem;">
+                <a href="https://alexsavio.github.io/tag/first-principles.html" class="tag">first-principles</a>
+                <a href="https://alexsavio.github.io/tag/llm.html" class="tag">llm</a>
+                <a href="https://alexsavio.github.io/tag/agents.html" class="tag">agents</a>
+                <a href="https://alexsavio.github.io/tag/ai.html" class="tag">ai</a>
+                <a href="https://alexsavio.github.io/tag/architecture.html" class="tag">architecture</a>
+                <a href="https://alexsavio.github.io/tag/prompt-engineering.html" class="tag">prompt-engineering</a>
+        </div>
+
+        <p class="article__series">
+            <strong>Part of the First Principles series</strong> —
+            Part 6 of 6.
+            <br>← Previous: <a href="https://alexsavio.github.io/first-principles-distributed-systems.html">First Principles: Distributed Systems (Most of Yours Should Not&nbsp;Exist)</a>
+        </p>
+    </header>
+
+    <div class="article__content" itemprop="articleBody">
+        <h2 id="tldr"><span class="caps">TL</span>;<span class="caps">DR</span></h2>
+<p><span class="caps">LLM</span> agents are drowning in inherited wisdom: pick a framework, spin up a crew of specialists, plug a vector database in for &#8220;memory&#8221;, watch the demo work, and ship. Strip the topic down to what is actually true about a language model in a loop, and only six irreducible facts survive. Most of the multi-agent, framework-first, <span class="caps">RAG</span>-by-default architecture that engineers reach for is overhead, not substance. The uncomfortable conclusion: the first agent worth building is a 30-line ReAct loop with a step budget, not a &#8220;crew&#8221; of personas powered by a graph <span class="caps">DSL</span>.</p>
+<p><em>This is the sixth post in my First Principles series, where I take a concept the industry treats as settled and strip it back to what is actually provable. Previous entries: <a href="https://alexsavio.github.io/first-principles-software-observability.html">Software Observability</a>, <a href="https://alexsavio.github.io/first-principles-software-design.html">Software Design</a>, <a href="https://alexsavio.github.io/first-principles-devops.html">DevOps</a>, <a href="https://alexsavio.github.io/first-principles-data-engineering.html">Data Engineering</a>, and <a href="https://alexsavio.github.io/first-principles-distributed-systems.html">Distributed Systems</a>. <span class="caps">LLM</span> agents felt like the right next target because few topics have calcified around tooling as fast, with as little benchmark evidence to back it&nbsp;up.</em></p>
+<div class="toc">
+<ul>
+<li><a href="#tldr"><span class="caps">TL</span>;<span class="caps">DR</span></a></li>
+<li><a href="#the-conventional-view">The Conventional&nbsp;View</a></li>
+<li><a href="#what-people-just-assume">What People Just&nbsp;Assume</a></li>
+<li><a href="#what-actually-survives-scrutiny">What Actually Survives&nbsp;Scrutiny</a></li>
+<li><a href="#what-falls-away">What Falls&nbsp;Away</a></li>
+<li><a href="#rebuilt-from-scratch">Rebuilt From&nbsp;Scratch</a></li>
+<li><a href="#what-changes-when-you-think-this-way">What Changes When You Think This&nbsp;Way</a></li>
+<li><a href="#when-you-actually-need-an-agent">When You Actually Need an&nbsp;Agent</a></li>
+<li><a href="#the-honest-test">The Honest&nbsp;Test</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+<hr>
+<h2 id="the-conventional-view">The Conventional&nbsp;View</h2>
+<p>Ask a builder how to ship an <span class="caps">LLM</span> agent in 2026 and the answer comes out like a Lego instruction sheet. Pick a framework (LangGraph, CrewAI, AutoGen, <span class="caps">ADK</span>). Wire a &#8220;crew&#8221; of specialist agents (Researcher, Writer, Critic, Manager). Plug a vector database in for &#8220;long-term memory&#8221;. Wrap it all in an orchestrator. Add <span class="caps">MCP</span> servers for the tools you do not want to write yourself. Watch the demo loop produce a paragraph that sounds plausible.&nbsp;Ship.</p>
+<p>The discipline is defined by its frameworks, its acronyms (<span class="caps">RAG</span>, <span class="caps">MCP</span>, <span class="caps">A2A</span>, ReAct, ToT, GoT), and its conference-talk reference architectures. <em>Multi-agent</em> is &#8220;modern&#8221;. A single ReAct loop is &#8220;naive&#8221;. Without a vector <span class="caps">DB</span> you do not have &#8220;memory&#8221;. Without a framework you are &#8220;reinventing the&nbsp;wheel&#8221;.</p>
+<p>This post is not about which framework to pick. It is about whether most of that machinery is doing any work at all, and what an <span class="caps">LLM</span> agent looks like when you stop copying the architecture of an investor deck and reason forward from the things that are actually true about a language&nbsp;model.</p>
+<h2 id="what-people-just-assume">What People Just&nbsp;Assume</h2>
+<p>Before you can tear something down, you have to name the inherited thinking. Here are the beliefs most engineers carry into agent building without ever having checked&nbsp;them.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Assumption</th>
+<th>Where it came from</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>More agents = better outcomes</td>
+<td>AutoGen / Swarm / CrewAI demos</td>
+<td>Baggage</td>
+</tr>
+<tr>
+<td>2</td>
+<td><span class="caps">RAG</span> is required for any non-trivial agent</td>
+<td>LangChain tutorials, vector-<span class="caps">DB</span> marketing</td>
+<td>Heuristic</td>
+</tr>
+<tr>
+<td>3</td>
+<td>A framework ships you faster</td>
+<td><span class="caps">YC</span> pitch decks, conference talks</td>
+<td>Baggage</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Long context windows solve &#8220;memory&#8221;</td>
+<td>Gemini 1M / Claude 200K announcements</td>
+<td>Heuristic</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Vector <span class="caps">DB</span> = &#8220;memory&#8221;</td>
+<td>Pinecone / Weaviate launch posts</td>
+<td>Baggage</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Reflection and self-critique are optional polish</td>
+<td>&#8220;Agents just work&#8221; hype</td>
+<td>Heuristic (often inverted)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>A frontier model is enough; eval can wait</td>
+<td>Vibes-based shipping</td>
+<td>Baggage</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Tool calls are reliable</td>
+<td>OpenAI / Anthropic docs read optimistically</td>
+<td>Heuristic</td>
+</tr>
+<tr>
+<td>9</td>
+<td>An autonomous agent should run unattended in production</td>
+<td>Gen-<span class="caps">AI</span> investor narratives</td>
+<td>Baggage</td>
+</tr>
+<tr>
+<td>10</td>
+<td>&#8220;Agentic&#8221; is a meaningful spec</td>
+<td>Twitter / LinkedIn</td>
+<td>Baggage</td>
+</tr>
+</tbody>
+</table>
+<p>The point of that table is not contrarianism. It is compression. Most of what gets repeated as &#8220;agent engineering knowledge&#8221; is a mix of vendor marketing, framework documentation taken as physics, and pattern names imported from research papers without the experimental conditions that made them&nbsp;work.</p>
+<h2 id="what-actually-survives-scrutiny">What Actually Survives&nbsp;Scrutiny</h2>
+<p>Six things remain once you strip the heuristics and the baggage. These are properties of the underlying technology, not of any specific framework or&nbsp;model.</p>
+<p><strong>1. A language model produces text from context. That is the entire mechanism.</strong> Every call is stateless. There is no &#8220;goal&#8221;, no &#8220;memory&#8221;, no &#8220;self&#8221;. The model receives a context window and emits tokens that are likely given that context. Anything that looks like persistent state is plumbing built around that one call. Forget this and you start arguing with the wrong layer of the&nbsp;stack.</p>
+<p><strong>2. Probabilistic output cannot be trusted. It must be verified.</strong> There is no truth signal inside the distribution. Plausible-looking is the only thing the model optimises for, and &#8220;plausible&#8221; is not the same as &#8220;correct&#8221;. Hallucinated APIs compile cleanly in your head and break on import. If you do not have a verification step, you do not have an agent, you have a confident&nbsp;speaker.</p>
+<p><strong>3. Tokens are the only currency the runtime recognises.</strong> Context window, latency, and cost are all measured in tokens. Out-of-window content does not exist for the model regardless of how cleverly you stored it. Long prompts are slow, expensive, and degrade quality through &#8220;lost in the middle&#8221; effects. Token budget discipline is not optimisation, it is&nbsp;correctness.</p>
+<p><strong>4. Tools are the only way to act on the world.</strong> Without tools, the model can describe an action but cannot perform one. Tools are the boundary between language model and reality. The schema is the contract; the executor is the mechanism. Everything else (planning, reflection, critique) is text shuffled inside the same context&nbsp;window.</p>
+<p><strong>5. Loops compose multiplicatively, not additively.</strong> A loop&nbsp;of <code>n</code> steps with per-step success&nbsp;probability <code>p</code> succeeds end-to-end with&nbsp;probability <code>p^n</code>. Five steps at 90% individual success give you 59% overall. Ten give you 35%. Without verification at each step and a hard step budget, longer chains do not get smarter, they get exponentially less&nbsp;reliable.</p>
+<p><strong>6. Untrusted content in the context is an instruction injection vector.</strong> The model cannot distinguish &#8220;user instructions&#8221; from &#8220;data the user pasted in&#8221; from &#8220;documents the agent retrieved&#8221;. Anything in the prompt is an instruction candidate. Prompt injection is structural, not a bug to patch. This is <span class="caps">OWASP</span> <span class="caps">LLM01</span> and it is not going away with a smarter&nbsp;model.</p>
+<p>That is the whole bedrock. Six statements. Notice what is <em>not</em> on the list: multi-agent crews, vector databases, frameworks, <span class="caps">RAG</span>, <span class="caps">MCP</span>, &#8220;agent memory&#8221;, planning patterns, reflection, ReAct, ToT. None of those are fundamental. They are tools, patterns, or&nbsp;rebrandings.</p>
+<h2 id="what-falls-away">What Falls&nbsp;Away</h2>
+<p>Once you stop at &#8220;only what is provably true&#8221;, the conventional architecture advice starts looking&nbsp;suspicious.</p>
+<ul>
+<li>
+<p><strong><span class="dquo">&#8220;</span>More agents = better outcomes.&#8221;</strong> Multi-agent systems multiply the failure modes from truth #5. A &#8220;Researcher → Writer → Critic&#8221; chain is three loops, not three minds. If a single well-prompted call cannot do the job, three of them dressed in role names usually cannot either; they just cost three times as much and fail in three places. The real reason multi-agent persists is that <em>role personas</em> read better in demos than <em>steps in a function</em>.</p>
+</li>
+<li>
+<p><strong><span class="dquo">&#8220;</span><span class="caps">RAG</span> is required for any non-trivial agent.&#8221;</strong> <span class="caps">RAG</span> is a workaround for the fact that you cannot fit your corpus in the context window and cannot fine-tune cheaply. It is a useful workaround in those cases. It is not a fundamental property of agents. If your knowledge fits in the context window, <span class="caps">RAG</span> is overhead. If your problem does not need external knowledge at all, <span class="caps">RAG</span> is&nbsp;theatre.</p>
+</li>
+<li>
+<p><strong><span class="dquo">&#8220;</span>A framework ships you faster.&#8221;</strong> A framework hides the mechanism. The mechanism (tool schema, stop reasons, tool-use blocks, tool-result feedback, message accumulation) is exactly what you have to debug when the agent misbehaves. You debug what you do not understand. Frameworks are accelerators <em>after</em> you know the underlying loop, not&nbsp;before.</p>
+</li>
+<li>
+<p><strong><span class="dquo">&#8220;</span>Long context windows solve memory.&#8221;</strong> Throwing 200K tokens at the model on every turn pays token cost as <span class="caps">RAM</span> cost, with worse retrieval characteristics than an actual database, plus a &#8220;lost in the middle&#8221; recall curve on top. Context length and memory are different problems. The same context length that &#8220;solves memory&#8221; also burns latency and money on every&nbsp;call.</p>
+</li>
+<li>
+<p><strong><span class="dquo">&#8220;</span>Vector <span class="caps">DB</span> = memory.&#8221;</strong> A vector database is approximate similarity search over embeddings. That is a useful retrieval primitive. It is not memory in any cognitive sense. Calling it memory is marketing, and treating it as memory leads to architectures where the agent forgets what it just did because the embedding for &#8220;what just happened&#8221; was not similar enough to whatever the next query searched&nbsp;for.</p>
+</li>
+<li>
+<p><strong><span class="dquo">&#8220;</span>Reflection is optional polish.&#8221;</strong> Reflection (&#8220;draft, critique, revise&#8221;) routinely buys 20 to 40 percent quality on hard tasks for the price of one extra <span class="caps">LLM</span> call. Treating it as a nice-to-have means you are leaving the cheapest, best-evidenced reliability gain on the table. By contrast, multi-agent setups often add no measurable lift over a single agent with&nbsp;reflection.</p>
+</li>
+<li>
+<p><strong><span class="dquo">&#8220;</span>Eval can wait.&#8221;</strong> &#8220;Feels good&#8221; is not a contract. Without a golden set and a regression run, every prompt change and every model upgrade is a coin flip. Teams discover this the first time a model provider silently rolls a point release and their agent quietly drops 15 points on the metric nobody was&nbsp;watching.</p>
+</li>
+<li>
+<p><strong><span class="dquo">&#8220;</span>Autonomous unattended agents.&#8221;</strong> Truth #5 plus truth #6 makes unattended autonomy in any consequential domain a liability story waiting to happen. Today&#8217;s agents are best modeled as power tools with a kill switch, not&nbsp;employees.</p>
+</li>
+</ul>
+<h2 id="rebuilt-from-scratch">Rebuilt From&nbsp;Scratch</h2>
+<p>If you only started from the six truths and never heard of LangGraph, this is what you would&nbsp;build.</p>
+<p><strong>Default to the smallest possible loop.</strong> A working ReAct agent is 30 lines: send a message, parse the response, if there is a tool call execute it, append the result, send again, stop on a final answer or a step-budget breach. That is the entire substrate. Build it once by hand before you ever import a&nbsp;framework.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">litellm</span><span class="w"> </span><span class="kn">import</span> <span class="n">completion</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="n">TOOLS</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;function&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;function&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;calculator&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Evaluate math expression&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expr&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}},</span>
+            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;expr&quot;</span><span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">}]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">calculator</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;__builtins__&quot;</span><span class="p">:</span> <span class="p">{}},</span> <span class="p">{}))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">agent</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-sonnet-4-6&quot;</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">msgs</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_steps</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">completion</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">messages</span><span class="o">=</span><span class="n">msgs</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">TOOLS</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">2048</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span>
+        <span class="n">msgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">msg</span><span class="o">.</span><span class="n">content</span>
+        <span class="k">for</span> <span class="n">call</span> <span class="ow">in</span> <span class="n">msg</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">calculator</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+            <span class="n">msgs</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;tool&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;tool_call_id&quot;</span><span class="p">:</span> <span class="n">call</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span>
+            <span class="p">})</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;step budget exhausted&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>LiteLLM is a thin <span class="caps">SDK</span> wrapper, not a framework. It buys vendor neutrality (one <span class="caps">API</span>, 100+ providers, automatic fallback chains) without hiding the mechanism. Swap models with a string. Fall back to a local model on outage with one extra argument. Same code, different&nbsp;backends.</p>
+<p><strong>Make verification explicit at every step.</strong> Truth #2 says probabilistic output cannot be trusted; truth #5 says unverified intermediate steps compound multiplicatively. Validate every model output against a schema before acting on it. Pydantic at every boundary. Parse, do not&nbsp;believe.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">answer</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">Result</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LLM output invalid: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Hard-cap the loop.</strong> Step budget is a numerical safety bound that follows directly from truth #5. Without it the agent burns money or runs forever. There is no scenario where unbounded iteration is&nbsp;correct.</p>
+<p><strong>Trace every call.</strong> Input tokens, output tokens, latency, stop reason, tool calls, tool results. Without traces you have a black box. With traces you have a debugger. This is the same observability rule from <a href="https://alexsavio.github.io/first-principles-software-observability.html">First Principles: Software Observability</a>, specialised for non-deterministic&nbsp;outputs.</p>
+<p><strong>Reflection beats fancier patterns.</strong> &#8220;Generate, critique, revise&#8221; inside a single agent gives you most of the quality lift that multi-agent setups claim, at one or two extra calls instead of N. Add reflection before you add&nbsp;personas.</p>
+<p><strong>Treat retrieved content as data, never as instructions.</strong> Truth #6. Wrap it in delimiters. Verify intent against the original user request, not against the retrieved text. This is <span class="caps">OWASP</span> <span class="caps">LLM01</span> in plain&nbsp;code.</p>
+<p><strong>Pin the model&nbsp;version.</strong> <code>claude-sonnet-4-6</code>,&nbsp;not <code>claude-sonnet-latest</code>. Pin the prompts as files in&nbsp;a <code>prompts/</code> directory and treat them as code: review, version, diff. A &#8220;latest&#8221; tag in production is a silent regression&nbsp;vector.</p>
+<p>Here is what the loop actually looks like when you draw it. Note where verification has to live, and where untrusted content enters the trust&nbsp;boundary.</p>
+<pre class="mermaid">
+flowchart LR
+    classDef trust fill:#1e66f5,color:#ffffff,stroke:#1e4ed8,stroke-width:2px;
+    classDef untrust fill:#d20f39,color:#ffffff,stroke:#a30826,stroke-width:2px;
+    U[User prompt]:::trust --> C[Context]
+    C --> M[LLM call]
+    M --> P[Parse + validate]
+    P -->|tool call| T[Tool executor]
+    P -->|final answer| O[Result]
+    T --> R[Tool result]:::untrust
+    R --> C
+    O --> V[Verification]
+    V -->|pass| D[Deliver]
+    V -->|fail| C
+</pre>
+
+<p>Five boxes do real work. Two boundaries (untrusted content entering context, output before delivery) are where the entire safety story lives. Most of what frameworks add is decoration around this&nbsp;picture.</p>
+<h2 id="what-changes-when-you-think-this-way">What Changes When You Think This&nbsp;Way</h2>
+<ul>
+<li><strong>The 30-line ReAct loop stops being &#8220;naive&#8221;. It is the <em>correct</em> substrate.</strong> Frameworks are evaluated against actual needs, not adopted before the loop&nbsp;exists.</li>
+<li><strong>Multi-agent becomes a last resort, not a first instinct.</strong> You reach for it when a single prompt truly exceeds 1000 tokens of conflicting instructions, and only after reflection has been&nbsp;tried.</li>
+<li><strong><span class="caps">RAG</span> becomes a tool, not a default.</strong> First question: does the knowledge fit in the context window? Second: does the task even need external knowledge? Skip <span class="caps">RAG</span> when both answers say&nbsp;so.</li>
+<li><strong>Vector DBs stop being called &#8220;memory&#8221;.</strong> They are similarity search, used where similarity search is the right primitive. State and history live in plain databases, where they&nbsp;belong.</li>
+<li><strong><span class="dquo">&#8220;</span>Eventually consistent agent reasoning&#8221; becomes suspect.</strong> If you cannot say what success looks like, you do not have a goal, you have a wish. Add explicit success criteria and verify against them per&nbsp;iteration.</li>
+<li><strong>Eval becomes table stakes.</strong> Every prompt change ships with a golden-set run. Every model upgrade is gated by an&nbsp;eval.</li>
+<li><strong>Single-agent + tools + reflection + traces becomes the boring default.</strong> That stack outperforms most multi-agent crews in production, at a fraction of the&nbsp;cost.</li>
+</ul>
+<h2 id="when-you-actually-need-an-agent">When You Actually Need an&nbsp;Agent</h2>
+<p>To be fair to the other side: agentic loops are sometimes the right answer. Here are the only honest&nbsp;triggers.</p>
+<ol>
+<li><strong>The task genuinely needs multi-step decomposition.</strong> A single prompt cannot do it because intermediate observations change the next step. Code-fix loops, search-and-summarise loops, browser-driven loops&nbsp;qualify.</li>
+<li><strong>You need to call tools at all.</strong> If the work is pure text-in / text-out, you have a structured prompt, not an agent. Stop adding agentic complexity to a function&nbsp;call.</li>
+<li><strong>Side effects are gated by a human or by transactional rollback.</strong> Either a human approves consequential actions, or every action is idempotent and revertible. If neither holds, you are accumulating&nbsp;risk.</li>
+</ol>
+<p>Notice what is <em>not</em> on the list: &#8220;we want to use AutoGen&#8221;, &#8220;the architecture diagram needs more boxes&#8221;, &#8220;the demo will look more impressive with three personas&#8221;. Those are social reasons in engineering clothes. They produce the same kind of résumé-driven architecture the <a href="https://alexsavio.github.io/first-principles-distributed-systems.html">Distributed Systems</a> post took apart, just dressed in a different&nbsp;jacket.</p>
+<h2 id="the-honest-test">The Honest&nbsp;Test</h2>
+<p>Before your next agent design review, try this exercise. Take your architecture diagram. Cross out every component that is not the <span class="caps">LLM</span> call, the tool executor, or the message log. What is left should still answer the question &#8220;how does work get done?&#8221;. If most of the diagram disappeared and the answer is still yes, the rest was decoration. If the answer is no, you have a dependency tree to question, not&nbsp;validate.</p>
+<p>Then run the second test. Implement the same task as a 30-line ReAct loop with one tool, one reflection pass, and a step budget of 8. Compare the output against the multi-agent crew. In most cases the simple version is within 5 percent of the complex one, runs in a third of the time, and costs a fifth as&nbsp;much.</p>
+<p><span class="caps">LLM</span> agents are not a badge of sophistication. They are a stateless function in a loop with verification, a step budget, and a kill switch. The engineers who ship boring single-agent systems with traces, eval suites, and pinned model versions are not behind the curve. They are the ones who read the curve carefully and refused to pay for complexity they could not&nbsp;justify.</p>
+<p>First principles thinking is not about rejecting frameworks. It is about refusing to import a framework before you can write the loop without one. Next time someone says &#8220;we need a multi-agent system&#8221;, ask which of the six truths forces that decision. If they cannot answer, you just found a box to&nbsp;delete.</p>
+<h2 id="references">References</h2>
+<ol>
+<li><a href="https://arxiv.org/abs/2210.03629">ReAct: Synergizing Reasoning and Acting in Language Models</a>. Yao et al., 2022. Original ReAct&nbsp;paper.</li>
+<li><a href="https://www.anthropic.com/research/building-effective-agents">Building Effective Agents</a>. Anthropic, 2024. The single best argument for &#8220;start simple, add complexity only when proven&nbsp;necessary&#8221;.</li>
+<li><a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/"><span class="caps">OWASP</span> Top 10 for Large Language Model Applications</a>. <span class="caps">OWASP</span>, 2025. <span class="caps">LLM01</span> (prompt injection) and <span class="caps">LLM06</span> (excessive agency) are the two that bite agent designs&nbsp;hardest.</li>
+<li><a href="https://arxiv.org/abs/2307.03172">Lost in the Middle: How Language Models Use Long Contexts</a>. Liu et al., 2023. Empirical evidence that long-context retrieval degrades sharply outside the start and end of the&nbsp;window.</li>
+<li><a href="https://arxiv.org/abs/2303.11366">Reflexion: Language Agents with Verbal Reinforcement Learning</a>. Shinn et al., 2023. Quantifies the lift from&nbsp;self-reflection.</li>
+<li><a href="https://www.amazon.com/Agentic-Design-Patterns-Hands-Intelligent/dp/3032014018">Agentic Design Patterns</a>. Antonio Gulli, 2025. Catalogues the 21 patterns the conventional view treats as&nbsp;orthodoxy.</li>
+<li><a href="https://docs.litellm.ai/">LiteLLM Documentation</a>. The vendor-neutral <span class="caps">SDK</span> referenced in the example&nbsp;loop.</li>
+<li><a href="https://modelcontextprotocol.io/">Model Context Protocol Specification</a>. The wire protocol for tool servers when tool count grows past&nbsp;trivial.</li>
+<li><a href="https://alexsavio.github.io/first-principles-software-observability.html">First Principles: Software Observability</a>. Part 1 of this&nbsp;series.</li>
+<li><a href="https://alexsavio.github.io/first-principles-software-design.html">First Principles: Software Design</a>. Part 2 of this&nbsp;series.</li>
+<li><a href="https://alexsavio.github.io/first-principles-devops.html">First Principles: DevOps</a>. Part 3 of this&nbsp;series.</li>
+<li><a href="https://alexsavio.github.io/first-principles-data-engineering.html">First Principles: Data Engineering and ETLs</a>. Part 4 of this&nbsp;series.</li>
+<li><a href="https://alexsavio.github.io/first-principles-distributed-systems.html">First Principles: Distributed Systems (Most of Yours Should Not Exist)</a>. Part 5 of this&nbsp;series.</li>
+</ol>
+    </div>
+
+
+    <aside class="article__byline" aria-label="About the author">
+        <img src="https://alexsavio.github.io/imgs/alex_headshot.png"
+             alt="Alexandre Manhães Savio" width="64" height="64" />
+        <div class="article__byline__text">
+            <strong>Alexandre Manhães Savio</strong>
+            Freelance Software, Cloud &amp; AI engineer. Ex-academia (neuroimaging, ML).
+            Currently accepting new engagements —
+            <a href="https://alexsavio.github.io/pages/work-with-me.html">work with me</a>.
+        </div>
+    </aside>
+
+    <section class="article__related" aria-labelledby="related-heading">
+        <h2 id="related-heading">You might also like</h2>
+        <ul class="article__related__list">
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-04-09T18:00:00+02:00">Apr 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-distributed-systems.html">First Principles: Distributed Systems (Most of Yours Should Not&nbsp;Exist)</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-03-21T11:00:00+01:00">Mar 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-software-design.html">First Principles: Software&nbsp;Design</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-04-13T20:30:00+02:00">Apr 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/dependency-cooldown-considered-harmful.html">Dependency cooldowns considered harmful: a first-principles&nbsp;analysis</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-04-08T20:58:00+02:00">Apr 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-data-engineering.html">First Principles: Data Engineering and&nbsp;ETLs</a>
+            </li>
+        </ul>
+    </section>
+
+</article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer__grid">
+                <div class="site-footer__availability">
+                    <strong>Available for freelance engagements.</strong>
+                    <span>Accepting new engagements for Q2 2026.</span>
+                    <a class="site-footer__cta" href="mailto:alexsavio@gmail.com">alexsavio@gmail.com</a>
+                </div>
+                <ul class="site-footer__social">
+                    <li><a href="https://github.com/alexsavio" rel="me">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/alexsavio/" rel="me">LinkedIn</a></li>
+                    <li><a href="https://orcid.org/0000-0002-6608-6885" rel="me">ORCID</a></li>
+                    <li><a href="/feeds/all.atom.xml" rel="me">RSS</a></li>
+                </ul>
+            </div>
+            <p class="site-footer__colophon">
+                &copy;  Alexandre Manhães Savio.
+                Built with <a href="https://getpelican.com/">Pelican</a>.
+            </p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+</html>
