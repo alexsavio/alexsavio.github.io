@@ -249,7 +249,544 @@ flowchart LR
 &lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-devops.html"&gt;First Principles: DevOps&lt;/a&gt;. Part 3 of this&amp;nbsp;series.&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-data-engineering.html"&gt;First Principles: Data Engineering and ETLs&lt;/a&gt;. Part 4 of this&amp;nbsp;series.&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-distributed-systems.html"&gt;First Principles: Distributed Systems (Most of Yours Should Not Exist)&lt;/a&gt;. Part 5 of this&amp;nbsp;series.&lt;/li&gt;
-&lt;/ol&gt;</content><category term="Engineering"/><category term="first-principles"/><category term="llm"/><category term="agents"/><category term="ai"/><category term="architecture"/><category term="prompt-engineering"/></entry><entry><title>Dependency cooldowns considered harmful: a first-principles analysis</title><link href="https://alexsavio.github.io/dependency-cooldown-considered-harmful.html" rel="alternate"/><published>2026-04-13T20:30:00+02:00</published><updated>2026-04-13T20:30:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-04-13:/dependency-cooldown-considered-harmful.html</id><summary type="html">&lt;p&gt;Dependency cooldowns promise supply-chain safety by hiding releases for N days, but the math shows they guarantee extended &lt;span class="caps"&gt;CVE&lt;/span&gt; exposure while catching only a narrow band of attacks that lockfiles and staging already cover. The time buffer belongs in staging, not the&amp;nbsp;resolver.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
+&lt;/ol&gt;</content><category term="Engineering"/><category term="first-principles"/><category term="llm"/><category term="agents"/><category term="ai"/><category term="architecture"/><category term="prompt-engineering"/></entry><entry><title>So You Want To Build An LLM Agent</title><link href="https://alexsavio.github.io/so-you-want-to-build-an-llm-agent.html" rel="alternate"/><published>2026-05-08T00:00:00+02:00</published><updated>2026-05-08T00:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-05-08:/so-you-want-to-build-an-llm-agent.html</id><summary type="html">&lt;p&gt;Most agent demos are toys: the tweet-thread prototype works, production breaks in week one. A vendor-neutral 30-line ReAct loop, the six failure modes that kill prototypes, and the patterns that actually save you in&amp;nbsp;production.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
+&lt;p&gt;Most agent demos are toys. The tweet-thread prototype works, production breaks in week one. An &lt;span class="caps"&gt;LLM&lt;/span&gt; agent is a loop: model call, parse, tool, observe, repeat. The hard part is not the loop, it is the six failure modes that kill prototypes (no step budget, no output validation, no retry, no traces, no eval, hallucinated APIs) and the patterns that prevent them. Build the 30-line vendor-neutral version with LiteLLM first, add patterns when production proves the&amp;nbsp;need.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Companion piece, written the same day: &lt;a href="https://alexsavio.github.io/first-principles-llm-agents.html"&gt;First Principles: &lt;span class="caps"&gt;LLM&lt;/span&gt; Agents (Most of Yours Are Chatbots Wearing a Hat)&lt;/a&gt;. That one strips the topic to its irreducible truths. This one is the practical build&amp;nbsp;guide.&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="what-an-agent-actually-is"&gt;What An Agent Actually&amp;nbsp;Is&lt;/h2&gt;
+&lt;p&gt;Strip the mystique. Agent =&amp;nbsp;loop:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nx"&gt;perceive&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;→&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;reason&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;→&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;act&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;→&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;observe&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;→&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;repeat&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;until&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;goal&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;span class="caps"&gt;LLM&lt;/span&gt; call, parse output, run tool, feed result back, &lt;span class="caps"&gt;LLM&lt;/span&gt; call again. That&amp;#8217;s&amp;nbsp;it.&lt;/p&gt;
+&lt;p&gt;Five things separate an agent from a&amp;nbsp;chatbot:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Tools&lt;/strong&gt;: act on the world, not just&amp;nbsp;talk.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Loop&lt;/strong&gt;: multi-step, not&amp;nbsp;single-shot.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Memory&lt;/strong&gt;: state across&amp;nbsp;turns.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Goal&lt;/strong&gt;: explicit terminate&amp;nbsp;condition.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Self-correction&lt;/strong&gt;: critique plus&amp;nbsp;retry.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If your &amp;#8220;agent&amp;#8221; lacks any of these, you have a chatbot wearing a&amp;nbsp;hat.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="the-5-minute-version-vendor-neutral"&gt;The 5-Minute Version&amp;nbsp;(Vendor-Neutral)&lt;/h2&gt;
+&lt;p&gt;Working ReAct loop using &lt;strong&gt;LiteLLM&lt;/strong&gt;: one &lt;span class="caps"&gt;API&lt;/span&gt;, 100+ providers. Swap models with one&amp;nbsp;string.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;pip&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;litellm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;litellm&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;completion&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;json&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;os&lt;/span&gt;
+
+&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ANTHROPIC_API_KEY&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;...&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;# or OPENAI_API_KEY, GEMINI_API_KEY, MISTRAL_API_KEY, etc.&lt;/span&gt;
+
+&lt;span class="n"&gt;TOOLS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[{&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;function&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;function&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;calculator&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;description&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Evaluate math expression&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;parameters&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="s2"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;object&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="s2"&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;expr&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;string&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}},&lt;/span&gt;
+            &lt;span class="s2"&gt;&amp;quot;required&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;expr&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="p"&gt;}]&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;calculator&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;expr&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;expr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;__builtins__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{}},&lt;/span&gt; &lt;span class="p"&gt;{}))&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;agent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prompt&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;claude-sonnet-4-6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;max_steps&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;msgs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;role&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;user&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;content&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;prompt&lt;/span&gt;&lt;span class="p"&gt;}]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_steps&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;completion&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;messages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;msgs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tools&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;TOOLS&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;max_tokens&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2048&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choices&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;message&lt;/span&gt;
+        &lt;span class="n"&gt;msgs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;model_dump&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tool_calls&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;content&lt;/span&gt;
+
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tool_calls&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;args&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;call&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arguments&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;calculator&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;msgs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+                &lt;span class="s2"&gt;&amp;quot;role&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;tool&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="s2"&gt;&amp;quot;tool_call_id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="s2"&gt;&amp;quot;content&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="p"&gt;})&lt;/span&gt;
+    &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;RuntimeError&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;step budget exhausted&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Same code, different backends:&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;agent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;17*23+41&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;claude-sonnet-4-6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;agent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;17*23+41&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;gpt-5&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;agent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;17*23+41&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;gemini-2.5-pro&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;agent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;17*23+41&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ollama/llama3.3&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;                     &lt;span class="c1"&gt;# local&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;agent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;17*23+41&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;together_ai/meta-llama/Llama-3.3-70B-Instruct&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Warning.&lt;/strong&gt;&amp;nbsp;The &lt;code&gt;eval&lt;/code&gt; in &lt;code&gt;calculator&lt;/code&gt; is a teaching shortcut, not a&amp;nbsp;sandbox. &lt;code&gt;().__class__.__mro__[1].__subclasses__()&lt;/code&gt; escapes it in two lines. For real math tools use &lt;a href="https://pypi.org/project/simpleeval/"&gt;&lt;code&gt;simpleeval&lt;/code&gt;&lt;/a&gt;; for general user code, run it in a separate process or container. Never expose&amp;nbsp;raw &lt;code&gt;eval&lt;/code&gt; to model output in&amp;nbsp;production.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The loop,&amp;nbsp;drawn:&lt;/p&gt;
+&lt;pre class="mermaid"&gt;
+flowchart LR
+    classDef trust fill:#1e66f5,color:#ffffff,stroke:#1e4ed8,stroke-width:2px;
+    classDef untrust fill:#d20f39,color:#ffffff,stroke:#a30826,stroke-width:2px;
+    U[User prompt]:::trust --&gt; C[Context]
+    C --&gt; M[LLM call]
+    M --&gt; P[Parse + validate]
+    P --&gt;|tool call| T[Tool executor]
+    P --&gt;|final answer| O[Result]
+    T --&gt; R[Tool result]:::untrust
+    R --&gt; C
+    O --&gt; V[Verification]
+    V --&gt;|pass| D[Deliver]
+    V --&gt;|fail| C
+&lt;/pre&gt;
+
+&lt;p&gt;Five working boxes. Two trust boundaries: untrusted content entering context (red), output before delivery (verification gate). Everything else is&amp;nbsp;decoration.&lt;/p&gt;
+&lt;p&gt;Run it. Works. Looks like&amp;nbsp;magic.&lt;/p&gt;
+&lt;p&gt;Now ship&amp;nbsp;it.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="picking-the-llm-backend"&gt;Picking The &lt;span class="caps"&gt;LLM&lt;/span&gt;&amp;nbsp;Backend&lt;/h2&gt;
+&lt;p&gt;Three valid approaches. Pick by&amp;nbsp;need.&lt;/p&gt;
+&lt;h3 id="litellm-universal-wrapper-default"&gt;LiteLLM, Universal Wrapper&amp;nbsp;(default)&lt;/h3&gt;
+&lt;p&gt;100+ providers behind one &lt;span class="caps"&gt;API&lt;/span&gt;. Format conversion automatic. Fallback chains&amp;nbsp;built-in.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;litellm&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;completion&lt;/span&gt;
+
+&lt;span class="n"&gt;resp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;completion&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;claude-sonnet-4-6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;messages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;role&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;user&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;content&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;hi&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}],&lt;/span&gt;
+    &lt;span class="n"&gt;fallbacks&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;gpt-5&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;gemini-2.5-pro&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  &lt;span class="c1"&gt;# auto-fallback on rate-limit / outage&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Best for: multi-provider hedging, production with outage resilience, A/B testing across models, vendor&amp;nbsp;neutrality.&lt;/p&gt;
+&lt;p&gt;Cost: extra dep. Occasional lag on bleeding-edge&amp;nbsp;features.&lt;/p&gt;
+&lt;h3 id="openai-sdk-base_url-de-facto-standard"&gt;OpenAI &lt;span class="caps"&gt;SDK&lt;/span&gt;&amp;nbsp;+ &lt;code&gt;base_url&lt;/code&gt;, De-Facto&amp;nbsp;Standard&lt;/h3&gt;
+&lt;p&gt;Many providers serve OpenAI-compatible endpoints. Same &lt;span class="caps"&gt;SDK&lt;/span&gt;, swap base &lt;span class="caps"&gt;URL&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;openai&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;OpenAI&lt;/span&gt;
+
+&lt;span class="c1"&gt;# OpenAI native&lt;/span&gt;
+&lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OpenAI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;api_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;...&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Groq (fast inference)&lt;/span&gt;
+&lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OpenAI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;api_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;...&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;base_url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://api.groq.com/openai/v1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Together AI&lt;/span&gt;
+&lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OpenAI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;api_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;...&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;base_url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://api.together.xyz/v1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# OpenRouter (access ~300 models with one key)&lt;/span&gt;
+&lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OpenAI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;api_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;...&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;base_url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;https://openrouter.ai/api/v1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Local: Ollama / vLLM / LM Studio&lt;/span&gt;
+&lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OpenAI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;api_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ollama&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;base_url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;http://localhost:11434/v1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Best for: single-provider deployments, when you want one well-known &lt;span class="caps"&gt;SDK&lt;/span&gt;&amp;nbsp;shape.&lt;/p&gt;
+&lt;p&gt;Cost: tool-call format quirks vary by backend; not all providers fully&amp;nbsp;OpenAI-compatible.&lt;/p&gt;
+&lt;h3 id="provider-native-sdks-best-fidelity"&gt;Provider-Native SDKs, Best&amp;nbsp;Fidelity&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# OpenAI&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;openai&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;OpenAI&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Google Gemini&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;google&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;genai&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Anthropic&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;anthropic&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Anthropic&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Mistral&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;mistralai&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Mistral&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Local Ollama&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;ollama&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Best for: cutting-edge features (Anthropic prompt caching, OpenAI structured-output strict mode, Gemini 1M context). Features land in native &lt;span class="caps"&gt;SDK&lt;/span&gt;&amp;nbsp;first.&lt;/p&gt;
+&lt;p&gt;Cost: N SDKs = N code paths. Vendor lock. Rewriting code on provider&amp;nbsp;switch.&lt;/p&gt;
+&lt;h3 id="trade-off-table"&gt;Trade-Off&amp;nbsp;Table&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Approach&lt;/th&gt;
+&lt;th&gt;Pros&lt;/th&gt;
+&lt;th&gt;Cons&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;LiteLLM&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;One &lt;span class="caps"&gt;API&lt;/span&gt;, 100+ providers, format conversion, fallback chains, cost tracking&lt;/td&gt;
+&lt;td&gt;Extra dep, occasional version lag&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;OpenAI &lt;span class="caps"&gt;SDK&lt;/span&gt; + base_url&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;One &lt;span class="caps"&gt;SDK&lt;/span&gt;, native to many providers, well-known shape&lt;/td&gt;
+&lt;td&gt;Format quirks per backend; partial &lt;span class="caps"&gt;OAI&lt;/span&gt; compatibility&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Provider-native&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Latest features first, best per-vendor docs&lt;/td&gt;
+&lt;td&gt;N SDKs, vendor lock&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;For most production agents: &lt;strong&gt;LiteLLM is the right default&lt;/strong&gt;. Code stays vendor-neutral. Switch winner-of-the-month with a string change. Local fallback to Ollama costs&amp;nbsp;nothing.&lt;/p&gt;
+&lt;p&gt;The rest of this post uses LiteLLM. Same patterns work with any&amp;nbsp;backend.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="what-this-costs"&gt;What This&amp;nbsp;Costs&lt;/h2&gt;
+&lt;p&gt;Numbers move every quarter; orders of magnitude do not. May 2026 list prices, single-turn ≈ 500 input + 100 output&amp;nbsp;tokens:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Model&lt;/th&gt;
+&lt;th&gt;Input ($/1M tok)&lt;/th&gt;
+&lt;th&gt;Output ($/1M tok)&lt;/th&gt;
+&lt;th&gt;Single-turn ≈&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Claude Haiku 4.5&lt;/td&gt;
+&lt;td&gt;$1&lt;/td&gt;
+&lt;td&gt;$5&lt;/td&gt;
+&lt;td&gt;$0.001&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Claude Sonnet 4.6&lt;/td&gt;
+&lt;td&gt;$3&lt;/td&gt;
+&lt;td&gt;$15&lt;/td&gt;
+&lt;td&gt;$0.003&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Claude Opus 4.7&lt;/td&gt;
+&lt;td&gt;$15&lt;/td&gt;
+&lt;td&gt;$75&lt;/td&gt;
+&lt;td&gt;$0.015&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="caps"&gt;GPT&lt;/span&gt;-5&lt;/td&gt;
+&lt;td&gt;$5&lt;/td&gt;
+&lt;td&gt;$15&lt;/td&gt;
+&lt;td&gt;$0.004&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Gemini 2.5 Pro&lt;/td&gt;
+&lt;td&gt;$2.50&lt;/td&gt;
+&lt;td&gt;$10&lt;/td&gt;
+&lt;td&gt;$0.002&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Real agents look different from the single-turn number in two ways that&amp;nbsp;matter.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Context grows step by step; total cost grows quadratically.&lt;/strong&gt; Every iteration appends the prior tool call plus its result, so per-call input&amp;nbsp;grows &lt;code&gt;O(n)&lt;/code&gt;. The agent re-pays for the full prefix on each step, summed&amp;nbsp;across &lt;code&gt;n&lt;/code&gt; steps that&amp;nbsp;is &lt;code&gt;O(n²)&lt;/code&gt; total. Step 10 of a 10-step loop sees the entire history on every&amp;nbsp;call.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Frontier models cost 5x to 50x more than cheap ones.&lt;/strong&gt; A 1k-task batch on Sonnet runs&amp;nbsp;~&lt;span class="math"&gt;\(20; on Haiku ~\)&lt;/span&gt;4; on Opus ~$100. Pick by which step needs which tier, not by which name impressed the&amp;nbsp;team.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Worked example: a 10-step Sonnet 4.6 loop with growing context (avg 2k input by step 10, 200 output) runs roughly $0.10 per task. Run it 10k times a day and that is $1k/day, $30k/month. The math kills products that did not budget for&amp;nbsp;it.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="cut-cost-with-prompt-caching"&gt;Cut Cost With Prompt&amp;nbsp;Caching&lt;/h2&gt;
+&lt;p&gt;Most production agents send the same prefix on every call (system prompt + tool definitions + few-shot examples), then a small variable suffix (the user&amp;#8217;s question). Anthropic, OpenAI, and Gemini all support caching that prefix. Cache hits cost roughly 10% of normal input. For a 5k-token prefix at 100 calls per day, that is 90% of input cost&amp;nbsp;gone.&lt;/p&gt;
+&lt;p&gt;Anthropic explicit&amp;nbsp;cache:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;anthropic&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Anthropic&lt;/span&gt;
+
+&lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Anthropic&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;resp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;messages&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;claude-sonnet-4-6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;max_tokens&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1024&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;system&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[{&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;LONG_SYSTEM_PROMPT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;cache_control&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ephemeral&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;  &lt;span class="c1"&gt;# ~5 min TTL&lt;/span&gt;
+    &lt;span class="p"&gt;}],&lt;/span&gt;
+    &lt;span class="n"&gt;tools&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;TOOLS&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;messages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;role&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;user&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;content&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;question&lt;/span&gt;&lt;span class="p"&gt;}],&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;OpenAI auto-caches prefixes ≥ 1024 tokens automatically. LiteLLM passes&amp;nbsp;Anthropic &lt;code&gt;cache_control&lt;/code&gt; through unchanged. Order matters: cache prefix first, variable content last. Putting the question above the system prompt invalidates the cache on every&amp;nbsp;call.&lt;/p&gt;
+&lt;p&gt;Single biggest cost lever in production. Currently underused because the docs hide&amp;nbsp;it.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="where-prototypes-die"&gt;Where Prototypes&amp;nbsp;Die&lt;/h2&gt;
+&lt;p&gt;Same six failures, every&amp;nbsp;time.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. No step budget.&lt;/strong&gt; Loop runs forever. Burns &lt;span class="caps"&gt;API&lt;/span&gt; budget at 3am. The math nails&amp;nbsp;it: &lt;code&gt;p(success)^n&lt;/code&gt; collapses. Five 90% steps = 59% overall. Cap iterations. Fail&amp;nbsp;fast.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. No output validation.&lt;/strong&gt; &lt;span class="caps"&gt;LLM&lt;/span&gt; returns &amp;#8220;the answer is approximately 391&amp;#8221;. Your code&amp;nbsp;does &lt;code&gt;int(response)&lt;/code&gt;. Crash. Use Pydantic at every boundary. Parse, don&amp;#8217;t validate. Schema as&amp;nbsp;guardrail.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;pydantic&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;BaseModel&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ValidationError&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;Result&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;BaseModel&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;answer&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;
+    &lt;span class="n"&gt;confidence&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ge&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;le&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;raw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;completion&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;...&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;messages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choices&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;content&lt;/span&gt;
+&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;model_validate_json&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;raw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="n"&gt;ValidationError&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;ValueError&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;LLM output invalid: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;3. No retry, no rollback.&lt;/strong&gt; Tool times out. Whole run aborts. Partial side effects leak (email half-sent, &lt;span class="caps"&gt;DB&lt;/span&gt; row half-written). Production&amp;nbsp;needs:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Classify failures: transient (retry with backoff) vs permanent (escalate) vs catastrophic (rollback plus&amp;nbsp;alert).&lt;/li&gt;
+&lt;li&gt;Checkpoint state before risky&amp;nbsp;ops.&lt;/li&gt;
+&lt;li&gt;Idempotent tool&amp;nbsp;calls.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;4. No traces.&lt;/strong&gt; Agent fails. You stare at the final error. Useless. Log every &lt;span class="caps"&gt;LLM&lt;/span&gt; call: input tokens, output tokens, latency, stop reason, tool calls. Without traces you are blind. Trajectory log is the&amp;nbsp;debugger.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5. No eval.&lt;/strong&gt; Ship &amp;#8220;feels good&amp;#8221; code. Regress silently next sprint. Build a golden test set. Three eval&amp;nbsp;modes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Outcome-based&lt;/strong&gt;: did the agent achieve the goal? Pass /&amp;nbsp;fail.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Process-based&lt;/strong&gt;: efficient, logical path? Right&amp;nbsp;tools?&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;span class="caps"&gt;LLM&lt;/span&gt;-as-Judge&lt;/strong&gt;: separate model scores 1 to&amp;nbsp;5.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;6. Hallucinated APIs.&lt;/strong&gt; Model confidently&amp;nbsp;imports &lt;code&gt;langchain.agents.create_react_agent_v3&lt;/code&gt;. Doesn&amp;#8217;t exist. Always verify against current docs before depending on a non-trivial &lt;span class="caps"&gt;API&lt;/span&gt;. Pin versions.&amp;nbsp;Never &lt;code&gt;latest&lt;/code&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="pick-a-trace-backend-before-day-two"&gt;Pick A Trace Backend Before Day&amp;nbsp;Two&lt;/h2&gt;
+&lt;p&gt;Failure mode #4 (no traces) is the one that compounds fastest. Every &lt;span class="caps"&gt;LLM&lt;/span&gt; call is non-deterministic; without a trace &lt;span class="caps"&gt;UI&lt;/span&gt; you read &lt;span class="caps"&gt;JSONL&lt;/span&gt; by hand at 3am. Pick a backend on day two, not after the first&amp;nbsp;incident.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Tool&lt;/th&gt;
+&lt;th&gt;Stance&lt;/th&gt;
+&lt;th&gt;Setup&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Arize Phoenix&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Open-source, OTel-native, runs locally or self-hosted&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;pip install arize-phoenix&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Langfuse&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Open-source self-host plus hosted SaaS, prompt management built in&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;docker compose up&lt;/code&gt;, then &lt;span class="caps"&gt;SDK&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Helicone&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Hosted proxy, transparent:&amp;nbsp;change &lt;code&gt;base_url&lt;/code&gt; and you have traces&lt;/td&gt;
+&lt;td&gt;One env var&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;OpenTelemetry direct&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Vendor-neutral, ship to Jaeger, Tempo, Datadog&lt;/td&gt;
+&lt;td&gt;More wiring, no &lt;span class="caps"&gt;LLM&lt;/span&gt;-specific &lt;span class="caps"&gt;UI&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Phoenix is the cheapest start: zero infra, runs in a notebook, OTel under the hood, integrates with LiteLLM out of the&amp;nbsp;box.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;phoenix&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;px&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;phoenix.otel&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;register&lt;/span&gt;
+
+&lt;span class="n"&gt;px&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;launch_app&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;register&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;project_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;my-agent&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;auto_instrument&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# Every LiteLLM call now appears at http://localhost:6006&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;For the deeper grounding on what to trace and why (logs, metrics, traces as three pillars; trace IDs in every log line; SLOs over raw error counts), see &lt;a href="https://alexsavio.github.io/first-principles-software-observability.html"&gt;First Principles: Software Observability&lt;/a&gt;. &lt;span class="caps"&gt;LLM&lt;/span&gt; agents are not a special observability domain; they just have more state per span and more probabilistic failure modes per request. Same discipline, applied&amp;nbsp;harder.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="the-patterns-that-actually-save-you"&gt;The Patterns That Actually Save&amp;nbsp;You&lt;/h2&gt;
+&lt;p&gt;21 patterns in Gulli&amp;#8217;s &lt;em&gt;Agentic Design Patterns&lt;/em&gt;. Group into 4 buckets matching what an agent actually&amp;nbsp;does.&lt;/p&gt;
+&lt;h3 id="bucket-1-core-execution-decompose-run"&gt;Bucket 1: Core Execution (decompose +&amp;nbsp;run)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Prompt Chaining&lt;/strong&gt;: output of one step = input of next. Linear &lt;span class="caps"&gt;DAG&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Routing&lt;/strong&gt;: conditional path. &lt;span class="caps"&gt;LLM&lt;/span&gt;-as-router or rule&amp;nbsp;classifier.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Parallelization&lt;/strong&gt;: independent sub-tasks concurrent. ThreadPool&amp;nbsp;or &lt;code&gt;asyncio.gather&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Planning&lt;/strong&gt;: high-level goal, numbered sub-tasks. Re-plan on&amp;nbsp;failure.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When task = &amp;#8220;single &lt;span class="caps"&gt;LLM&lt;/span&gt; call too small, full &lt;span class="caps"&gt;DAG&lt;/span&gt; too big&amp;#8221;, these&amp;nbsp;compose.&lt;/p&gt;
+&lt;h3 id="bucket-2-external-world-act-retrieve"&gt;Bucket 2: External World (act +&amp;nbsp;retrieve)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Tool Use / Function Calling&lt;/strong&gt;: &lt;span class="caps"&gt;JSON&lt;/span&gt; schema, model emits structured call, you&amp;nbsp;execute.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;span class="caps"&gt;MCP&lt;/span&gt;&lt;/strong&gt; (Model Context Protocol): wire protocol for tool servers. &lt;span class="caps"&gt;JSON&lt;/span&gt;-&lt;span class="caps"&gt;RPC&lt;/span&gt; over &lt;span class="caps"&gt;STDIO&lt;/span&gt;/&lt;span class="caps"&gt;SSE&lt;/span&gt;. Decouples tool dev from agent dev. When tool count grows past 5, you want&amp;nbsp;this.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;span class="caps"&gt;RAG&lt;/span&gt;&lt;/strong&gt;: retrieve relevant docs, inject as context, generate. Chunk 200 to 500 tokens, hybrid &lt;span class="caps"&gt;BM25&lt;/span&gt; + vector for production. Mitigates hallucination, extends knowledge past&amp;nbsp;cutoff.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Tools are hands. &lt;span class="caps"&gt;RAG&lt;/span&gt; is senses. Both required for grounded&amp;nbsp;operation.&lt;/p&gt;
+&lt;h3 id="bucket-3-state-self-improvement"&gt;Bucket 3: State +&amp;nbsp;Self-Improvement&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Memory Management&lt;/strong&gt;: short-term (conversation buffer) plus long-term (persisted facts). Three sub-types: episodic (past interactions), semantic (facts), procedural&amp;nbsp;(skills).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reflection / Self-Correction&lt;/strong&gt;: generator plus critic. Two flavors: &amp;#8220;check your work&amp;#8221; (same agent reviews self) vs &amp;#8220;internal critic&amp;#8221; (separate critic agent, more&amp;nbsp;rigorous).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Learning / Adaptation&lt;/strong&gt;: agent updates behaviour from feedback. Online learning. Rare in practice; usually fine-tune offline&amp;nbsp;instead.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Goal Setting + Monitoring&lt;/strong&gt;: &lt;span class="caps"&gt;SMART&lt;/span&gt; criteria. Without an explicit done-condition, the agent&amp;nbsp;drifts.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Exception Handling + State Rollback&lt;/strong&gt;: transactional state. Checkpoint, try, rollback on&amp;nbsp;error.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Reflection alone often beats fancier patterns. &amp;#8220;Draft, critique, revise&amp;#8221; gives 20 to 40 percent quality lift on hard tasks. Cheap.&amp;nbsp;Proven.&lt;/p&gt;
+&lt;h3 id="bucket-4-collaboration"&gt;Bucket 4:&amp;nbsp;Collaboration&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Multi-Agent&lt;/strong&gt;: specialist team (Researcher + Writer + Critic). Modularity, reduced complexity, simulated&amp;nbsp;brainstorming.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;span class="caps"&gt;A2A&lt;/span&gt;&lt;/strong&gt;&amp;nbsp;(Agent-to-Agent): &lt;code&gt;/.well-known/agent.json&lt;/code&gt; discovery, &lt;span class="caps"&gt;JSON&lt;/span&gt;-&lt;span class="caps"&gt;RPC&lt;/span&gt; &lt;code&gt;sendTask&lt;/code&gt; / &lt;code&gt;sendTaskSubscribe&lt;/code&gt; (streaming). Cross-org&amp;nbsp;standard.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;span class="caps"&gt;HITL&lt;/span&gt;&lt;/strong&gt; (Human-in-the-Loop): pause for approval at critical junctures. Plan approval, destructive tool confirmation, ambiguity resolution, final output&amp;nbsp;review.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Resource-Aware Optimisation&lt;/strong&gt;: route by complexity. Cheap models for classify, mid-tier for standard agent, frontier for hard reasoning. Pair with budget cap per&amp;nbsp;request.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Guardrails&lt;/strong&gt;: 5 layers, input validation plus output filtering plus tool restrictions plus behavioural constraints plus&amp;nbsp;checkpoint/rollback.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Multi-agent feels powerful. Often overkill. Default = single agent + tools. Split into specialists only when a single prompt exceeds 1000 tokens or contains conflicting&amp;nbsp;instructions.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="composition-single-pattern-mastery"&gt;Composition &amp;gt; Single-Pattern&amp;nbsp;Mastery&lt;/h2&gt;
+&lt;p&gt;True power = composing patterns. Research-assistant example from the&amp;nbsp;book.&lt;/p&gt;
+&lt;p&gt;User asks: &lt;em&gt;&amp;#8220;Analyze quantum computing impact on&amp;nbsp;cybersecurity.&amp;#8221;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Composition:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Planning&lt;/strong&gt; decomposes into 4 research&amp;nbsp;steps.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tool Use&lt;/strong&gt; drives each step (search, ArXiv &lt;span class="caps"&gt;API&lt;/span&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi-Agent&lt;/strong&gt;: Researcher gathers, Writer synthesises, Critic&amp;nbsp;reviews.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reflection&lt;/strong&gt;: Critic catches logic errors, fact errors, Writer&amp;nbsp;revises.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Memory&lt;/strong&gt;: persist plan, info, drafts, feedback across the multi-step&amp;nbsp;run.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Five patterns woven together. None individually impressive. Together: an autonomous research&amp;nbsp;system.&lt;/p&gt;
+&lt;p&gt;That&amp;#8217;s the craft. Not &amp;#8220;I know ReAct.&amp;#8221; It&amp;#8217;s &amp;#8220;I see the canvas as a&amp;nbsp;whole.&amp;#8221;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="hard-won-lessons"&gt;Hard-Won&amp;nbsp;Lessons&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Frontier models for quality-critical paths.&lt;/strong&gt; Cheap models truncate context, lose subtle reasoning. Use cheap tier for classify / extract / route only. Cost saved &amp;lt; quality lost on the actual reasoning&amp;nbsp;step.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Untrusted content is data, never instructions.&lt;/strong&gt; Tool output, retrieved docs, user files all enter the prompt. Prompt injection is structural, not a bug. Wrap retrieved content in delimiters. Verify intent against the original user request, not against the retrieved&amp;nbsp;text.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Pin everything in version control.&lt;/strong&gt; Model version&amp;nbsp;(&lt;code&gt;claude-sonnet-4-6&lt;/code&gt;, not &amp;#8220;latest&amp;#8221;). Prompts&amp;nbsp;as &lt;code&gt;.md&lt;/code&gt; files&amp;nbsp;in &lt;code&gt;/prompts/&lt;/code&gt;. Treat prompts as code: review, version,&amp;nbsp;diff.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Goals before loops.&lt;/strong&gt; Without an explicit done-condition, the agent burns budget on infinite &amp;#8220;let me also check&amp;#8230;&amp;#8221;&amp;nbsp;Add &lt;code&gt;success_criteria: list[str]&lt;/code&gt;. Verify before each&amp;nbsp;iteration.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Rollback before retry.&lt;/strong&gt; Partial state from a failed op corrupts the next&amp;nbsp;attempt. &lt;code&gt;with transactional(state):&lt;/code&gt; pattern. Checkpoint, try, rollback on&amp;nbsp;exception.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Run before claim.&lt;/strong&gt; Generated code &amp;#8220;looks right&amp;#8221;, plausible syntax, plausible imports, may not execute. There is no truth signal in the distribution. Run tests, build, lint, type-check, the actual&amp;nbsp;feature.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;LiteLLM fallbacks save 3am pages.&lt;/strong&gt; Provider has an outage, traffic shifts to a fallback model automatically. Cost: one extra arg per&amp;nbsp;call.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;completion&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;claude-sonnet-4-6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;fallbacks&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;gpt-5&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;gemini-2.5-pro&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ollama/llama3.3&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="n"&gt;messages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr&gt;
+&lt;h2 id="the-shift-coming"&gt;The Shift&amp;nbsp;Coming&lt;/h2&gt;
+&lt;p&gt;Three trends from the book worth&amp;nbsp;tracking.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. Human-in-the-loop becomes human-on-the-loop.&lt;/strong&gt; Today: agent pauses, asks human at every fork. Tomorrow: agent runs autonomously, reports only on completion or critical exception. Scope of trust expands as eval and guardrails&amp;nbsp;mature.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. Standardisation via &lt;span class="caps"&gt;MCP&lt;/span&gt; plus &lt;span class="caps"&gt;A2A&lt;/span&gt;.&lt;/strong&gt; Today: tool integration is per-framework, glue code everywhere. Tomorrow: &lt;span class="caps"&gt;MCP&lt;/span&gt; for tools, &lt;span class="caps"&gt;A2A&lt;/span&gt; for agents. Agent marketplaces. Hire-able specialist agents (research agent, travel agent). The &amp;#8220;Awesome Agents&amp;#8221; repo on GitHub is already curating&amp;nbsp;this.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. Neuro-symbolic blend.&lt;/strong&gt; Pure &lt;span class="caps"&gt;LLM&lt;/span&gt; = pattern match plus probabilistic. Add classical &lt;span class="caps"&gt;AI&lt;/span&gt; (logic, planning, constraint solving) for rigor. Best of both. Watch for &lt;span class="caps"&gt;SR&lt;/span&gt; 11-7-grade model governance demands as agents enter regulated&amp;nbsp;domains.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="practical-path"&gt;Practical&amp;nbsp;Path&lt;/h2&gt;
+&lt;p&gt;Build in this order. Stop when the problem is&amp;nbsp;solved.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stage&lt;/th&gt;
+&lt;th&gt;Add&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Hello world&lt;/td&gt;
+&lt;td&gt;LiteLLM + tools + ReAct loop (30 lines)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Useful demo&lt;/td&gt;
+&lt;td&gt;+ Pydantic structured output + memory&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Beta&lt;/td&gt;
+&lt;td&gt;+ Planning + Reflection + traces&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Production&lt;/td&gt;
+&lt;td&gt;+ Guardrails + Exception handling + Eval suite&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Scale&lt;/td&gt;
+&lt;td&gt;+ Resource-aware routing + Multi-agent (when needed)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cross-org&lt;/td&gt;
+&lt;td&gt;+ &lt;span class="caps"&gt;MCP&lt;/span&gt; + &lt;span class="caps"&gt;A2A&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Most projects stop at &amp;#8220;Production&amp;#8221;. That&amp;#8217;s fine. Resist the urge to add multi-agent before a single-agent prompt exceeds 1000 tokens. Three similar lines beats premature&amp;nbsp;abstraction.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="dont-use-a-framework-until-youve-built-without-one"&gt;Don&amp;#8217;t Use A Framework Until You&amp;#8217;ve Built Without&amp;nbsp;One&lt;/h2&gt;
+&lt;p&gt;Build the 30-line ReAct loop first. Understand the mechanism: tools as &lt;span class="caps"&gt;JSON&lt;/span&gt; schema, stop reasons, tool_use blocks, tool_result feedback, message&amp;nbsp;accumulation.&lt;/p&gt;
+&lt;p&gt;Then evaluate frameworks (LangGraph, CrewAI, &lt;span class="caps"&gt;ADK&lt;/span&gt;, Strands) against actual needs. They hide the mechanism, ship faster, but you debug what you don&amp;#8217;t&amp;nbsp;understand.&lt;/p&gt;
+&lt;p&gt;LiteLLM ≠ framework. It&amp;#8217;s a thin &lt;span class="caps"&gt;SDK&lt;/span&gt; wrapper. Keep it under your code, not over it. The patterns above are yours to&amp;nbsp;compose.&lt;/p&gt;
+&lt;p&gt;From-scratch teaches mechanism. Framework hides mechanism. Both valid. Order&amp;nbsp;matters.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="bottom-line"&gt;Bottom&amp;nbsp;Line&lt;/h2&gt;
+&lt;p&gt;Agents are not magic. Loop, tools, memory, goal, self-correction. Composition of well-known patterns. The hard part isn&amp;#8217;t any single pattern, it&amp;#8217;s running the resulting system reliably in&amp;nbsp;production.&lt;/p&gt;
+&lt;p&gt;Six failure modes kill prototypes. Five buckets of patterns prevent them. Build the 30-line version today. Add patterns when production need is proven, not&amp;nbsp;anticipated.&lt;/p&gt;
+&lt;p&gt;Pick LiteLLM by default. Vendor-neutral code outlives the&amp;nbsp;model-of-the-month.&lt;/p&gt;
+&lt;p&gt;The canvas is in front of you. Patterns are in your hands. Now go&amp;nbsp;build.&lt;/p&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://www.anthropic.com/research/building-effective-agents"&gt;Building Effective Agents&lt;/a&gt;. Anthropic, 2024. The single best argument for &amp;#8220;start simple, add complexity only when proven&amp;nbsp;necessary&amp;#8221;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2210.03629"&gt;ReAct: Synergizing Reasoning and Acting in Language Models&lt;/a&gt;. Yao et al., 2022. Original ReAct&amp;nbsp;paper.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2303.11366"&gt;Reflexion: Language Agents with Verbal Reinforcement Learning&lt;/a&gt;. Shinn et al., 2023. Quantifies the lift from&amp;nbsp;self-reflection.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.amazon.com/Agentic-Design-Patterns-Hands-Intelligent/dp/3032014018"&gt;Agentic Design Patterns&lt;/a&gt;. Antonio Gulli, 2025. The 21 patterns referenced throughout this&amp;nbsp;post.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.litellm.ai/"&gt;LiteLLM Documentation&lt;/a&gt;. Vendor-neutral &lt;span class="caps"&gt;SDK&lt;/span&gt; used in the example&amp;nbsp;loop.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://modelcontextprotocol.io/"&gt;Model Context Protocol Specification&lt;/a&gt;. Wire protocol for tool&amp;nbsp;servers.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://a2aproject.github.io/A2A/"&gt;&lt;span class="caps"&gt;A2A&lt;/span&gt; Protocol&lt;/a&gt;. Cross-org agent-to-agent discovery and task&amp;nbsp;standard.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/"&gt;&lt;span class="caps"&gt;OWASP&lt;/span&gt; Top 10 for Large Language Model Applications&lt;/a&gt;. Prompt injection (&lt;span class="caps"&gt;LLM01&lt;/span&gt;) and excessive agency (&lt;span class="caps"&gt;LLM06&lt;/span&gt;) bite agent designs&amp;nbsp;hardest.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/"&gt;Parse, don&amp;#8217;t validate&lt;/a&gt;. Alexis King, 2019. The original phrase, applied to schema validation at&amp;nbsp;boundaries.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://web.archive.org/web/2026/https://www.federalreserve.gov/supervisionreg/srletters/sr1107.htm"&gt;&lt;span class="caps"&gt;SR&lt;/span&gt; 11-7, Model Risk Management&lt;/a&gt;. &lt;span class="caps"&gt;US&lt;/span&gt; Federal Reserve, 2011 (Wayback mirror, federalreserve.gov returning 404 as of 2026-05-08). Governance regime for any model used in regulated&amp;nbsp;decisions.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.arize.com/phoenix"&gt;Arize Phoenix&lt;/a&gt;. Open-source &lt;span class="caps"&gt;LLM&lt;/span&gt; observability, OTel-native, runs&amp;nbsp;locally.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://langfuse.com/docs"&gt;Langfuse&lt;/a&gt;. Open-source self-hostable &lt;span class="caps"&gt;LLM&lt;/span&gt; observability with prompt&amp;nbsp;management.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.helicone.ai/"&gt;Helicone&lt;/a&gt;. Proxy-based &lt;span class="caps"&gt;LLM&lt;/span&gt; observability, single env-var&amp;nbsp;integration.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching"&gt;Anthropic Prompt Caching&lt;/a&gt;. Cache reuse up to 90% input cost&amp;nbsp;savings.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://pypi.org/project/simpleeval/"&gt;simpleeval&lt;/a&gt;. Sandboxed expression evaluator for the calculator-tool&amp;nbsp;case.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-software-observability.html"&gt;First Principles: Software Observability&lt;/a&gt;. The three-pillar discipline that grounds the trace-backend&amp;nbsp;section.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-llm-agents.html"&gt;First Principles: &lt;span class="caps"&gt;LLM&lt;/span&gt; Agents (Most of Yours Are Chatbots Wearing a Hat)&lt;/a&gt;. Companion piece, same day, conceptual&amp;nbsp;frame.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Engineering"/><category term="ai"/><category term="agents"/><category term="llm"/><category term="prompt-engineering"/><category term="litellm"/><category term="python"/></entry><entry><title>Dependency cooldowns considered harmful: a first-principles analysis</title><link href="https://alexsavio.github.io/dependency-cooldown-considered-harmful.html" rel="alternate"/><published>2026-04-13T20:30:00+02:00</published><updated>2026-04-13T20:30:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-04-13:/dependency-cooldown-considered-harmful.html</id><summary type="html">&lt;p&gt;Dependency cooldowns promise supply-chain safety by hiding releases for N days, but the math shows they guarantee extended &lt;span class="caps"&gt;CVE&lt;/span&gt; exposure while catching only a narrow band of attacks that lockfiles and staging already cover. The time buffer belongs in staging, not the&amp;nbsp;resolver.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Intro.&lt;/strong&gt; A &amp;#8220;dependency cooldown&amp;#8221; tells your resolver to ignore releases newer&amp;nbsp;than &lt;span class="math"&gt;\(N\)&lt;/span&gt; days, on the theory that the community will catch bad releases before you adopt them. In an April 2026 post, Astral laid out their internal security posture and listed cooldowns as one of the layers they lean on. It sounds cautious. It is in fact an unusually expensive hedge that optimizes for the wrong failure mode, deadlocks with the tools that protect you from the &lt;em&gt;actual&lt;/em&gt; high-frequency failure mode (CVEs), and cannot be rescued with a user-level&amp;nbsp;override.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Argument.&lt;/strong&gt; Reason from first principles about what can actually happen to a dependency, and a flat pre-resolver cooldown is dominated by buffering &lt;em&gt;later&lt;/em&gt; in the pipeline (at audit time, at merge time, at staging). Cooldowns trade a certain cost, extended &lt;span class="caps"&gt;CVE&lt;/span&gt; exposure every time a fix lands, for a speculative benefit, dodging fast-yanked malicious releases, that lockfiles, hashes, and staging already cover. A Monte Carlo simulation of the cost model (backed by a closed-form analytical check to machine precision) puts the break-even risk&amp;nbsp;ratio &lt;span class="math"&gt;\(I_{\text{attack}} / I_{\text{cve}}\)&lt;/span&gt; at roughly &lt;strong&gt;12,000&lt;/strong&gt; for an 8-day cooldown. For a typical non-financial-critical service, that is nowhere close, and the policy&amp;nbsp;loses.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Caveat.&lt;/strong&gt; The math flips at high enough stakes.&amp;nbsp;At &lt;span class="math"&gt;\(I_{\text{attack}} / I_{\text{cve}} \geq 10^5\)&lt;/span&gt; (think: payments, custodial crypto, identity), a real cooldown does pay. The right answer for those teams is not &amp;#8220;no cooldown&amp;#8221; but &amp;#8220;the least bad &lt;em&gt;variant&lt;/em&gt; of one&amp;#8221;, because the word &amp;#8220;cooldown&amp;#8221; today flattens eight different policies into a single switch and the default switch is the one that loses. Sections 8 and 9 name the&amp;nbsp;alternatives.&lt;/p&gt;
