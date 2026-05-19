@@ -2,6 +2,34 @@
 
 {% block title %}{{ article.title|striptags }} — {{ SITENAME }}{% endblock %}
 
+{% block extra_head %}
+{%- if article.status != 'draft' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ article.title|striptags|tojson }},
+  "description": {{ (article.content|striptags|truncate(200) if article.content else page_description)|tojson }},
+  "datePublished": {{ article.date.isoformat()|tojson }},
+  "dateModified": {{ (article.modified.isoformat() if article.modified else article.date.isoformat())|tojson }},
+  "url": {{ page_url|tojson }},
+  "mainEntityOfPage": { "@type": "WebPage", "@id": {{ page_url|tojson }} },
+  "image": {{ page_image|tojson }},
+  "author": {
+    "@type": "Person",
+    "name": {{ AUTHOR|tojson }},
+    "url": {{ (SITEURL ~ '/pages/about.html')|tojson }}
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": {{ AUTHOR|tojson }},
+    "url": {{ (SITEURL ~ '/')|tojson }}
+  }
+}
+</script>
+{%- endif %}
+{% endblock %}
+
 {% block content %}
 <article class="article" itemscope itemtype="https://schema.org/BlogPosting">
     <header class="article__header">

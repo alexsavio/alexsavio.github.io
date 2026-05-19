@@ -116,6 +116,11 @@ STATIC_PATHS = [
     "keybase.txt",
 ]
 
+# Serve robots.txt from the site root (not /extra/robots.txt) so crawlers find it.
+EXTRA_PATH_METADATA = {
+    "extra/robots.txt": {"path": "robots.txt"},
+}
+
 # code blocks with line numbers
 PYGMENTS_RST_OPTIONS = {"classprefix": "pgcss", "linenos": "table"}
 

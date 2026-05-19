@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ DEFAULT_LANG }}">
+<html lang="{{ DEFAULT_LANG.replace('_', '-') }}">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,6 +28,9 @@
     <title>{% block title %}{{ page_title }}{% endblock %}</title>
     <meta name="description" content="{{ page_description }}" />
     <meta name="author" content="{{ AUTHOR }}" />
+    {%- if (article and article.status == 'draft') or (page and page.status == 'draft') %}
+    <meta name="robots" content="noindex, nofollow" />
+    {%- endif %}
     <link rel="canonical" href="{{ page_url }}" />
 
     {# --- Open Graph ------------------------------------------------------ #}
@@ -38,9 +41,9 @@
     <meta property="og:url" content="{{ page_url }}" />
     <meta property="og:image" content="{{ page_image }}" />
     {%- if article %}
-    <meta property="article:published_time" content="{{ article.date|strftime('%Y-%m-%d') }}" />
+    <meta property="article:published_time" content="{{ article.date.isoformat() }}" />
     {%- if article.modified %}
-    <meta property="article:modified_time" content="{{ article.modified|strftime('%Y-%m-%d') }}" />
+    <meta property="article:modified_time" content="{{ article.modified.isoformat() }}" />
     {%- endif %}
     {%- if article.category %}
     <meta property="article:section" content="{{ article.category }}" />
@@ -158,6 +161,10 @@
             <p class="site-footer__colophon">
                 &copy; {{ now().year if now is defined else '' }} {{ AUTHOR }}.
                 Built with <a href="https://getpelican.com/">Pelican</a>.
+            </p>
+            <p class="site-footer__colophon site-footer__disclosure">
+                Posts are written by {{ AUTHOR }}, drafted and edited with AI assistance,
+                and reviewed by the author before publishing.
             </p>
         </div>
     </footer>
