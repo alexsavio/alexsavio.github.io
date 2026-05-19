@@ -7,7 +7,8 @@ import os
 import sys
 
 sys.path.append(os.curdir)
-from pelicanconf import *
+# Pelican config override pattern: prod settings extend the base config.
+from pelicanconf import *  # noqa: F403
 
 SITEURL = "https://alexsavio.github.io"
 RELATIVE_URLS = False

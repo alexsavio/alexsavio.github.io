@@ -125,7 +125,7 @@ def _render(outfile: Path, dark: bool) -> None:
                markerfacecolor=good_color, markeredgecolor=fg, markeredgewidth=1.0,
                label="Event you want to adopt fast"),
     ]
-    legend = ax.legend(
+    ax.legend(
         handles=legend_handles,
         loc="upper center",
         bbox_to_anchor=(0.5, -0.12),

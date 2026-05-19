@@ -127,7 +127,7 @@ PYGMENTS_RST_OPTIONS = {"classprefix": "pgcss", "linenos": "table"}
 # Menu is driven by DISPLAY_PAGES_ON_MENU (about, work-with-me)
 # plus the items below for non-page destinations.
 # Note: SITEURL is prepended in the template for menu items, so use relative paths here.
-MENUITEMS = []
+MENUITEMS: list[tuple[str, str]] = []
 DISPLAY_CATEGORIES_ON_MENU = False
 DATE_FORMATS = {
     "en_US": "%a, %b %d %Y",
