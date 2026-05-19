@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html lang="en_us">
+<html lang="en-us">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <title>Taming Your Dev Chaos with direnv, .env, and .envrc (Plus a Sneak Peek at mise-en-place) — Alexandre Manhães Savio</title>
     <meta name="description" content="Stop manually juggling env vars like a clown — learn how direnv auto-magically handles your dev environments with .env and .envrc files. Includes a sick custom layout uv function for Python projects and a teaser on mise-en-place, the dev tool that does it all." />
-    <meta name="author" content="Alexandre Manhães Savio" />
-    <link rel="canonical" href="https://alexsavio.github.io/direnv-dotenv-envrc.html" />
+    <meta name="author" content="Alexandre Manhães Savio" />    <link rel="canonical" href="https://alexsavio.github.io/direnv-dotenv-envrc.html" />
 
     <meta property="og:site_name" content="Alexandre Manhães Savio" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Taming Your Dev Chaos with direnv, .env, and .envrc (Plus a Sneak Peek at mise-en-place) — Alexandre Manhães Savio" />
     <meta property="og:description" content="Stop manually juggling env vars like a clown — learn how direnv auto-magically handles your dev environments with .env and .envrc files. Includes a sick custom layout uv function for Python projects and a teaser on mise-en-place, the dev tool that does it all." />
     <meta property="og:url" content="https://alexsavio.github.io/direnv-dotenv-envrc.html" />
-    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2026-01-18" />    <meta property="article:section" content="Tools" />    <meta property="article:tag" content="direnv" />    <meta property="article:tag" content="environment" />    <meta property="article:tag" content="shell" />    <meta property="article:tag" content="uv" />    <meta property="article:tag" content="python" />    <meta property="article:tag" content="mise" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2026-01-18T00:00:00+01:00" />    <meta property="article:section" content="Tools" />    <meta property="article:tag" content="direnv" />    <meta property="article:tag" content="environment" />    <meta property="article:tag" content="shell" />    <meta property="article:tag" content="uv" />    <meta property="article:tag" content="python" />    <meta property="article:tag" content="mise" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Taming Your Dev Chaos with direnv, .env, and .envrc (Plus a Sneak Peek at mise-en-place) — Alexandre Manhães Savio" />
     <meta name="twitter:description" content="Stop manually juggling env vars like a clown — learn how direnv auto-magically handles your dev environments with .env and .envrc files. Includes a sick custom layout uv function for Python projects and a teaser on mise-en-place, the dev tool that does it all." />
@@ -29,7 +28,29 @@
 
     <link href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Alexandre Manhães Savio Atom Feed" />
     <link href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Alexandre Manhães Savio RSS Feed" />
-
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Taming Your Dev Chaos with direnv, .env, and .envrc (Plus a Sneak Peek at\u00a0mise-en-place)",
+  "description": "Taming Your Dev Chaos with direnv, .env, and\u00a0.envrc Ever felt like you\u2019re playing whack-a-mole with environment variables across a dozen projects? One project\u2019s\u00a0got DEBUG=true, another\u2019s...",
+  "datePublished": "2026-01-18T00:00:00+01:00",
+  "dateModified": "2026-01-18T00:00:00+01:00",
+  "url": "https://alexsavio.github.io/direnv-dotenv-envrc.html",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://alexsavio.github.io/direnv-dotenv-envrc.html" },
+  "image": "https://alexsavio.github.io/imgs/alex_headshot.png",
+  "author": {
+    "@type": "Person",
+    "name": "Alexandre Manh\u00e3es Savio",
+    "url": "https://alexsavio.github.io/pages/about.html"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Alexandre Manh\u00e3es Savio",
+    "url": "https://alexsavio.github.io/"
+  }
+}
+</script>
     <style>
         :root {
 --bg-color: #e6e9ef;--terminal-bg: #eff1f5;--text-color: #4c4f69;--primary-color: #1e66f5;--accent-color: #8839ef;--muted-color: #6c6f85;--code-bg: #ccd0da;--link-color: #179299;--header-bg: #dce0e8;        }
@@ -350,6 +371,10 @@ layout<span class="w"> </span>uv
             <p class="site-footer__colophon">
                 &copy;  Alexandre Manhães Savio.
                 Built with <a href="https://getpelican.com/">Pelican</a>.
+            </p>
+            <p class="site-footer__colophon site-footer__disclosure">
+                Posts are drafted and edited with AI assistance,
+                then reviewed by the author before publishing.
             </p>
         </div>
     </footer>
