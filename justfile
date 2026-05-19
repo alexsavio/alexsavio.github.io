@@ -67,7 +67,7 @@ format:
 
 # Run mypy check
 lint-mypy:
-  uv run mypy pelicanconf.py publishconf.py tasks.py
+  uv run mypy pelicanconf.py publishconf.py
 
 # Run ruff lint check
 lint-ruff:

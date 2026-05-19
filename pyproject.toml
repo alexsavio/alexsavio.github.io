@@ -6,36 +6,40 @@ authors = [{ name = "Alexandre Manhães Savio", email = "alexsavio@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "blinker>=1.7.0",
-    "docutils>=0.20.0",
-    "feedgenerator>=2.1.0",
-    "pelican[markdown]>=4.9.0",
-    "beautifulsoup4>=4.12.0",
-    "python-dateutil>=2.9.0",
+    # Upper bounds cap the next major to block surprise API breaks on
+    # `uv lock --upgrade` (rules/common/supply-chain.md: no open `>=`).
+    # pytz is intentionally uncapped: it is date-versioned tz data, a cap
+    # would block DST / timezone corrections.
+    "blinker>=1.7.0,<2",
+    "docutils>=0.20.0,<1",
+    "feedgenerator>=2.1.0,<3",
+    "pelican[markdown]>=4.9.0,<5",
+    "beautifulsoup4>=4.12.0,<5",
+    "python-dateutil>=2.9.0,<3",
     "pytz>=2025.2",
-    "jinja2>=3.1.0",
-    "markupsafe>=3.0.3",
-    "unidecode>=1.3.0",
-    "typogrify>=2.0.0",
-    "webassets>=3.0.0",
-    "icalendar>=6.3.2",
-    "lxml>=6.1.0",
-    "feedparser>=6.0.0",
-    "pillow>=12.1.1",
-    "invoke>=2.2.0",
-    "ghp-import>=2.1.0",
-    "pelican-sitemap>=1.2.2",
-    "pelican-series>=3.1.1",
-    "pelican-related-posts>=1.0.0",
-    "pelican-render-math>=1.0.5",
-    "pygments>=2.20.0",
+    "jinja2>=3.1.0,<4",
+    "markupsafe>=3.0.3,<4",
+    "unidecode>=1.3.0,<2",
+    "typogrify>=2.0.0,<3",
+    "webassets>=3.0.0,<4",
+    "icalendar>=6.3.2,<8",
+    "lxml>=6.1.0,<7",
+    "feedparser>=6.0.0,<7",
+    "pillow>=12.1.1,<13",
+    "ghp-import>=2.1.0,<3",
+    "pelican-sitemap>=1.2.2,<2",
+    "pelican-series>=3.1.1,<4",
+    "pelican-related-posts>=1.0.0,<2",
+    "pelican-render-math>=1.0.5,<2",
+    "pygments>=2.20.0,<3",
 ]
 
 [tool.uv]
 package = false
 
 [dependency-groups]
-lint = ["mypy>=1.19.1", "pydocstyle>=6.3.0", "ruff>=0.14.11"]
+# ruff is 0.x and breaks between minors → cap the minor, not the major.
+lint = ["mypy>=1.19.1,<2", "pydocstyle>=6.3.0,<7", "ruff>=0.15.0,<0.16"]
 
 [tool.ruff]
 target-version = "py313"
