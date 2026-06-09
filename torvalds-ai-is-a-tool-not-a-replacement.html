@@ -125,13 +125,14 @@
 <h2 id="the-compiler-argument">The compiler&nbsp;argument</h2>
 <p>Torvalds&#8217; best move here is rhetorical, and it works because it is true. Every developer who says &#8220;<span class="caps">AI</span> wrote 99% of this&#8221; is already standing on a mountain of code generation they never think to&nbsp;mention.</p>
 <p>Here is the thing. You write source code, and a <strong>compiler</strong> turns it into machine code. You did not place the registers, pick the instructions, or lay out the stack frames yourself. A tool did all of that, and it has for decades. So by the same logic the <span class="caps">AI</span> crowd is using, 100% of your output has been machine-written since long before anyone had heard of an <span class="caps">LLM</span>. The percentage was never the interesting&nbsp;number.</p>
-<div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
-<span class="w">    </span><span class="n">A</span><span class="o">[</span><span class="n">Machine code&lt;br/&gt;by hand</span><span class="o">]</span><span class="w"> </span><span class="c1">--&gt; B[Assembler]</span>
-<span class="w">    </span><span class="n">B</span><span class="w"> </span><span class="c1">--&gt; C[Compiler&lt;br/&gt;~1,000x]</span>
-<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="c1">--&gt; D[AI assist&lt;br/&gt;~10x]</span>
-<span class="w">    </span><span class="n">style</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="nl">fill</span><span class="p">:</span><span class="n">#1f6feb</span><span class="p">,</span><span class="nl">color</span><span class="p">:</span><span class="n">#fff</span>
-<span class="w">    </span><span class="n">style</span><span class="w"> </span><span class="n">D</span><span class="w"> </span><span class="nl">fill</span><span class="p">:</span><span class="n">#2ea043</span><span class="p">,</span><span class="nl">color</span><span class="p">:</span><span class="n">#fff</span>
-</code></pre></div>
+<pre class="mermaid">
+flowchart LR
+    classDef big fill:#1e66f5,color:#ffffff,stroke:#1e4ed8,stroke-width:2px;
+    classDef small fill:#40a02b,color:#ffffff,stroke:#2f7a20,stroke-width:2px;
+    A[Machine code<br/>by hand] --> B[Assembler]
+    B --> C[Compiler<br/>~1,000x]:::big
+    C --> D[AI assist<br/>~10x]:::small
+</pre>
 
 <p>What this framing does is put <span class="caps">AI</span> on a continuum instead of a cliff edge. Every step up the abstraction ladder, machine code to assembly, assembly to Fortran, raised productivity and pushed the human a little further from the metal. And honestly, the jump from hand-written assembly to a compiler was a far bigger deal than the one from a modern <span class="caps">IDE</span> to an <span class="caps">AI</span> assistant. Put Torvalds&#8217; rough figures next to each other, around 1,000x for compilers against 10x for <span class="caps">AI</span>, and the proportion speaks for itself. None of that means <span class="caps">AI</span> does not matter. It means we have lost the sense of&nbsp;scale.</p>
 <p>The line worth keeping is this one: <strong>&#8220;<span class="caps">AI</span> is changing programming, but it&#8217;s not changing the fun.&#8221;</strong> The thing that makes programming engaging, getting to know a system well enough to bend it to your will, is exactly the part that does not get automated&nbsp;away.</p>
@@ -149,16 +150,17 @@
 <blockquote>
 <p><span class="dquo">&#8220;</span>Sometimes <span class="caps">AI</span> reports a bug, and when you ask for more information, the person has done that drive-by and doesn&#8217;t even answer your question. So, that&#8217;s the real burnout&nbsp;issue.&#8221;</p>
 </blockquote>
-<div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">TD</span>
-<span class="w">    </span><span class="n">A</span><span class="o">[</span><span class="n">AI scans open-source code</span><span class="o">]</span><span class="w"> </span><span class="c1">--&gt; B[Finds real bug]</span>
-<span class="w">    </span><span class="n">B</span><span class="w"> </span><span class="c1">--&gt; C{Patch included?}</span>
-<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="c1">--&gt;|No, drive-by| D[Maintainer must triage,&lt;br/&gt;reproduce, fix, answer]</span>
-<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="c1">--&gt;|No follow-up| E[Maintainer asks for info]</span>
-<span class="w">    </span><span class="n">E</span><span class="w"> </span><span class="c1">--&gt; F[Silence]</span>
-<span class="w">    </span><span class="n">D</span><span class="w"> </span><span class="c1">--&gt; G[Burnout]</span>
-<span class="w">    </span><span class="n">F</span><span class="w"> </span><span class="c1">--&gt; G</span>
-<span class="w">    </span><span class="n">style</span><span class="w"> </span><span class="n">G</span><span class="w"> </span><span class="nl">fill</span><span class="p">:</span><span class="n">#da3633</span><span class="p">,</span><span class="nl">color</span><span class="p">:</span><span class="n">#fff</span>
-</code></pre></div>
+<pre class="mermaid">
+flowchart TD
+    classDef bad fill:#d20f39,color:#ffffff,stroke:#a30826,stroke-width:2px;
+    A[AI scans open-source code] --> B[Finds real bug]
+    B --> C{Patch included?}
+    C -->|No, drive-by| D[Maintainer must triage,<br/>reproduce, fix, answer]
+    C -->|No follow-up| E[Maintainer asks for info]
+    E --> F[Silence]
+    D --> G[Burnout]:::bad
+    F --> G
+</pre>
 
 <p>Torvalds is blunt about the incentive driving some of this. Companies spend &#8220;a lot of money and a lot of tokens&#8221; finding bugs in open source so they can put out a press release, and, as he points out, <strong>none of them ship a patch</strong>. Finding a vulnerability and dumping it on an unpaid maintainer is not a contribution. It is handing your work to someone who did not ask for it and calling it security&nbsp;research.</p>
 <p>And this is not hypothetical. The kernel is actually the resilient case here. In early 2026, <strong>Daniel Stenberg ended curl&#8217;s HackerOne bug bounty</strong> because his security team was drowning in what he called &#8220;<span class="caps">AI</span> slop&#8221;, confident, fabricated vulnerability reports where the hit rate had fallen to something like one in twenty. A seven-person team, offering up to $10,000 for a critical bug, decided it was better to shut the program down than keep triaging machine-generated noise. There is a darker version of this too. The <strong>xz-utils backdoor</strong> (<span class="caps">CVE</span>-2024-3094) was planted by an attacker who spent more than two years quietly befriending a single, overworked maintainer, with sock-puppet accounts piling on exactly the &#8220;why are you so slow&#8221; pressure that wears an exhausted volunteer down. Drive-by <span class="caps">AI</span> reports do not just waste time. They burn the attention that is supposed to catch the real&nbsp;attack.</p>

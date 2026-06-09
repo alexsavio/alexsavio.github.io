@@ -6,13 +6,14 @@
 &lt;h2 id="the-compiler-argument"&gt;The compiler&amp;nbsp;argument&lt;/h2&gt;
 &lt;p&gt;Torvalds&amp;#8217; best move here is rhetorical, and it works because it is true. Every developer who says &amp;#8220;&lt;span class="caps"&gt;AI&lt;/span&gt; wrote 99% of this&amp;#8221; is already standing on a mountain of code generation they never think to&amp;nbsp;mention.&lt;/p&gt;
 &lt;p&gt;Here is the thing. You write source code, and a &lt;strong&gt;compiler&lt;/strong&gt; turns it into machine code. You did not place the registers, pick the instructions, or lay out the stack frames yourself. A tool did all of that, and it has for decades. So by the same logic the &lt;span class="caps"&gt;AI&lt;/span&gt; crowd is using, 100% of your output has been machine-written since long before anyone had heard of an &lt;span class="caps"&gt;LLM&lt;/span&gt;. The percentage was never the interesting&amp;nbsp;number.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;flowchart&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;LR&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Machine code&amp;lt;br/&amp;gt;by hand&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--&amp;gt; B[Assembler]&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--&amp;gt; C[Compiler&amp;lt;br/&amp;gt;~1,000x]&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--&amp;gt; D[AI assist&amp;lt;br/&amp;gt;~10x]&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;fill&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;#1f6feb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nl"&gt;color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;#fff&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;fill&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;#2ea043&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nl"&gt;color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;#fff&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="mermaid"&gt;
+flowchart LR
+    classDef big fill:#1e66f5,color:#ffffff,stroke:#1e4ed8,stroke-width:2px;
+    classDef small fill:#40a02b,color:#ffffff,stroke:#2f7a20,stroke-width:2px;
+    A[Machine code&lt;br/&gt;by hand] --&gt; B[Assembler]
+    B --&gt; C[Compiler&lt;br/&gt;~1,000x]:::big
+    C --&gt; D[AI assist&lt;br/&gt;~10x]:::small
+&lt;/pre&gt;
 
 &lt;p&gt;What this framing does is put &lt;span class="caps"&gt;AI&lt;/span&gt; on a continuum instead of a cliff edge. Every step up the abstraction ladder, machine code to assembly, assembly to Fortran, raised productivity and pushed the human a little further from the metal. And honestly, the jump from hand-written assembly to a compiler was a far bigger deal than the one from a modern &lt;span class="caps"&gt;IDE&lt;/span&gt; to an &lt;span class="caps"&gt;AI&lt;/span&gt; assistant. Put Torvalds&amp;#8217; rough figures next to each other, around 1,000x for compilers against 10x for &lt;span class="caps"&gt;AI&lt;/span&gt;, and the proportion speaks for itself. None of that means &lt;span class="caps"&gt;AI&lt;/span&gt; does not matter. It means we have lost the sense of&amp;nbsp;scale.&lt;/p&gt;
 &lt;p&gt;The line worth keeping is this one: &lt;strong&gt;&amp;#8220;&lt;span class="caps"&gt;AI&lt;/span&gt; is changing programming, but it&amp;#8217;s not changing the fun.&amp;#8221;&lt;/strong&gt; The thing that makes programming engaging, getting to know a system well enough to bend it to your will, is exactly the part that does not get automated&amp;nbsp;away.&lt;/p&gt;
@@ -30,16 +31,17 @@
 &lt;blockquote&gt;
 &lt;p&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Sometimes &lt;span class="caps"&gt;AI&lt;/span&gt; reports a bug, and when you ask for more information, the person has done that drive-by and doesn&amp;#8217;t even answer your question. So, that&amp;#8217;s the real burnout&amp;nbsp;issue.&amp;#8221;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;flowchart&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;TD&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;AI scans open-source code&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--&amp;gt; B[Finds real bug]&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--&amp;gt; C{Patch included?}&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--&amp;gt;|No, drive-by| D[Maintainer must triage,&amp;lt;br/&amp;gt;reproduce, fix, answer]&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--&amp;gt;|No follow-up| E[Maintainer asks for info]&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--&amp;gt; F[Silence]&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--&amp;gt; G[Burnout]&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;--&amp;gt; G&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;fill&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;#da3633&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nl"&gt;color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;#fff&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="mermaid"&gt;
+flowchart TD
+    classDef bad fill:#d20f39,color:#ffffff,stroke:#a30826,stroke-width:2px;
+    A[AI scans open-source code] --&gt; B[Finds real bug]
+    B --&gt; C{Patch included?}
+    C --&gt;|No, drive-by| D[Maintainer must triage,&lt;br/&gt;reproduce, fix, answer]
+    C --&gt;|No follow-up| E[Maintainer asks for info]
+    E --&gt; F[Silence]
+    D --&gt; G[Burnout]:::bad
+    F --&gt; G
+&lt;/pre&gt;
 
 &lt;p&gt;Torvalds is blunt about the incentive driving some of this. Companies spend &amp;#8220;a lot of money and a lot of tokens&amp;#8221; finding bugs in open source so they can put out a press release, and, as he points out, &lt;strong&gt;none of them ship a patch&lt;/strong&gt;. Finding a vulnerability and dumping it on an unpaid maintainer is not a contribution. It is handing your work to someone who did not ask for it and calling it security&amp;nbsp;research.&lt;/p&gt;
 &lt;p&gt;And this is not hypothetical. The kernel is actually the resilient case here. In early 2026, &lt;strong&gt;Daniel Stenberg ended curl&amp;#8217;s HackerOne bug bounty&lt;/strong&gt; because his security team was drowning in what he called &amp;#8220;&lt;span class="caps"&gt;AI&lt;/span&gt; slop&amp;#8221;, confident, fabricated vulnerability reports where the hit rate had fallen to something like one in twenty. A seven-person team, offering up to $10,000 for a critical bug, decided it was better to shut the program down than keep triaging machine-generated noise. There is a darker version of this too. The &lt;strong&gt;xz-utils backdoor&lt;/strong&gt; (&lt;span class="caps"&gt;CVE&lt;/span&gt;-2024-3094) was planted by an attacker who spent more than two years quietly befriending a single, overworked maintainer, with sock-puppet accounts piling on exactly the &amp;#8220;why are you so slow&amp;#8221; pressure that wears an exhausted volunteer down. Drive-by &lt;span class="caps"&gt;AI&lt;/span&gt; reports do not just waste time. They burn the attention that is supposed to catch the real&amp;nbsp;attack.&lt;/p&gt;

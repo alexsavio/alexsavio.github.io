@@ -23,14 +23,14 @@ Torvalds' best move here is rhetorical, and it works because it is true. Every d
 
 Here is the thing. You write source code, and a **compiler** turns it into machine code. You did not place the registers, pick the instructions, or lay out the stack frames yourself. A tool did all of that, and it has for decades. So by the same logic the AI crowd is using, 100% of your output has been machine-written since long before anyone had heard of an LLM. The percentage was never the interesting number.
 
-```mermaid
+<pre class="mermaid">
 flowchart LR
+    classDef big fill:#1e66f5,color:#ffffff,stroke:#1e4ed8,stroke-width:2px;
+    classDef small fill:#40a02b,color:#ffffff,stroke:#2f7a20,stroke-width:2px;
     A[Machine code<br/>by hand] --> B[Assembler]
-    B --> C[Compiler<br/>~1,000x]
-    C --> D[AI assist<br/>~10x]
-    style C fill:#1f6feb,color:#fff
-    style D fill:#2ea043,color:#fff
-```
+    B --> C[Compiler<br/>~1,000x]:::big
+    C --> D[AI assist<br/>~10x]:::small
+</pre>
 
 What this framing does is put AI on a continuum instead of a cliff edge. Every step up the abstraction ladder, machine code to assembly, assembly to Fortran, raised productivity and pushed the human a little further from the metal. And honestly, the jump from hand-written assembly to a compiler was a far bigger deal than the one from a modern IDE to an AI assistant. Put Torvalds' rough figures next to each other, around 1,000x for compilers against 10x for AI, and the proportion speaks for itself. None of that means AI does not matter. It means we have lost the sense of scale.
 
@@ -56,17 +56,17 @@ The kernel can cope, because it has people. The thousands of one-to-three-person
 
 > "Sometimes AI reports a bug, and when you ask for more information, the person has done that drive-by and doesn't even answer your question. So, that's the real burnout issue."
 
-```mermaid
+<pre class="mermaid">
 flowchart TD
+    classDef bad fill:#d20f39,color:#ffffff,stroke:#a30826,stroke-width:2px;
     A[AI scans open-source code] --> B[Finds real bug]
     B --> C{Patch included?}
     C -->|No, drive-by| D[Maintainer must triage,<br/>reproduce, fix, answer]
     C -->|No follow-up| E[Maintainer asks for info]
     E --> F[Silence]
-    D --> G[Burnout]
+    D --> G[Burnout]:::bad
     F --> G
-    style G fill:#da3633,color:#fff
-```
+</pre>
 
 Torvalds is blunt about the incentive driving some of this. Companies spend "a lot of money and a lot of tokens" finding bugs in open source so they can put out a press release, and, as he points out, **none of them ship a patch**. Finding a vulnerability and dumping it on an unpaid maintainer is not a contribution. It is handing your work to someone who did not ask for it and calling it security research.
 
