@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Torvalds on AI: It Is a Tool, and 100% of Your Code Was Always Written by Compilers — Alexandre Manhães Savio</title>
+    <meta name="description" content="Linus Torvalds says he gets angry hearing “99% of our code is AI”, because 100% of it was already written by compilers and nobody brags about that. AI is a productivity tool in the compiler lineage, and its real cost in open source is maintainer burnout from drive-by bug reports." />
+    <meta name="author" content="Alexandre Manhães Savio" />    <link rel="canonical" href="https://alexsavio.github.io/torvalds-ai-is-a-tool-not-a-replacement.html" />
+
+    <meta property="og:site_name" content="Alexandre Manhães Savio" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Torvalds on AI: It Is a Tool, and 100% of Your Code Was Always Written by Compilers — Alexandre Manhães Savio" />
+    <meta property="og:description" content="Linus Torvalds says he gets angry hearing “99% of our code is AI”, because 100% of it was already written by compilers and nobody brags about that. AI is a productivity tool in the compiler lineage, and its real cost in open source is maintainer burnout from drive-by bug reports." />
+    <meta property="og:url" content="https://alexsavio.github.io/torvalds-ai-is-a-tool-not-a-replacement.html" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2026-06-09T00:00:00+02:00" />    <meta property="article:section" content="Engineering" />    <meta property="article:tag" content="ai" />    <meta property="article:tag" content="code-generation" />    <meta property="article:tag" content="open-source" />    <meta property="article:tag" content="llm" />    <meta property="article:tag" content="agents" />    <meta property="article:tag" content="maintainers" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Torvalds on AI: It Is a Tool, and 100% of Your Code Was Always Written by Compilers — Alexandre Manhães Savio" />
+    <meta name="twitter:description" content="Linus Torvalds says he gets angry hearing “99% of our code is AI”, because 100% of it was already written by compilers and nobody brags about that. AI is a productivity tool in the compiler lineage, and its real cost in open source is maintainer burnout from drive-by bug reports." />
+    <meta name="twitter:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/style.css" />
+
+    <link href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Alexandre Manhães Savio Atom Feed" />
+    <link href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Alexandre Manhães Savio RSS Feed" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Torvalds on AI: It Is a Tool, and 100% of Your Code Was Always Written by\u00a0Compilers",
+  "description": "TL;DR At the Open Source Summit North America in late May 2026, Linus Torvalds spent part of his keynote pushing back on a now-familiar claim: that AI is about to make programmers redundant. His...",
+  "datePublished": "2026-06-09T00:00:00+02:00",
+  "dateModified": "2026-06-09T00:00:00+02:00",
+  "url": "https://alexsavio.github.io/torvalds-ai-is-a-tool-not-a-replacement.html",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://alexsavio.github.io/torvalds-ai-is-a-tool-not-a-replacement.html" },
+  "image": "https://alexsavio.github.io/imgs/alex_headshot.png",
+  "author": {
+    "@type": "Person",
+    "name": "Alexandre Manh\u00e3es Savio",
+    "url": "https://alexsavio.github.io/pages/about.html"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Alexandre Manh\u00e3es Savio",
+    "url": "https://alexsavio.github.io/"
+  }
+}
+</script>
+    <style>
+        :root {
+--bg-color: #e6e9ef;--terminal-bg: #eff1f5;--text-color: #4c4f69;--primary-color: #1e66f5;--accent-color: #8839ef;--muted-color: #6c6f85;--code-bg: #ccd0da;--link-color: #179299;--header-bg: #dce0e8;        }
+    </style>
+</head>
+<body class="light-theme">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="terminal-strip" role="banner">
+                <div class="terminal-strip__chrome" aria-hidden="true">
+                    <span class="terminal-btn close"></span>
+                    <span class="terminal-btn minimize"></span>
+                    <span class="terminal-btn maximize"></span>
+                </div>
+                <div class="terminal-strip__prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span class="terminal-strip__cmd">whoami</span>
+                </div>
+            </div>
+
+            <div class="site-identity">
+                <a class="site-identity__name" href="https://alexsavio.github.io/">Alexandre Manhães Savio</a>
+                <p class="site-identity__tagline">Freelance Software, Cloud & AI Engineer</p>
+            </div>
+
+            <nav class="site-nav" aria-label="Main navigation">
+                <ul>
+                    <li><a href="https://alexsavio.github.io/">Home</a></li>
+                    <li><a href="https://alexsavio.github.io/archives.html">Writing</a></li>
+                        <li><a href="https://alexsavio.github.io/pages/about.html">About</a></li>
+                        <li><a href="https://alexsavio.github.io/pages/work-with-me.html">Work with&nbsp;me</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="site-main">
+        <div class="container">
+<article class="article" itemscope itemtype="https://schema.org/BlogPosting">
+    <header class="article__header">
+        <p class="article__kicker">
+            <a href="https://alexsavio.github.io/category/engineering.html" itemprop="articleSection">Engineering</a>
+        </p>
+
+        <h1 class="article__title" itemprop="headline">Torvalds on <span class="caps">AI</span>: It Is a Tool, and 100% of Your Code Was Always Written by&nbsp;Compilers</h1>
+
+        <div class="article__meta">
+            <time itemprop="datePublished" datetime="2026-06-09T00:00:00+02:00">
+                June 09, 2026
+            </time>
+            <span>· 9 min read</span>
+        </div>
+
+        <div class="article__meta" style="margin-top: 0.75rem;">
+                <a href="https://alexsavio.github.io/tag/ai.html" class="tag">ai</a>
+                <a href="https://alexsavio.github.io/tag/code-generation.html" class="tag">code-generation</a>
+                <a href="https://alexsavio.github.io/tag/open-source.html" class="tag">open-source</a>
+                <a href="https://alexsavio.github.io/tag/llm.html" class="tag">llm</a>
+                <a href="https://alexsavio.github.io/tag/agents.html" class="tag">agents</a>
+                <a href="https://alexsavio.github.io/tag/maintainers.html" class="tag">maintainers</a>
+        </div>
+
+    </header>
+
+    <div class="article__content" itemprop="articleBody">
+        <h2 id="tldr"><span class="caps">TL</span>;<span class="caps">DR</span></h2>
+<p>At the Open Source Summit North America in late May 2026, Linus Torvalds spent part of his keynote pushing back on a now-familiar claim: that <span class="caps">AI</span> is about to make programmers redundant. His sharpest line was aimed at the boast you hear everywhere lately, &#8220;99% of our code is written by <span class="caps">AI</span>.&#8221; It makes him angry, he said, because 100% of those same people&#8217;s code was already written by <strong>compilers</strong>, and nobody ever brags about that. His point is not that <span class="caps">AI</span> is useless. It is that <span class="caps">AI</span> is a tool in a long line of tools, the same lineage as assemblers and compilers, and it does not remove the need to understand the system underneath. He even put rough numbers on it: compilers made programming maybe <strong>1,000 times</strong> more productive, and <span class="caps">AI</span> adds something like <strong>10x</strong> on&nbsp;top.</p>
+<p>The part most hot takes skip is what comes next. The immediate cost of <span class="caps">AI</span> in open source is not bad code. It is <strong>burnout</strong>, the slow grind of maintainers drowning in <span class="caps">AI</span>-generated bug reports that show up without a fix&nbsp;attached.</p>
+<p>A quick boundary before we go further: this post is not about whether LLMs can write code. They obviously can, and they are good at it. It is about the framing Torvalds is attacking, the idea that a percentage of &#8220;<span class="caps">AI</span>-written code&#8221; tells you anything useful, and about what the current <span class="caps">AI</span> surge is quietly doing to the people who maintain the software you depend&nbsp;on.</p>
+<h2 id="the-compiler-argument">The compiler&nbsp;argument</h2>
+<p>Torvalds&#8217; best move here is rhetorical, and it works because it is true. Every developer who says &#8220;<span class="caps">AI</span> wrote 99% of this&#8221; is already standing on a mountain of code generation they never think to&nbsp;mention.</p>
+<p>Here is the thing. You write source code, and a <strong>compiler</strong> turns it into machine code. You did not place the registers, pick the instructions, or lay out the stack frames yourself. A tool did all of that, and it has for decades. So by the same logic the <span class="caps">AI</span> crowd is using, 100% of your output has been machine-written since long before anyone had heard of an <span class="caps">LLM</span>. The percentage was never the interesting&nbsp;number.</p>
+<div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
+<span class="w">    </span><span class="n">A</span><span class="o">[</span><span class="n">Machine code&lt;br/&gt;by hand</span><span class="o">]</span><span class="w"> </span><span class="c1">--&gt; B[Assembler]</span>
+<span class="w">    </span><span class="n">B</span><span class="w"> </span><span class="c1">--&gt; C[Compiler&lt;br/&gt;~1,000x]</span>
+<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="c1">--&gt; D[AI assist&lt;br/&gt;~10x]</span>
+<span class="w">    </span><span class="n">style</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="nl">fill</span><span class="p">:</span><span class="n">#1f6feb</span><span class="p">,</span><span class="nl">color</span><span class="p">:</span><span class="n">#fff</span>
+<span class="w">    </span><span class="n">style</span><span class="w"> </span><span class="n">D</span><span class="w"> </span><span class="nl">fill</span><span class="p">:</span><span class="n">#2ea043</span><span class="p">,</span><span class="nl">color</span><span class="p">:</span><span class="n">#fff</span>
+</code></pre></div>
+
+<p>What this framing does is put <span class="caps">AI</span> on a continuum instead of a cliff edge. Every step up the abstraction ladder, machine code to assembly, assembly to Fortran, raised productivity and pushed the human a little further from the metal. And honestly, the jump from hand-written assembly to a compiler was a far bigger deal than the one from a modern <span class="caps">IDE</span> to an <span class="caps">AI</span> assistant. Put Torvalds&#8217; rough figures next to each other, around 1,000x for compilers against 10x for <span class="caps">AI</span>, and the proportion speaks for itself. None of that means <span class="caps">AI</span> does not matter. It means we have lost the sense of&nbsp;scale.</p>
+<p>The line worth keeping is this one: <strong>&#8220;<span class="caps">AI</span> is changing programming, but it&#8217;s not changing the fun.&#8221;</strong> The thing that makes programming engaging, getting to know a system well enough to bend it to your will, is exactly the part that does not get automated&nbsp;away.</p>
+<h2 id="the-skill-gap-does-not-close-it-moves">The skill gap does not close, it&nbsp;moves</h2>
+<p>The tempting story about <span class="caps">AI</span> coding tools is that they flatten expertise. Anyone can write a prompt, so everyone is a senior engineer now. Torvalds says the opposite, and I think he is&nbsp;right.</p>
+<blockquote>
+<p><span class="dquo">&#8220;</span>People who know what they&#8217;re doing to understand systems will be able to prompt tools to write good code. People who don&#8217;t understand the complexity of systems will also prompt systems and write processes that will&nbsp;fail.&#8221;</p>
+</blockquote>
+<p>The prompt is not the skill. The skill is the judgment: knowing whether the code that comes back is correct, safe, and something you will still want to maintain in five years. If you already have that judgment, <span class="caps">AI</span> raises your ceiling. If you do not, it mostly raises your confidence, and the output looks just as polished either way. That is the&nbsp;trap.</p>
+<p>This is the same place I landed writing about <a href="https://alexsavio.github.io/first-principles-llm-agents"><span class="caps">LLM</span> agents from first principles</a>. The model is a stochastic text generator, and everything that actually carries weight (verification, state, control flow) lives in the system you build around it. Strip away the hype and the human&#8217;s job has not really changed: understand the system, check the output, own the&nbsp;result.</p>
+<h2 id="the-part-nobody-tweets-maintainer-burnout">The part nobody tweets: maintainer&nbsp;burnout</h2>
+<p>This is where Torvalds shifts from a fun rhetorical jab to something genuinely important and weirdly&nbsp;underdiscussed.</p>
+<p><span class="caps">AI</span> turns out to be good at finding bugs in old code. The Linux kernel has more than <strong>35 years</strong> of history behind it, and <span class="caps">AI</span> tools are surfacing real, hidden issues. Sounds like a clean win, until you ask the obvious follow-up: who fixes&nbsp;them?</p>
+<p>The kernel can cope, because it has people. The thousands of one-to-three-person projects sitting underneath your stack cannot. They are now getting a steady trickle of <strong><span class="caps">AI</span>-generated bug reports and pull requests</strong> with no patch attached, and often no human on the other end who will answer when you ask a follow-up&nbsp;question.</p>
+<blockquote>
+<p><span class="dquo">&#8220;</span>Sometimes <span class="caps">AI</span> reports a bug, and when you ask for more information, the person has done that drive-by and doesn&#8217;t even answer your question. So, that&#8217;s the real burnout&nbsp;issue.&#8221;</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">TD</span>
+<span class="w">    </span><span class="n">A</span><span class="o">[</span><span class="n">AI scans open-source code</span><span class="o">]</span><span class="w"> </span><span class="c1">--&gt; B[Finds real bug]</span>
+<span class="w">    </span><span class="n">B</span><span class="w"> </span><span class="c1">--&gt; C{Patch included?}</span>
+<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="c1">--&gt;|No, drive-by| D[Maintainer must triage,&lt;br/&gt;reproduce, fix, answer]</span>
+<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="c1">--&gt;|No follow-up| E[Maintainer asks for info]</span>
+<span class="w">    </span><span class="n">E</span><span class="w"> </span><span class="c1">--&gt; F[Silence]</span>
+<span class="w">    </span><span class="n">D</span><span class="w"> </span><span class="c1">--&gt; G[Burnout]</span>
+<span class="w">    </span><span class="n">F</span><span class="w"> </span><span class="c1">--&gt; G</span>
+<span class="w">    </span><span class="n">style</span><span class="w"> </span><span class="n">G</span><span class="w"> </span><span class="nl">fill</span><span class="p">:</span><span class="n">#da3633</span><span class="p">,</span><span class="nl">color</span><span class="p">:</span><span class="n">#fff</span>
+</code></pre></div>
+
+<p>Torvalds is blunt about the incentive driving some of this. Companies spend &#8220;a lot of money and a lot of tokens&#8221; finding bugs in open source so they can put out a press release, and, as he points out, <strong>none of them ship a patch</strong>. Finding a vulnerability and dumping it on an unpaid maintainer is not a contribution. It is handing your work to someone who did not ask for it and calling it security&nbsp;research.</p>
+<p>And this is not hypothetical. The kernel is actually the resilient case here. In early 2026, <strong>Daniel Stenberg ended curl&#8217;s HackerOne bug bounty</strong> because his security team was drowning in what he called &#8220;<span class="caps">AI</span> slop&#8221;, confident, fabricated vulnerability reports where the hit rate had fallen to something like one in twenty. A seven-person team, offering up to $10,000 for a critical bug, decided it was better to shut the program down than keep triaging machine-generated noise. There is a darker version of this too. The <strong>xz-utils backdoor</strong> (<span class="caps">CVE</span>-2024-3094) was planted by an attacker who spent more than two years quietly befriending a single, overworked maintainer, with sock-puppet accounts piling on exactly the &#8220;why are you so slow&#8221; pressure that wears an exhausted volunteer down. Drive-by <span class="caps">AI</span> reports do not just waste time. They burn the attention that is supposed to catch the real&nbsp;attack.</p>
+<p>The kernel&#8217;s own numbers show the strain. In the run-up to the <strong>7.1</strong> release, maintainers saw more commits during prep than in any release before it, roughly <strong>20%</strong> more submissions, and it turned out the bump came from <span class="caps">AI</span> use rather than a sudden surge of human interest. More throughput sounds great right up until you remember every one of those still needs a human to read&nbsp;it.</p>
+<p>When someone asked which <span class="caps">AI</span> tools the kernel uses to review incoming patches, Torvalds named one and moved on. The specific tool barely matters. Even with it, humans still have to maintain, review, and vouch for every fix that lands. The bottleneck just moved, from writing the patch to standing behind it, and that part is still stubbornly&nbsp;human.</p>
+<h2 id="where-the-boosters-have-a-point">Where the boosters have a&nbsp;point</h2>
+<p>In fairness to the other side, and it is worth being fair, <span class="caps">AI</span> genuinely does collapse a lot of work. Boilerplate, test scaffolding, glue code, translating between languages, poking around an unfamiliar <span class="caps">API</span>: all of it goes faster with a decent model in the loop. Torvalds is not denying any of that. He is the one who put the number at roughly 10x. The argument is not whether <span class="caps">AI</span> helps. It is about what the help actually&nbsp;means.</p>
+<p>Where the boosters go wrong is the leap from &#8220;<span class="caps">AI</span> writes the easy 80% fast&#8221; to &#8220;<span class="caps">AI</span> writes 99% of what matters.&#8221; That last 20%, the part where you need to understand why the system is shaped the way it is, is where the real engineering lives, and it is exactly the part that does not compress. Making the easy work instant does not make the hard work easy. It just leaves you with nothing but the hard&nbsp;work.</p>
+<h2 id="what-this-means-if-you-ship-software">What this means if you ship&nbsp;software</h2>
+<p>So what does all of this add up to if you actually ship software for a&nbsp;living?</p>
+<ul>
+<li><strong>Stop quoting &#8220;% <span class="caps">AI</span>-written.&#8221;</strong> It measures nothing. It never did for compilers and it does not now. The questions that matter are whether the code is understood, tested, and&nbsp;owned.</li>
+<li><strong>The bottleneck is review, not generation.</strong> <span class="caps">AI</span> made writing cheap and turned review into the scarce resource, so budget for it. It is the same lesson from <a href="https://alexsavio.github.io/so-you-want-to-build-an-llm-agent">building real agents</a>: generation is the easy 80%, and verification is the 20% that breaks in&nbsp;production.</li>
+<li><strong>If you point <span class="caps">AI</span> at open source, bring a patch.</strong> A bug report with no fix and no human to follow up is a tax on a volunteer. If your company harvests vulnerabilities for marketing, you are the burnout Torvalds is&nbsp;describing.</li>
+<li><strong>Expertise compounds, it does not evaporate.</strong> <span class="caps">AI</span> rewards the people who understand systems and quietly punishes the ones who do not. Invest in the understanding, not the prompt&nbsp;library.</li>
+</ul>
+<p>Strip it all back and the &#8220;99% of our code is <span class="caps">AI</span>&#8221; boast is really a status claim wearing the costume of a metric. Torvalds&#8217; reply cuts through it cleanly: you have been generating code with tools your whole career, so the only questions worth asking are whether you understand what comes out the other end, and who pays when it breaks. <span class="caps">AI</span> changed the tooling. It did not change the job, and it did not change the&nbsp;fun.</p>
+<hr>
+<h2 id="references">References</h2>
+<ol>
+<li><a href="https://thenewstack.io/torvalds-ai-programming-productivity/">Why Linux creator Linus Torvalds gets angry hearing &#8220;99% of code is <span class="caps">AI</span>&#8221;</a>, B. Cameron Gain, The New Stack, 2026-05-29, Original&nbsp;source</li>
+<li><a href="https://events.linuxfoundation.org/open-source-summit-north-america/">Open Source Summit North America</a>, where the keynote was&nbsp;delivered</li>
+<li><a href="https://daniel.haxx.se/blog/2026/01/26/the-end-of-the-curl-bug-bounty/">The end of the curl bug-bounty</a>, Daniel Stenberg, on ending curl&#8217;s bounty over <span class="caps">AI</span>&nbsp;slop</li>
+<li><a href="https://en.wikipedia.org/wiki/XZ_Utils_backdoor"><span class="caps">XZ</span> Utils backdoor (<span class="caps">CVE</span>-2024-3094)</a>, the single-maintainer social-engineering supply-chain&nbsp;attack</li>
+<li><a href="https://alexsavio.github.io/first-principles-llm-agents">First Principles: <span class="caps">LLM</span> Agents</a>, Related post on what survives when you strip the agent&nbsp;hype</li>
+<li><a href="https://alexsavio.github.io/so-you-want-to-build-an-llm-agent">So You Want To Build An <span class="caps">LLM</span> Agent</a>, Related post on why verification, not generation, is the hard&nbsp;part</li>
+</ol>
+    </div>
+
+
+    <aside class="article__byline" aria-label="About the author">
+        <img src="https://alexsavio.github.io/imgs/alex_headshot.png"
+             alt="Alexandre Manhães Savio" width="64" height="64" />
+        <div class="article__byline__text">
+            <strong>Alexandre Manhães Savio</strong>
+            Freelance Software, Cloud &amp; AI engineer. Ex-academia (neuroimaging, ML).
+            Currently accepting new engagements —
+            <a href="https://alexsavio.github.io/pages/work-with-me.html">work with me</a>.
+        </div>
+    </aside>
+
+    <section class="article__related" aria-labelledby="related-heading">
+        <h2 id="related-heading">You might also like</h2>
+        <ul class="article__related__list">
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-05-08T12:00:00+02:00">May 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-llm-agents.html">First Principles: <span class="caps">LLM</span> Agents (Most of Yours Are Chatbots Wearing a&nbsp;Hat)</a>
+            </li>
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-05-08T00:00:00+02:00">May 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/so-you-want-to-build-an-llm-agent.html">So You Want To Build An <span class="caps">LLM</span>&nbsp;Agent</a>
+            </li>
+        </ul>
+    </section>
+
+</article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer__grid">
+                <div class="site-footer__availability">
+                    <strong>Available for freelance engagements.</strong>
+                    <span>Accepting new engagements for Q2 2026.</span>
+                    <a class="site-footer__cta" href="mailto:alexsavio@gmail.com">alexsavio@gmail.com</a>
+                </div>
+                <ul class="site-footer__social">
+                    <li><a href="https://github.com/alexsavio" rel="me">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/alexsavio/" rel="me">LinkedIn</a></li>
+                    <li><a href="https://orcid.org/0000-0002-6608-6885" rel="me">ORCID</a></li>
+                    <li><a href="/feeds/all.atom.xml" rel="me">RSS</a></li>
+                </ul>
+            </div>
+            <p class="site-footer__colophon">
+                &copy;  Alexandre Manhães Savio.
+                Built with <a href="https://getpelican.com/">Pelican</a>.
+            </p>
+            <p class="site-footer__colophon site-footer__disclosure">
+                Posts are drafted and edited with AI assistance,
+                then reviewed by the author before publishing.
+            </p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+</html>
