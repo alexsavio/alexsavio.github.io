@@ -108,7 +108,7 @@ generate-charts:
 
 # Build the blog
 build:
-  uv run pelican -s pelicanconf.py
+  uv run pelican -s pelicanconf.py --fatal errors
 
 # Build the blog with delete switch
 rebuild:
@@ -116,7 +116,7 @@ rebuild:
 
 # Build the blog for production
 build-prod:
-  uv run pelican -s publishconf.py
+  uv run pelican -s publishconf.py --fatal errors
 
 # Automatically regenerate site upon file modification
 regenerate:
@@ -145,12 +145,26 @@ ssh-upload ssh_host="localhost" ssh_port="22" ssh_user="root" ssh_target="/var/w
 rsync-upload ssh_host="localhost" ssh_port="22" ssh_user="root" ssh_target="/var/www": publish
   rsync -e "ssh -p {{ssh_port}}" -P -rvzc --cvs-exclude --delete output/ {{ssh_user}}@{{ssh_host}}:{{ssh_target}}
 
-# Deploy to GitHub Pages
-github-deploy branch="master": publish
-  uv run ghp-import -m "Generate Pelican site" -b {{branch}} output
-  git push --force origin {{branch}}
+# Deploy to GitHub Pages by hand (CI deploys every push to dev)
+github-deploy branch="master": _check-deployable publish
+  git fetch origin +refs/heads/{{branch}}:refs/remotes/origin/{{branch}}
+  uv run ghp-import -m "Generate Pelican site" -b {{branch}} -p output
 
-##@ Publish the blog (build for production)
+# A manual deploy publishes only a clean checkout of origin/dev
+_check-deployable:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  git fetch -q origin dev
+  if [ -n "$(git status --porcelain)" ]; then
+    echo "Uncommitted or untracked files: commit or stash them first." >&2
+    exit 1
+  fi
+  if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/dev)" ]; then
+    echo "HEAD is not origin/dev: check out dev and pull first." >&2
+    exit 1
+  fi
+
+# Build the blog for production into output/
 publish: build-prod
   @echo "Site built for production in output/"
 

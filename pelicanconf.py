@@ -15,6 +15,8 @@ SITEURL = ""  # Set to production URL in publishconf.py
 TIMEZONE = "Europe/Paris"
 
 DEFAULT_LANG = "en_US"
+# Month names follow the process locale; pin it so every machine renders English dates.
+LOCALE = ["en_US.UTF-8", "C.UTF-8"]
 
 THEME = "themes/fancy-terminal"
 THEME_LIGHT_MODE = True  # Use light burgundy theme

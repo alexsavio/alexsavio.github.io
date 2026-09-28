@@ -28,7 +28,7 @@ Other useful commands:
 just serve-dev      # autoreload dev server only
 just build          # one-shot dev build
 just publish        # production build via publishconf.py (absolute URLs)
-just github-deploy  # build for prod + force-push output to master (GH Pages)
+just github-deploy  # manual deploy of a clean origin/dev checkout (CI does this on push)
 just check          # format + lint + build
 ```
 
@@ -116,15 +116,24 @@ To update any of them: `uv lock --upgrade`.
 
 ## Deployment
 
-GitHub Pages. Pushing to `dev` is the development branch; `master` is a **build-artifact branch**
-that `ghp-import` rewrites from `output/` on every deploy.
+GitHub Pages. `dev` is the development branch; `master` is a **build-artifact branch**
+whose tree is replaced with the built `output/` on every deploy.
+
+Every push to `dev` deploys: `.github/workflows/deploy.yml` runs the production build
+(`publishconf.py`) in a read-only job, then a second job commits `output/` onto `master`
+and pushes it. Pull requests into `dev` run the same build without deploying.
+
+After the push, the workflow waits until GitHub Pages has built the new `master` commit.
+A post that Pelican cannot parse fails the build (`--fatal errors`) instead of being
+silently left out.
+
+Manual fallback, from a clean checkout at `origin/dev`:
 
 ```bash
-just github-deploy    # publish (prod build) + ghp-import + force-push master
+just github-deploy    # publish (prod build) + ghp-import onto the latest master + push
 ```
 
-The force-push is expected — `master` is regenerated on every deploy and holds no
-source code. Do not commit directly to it.
+`master` holds no source code. Do not commit directly to it.
 
 ## Licence / credits
 

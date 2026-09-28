@@ -1,0 +1,106 @@
+name: deploy
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  build:
+    name: Build site
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    concurrency:
+      group: build-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.12.19"
+          python-version: "3.13"
+          # No dependency cache: this job's output is published, and a clean install takes seconds.
+          enable-cache: false
+      - run: uv sync --locked
+      # --fatal errors: Pelican otherwise skips a post it cannot parse and still exits 0.
+      - run: uv run --no-sync pelican -s publishconf.py --fatal errors
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: site
+          path: output/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 1
+
+  # Runs no project dependencies, so no locked package can read the write token.
+  deploy:
+    name: Deploy to master
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write  # push the built site to master
+      pages: read  # confirm Pages serves master and built the pushed commit
+    concurrency:
+      group: deploy
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          ref: master
+          persist-credentials: true  # zizmor: ignore[artipacked] the push below needs it; nothing is uploaded
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c  # v8.0.1
+        with:
+          name: site
+          path: ${{ runner.temp }}/site
+      - id: commit
+        name: Commit the site to master
+        env:
+          SITE_DIR: ${{ runner.temp }}/site
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -rq --ignore-unmatch .
+          cp -a "$SITE_DIR/." .
+          # Never push a tree that would wipe the live site.
+          test -f index.html
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Site unchanged; nothing to deploy."
+            exit 0
+          fi
+          git commit -q -m "Generate Pelican site" -m "Source: $SOURCE_SHA"
+          git push origin HEAD:master
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Check GitHub Pages built the new commit
+        if: steps.commit.outputs.sha != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ steps.commit.outputs.sha }}
+        run: |
+          source_branch=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq .source.branch)
+          if [ "$source_branch" != master ]; then
+            echo "::error::GitHub Pages serves '$source_branch', not master."
+            exit 1
+          fi
+          for _ in $(seq 1 30); do
+            read -r commit status < <(gh api "repos/$GITHUB_REPOSITORY/pages/builds/latest" --jq '"\(.commit) \(.status)"')
+            if [ "$commit" = "$SHA" ]; then
+              case "$status" in
+                built) echo "GitHub Pages built $SHA."; exit 0 ;;
+                errored) echo "::error::GitHub Pages build failed for $SHA."; exit 1 ;;
+              esac
+            fi
+            sleep 10
+          done
+          echo "::error::GitHub Pages did not build $SHA within 5 minutes."
+          exit 1
