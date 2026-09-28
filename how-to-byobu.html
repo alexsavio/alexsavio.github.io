@@ -170,17 +170,17 @@ That means you can log in, run a long running task, and then detach and come bac
 <h2 id="note-for-vim-users">Note for vim&nbsp;users</h2>
 <p>You might find now a strange behaviour when using <strong>Ctrl-Left</strong> and <strong>Ctrl-Right</strong> keys to skip words using vim and also other&nbsp;programs.</p>
 <p>The best solution I found&nbsp;was:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;:set term=xterm&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.vim/vimrc
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">':set term=xterm'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.vim/vimrc
 </code></pre></div>
 
 <blockquote></blockquote>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;unbind-key -n C-Left&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/keybindings.tmux
-<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;unbind-key -n C-Right&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/keybindings.tmux
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">'unbind-key -n C-Left'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/keybindings.tmux
+<span class="nb">echo</span><span class="w"> </span><span class="s1">'unbind-key -n C-Right'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/keybindings.tmux
 </code></pre></div>
 
 <blockquote></blockquote>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;set-window-option -g xterm-keys on&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/.tmux.conf
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;set -g terminal-overrides &#39;xterm*:smcup@:rmcup@&#39;&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/.tmux.conf
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">'set-window-option -g xterm-keys on'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/.tmux.conf
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"set -g terminal-overrides 'xterm*:smcup@:rmcup@'"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.byobu/.tmux.conf
 </code></pre></div>
 
 <h3 id="references">References</h3>

@@ -123,9 +123,9 @@
 
 <span class="n">sudo</span><span class="w"> </span><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">virtualenv</span><span class="w"> </span><span class="n">virtualenvwrapper</span>
 
-<span class="n">echo</span><span class="w"> </span><span class="s2">&quot;export WORKON_HOME=~/envs&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span>
-<span class="n">echo</span><span class="w"> </span><span class="s2">&quot;source /usr/local/bin/virtualenvwrapper.sh&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span>
-<span class="n">echo</span><span class="w"> </span><span class="s2">&quot;export PIP_REQUIRE_VIRTUALENV=true&quot;</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span>
+<span class="n">echo</span><span class="w"> </span><span class="s2">"export WORKON_HOME=~/envs"</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span>
+<span class="n">echo</span><span class="w"> </span><span class="s2">"source /usr/local/bin/virtualenvwrapper.sh"</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span>
+<span class="n">echo</span><span class="w"> </span><span class="s2">"export PIP_REQUIRE_VIRTUALENV=true"</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span>
 <span class="n">source</span><span class="w"> </span><span class="o">~/.</span><span class="n">bashrc</span>
 </code></pre></div>
 
@@ -148,7 +148,7 @@ or whatever you need.
 <p>Test&nbsp;numpy</p>
 <div class="highlight"><pre><span></span><code><span class="n">pip</span> <span class="n">install</span> <span class="n">nose</span>
 
-<span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;import numpy; numpy.test()&#39;</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">'import numpy; numpy.test()'</span>
 </code></pre></div>
 
 <p><a href="http://cython.org/">Cython</a></p>
@@ -240,10 +240,10 @@ execute&nbsp;it):</p>
 <span class="k">function</span><span class="w"> </span>find_real_lib<span class="w"> </span><span class="o">{</span>
 <span class="w">    </span><span class="nv">syspy</span><span class="o">=</span><span class="nv">$1</span>
 <span class="w">    </span><span class="nv">libname</span><span class="o">=</span><span class="nv">$2</span>
-<span class="w">    </span><span class="nv">syspath</span><span class="o">=</span><span class="k">$(</span><span class="nv">$syspy</span><span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print(&#39; &#39;.join(sys.path).strip())&quot;</span><span class="k">)</span>
+<span class="w">    </span><span class="nv">syspath</span><span class="o">=</span><span class="k">$(</span><span class="nv">$syspy</span><span class="w"> </span>-c<span class="w"> </span><span class="s2">"import sys; print(' '.join(sys.path).strip())"</span><span class="k">)</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span>libdir<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$syspath</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-e<span class="w"> </span><span class="nv">$libdir</span>/<span class="nv">$libname</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">            </span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$3</span><span class="s2">=</span><span class="nv">$libdir</span><span class="s2">/</span><span class="nv">$libname</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="nb">eval</span><span class="w"> </span><span class="s2">"</span><span class="nv">$3</span><span class="s2">=</span><span class="nv">$libdir</span><span class="s2">/</span><span class="nv">$libname</span><span class="s2">"</span>
 <span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
 <span class="w">        </span><span class="k">fi</span>
 <span class="w">    </span><span class="k">done</span>
@@ -253,18 +253,18 @@ execute&nbsp;it):</p>
 <span class="nv">libs</span><span class="o">=(</span><span class="w"> </span>PyQt4<span class="w"> </span>sip.so<span class="w"> </span>PySide<span class="w"> </span>sip.cpython-34m-x86_64-linux-gnu.so<span class="w"> </span><span class="o">)</span>
 <span class="c1">#other_libs = ( vtk cairo )</span>
 
-<span class="nv">python_version</span><span class="o">=</span>python<span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print (str(sys.version_info[0])+&#39;.&#39;+str(sys.version_info[1]))&quot;</span><span class="k">)</span>
+<span class="nv">python_version</span><span class="o">=</span>python<span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import sys; print (str(sys.version_info[0])+'.'+str(sys.version_info[1]))"</span><span class="k">)</span>
 <span class="nv">var</span><span class="o">=(</span><span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>-a<span class="w"> </span><span class="nv">$python_version</span><span class="k">)</span><span class="w"> </span><span class="o">)</span>
 <span class="nv">syspy</span><span class="o">=</span><span class="si">${</span><span class="nv">var</span><span class="p">[-1]</span><span class="si">}</span>
 
-<span class="nv">get_python_lib_cmd</span><span class="o">=</span><span class="s2">&quot;from distutils.sysconfig import get_python_lib; print (get_python_lib())&quot;</span>
-<span class="nv">lib_virtualenv_path</span><span class="o">=</span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$get_python_lib_cmd</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nv">get_python_lib_cmd</span><span class="o">=</span><span class="s2">"from distutils.sysconfig import get_python_lib; print (get_python_lib())"</span>
+<span class="nv">lib_virtualenv_path</span><span class="o">=</span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="nv">$get_python_lib_cmd</span><span class="s2">"</span><span class="k">)</span>
 
 <span class="k">for</span><span class="w"> </span>lib<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">libs</span><span class="p">[@]</span><span class="si">}</span>
 <span class="k">do</span>
-<span class="w">    </span><span class="nv">libsyspath</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="nv">libsyspath</span><span class="o">=</span><span class="s1">''</span>
 <span class="w">    </span>find_real_lib<span class="w"> </span><span class="nv">$syspy</span><span class="w"> </span><span class="nv">$lib</span><span class="w"> </span>libsyspath
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'0'</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <span class="w">        </span>ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$libsyspath</span><span class="w"> </span><span class="nv">$lib_virtualenv_path</span>/<span class="nv">$lib</span>
 <span class="w">    </span><span class="k">fi</span>
 <span class="k">done</span>

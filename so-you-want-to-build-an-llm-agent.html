@@ -147,27 +147,27 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;ANTHROPIC_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;...&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"ANTHROPIC_API_KEY"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"..."</span>
 <span class="c1"># or OPENAI_API_KEY, GEMINI_API_KEY, MISTRAL_API_KEY, etc.</span>
 
 <span class="n">TOOLS</span> <span class="o">=</span> <span class="p">[{</span>
-    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;function&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;function&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;calculator&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Evaluate math expression&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;expr&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;expr&quot;</span><span class="p">],</span>
+    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"function"</span><span class="p">,</span>
+    <span class="s2">"function"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"calculator"</span><span class="p">,</span>
+        <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Evaluate math expression"</span><span class="p">,</span>
+        <span class="s2">"parameters"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
+            <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"expr"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">}},</span>
+            <span class="s2">"required"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"expr"</span><span class="p">],</span>
         <span class="p">},</span>
     <span class="p">},</span>
 <span class="p">}]</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">calculator</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;__builtins__&quot;</span><span class="p">:</span> <span class="p">{}},</span> <span class="p">{}))</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="p">{</span><span class="s2">"__builtins__"</span><span class="p">:</span> <span class="p">{}},</span> <span class="p">{}))</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">agent</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-sonnet-4-6&quot;</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-    <span class="n">msgs</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}]</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">agent</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"claude-sonnet-4-6"</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">msgs</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}]</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_steps</span><span class="p">):</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">completion</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">messages</span><span class="o">=</span><span class="n">msgs</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">TOOLS</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">2048</span><span class="p">)</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span>
@@ -180,18 +180,18 @@
             <span class="n">args</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">calculator</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
             <span class="n">msgs</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;tool&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;tool_call_id&quot;</span><span class="p">:</span> <span class="n">call</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
-                <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span>
+                <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"tool"</span><span class="p">,</span>
+                <span class="s2">"tool_call_id"</span><span class="p">:</span> <span class="n">call</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s2">"content"</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span>
             <span class="p">})</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;step budget exhausted&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"step budget exhausted"</span><span class="p">)</span>
 
 <span class="c1"># Same code, different backends:</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="p">(</span><span class="s2">&quot;17*23+41&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-sonnet-4-6&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="p">(</span><span class="s2">&quot;17*23+41&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-5&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="p">(</span><span class="s2">&quot;17*23+41&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gemini-2.5-pro&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="p">(</span><span class="s2">&quot;17*23+41&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;ollama/llama3.3&quot;</span><span class="p">))</span>                     <span class="c1"># local</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="p">(</span><span class="s2">&quot;17*23+41&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;together_ai/meta-llama/Llama-3.3-70B-Instruct&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="p">(</span><span class="s2">"17*23+41"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"claude-sonnet-4-6"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="p">(</span><span class="s2">"17*23+41"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"gpt-5"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="p">(</span><span class="s2">"17*23+41"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"gemini-2.5-pro"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="p">(</span><span class="s2">"17*23+41"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"ollama/llama3.3"</span><span class="p">))</span>                     <span class="c1"># local</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="p">(</span><span class="s2">"17*23+41"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"together_ai/meta-llama/Llama-3.3-70B-Instruct"</span><span class="p">))</span>
 </code></pre></div>
 
 <blockquote>
@@ -225,9 +225,9 @@ flowchart LR
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">litellm</span><span class="w"> </span><span class="kn">import</span> <span class="n">completion</span>
 
 <span class="n">resp</span> <span class="o">=</span> <span class="n">completion</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-sonnet-4-6&quot;</span><span class="p">,</span>
-    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;hi&quot;</span><span class="p">}],</span>
-    <span class="n">fallbacks</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;gpt-5&quot;</span><span class="p">,</span> <span class="s2">&quot;gemini-2.5-pro&quot;</span><span class="p">],</span>  <span class="c1"># auto-fallback on rate-limit / outage</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">"claude-sonnet-4-6"</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"hi"</span><span class="p">}],</span>
+    <span class="n">fallbacks</span><span class="o">=</span><span class="p">[</span><span class="s2">"gpt-5"</span><span class="p">,</span> <span class="s2">"gemini-2.5-pro"</span><span class="p">],</span>  <span class="c1"># auto-fallback on rate-limit / outage</span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -238,19 +238,19 @@ flowchart LR
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
 
 <span class="c1"># OpenAI native</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">"..."</span><span class="p">)</span>
 
 <span class="c1"># Groq (fast inference)</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;https://api.groq.com/openai/v1&quot;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">"..."</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="s2">"https://api.groq.com/openai/v1"</span><span class="p">)</span>
 
 <span class="c1"># Together AI</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;https://api.together.xyz/v1&quot;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">"..."</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="s2">"https://api.together.xyz/v1"</span><span class="p">)</span>
 
 <span class="c1"># OpenRouter (access ~300 models with one key)</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;https://openrouter.ai/api/v1&quot;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">"..."</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="s2">"https://openrouter.ai/api/v1"</span><span class="p">)</span>
 
 <span class="c1"># Local: Ollama / vLLM / LM Studio</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;http://localhost:11434/v1&quot;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">"ollama"</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="s2">"http://localhost:11434/v1"</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Best for: single-provider deployments, when you want one well-known <span class="caps">SDK</span>&nbsp;shape.</p>
@@ -362,15 +362,15 @@ flowchart LR
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">Anthropic</span><span class="p">()</span>
 <span class="n">resp</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-sonnet-4-6&quot;</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">"claude-sonnet-4-6"</span><span class="p">,</span>
     <span class="n">max_tokens</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
     <span class="n">system</span><span class="o">=</span><span class="p">[{</span>
-        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">LONG_SYSTEM_PROMPT</span><span class="p">,</span>
-        <span class="s2">&quot;cache_control&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;ephemeral&quot;</span><span class="p">},</span>  <span class="c1"># ~5 min TTL</span>
+        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span>
+        <span class="s2">"text"</span><span class="p">:</span> <span class="n">LONG_SYSTEM_PROMPT</span><span class="p">,</span>
+        <span class="s2">"cache_control"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"ephemeral"</span><span class="p">},</span>  <span class="c1"># ~5 min TTL</span>
     <span class="p">}],</span>
     <span class="n">tools</span><span class="o">=</span><span class="n">TOOLS</span><span class="p">,</span>
-    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">}],</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">question</span><span class="p">}],</span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -387,11 +387,11 @@ flowchart LR
     <span class="n">answer</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="n">raw</span> <span class="o">=</span> <span class="n">completion</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">,</span> <span class="n">messages</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">])</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span>
+<span class="n">raw</span> <span class="o">=</span> <span class="n">completion</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"..."</span><span class="p">,</span> <span class="n">messages</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">])</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">Result</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
 <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LLM output invalid: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"LLM output invalid: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 
 <p><strong>3. No retry, no rollback.</strong> Tool times out. Whole run aborts. Partial side effects leak (email half-sent, <span class="caps">DB</span> row half-written). Production&nbsp;needs:</p>
@@ -447,7 +447,7 @@ flowchart LR
 <span class="kn">from</span><span class="w"> </span><span class="nn">phoenix.otel</span><span class="w"> </span><span class="kn">import</span> <span class="n">register</span>
 
 <span class="n">px</span><span class="o">.</span><span class="n">launch_app</span><span class="p">()</span>
-<span class="n">register</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;my-agent&quot;</span><span class="p">,</span> <span class="n">auto_instrument</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">register</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">"my-agent"</span><span class="p">,</span> <span class="n">auto_instrument</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="c1"># Every LiteLLM call now appears at http://localhost:6006</span>
 </code></pre></div>
 
@@ -512,8 +512,8 @@ flowchart LR
 <p><strong>Run before claim.</strong> Generated code &#8220;looks right&#8221;, plausible syntax, plausible imports, may not execute. There is no truth signal in the distribution. Run tests, build, lint, type-check, the actual&nbsp;feature.</p>
 <p><strong>LiteLLM fallbacks save 3am pages.</strong> Provider has an outage, traffic shifts to a fallback model automatically. Cost: one extra arg per&nbsp;call.</p>
 <div class="highlight"><pre><span></span><code><span class="n">completion</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-sonnet-4-6&quot;</span><span class="p">,</span>
-    <span class="n">fallbacks</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;gpt-5&quot;</span><span class="p">,</span> <span class="s2">&quot;gemini-2.5-pro&quot;</span><span class="p">,</span> <span class="s2">&quot;ollama/llama3.3&quot;</span><span class="p">],</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">"claude-sonnet-4-6"</span><span class="p">,</span>
+    <span class="n">fallbacks</span><span class="o">=</span><span class="p">[</span><span class="s2">"gpt-5"</span><span class="p">,</span> <span class="s2">"gemini-2.5-pro"</span><span class="p">,</span> <span class="s2">"ollama/llama3.3"</span><span class="p">],</span>
     <span class="n">messages</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">],</span>
 <span class="p">)</span>
 </code></pre></div>

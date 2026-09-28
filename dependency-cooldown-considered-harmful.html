@@ -153,7 +153,7 @@ flowchart TD
 <div class="highlight"><pre><span></span><code>× No solution found when resolving dependencies:
 ╰─▶ Because only cryptography&lt;=46.0.6 is available and your
     project depends on cryptography&gt;=46.0.7, we can conclude
-    that your project&#39;s requirements are unsatisfiable.
+    that your project's requirements are unsatisfiable.
 </code></pre></div>
 
 <p><code>exclude-newer</code> is a <strong>hard pre-filter on the catalog</strong>, not a preference. The solver never sees filtered versions, so user constraints cannot recover them. The cooldown and the auditor deadlock, and the only way to break the deadlock is to wait for the window to expire. During those days, <span class="caps">CI</span> is red and the scheduled <span class="caps">PR</span> cannot&nbsp;open.</p>

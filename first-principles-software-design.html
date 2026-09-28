@@ -330,7 +330,7 @@ flowchart LR
 
 <span class="c1"># Usage: requires a factory or DI container to wire up</span>
 <span class="n">service</span> <span class="o">=</span> <span class="n">NotificationService</span><span class="p">(</span><span class="n">EmailStrategy</span><span class="p">())</span>
-<span class="n">service</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+<span class="n">service</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s2">"Hello"</span><span class="p">)</span>
 </code></pre></div>
 
 <p>The &#8220;deletable&#8221;&nbsp;version:</p>
@@ -339,7 +339,7 @@ flowchart LR
     <span class="n">smtp_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
 
 <span class="c1"># Usage: call the function</span>
-<span class="n">send_email</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+<span class="n">send_email</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s2">"Hello"</span><span class="p">)</span>
 </code></pre></div>
 
 <p>The second version is three lines. A new developer understands it instantly. When you need <span class="caps">SMS</span> notifications six months from now, you&nbsp;write <code>send_sms()</code> next to it. You don&#8217;t need to predict whether notifications will vary by channel, by urgency, by user preference, or by some axis you haven&#8217;t imagined yet. You just write the next function when you need&nbsp;it.</p>

@@ -163,14 +163,14 @@ in <span class="caps">RFC</span>&nbsp;5849.</em></p>
 <span class="kn">import</span><span class="w"> </span><span class="nn">gspread</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oauth2client.service_account</span><span class="w"> </span><span class="kn">import</span> <span class="n">ServiceAccountCredentials</span>
 
-<span class="n">json_key</span> <span class="o">=</span> <span class="s1">&#39;gspread-test.json&#39;</span>
-<span class="n">scope</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://spreadsheets.google.com/feeds&#39;</span><span class="p">]</span>
+<span class="n">json_key</span> <span class="o">=</span> <span class="s1">'gspread-test.json'</span>
+<span class="n">scope</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'https://spreadsheets.google.com/feeds'</span><span class="p">]</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">ServiceAccountCredentials</span><span class="o">.</span><span class="n">from_json_keyfile_name</span><span class="p">(</span><span class="n">google_api_key_file</span><span class="p">,</span> <span class="n">scope</span><span class="p">)</span>
 
 <span class="n">gc</span> <span class="o">=</span> <span class="n">gspread</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">credentials</span><span class="p">)</span>
 
-<span class="n">wks</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;Where is the money Lebowski?&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sheet1</span>
+<span class="n">wks</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"Where is the money Lebowski?"</span><span class="p">)</span><span class="o">.</span><span class="n">sheet1</span>
 <span class="err">```</span>
 </code></pre></div>
 
@@ -188,14 +188,14 @@ This class requires&nbsp;either <code>PyOpenSSL</code>,&nbsp;or <code>PyCrypto 2
 <h4 id="opening-a-spreadsheet">Opening a&nbsp;Spreadsheet</h4>
 <div class="highlight"><pre><span></span><code>```python
 <span class="gh">#</span> You can open a spreadsheet by its title as it appears in Google Docs
-sh = gc.open(&quot;My poor gym results&quot;) # &lt;-- Look ma, no keys!
+sh = gc.open("My poor gym results") # &lt;-- Look ma, no keys!
 
 <span class="gh">#</span> If you want to be specific, use a key (which you can extract from
-<span class="gh">#</span> the spreadsheet&#39;s url)
-sht1 = gc.open_by_key(&#39;0BmgG6nO_6dprdS1MN3d3MkdPa142WFRrdnRRUWl1UFE&#39;)
+<span class="gh">#</span> the spreadsheet's url)
+sht1 = gc.open_by_key('0BmgG6nO_6dprdS1MN3d3MkdPa142WFRrdnRRUWl1UFE')
 
 <span class="gh">#</span> Or, if you feel lazy to extract that key, paste the entire url
-sht2 = gc.open_by_url(&#39;https://docs.google.com/spreadsheet/ccc?key=0Bm...FE&amp;hl&#39;)
+sht2 = gc.open_by_url('https://docs.google.com/spreadsheet/ccc?key=0Bm...FE&amp;hl')
 ```
 </code></pre></div>
 
@@ -205,7 +205,7 @@ sht2 = gc.open_by_url(&#39;https://docs.google.com/spreadsheet/ccc?key=0Bm...FE&
 worksheet = sh.get_worksheet(0)
 
 <span class="gh">#</span> By title
-worksheet = sh.worksheet(&quot;January&quot;)
+worksheet = sh.worksheet("January")
 
 <span class="gh">#</span> Most common case: Sheet1
 worksheet = sh.sheet1
@@ -217,14 +217,14 @@ worksheet_list = sh.worksheets()
 
 <h4 id="creating-a-worksheet">Creating a&nbsp;worksheet</h4>
 <div class="highlight"><pre><span></span><code>```python
-worksheet = wks.add_worksheet(title=&quot;A worksheet&quot;, rows=&quot;100&quot;, cols=&quot;20&quot;)
+worksheet = wks.add_worksheet(title="A worksheet", rows="100", cols="20")
 ```
 </code></pre></div>
 
 <h4 id="getting-a-cell-value">Getting a cell&nbsp;value</h4>
 <div class="highlight"><pre><span></span><code>```python
 # With label
-val = worksheet.acell(&#39;B1&#39;).value
+val = worksheet.acell('B1').value
 
 # With coords
 val = worksheet.cell(1, 2).value

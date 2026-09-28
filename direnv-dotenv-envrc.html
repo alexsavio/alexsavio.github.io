@@ -133,14 +133,14 @@ Enter <strong>direnv</strong> — the lazy dev&#8217;s best friend that automati
 </code></pre></div>
 
 <p>Now hook it into your shell. For zsh (the cool kids&#8217; choice), slap this in&nbsp;your <code>~/.zshrc</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>direnv<span class="w"> </span>hook<span class="w"> </span>zsh<span class="k">)</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="nb">eval</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>direnv<span class="w"> </span>hook<span class="w"> </span>zsh<span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
 
 <p>Restart your terminal and you&#8217;re golden. Pro tip: If you&#8217;re still using bash, no judgment, but maybe upgrade your life while you&#8217;re at&nbsp;it.</p>
 <h2 id="the-envrc-file-your-new-bestie">The .envrc File: Your New&nbsp;Bestie</h2>
 <p>The <code>.envrc</code> file is direnv&#8217;s command center — it&#8217;s basically a bash script that runs every time you enter the directory. Think of it as your project&#8217;s personal hype man. Here&#8217;s a basic&nbsp;example:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># .envrc</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">DATABASE_URL</span><span class="o">=</span><span class="s2">&quot;postgres://localhost/mydb&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DATABASE_URL</span><span class="o">=</span><span class="s2">"postgres://localhost/mydb"</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">DEBUG</span><span class="o">=</span><span class="nb">true</span>
 </code></pre></div>
 
@@ -179,17 +179,17 @@ dotenv_if_exists
 <p>Drop this in&nbsp;your <code>~/.config/direnv/direnvrc</code> (or <code>~/.direnvrc</code> if you&#8217;re old&nbsp;school):</p>
 <div class="highlight"><pre><span></span><code>layout_uv<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">    </span><span class="o">[[</span><span class="w"> </span><span class="nv">$#</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">shift</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;.venv&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">".venv"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <span class="w">        </span><span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="nv">$UV_PROJECT_ENVIRONMENT</span>
 <span class="w">    </span><span class="k">fi</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$VIRTUAL_ENV</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>!<span class="w"> </span>-d<span class="w"> </span><span class="nv">$VIRTUAL_ENV</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">        </span>log_status<span class="w"> </span><span class="s2">&quot;No virtual environment exists. Executing \`uv venv\` to create one.&quot;</span>
+<span class="w">        </span>log_status<span class="w"> </span><span class="s2">"No virtual environment exists. Executing \`uv venv\` to create one."</span>
 <span class="w">        </span>uv<span class="w"> </span>venv<span class="w"> </span>--allow-existing
 <span class="w">        </span><span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="nv">$UV_PROJECT_ENVIRONMENT</span>
 <span class="w">    </span><span class="k">fi</span>
 
-<span class="w">    </span>PATH_add<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$VIRTUAL_ENV</span><span class="s2">/bin&quot;</span>
+<span class="w">    </span>PATH_add<span class="w"> </span><span class="s2">"</span><span class="nv">$VIRTUAL_ENV</span><span class="s2">/bin"</span>
 <span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">UV_ACTIVE</span><span class="o">=</span><span class="m">1</span><span class="w">  </span><span class="c1"># or VENV_ACTIVE=1</span>
 <span class="w">    </span><span class="nb">export</span><span class="w"> </span>VIRTUAL_ENV
 <span class="o">}</span>
@@ -258,11 +258,11 @@ layout<span class="w"> </span>uv
 <p>With <code>layout uv</code> and&nbsp;a <code>pyproject.toml</code>, your whole Python setup is declarative <span class="caps">AF</span>:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># pyproject.toml</span>
 <span class="k">[project]</span>
-<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-project&quot;</span>
-<span class="n">requires-python</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&gt;=3.11&quot;</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"my-project"</span>
+<span class="n">requires-python</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"&gt;=3.11"</span>
 <span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="s2">&quot;requests&gt;=2.31.0&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s2">&quot;click&gt;=8.1.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"requests&gt;=2.31.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"click&gt;=8.1.0"</span><span class="p">,</span>
 <span class="p">]</span>
 </code></pre></div>
 
@@ -287,14 +287,14 @@ layout<span class="w"> </span>uv
 <p>The big win? <strong>One tool to rule them all</strong>. No more juggling direnv + asdf + make like a circus act.&nbsp;One <code>mise.toml</code> config file handles it&nbsp;all:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># mise.toml</span>
 <span class="k">[tools]</span>
-<span class="n">python</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;3.13&quot;</span>
-<span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;20&quot;</span>
+<span class="n">python</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"3.13"</span>
+<span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"20"</span>
 
 <span class="k">[env]</span>
-<span class="n">DATABASE_URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;postgres://localhost/mydb&quot;</span>
+<span class="n">DATABASE_URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"postgres://localhost/mydb"</span>
 
 <span class="k">[tasks.dev]</span>
-<span class="n">run</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;python manage.py runserver&quot;</span>
+<span class="n">run</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"python manage.py runserver"</span>
 </code></pre></div>
 
 <p>It auto-activates Python venvs,&nbsp;loads <code>.env</code> files, and plays nice with&nbsp;existing <code>.tool-versions</code> from asdf. Built in Rust, so it&#8217;s faster than your ex moving on. If you&#8217;re drowning in tool sprawl, mise might be your lifesaver. I&#8217;ll drop a full migration guide soon — stay&nbsp;woke!</p>
