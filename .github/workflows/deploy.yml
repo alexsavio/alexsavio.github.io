@@ -1,0 +1,60 @@
+name: deploy
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  build:
+    name: Build site
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    concurrency:
+      group: build-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.12.19"
+          python-version: "3.13"
+          enable-cache: false
+      - run: uv sync --locked
+      - run: uv run --no-sync pelican -s publishconf.py
+
+  deploy:
+    name: Build and deploy to master
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write  # ghp-import pushes the built site to master
+    concurrency:
+      group: deploy
+      cancel-in-progress: false
+    steps:
+      # ghp-import pushes to master with the checkout credentials; no artifacts are uploaded.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: true  # zizmor: ignore[artipacked]
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          version: "0.12.19"
+          python-version: "3.13"
+          enable-cache: false
+      - run: uv sync --locked
+      - run: uv run --no-sync pelican -s publishconf.py
+      # ghp-import commits on top of origin/master, so the remote-tracking ref must exist.
+      - run: git fetch --depth=1 origin +refs/heads/master:refs/remotes/origin/master
+      - run: uv run --no-sync ghp-import -m "Generate Pelican site" -b master -p output
+        env:
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com

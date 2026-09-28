@@ -116,8 +116,14 @@ To update any of them: `uv lock --upgrade`.
 
 ## Deployment
 
-GitHub Pages. Pushing to `dev` is the development branch; `master` is a **build-artifact branch**
+GitHub Pages. `dev` is the development branch; `master` is a **build-artifact branch**
 that `ghp-import` rewrites from `output/` on every deploy.
+
+Every push to `dev` deploys: `.github/workflows/deploy.yml` runs the production build
+(`publishconf.py`) and pushes `output/` to `master` with `ghp-import`. Pull requests into
+`dev` run the same build without deploying.
+
+Manual fallback, from a local checkout:
 
 ```bash
 just github-deploy    # publish (prod build) + ghp-import + force-push master
