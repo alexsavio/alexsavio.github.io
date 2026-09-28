@@ -73,3 +73,6 @@ scripts/next-scratch.sh
 .claude/launch.json
 .reflex/
 .mcp.json
+
+# Obsidian vault settings (content/ is edited in Obsidian)
+content/.obsidian/
