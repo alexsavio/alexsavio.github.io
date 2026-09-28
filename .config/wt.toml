@@ -3,3 +3,31 @@
 format = "just format"
 lint = "just lint"
 build = "just build"
+
+# >>> claude-files managed block - do not edit
+# source: claude-files:post-start-claude-resync
+# Re-sync claude-files symlinks on new worktree creation.
+# Runs in the background after a new worktree is materialised.
+# Cannot use `just claude::resync` directly: a fresh worktree has no
+# .claude/just/ symlinks, so the `claude` justfile module is unresolvable.
+# Instead, resolve $CLAUDE_FILES_REPO (env var or main worktree's existing
+# symlink) and exec the bootstrap script shipped inside claude-files.
+[[post-start]]
+claude-resync = "REPO=\"${CLAUDE_FILES_REPO:-}\"; if [ -z \"$REPO\" ]; then C=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null) && M=$(cd \"$C/..\" && pwd) && L=\"$M/.claude/just/common.just\" && [ -L \"$L\" ] && T=$(readlink \"$L\") && case \"$T\" in /*) ;; *) T=\"$M/.claude/just/$T\" ;; esac && REPO=$(cd \"$(dirname \"$T\")/../..\" && pwd); fi; [ -n \"$REPO\" ] && [ -d \"$REPO\" ] && bash \"$REPO/wt-hooks/post-start-claude-resync/bootstrap.sh\" || true"
+# source: claude-files:post-start-install-deps
+# Install dependencies on new worktree creation.
+# Tries common package managers in order; stops on first match.
+[[post-start]]
+install-deps = "if [ -f bun.lock ] || [ -f bun.lockb ]; then bun install; elif [ -f pnpm-lock.yaml ]; then pnpm install; elif [ -f package-lock.json ]; then npm ci; elif [ -f uv.lock ]; then uv sync; elif [ -f poetry.lock ]; then poetry install; elif [ -f Cargo.lock ]; then cargo fetch; elif [ -f go.mod ]; then go mod download; fi"
+# source: claude-files:pre-commit-format
+# Format + lint before the squash commit during wt merge.
+# Blocking: non-zero exit aborts the merge. Assumes the target profile
+# installs at least one stack justfile that defines `format` and `lint`
+# (all backend-* and frontend profiles do; pair this wt-hook accordingly).
+[[pre-commit]]
+format-lint = "just format && just lint"
+# source: claude-files:pre-merge-test
+# Run tests before merge to target. Blocking: failures abort the merge.
+[[pre-merge]]
+test = "just test"
+# <<< claude-files managed block

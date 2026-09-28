@@ -15,15 +15,16 @@ branches:
 
 before_install:
   - sudo apt-get install -y optipng
-  - curl -LsSf https://astral.sh/uv/install.sh | sh
-  - export PATH="$HOME/.cargo/bin:$PATH"
+  # Pin uv; bump together with the local uv version.
+  - curl -LsSf https://astral.sh/uv/0.12.19/install.sh | sh
+  - export PATH="$HOME/.local/bin:$PATH"
 
 addons:
   apt:
     update: true
 
 install:
-  - uv sync
+  - uv sync --locked
 
 script:
   - uv run pelican -s pelicanconf.py

@@ -1,3 +1,14 @@
+# >>> claude-files managed block - do not edit
+# Requires just >= 1.31 (modules). Regenerate via `just claude::resync`.
+set dotenv-load
+
+mod? claude '.claude/just/common.just'
+mod? ts '.claude/just/typescript.just'
+mod? web '.claude/just/web.just'
+mod? docker '.claude/just/docker.just'
+mod? py '.claude/just/python.just'
+# <<< claude-files managed block
+
 # Show the version of the blog
 version:
   @grep "^VERSION = " pelicanconf.py | cut -d '"' -f 2
@@ -21,6 +32,9 @@ audit:
   rm requirements.txt
 
 ##@ Cleanup
+
+# Delete all intermediate files and caches
+clean: clean-all
 
 # Delete all intermediate files
 clean-temp: clean-build clean-pyc clean-pelican
@@ -76,6 +90,12 @@ lint-ruff:
 # Run all code checks
 lint: lint-ruff lint-mypy
 
+# Type-check the Pelican config
+typecheck: lint-mypy
+
+# Check that the site builds (the wt pre-merge hook runs this)
+test: build
+
 ##@ Content generation
 
 # Regenerate figures for blog posts (run when a plot script changes)
@@ -130,7 +150,7 @@ github-deploy branch="master": publish
   uv run ghp-import -m "Generate Pelican site" -b {{branch}} output
   git push --force origin {{branch}}
 
-##@ Deish the blog (build for production)
+##@ Publish the blog (build for production)
 publish: build-prod
   @echo "Site built for production in output/"
 
@@ -148,12 +168,10 @@ reindex:
   rfx index
   qmd update && qmd embed
 
-# Count files and lines
+# Count blog posts and their lines
 stats:
   @echo "Files:"
-  @find . -name "*.md" -not -path "./.git/*" | wc -l | xargs echo "  Markdown:"
+  @find content -maxdepth 1 -name "*.md" | wc -l | xargs echo "  Posts:"
   @echo ""
   @echo "Lines:"
-  @find skills -name "SKILL.md" -exec cat {} + | wc -l | xargs echo "  Skills total:"
-  @find .claude/skills/references -name "*.md" -exec cat {} + | wc -l | xargs echo "  References total:"
-
+  @find content -maxdepth 1 -name "*.md" -exec cat {} + | wc -l | xargs echo "  Posts total:"
