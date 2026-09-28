@@ -1,5 +1,310 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Alexandre Manhães Savio</title><link href="https://alexsavio.github.io/" rel="alternate"/><link href="https://alexsavio.github.io/feeds/all.atom.xml" rel="self"/><id>https://alexsavio.github.io/</id><updated>2026-06-09T00:00:00+02:00</updated><subtitle>Freelance Software, Cloud &amp; AI Engineer</subtitle><entry><title>Torvalds on AI: It Is a Tool, and 100% of Your Code Was Always Written by Compilers</title><link href="https://alexsavio.github.io/torvalds-ai-is-a-tool-not-a-replacement.html" rel="alternate"/><published>2026-06-09T00:00:00+02:00</published><updated>2026-06-09T00:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-06-09:/torvalds-ai-is-a-tool-not-a-replacement.html</id><summary type="html">&lt;p&gt;Linus Torvalds says he gets angry hearing &amp;#8220;99% of our code is &lt;span class="caps"&gt;AI&lt;/span&gt;&amp;#8221;, because 100% of it was already written by compilers and nobody brags about that. &lt;span class="caps"&gt;AI&lt;/span&gt; is a productivity tool in the compiler lineage, and its real cost in open source is maintainer burnout from drive-by bug&amp;nbsp;reports.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Alexandre Manhães Savio</title><link href="https://alexsavio.github.io/" rel="alternate"/><link href="https://alexsavio.github.io/feeds/all.atom.xml" rel="self"/><id>https://alexsavio.github.io/</id><updated>2026-09-28T00:00:00+02:00</updated><subtitle>Freelance Software, Cloud &amp; AI Engineer</subtitle><entry><title>Jev: An AI Model That Returns Types, Not Text</title><link href="https://alexsavio.github.io/jev-system-one-models-types-not-text.html" rel="alternate"/><published>2026-09-28T00:00:00+02:00</published><updated>2026-09-28T00:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-09-28:/jev-system-one-models-types-not-text.html</id><summary type="html">&lt;p&gt;TypeSafe &lt;span class="caps"&gt;AI&lt;/span&gt;&amp;#8217;s Jev is a &amp;#8220;System One model&amp;#8221;: it takes state and typed questions and returns calibrated probabilities instead of text, in one parallel pass. The speed claims are self-tested, but its evals hide a better lesson: small typed questions glued together by code beat a bigger model with a longer&amp;nbsp;prompt.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
+&lt;p&gt;On 15 September 2026, TypeSafe &lt;span class="caps"&gt;AI&lt;/span&gt;, a startup led by InstructGPT co-author Diogo Almeida, released &lt;strong&gt;Jev&lt;/strong&gt;, which it calls the first &lt;strong&gt;System One model&lt;/strong&gt;. Jev does not generate text. You send it some state and a set of typed questions (pick one of these options, rate this on a scale, is this statement true?) and it returns a probability for every possible answer, all computed in one parallel pass. Under the hood it most likely keeps the prompt-reading half of an &lt;span class="caps"&gt;LLM&lt;/span&gt; and drops the token-by-token writing half. Input costs $0.042 per million tokens, output is free, and TypeSafe quotes response times of 70 to 500 ms. The headline multipliers, 193.6x faster and 444.6x cheaper, come from TypeSafe&amp;#8217;s own evals, and TypeSafe itself calls them the high end. The more durable lesson sits in the same eval data: averaged over TypeSafe&amp;#8217;s four tasks, every model tested, cheap or frontier, got more accurate, cheaper, and faster when the task was split into small typed questions glued together by&amp;nbsp;code.&lt;/p&gt;
+&lt;h2 id="what-jev-is-not"&gt;What Jev is&amp;nbsp;not&lt;/h2&gt;
+&lt;p&gt;Jev is not a smaller &lt;span class="caps"&gt;LLM&lt;/span&gt;, and it is not &lt;span class="caps"&gt;JSON&lt;/span&gt; mode. Every major &lt;span class="caps"&gt;LLM&lt;/span&gt; &lt;span class="caps"&gt;API&lt;/span&gt; can already return &lt;span class="caps"&gt;JSON&lt;/span&gt; that matches a schema by masking invalid tokens during decoding. That is still text generation with a fence around it: one token at a time, each one billed, parsed and validated afterwards. Almeida argued in the Hacker News launch thread that this kind of &lt;strong&gt;constrained decoding&lt;/strong&gt; makes models dumber: if a model puts probability on an invalid token, it is already confused, and the mask only hides&amp;nbsp;that.&lt;/p&gt;
+&lt;p&gt;Jev drops strings entirely. There is no decoder producing text, so there is nothing to constrain. Answers are values from a set you define up front, which means the model cannot return a malformed response or an option you did not list. That is the precise meaning behind the &amp;#8220;can&amp;#8217;t hallucinate&amp;#8221; marketing line, and we will get to where the line stops being&amp;nbsp;true.&lt;/p&gt;
+&lt;h2 id="the-interface-state-in-typed-decisions-out"&gt;The interface: state in, typed decisions&amp;nbsp;out&lt;/h2&gt;
+&lt;p&gt;A request has two parts. The &lt;strong&gt;state&lt;/strong&gt; is whatever the decision is about: a string, a &lt;span class="caps"&gt;JSON&lt;/span&gt; object, or an array of text. The &lt;strong&gt;questions&lt;/strong&gt; are typed, and there are three&amp;nbsp;types:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Primitive&lt;/th&gt;
+&lt;th&gt;Asks&lt;/th&gt;
+&lt;th&gt;Returns&lt;/th&gt;
+&lt;th&gt;Maps to in code&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Choice&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Pick one option from a list&lt;/td&gt;
+&lt;td&gt;the choice, a probability per option, a confidence&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;match&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Score&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Rate the state on an ordered rubric&lt;/td&gt;
+&lt;td&gt;a score, a probability per level, a confidence&lt;/td&gt;
+&lt;td&gt;sorting&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Noul&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Is this statement true?&lt;/td&gt;
+&lt;td&gt;one probability between 0 and 1&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;if&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The last column is Almeida&amp;#8217;s own framing from the launch thread: &amp;#8220;choice maps to &amp;#8216;match&amp;#8217; statement, &amp;#8216;score&amp;#8217; maps to sorting, &amp;#8216;noul&amp;#8217; short for bernoulli maps to if-statements&amp;#8221;. That is the whole pitch in one line. Jev is a &lt;strong&gt;smart if-statement&lt;/strong&gt;: a branch condition that can read a support&amp;nbsp;ticket.&lt;/p&gt;
+&lt;p&gt;Notice that you declare every possible answer before the model sees anything. The question schema is a contract between the model and your code. It is the same move I argued for in &lt;a href="https://alexsavio.github.io/first-principles-data-engineering"&gt;First Principles: Data Engineering and ETLs&lt;/a&gt;: make the agreement between producer and consumer explicit, and the gap between them becomes something you can&amp;nbsp;test.&lt;/p&gt;
+&lt;p&gt;The official Python &lt;span class="caps"&gt;SDK&lt;/span&gt; makes the shape&amp;nbsp;obvious:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;typesafe_sdk&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Choice&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TypeSafeClient&lt;/span&gt;
+
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;TypeSafeClient&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;system_one&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"document"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"I was charged twice. Please fix this ASAP."&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+        &lt;span class="n"&gt;questions&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="s2"&gt;"category"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Choice&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;instructions&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"What is this ticket about?"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="n"&gt;criteria&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"billing"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"technical"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"other"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choices&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"category"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choice&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="mermaid"&gt;
+flowchart LR
+    classDef input fill:#1e66f5,color:#ffffff,stroke:#1e4ed8,stroke-width:2px;
+    classDef model fill:#8839ef,color:#ffffff,stroke:#6c2bd9,stroke-width:2px;
+    classDef code fill:#40a02b,color:#ffffff,stroke:#2f7a20,stroke-width:2px;
+    S[State&lt;br/&gt;ticket, account, policy]:::input --&gt; J
+    Q[Typed questions&lt;br/&gt;Choice, Score, Noul]:::input --&gt; J
+    J[Jev&lt;br/&gt;one parallel pass]:::model --&gt; C[Choice + probabilities]
+    J --&gt; SC[Score + probabilities]
+    J --&gt; N[Noul probability]
+    C --&gt; M[match]:::code
+    SC --&gt; SO[sort or threshold]:::code
+    N --&gt; I[if]:::code
+&lt;/pre&gt;
+
+&lt;p&gt;Every question is evaluated in isolation against the same state, in the same pass. The docs say adding questions &amp;#8220;barely changes the response time&amp;#8221; and does not create context rot between them. That flips how you write prompts. Instead of one long instruction that tries to cover every case, you ask every question you might need, including speculative ones, and let your code ignore the answers that do not apply. TypeSafe calls this &lt;strong&gt;speculative fan-out&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id="how-it-works-under-the-hood"&gt;How it works under the&amp;nbsp;hood&lt;/h2&gt;
+&lt;p&gt;TypeSafe has not published Jev&amp;#8217;s architecture. Almeida said on Hacker News that it is &amp;#8220;close to the chest for now&amp;#8221;. So this section keeps three kinds of evidence apart: what TypeSafe states, what outsiders measured against the live &lt;span class="caps"&gt;API&lt;/span&gt;, and what is an educated guess. Most of the measurements come from Archer Hume&amp;#8217;s &lt;a href="https://archerhume.com/posts/jevs-architecture-unmasked/"&gt;Jev&amp;#8217;s Architecture Unmasked&lt;/a&gt;, which&amp;nbsp;probed &lt;code&gt;jev-1.13.0&lt;/code&gt; with more than a thousand instrumented requests on 17 September 2026. Hume treated Jev as a sealed box and worked out its internal state from its external outputs alone: latency, token counts, and probabilities. That is the control-theory definition of observability I built on in &lt;a href="https://alexsavio.github.io/first-principles-software-observability"&gt;First Principles: Software Observability&lt;/a&gt;, applied to someone else&amp;#8217;s&amp;nbsp;model.&lt;/p&gt;
+&lt;p&gt;The short version: &lt;strong&gt;Jev most likely keeps the reading half of an &lt;span class="caps"&gt;LLM&lt;/span&gt; and throws away the writing half.&lt;/strong&gt; An &lt;span class="caps"&gt;LLM&lt;/span&gt; processes your whole prompt in one parallel sweep, the &lt;strong&gt;prefill&lt;/strong&gt;. Then it spends most of its wall-clock time writing the answer one token at a time, the &lt;strong&gt;decode loop&lt;/strong&gt;. Jev stops after the sweep and reads the answer straight out of the model&amp;#8217;s internal&amp;nbsp;state.&lt;/p&gt;
+&lt;pre class="mermaid"&gt;
+flowchart LR
+    classDef state fill:#1e66f5,color:#ffffff,stroke:#1e4ed8,stroke-width:2px;
+    classDef branch fill:#8839ef,color:#ffffff,stroke:#6c2bd9,stroke-width:2px;
+    classDef out fill:#40a02b,color:#ffffff,stroke:#2f7a20,stroke-width:2px;
+    classDef skip fill:#d20f39,color:#ffffff,stroke:#a30826,stroke-width:2px;
+    S[State tokens]:::state --&gt; PF[Prefill once&lt;br/&gt;pretrained transformer]:::state
+    PF --&gt; KV[(Shared KV cache)]:::state
+    PF -. skipped .-&gt; DEC[LLM decode loop&lt;br/&gt;one token at a time]:::skip
+    subgraph BATCH[One batch: each branch sees the state, never the other branches]
+        direction TB
+        Q1[Question 1 + option list]:::branch --&gt; R1[Readout at the&lt;br/&gt;decision position]:::branch
+        Q2[Question 2 + option list]:::branch --&gt; R2[Readout at the&lt;br/&gt;decision position]:::branch
+        QN[Question N + option list]:::branch --&gt; RN[Readout at the&lt;br/&gt;decision position]:::branch
+    end
+    KV --&gt; Q1
+    KV --&gt; Q2
+    KV --&gt; QN
+    R1 --&gt; SM[softmax: one probability&lt;br/&gt;per option slot]:::out
+    R2 --&gt; SM
+    RN --&gt; SM
+    SM --&gt; J[Plain code: confidence&lt;br/&gt;arithmetic + JSON]:::out
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;What TypeSafe states.&lt;/strong&gt; Jev &amp;#8220;outputs all probabilities in parallel instead of autoregressively generating by token&amp;#8221;. Its &lt;span class="caps"&gt;AI&lt;/span&gt; primer draws &lt;span class="caps"&gt;RLCD&lt;/span&gt; as a post-training path that starts from a pretrained language model, and Almeida told the Latent Space podcast that even with a billion dollars he &amp;#8220;wouldn&amp;#8217;t pre-train&amp;#8221;. The docs say Jev &amp;#8220;ingests the state once and evaluates every question against it in parallel&amp;#8221;, with a budget of 64k tokens per request and 32k for the state plus the longest single&amp;nbsp;question.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;What outsiders&amp;nbsp;measured.&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Extra questions are almost free, up to a point.&lt;/strong&gt; Server time stayed flat up to about 100 questions, and 1,500 questions came back in a median of 610&amp;nbsp;ms.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Questions cannot see each other.&lt;/strong&gt; A secret code placed in one question was invisible to a sibling question (probability 0.00). Moved into the state, the same probe found it at 0.90 to&amp;nbsp;0.92.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Options are read together.&lt;/strong&gt; Adding an irrelevant fifth option (&amp;#8220;bad weather caused it&amp;#8221;) changed the odds between two existing options in all ten test blocks. Fixed per-option scores behind an unchanged softmax cannot do that. Hume reads it as the options influencing each other, and leaves a list-dependent temperature open as the other&amp;nbsp;explanation.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Order matters.&lt;/strong&gt; Reversing an option list moved one probability from about 0.84-0.89 to 0.93-0.96. Test permutations before you fix a&amp;nbsp;threshold.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;output_tokens&lt;/code&gt; is a billing number.&lt;/strong&gt; It is computed from the serialized response after inference, and latency does not follow&amp;nbsp;it.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The tokenizer is not a public one.&lt;/strong&gt; It matched none of 192 public tokenizers; Qwen came closest, agreeing on 348 of 415&amp;nbsp;probes.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Calibration looks good on average.&lt;/strong&gt; On a 1,200-item &lt;span class="caps"&gt;MMLU&lt;/span&gt; sample, the expected calibration error was 0.031. Most of that sample (990 items) sat above 0.9 confidence, and two sparse middle bins (28 and 6 items) were off by 13 and 30 points. Laya&amp;#8217;s &lt;span class="caps"&gt;README&lt;/span&gt; quotes third-party figures for Jev of 0.144 on its typed-decisions set and 0.246 in a comparison table that does not name the dataset. Calibration depends on the data you measure it&amp;nbsp;on.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class="mermaid"&gt;
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#1e66f5"}}}}%%
+xychart-beta
+    title "Jev server time vs questions per request (median ms, short state)"
+    x-axis "questions per request" ["1", "25", "50", "100", "175", "250", "375", "500", "625", "750", "875", "1000", "1125", "1250", "1375", "1500"]
+    y-axis "median server time (ms)" 0 --&gt; 700
+    line [86.5, 72, 81, 82, 99.5, 132, 162, 181, 213, 245.5, 315.5, 453.5, 358.5, 483, 395.5, 610]
+&lt;/pre&gt;
+
+&lt;p&gt;Data from Archer Hume&amp;#8217;s latency sweep: eight requests per size, one at a time, timed with the &lt;span class="caps"&gt;API&lt;/span&gt;&amp;#8217;s upstream service header. The x-axis is not to scale. The zigzag above 875 questions is probably load noise: the service was shared with other users, and the source does not explain&amp;nbsp;it.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The likely reconstruction.&lt;/strong&gt; Put those facts together and a plausible design falls&amp;nbsp;out:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A pretrained causal transformer (Hume bets on a sparse mixture-of-experts) runs the prefill on the state once and keeps its &lt;strong&gt;&lt;span class="caps"&gt;KV&lt;/span&gt; cache&lt;/strong&gt;, the stored keys and values that later tokens attend&amp;nbsp;to.&lt;/li&gt;
+&lt;li&gt;Each question (instructions, the option list, and a decision position) runs as its own branch. It attends to the shared state but not to other branches, the same shared-prefix trick that &lt;a href="https://arxiv.org/abs/2402.05099"&gt;Hydragen&lt;/a&gt; makes fast. The documented limits fit this shape: 32k tokens per branch, 64k per request, with the state counted&amp;nbsp;once.&lt;/li&gt;
+&lt;li&gt;At the decision position, a small &lt;strong&gt;readout&lt;/strong&gt; turns the hidden vector into one number per option slot, and a softmax turns those numbers into probabilities. The 255-option cap is 2^8 - 1. A Noul needs one number and a sigmoid. A Score is a distribution over levels, reported as its probability-weighted&amp;nbsp;average.&lt;/li&gt;
+&lt;li&gt;Ordinary code writes the &lt;span class="caps"&gt;JSON&lt;/span&gt;. There is no decode loop, so there are no generated tokens to pay&amp;nbsp;for.&lt;/li&gt;
+&lt;li&gt;&lt;span class="caps"&gt;RLCD&lt;/span&gt; trains the backbone and the readout against outcomes, probably with a &lt;strong&gt;proper scoring rule&lt;/strong&gt; such as log loss, which rewards honest probabilities over confident&amp;nbsp;ones.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Confidence is not a second model either. TypeSafe&amp;#8217;s own adapter computes Choice confidence&amp;nbsp;as &lt;code&gt;(p_max - 1/K) / (1 - 1/K)&lt;/code&gt;: how far the top answer sits above a uniform guess&amp;nbsp;over &lt;code&gt;K&lt;/code&gt; options. Check it on the docs&amp;#8217; quick-start example: 0.85 for the top of three options gives 0.775, and the &lt;span class="caps"&gt;API&lt;/span&gt; returns&amp;nbsp;0.78.&lt;/p&gt;
+&lt;h3 id="an-open-blueprint-laya"&gt;An open blueprint:&amp;nbsp;Laya&lt;/h3&gt;
+&lt;p&gt;Jev was not the first model to answer with a probability instead of text. In March 2025, Nandakishor M published &lt;a href="https://arxiv.org/abs/2503.23303"&gt;SalesRLAgent&lt;/a&gt;, a reinforcement-learning model that reads a sales conversation and returns the probability that the sale converts. It works on frozen 3,072-dimension Azure OpenAI embeddings, trains on synthetic conversations generated with &lt;span class="caps"&gt;GPT&lt;/span&gt;-4o, and answers in 85 ms against 3,450 ms for &lt;span class="caps"&gt;GPT&lt;/span&gt;-4. A &lt;a href="https://arxiv.org/abs/2510.01237"&gt;September 2025 follow-up&lt;/a&gt; used confidence signals to route &lt;span class="caps"&gt;LLM&lt;/span&gt; queries before generation. That is Jev&amp;#8217;s core idea (a trained model that returns a number, reinforcement learning, synthetic data), but for one fixed question instead of any typed question you&amp;nbsp;write.&lt;/p&gt;
+&lt;p&gt;Three days after Jev launched, the same author released &lt;strong&gt;&lt;a href="https://laya.convaiinnovations.com/"&gt;Laya&lt;/a&gt;&lt;/strong&gt;, an open model (Apache 2.0) with Jev&amp;#8217;s interface: Choice, Score, and Noul questions over any state. His Hacker News post, &amp;#8220;I built non-autoregressive decision models with &lt;span class="caps"&gt;RL&lt;/span&gt; a year ago&amp;#8221;, reached 1,360 points and became the place where the argument about who did it first played&amp;nbsp;out.&lt;/p&gt;
+&lt;p&gt;Laya does not tell us how Jev works. What it does give us is one complete, working design for the same interface, in code short enough to read in an afternoon (&lt;a href="https://github.com/NandhaKishorM/laya/blob/9d955671415fc19f069b9cc998928075c1f255ec/laya/common.py"&gt;&lt;code&gt;laya/common.py&lt;/code&gt;&lt;/a&gt;):&lt;/p&gt;
+&lt;pre class="mermaid"&gt;
+flowchart LR
+    classDef input fill:#1e66f5,color:#ffffff,stroke:#1e4ed8,stroke-width:2px;
+    classDef model fill:#8839ef,color:#ffffff,stroke:#6c2bd9,stroke-width:2px;
+    classDef out fill:#40a02b,color:#ffffff,stroke:#2f7a20,stroke-width:2px;
+    classDef train fill:#df8e1d,color:#ffffff,stroke:#b8741a,stroke-width:2px;
+    SEQ["One sequence per question&lt;br/&gt;[CLS] type + instructions [SEP]&lt;br/&gt;[MASK] opt 1 [MASK] opt 2 ... [SEP]&lt;br/&gt;state [SEP]"]:::input --&gt; ENC[Bidirectional encoder&lt;br/&gt;ModernBERT-large, 421M]:::model
+    ENC --&gt; TE[+ question-type&lt;br/&gt;embedding]:::model
+    TE --&gt; HEAD[2 extra&lt;br/&gt;transformer layers]:::model
+    HEAD --&gt; G[Hidden state at each&lt;br/&gt;option's MASK marker]:::model
+    G --&gt; SC[Small MLP:&lt;br/&gt;one logit per option]:::model
+    SC --&gt; SM[softmax with a&lt;br/&gt;per-type temperature]:::out
+    RW[Training reward: proper scoring rules&lt;br/&gt;log + spherical score,&lt;br/&gt;+ ranked probability score for Score]:::train -. scores these probabilities .-&gt; SM
+&lt;/pre&gt;
+
+&lt;p&gt;Three details are worth&amp;nbsp;stealing:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Options are tokens in the same sequence as the state.&lt;/strong&gt; Each option starts with a marker token, the model reads everything at once, and the answer for an option is read from its marker position. In Laya, this design is why options can influence each other. For Jev, it stays a guess: it is one of the two readouts Hume listed as&amp;nbsp;candidates.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The state is encoded again for every question.&lt;/strong&gt; In a bidirectional encoder the state&amp;#8217;s tokens also attend to the question, so there is no question-free prefix to cache. That is the price of this design. A causal backbone with a shared state cache, as in the reconstruction above, would avoid it. That would be consistent with Jev&amp;#8217;s flat latency up to about 100 questions, but it is not proof: Hume notes that his tests cannot tell a causal model from a bidirectional&amp;nbsp;one.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The reward is a proper scoring rule.&lt;/strong&gt; Log score plus spherical score, and a ranked probability score for ordered Score questions. It is a concrete example of what &amp;#8220;&lt;span class="caps"&gt;RLCD&lt;/span&gt;&amp;#8221; can&amp;nbsp;mean.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Laya&amp;#8217;s own numbers are self-reported by a competitor, so read them as such. They still make the most useful point in this whole story. On a set of 2,000 typed decisions across four workflows, zero-shot Laya scores 0.362: barely above random guessing (0.318) and below always picking the most common answer (0.461). Jev scores 0.727. Fine-tuned on that set&amp;#8217;s training split, Laya reaches 0.766. On Banking77, Laya scores 0.425 on 77 labels against 0.870 for Jev on 72 of them, and its &lt;span class="caps"&gt;README&lt;/span&gt; blames the shared 192 to 256-token budget for all&amp;nbsp;options.&lt;/p&gt;
+&lt;p&gt;The even cheaper version of the trick needs no new model at all: put numbered options in a prompt to any open &lt;span class="caps"&gt;LLM&lt;/span&gt;, run one forward pass, read the logits of the option-label tokens, and softmax them. &lt;a href="https://sgnt.ai/p/jev/"&gt;Several open clones&lt;/a&gt; did exactly that within days of the launch. The early side-by-side tests collected there, most of them from one clone, show the clones trailing Jev by a little on easy yes/no sets and by a lot on harder multiple-choice&amp;nbsp;ones.&lt;/p&gt;
+&lt;p&gt;Put Laya and the clones together and the lesson is clear. The interface and the single-pass readout are cheap: a 421M encoder and about four hours of fine-tuning on free Kaggle GPUs get you there. Zero-shot judgment on questions nobody trained you for is expensive. You pay for it either with a big pretrained backbone, which is what Jev appears to do, or with fine-tuning data from your own domain, which is what Laya asks of&amp;nbsp;you.&lt;/p&gt;
+&lt;h2 id="calibration-is-the-product"&gt;Calibration is the&amp;nbsp;product&lt;/h2&gt;
+&lt;p&gt;The training method is &lt;strong&gt;&lt;span class="caps"&gt;RLCD&lt;/span&gt;&lt;/strong&gt;, reinforcement learning for calibrated decisions. Set it next to the two methods you already know. &lt;span class="caps"&gt;RLHF&lt;/span&gt; trains a model to produce the text people prefer, which made chatbots. &lt;span class="caps"&gt;RLVR&lt;/span&gt; trains on tasks with checkable answers, which made reasoning models good at math and slow. &lt;span class="caps"&gt;RLCD&lt;/span&gt; trains the probabilities themselves: across many answers the model rates at 0.8, about 80% should turn out&amp;nbsp;right.&lt;/p&gt;
+&lt;p&gt;That sounds academic until you try to automate something. The launch post puts it bluntly: &amp;#8220;If a model can do a task 95% of the time but doesn&amp;#8217;t say when it&amp;#8217;s in the 5%, it can&amp;#8217;t automate that task.&amp;#8221; A calibrated probability gives your code a second axis to branch on. The docs suggest a pattern like this one, where the bar to act rises with the cost of being&amp;nbsp;wrong:&lt;/p&gt;
+&lt;pre class="mermaid"&gt;
+flowchart LR
+    classDef stop fill:#d20f39,color:#ffffff,stroke:#a30826,stroke-width:2px;
+    classDef go fill:#40a02b,color:#ffffff,stroke:#2f7a20,stroke-width:2px;
+    A[Choice answer&lt;br/&gt;+ confidence] --&gt; B{confidence&lt;br/&gt;below 0.5?}
+    B -- yes --&gt; H[Route to a human]:::stop
+    B -- no --&gt; C{Which action?}
+    C -- check balance&lt;br/&gt;low stakes --&gt; S[Show balance]:::go
+    C -- approve transfer&lt;br/&gt;high stakes --&gt; D{confidence&lt;br/&gt;above 0.9?}
+    D -- yes --&gt; E[Confirm, then execute]:::go
+    D -- no --&gt; F[Ask the user to confirm]:::stop
+&lt;/pre&gt;
+
+&lt;p&gt;In &lt;a href="https://alexsavio.github.io/first-principles-llm-agents"&gt;First Principles: &lt;span class="caps"&gt;LLM&lt;/span&gt; Agents&lt;/a&gt; I argued that probabilistic output cannot be trusted and must be verified. Calibration does not change that. It hands you a number to verify against, and a threshold is a policy you can review, test, and change in one&amp;nbsp;line.&lt;/p&gt;
+&lt;p&gt;Almeida&amp;#8217;s framing for why chat-trained models are the wrong tool here comes from his essay &amp;#8220;The Bitterest Lesson&amp;#8221;: &lt;strong&gt;doing the right task &amp;gt; data &amp;gt; compute &amp;gt; algorithms&lt;/strong&gt;. He learned it on InstructGPT, where &lt;span class="caps"&gt;GPT&lt;/span&gt;-2-sized models, over 100x smaller than &lt;span class="caps"&gt;GPT&lt;/span&gt;-3, beat &lt;span class="caps"&gt;GPT&lt;/span&gt;-3 because they were trained on what people actually wanted. &lt;span class="caps"&gt;RLHF&lt;/span&gt; was the right task for chat. His bet is that it is the wrong task for&amp;nbsp;automation.&lt;/p&gt;
+&lt;h2 id="the-receipts-and-the-fine-print"&gt;The receipts, and the fine&amp;nbsp;print&lt;/h2&gt;
+&lt;p&gt;TypeSafe built four business workflows (security alert triage, agent trace review, invoice processing, customer service) and ran every model through each one. The overall averages, from the &lt;a href="https://evals.typesafe.ai/"&gt;evals site&lt;/a&gt;:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Model (vendor)&lt;/th&gt;
+&lt;th&gt;Mode&lt;/th&gt;
+&lt;th&gt;Accuracy&lt;/th&gt;
+&lt;th&gt;Cost per case&lt;/th&gt;
+&lt;th&gt;Time per case&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Jev (TypeSafe)&lt;/td&gt;
+&lt;td&gt;workflow&lt;/td&gt;
+&lt;td&gt;67.8%&lt;/td&gt;
+&lt;td&gt;$0.0004&lt;/td&gt;
+&lt;td&gt;0.4 s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;luna (OpenAI)&lt;/td&gt;
+&lt;td&gt;workflow&lt;/td&gt;
+&lt;td&gt;66.8%&lt;/td&gt;
+&lt;td&gt;$0.0033&lt;/td&gt;
+&lt;td&gt;12.9 s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;terra (OpenAI)&lt;/td&gt;
+&lt;td&gt;workflow&lt;/td&gt;
+&lt;td&gt;67.9%&lt;/td&gt;
+&lt;td&gt;$0.0304&lt;/td&gt;
+&lt;td&gt;10.1 s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;sol (OpenAI)&lt;/td&gt;
+&lt;td&gt;workflow&lt;/td&gt;
+&lt;td&gt;74.1%&lt;/td&gt;
+&lt;td&gt;$0.0836&lt;/td&gt;
+&lt;td&gt;23.3 s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Opus 5 (Anthropic)&lt;/td&gt;
+&lt;td&gt;workflow&lt;/td&gt;
+&lt;td&gt;73.1%&lt;/td&gt;
+&lt;td&gt;$0.1761&lt;/td&gt;
+&lt;td&gt;37.8 s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Opus 5 (Anthropic)&lt;/td&gt;
+&lt;td&gt;prompt&lt;/td&gt;
+&lt;td&gt;64.8%&lt;/td&gt;
+&lt;td&gt;$0.3417&lt;/td&gt;
+&lt;td&gt;70.5 s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Haiku 4.5 (Anthropic)&lt;/td&gt;
+&lt;td&gt;workflow&lt;/td&gt;
+&lt;td&gt;53.6%&lt;/td&gt;
+&lt;td&gt;$0.0195&lt;/td&gt;
+&lt;td&gt;12.5 s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Haiku 4.5 (Anthropic)&lt;/td&gt;
+&lt;td&gt;prompt&lt;/td&gt;
+&lt;td&gt;18.1%&lt;/td&gt;
+&lt;td&gt;$0.0363&lt;/td&gt;
+&lt;td&gt;21.2 s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Read it carefully. Jev is not the most accurate model on the chart: sol and Opus 5 beat it by 6.3 and 5.3 points. What Jev does is match &lt;span class="caps"&gt;GPT&lt;/span&gt;-5.6 Terra&amp;#8217;s accuracy for roughly 75x less money and 25x less time per case. It owns the cheap end of the frontier, not the top of&amp;nbsp;it.&lt;/p&gt;
+&lt;p&gt;Now the fine print, most of which TypeSafe discloses&amp;nbsp;itself:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;No ground truth.&lt;/strong&gt; Reference labels are the average of &lt;span class="caps"&gt;GPT&lt;/span&gt;-6 Astra&amp;#8217;s and Fable 5.1&amp;#8217;s answers. Accuracy here means &amp;#8220;agrees with the two biggest&amp;nbsp;models&amp;#8221;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Home-grown tasks.&lt;/strong&gt; TypeSafe&amp;#8217;s own team wrote the four workflows and admits &amp;#8220;some bias could&amp;nbsp;exist&amp;#8221;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Self-reported multipliers.&lt;/strong&gt; The 193.6x and 444.6x figures come from these workflows, and TypeSafe expects them to be &amp;#8220;on the higher end of real world&amp;nbsp;gains&amp;#8221;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;A 0% error rate by construction.&lt;/strong&gt; Jev&amp;#8217;s 0% structured-output and tool-call error rate is a guarantee of the output format, not a measurement. The &lt;span class="caps"&gt;LLM&lt;/span&gt; rates next to it (up to 45.5% for Haiku 4.5 structured outputs) come from OpenRouter traffic, which TypeSafe says is&amp;nbsp;biased.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Closed box.&lt;/strong&gt; No public benchmarks by policy, no architecture paper, no&amp;nbsp;weights.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Early outside reports lean positive but not uniformly. TechCrunch reported that a Vercel engineer replaced OpenAI&amp;#8217;s Luna 5.6 command-safety classifier with Jev and got results 5 to 18 times faster, with better accuracy. Bryo &lt;span class="caps"&gt;AI&lt;/span&gt;&amp;#8217;s &lt;span class="caps"&gt;CTO&lt;/span&gt; found Gemini slightly more accurate for classifying business emails, but 10 to 20 times more&amp;nbsp;expensive.&lt;/p&gt;
+&lt;h2 id="the-surprising-part-structure-beats-model-size"&gt;The surprising part: structure beats model&amp;nbsp;size&lt;/h2&gt;
+&lt;p&gt;This is the finding I would keep even if Jev disappeared tomorrow. Every &lt;span class="caps"&gt;LLM&lt;/span&gt; in the evals ran each task twice: once as a &lt;strong&gt;workflow&lt;/strong&gt; (small typed questions, with code making the final call) and once as a &lt;strong&gt;prompt&lt;/strong&gt; (the whole policy in one prompt, reasoned through in chain-of-thought). Averaged over the four workflows, every single model was more accurate, cheaper, and faster as a&amp;nbsp;workflow.&lt;/p&gt;
+&lt;p&gt;The gaps are not small. Haiku 4.5 goes from 18.1% as a prompt to 53.6% as a workflow. Opus 5, one of the strongest models on the chart, scores 64.8% when handed the prompt, below Jev running the workflow at 67.8%, at roughly 850x the cost per&amp;nbsp;case.&lt;/p&gt;
+&lt;p&gt;One honest caveat: the reference labels come from running the workflow&amp;#8217;s questions through Astra and Fable, so the workflow mode plays at home. A prompt that reads an ambiguous policy differently gets scored as wrong. The rule is also an average. Per task, 5 of the 96 workflow-versus-prompt comparisons go the other way: &lt;span class="caps"&gt;DS&lt;/span&gt; v4 flash (DeepSeek) and &lt;span class="caps"&gt;DS&lt;/span&gt; v4 pro each scored higher as a prompt on one task, and Opus 5, sol, and Haiku 4.5 each ran faster as a prompt on one task. Even so, the direction matches what I have seen building agents. As I wrote in &lt;a href="https://alexsavio.github.io/so-you-want-to-build-an-llm-agent"&gt;So You Want To Build An &lt;span class="caps"&gt;LLM&lt;/span&gt; Agent&lt;/a&gt;, generation is the easy part and verification is the part that breaks. It is also plain software design. In &lt;a href="https://alexsavio.github.io/first-principles-software-design"&gt;First Principles: Software Design&lt;/a&gt; I described design as choosing how to decompose one transformation into parts small enough to hold in your head. A typed question is one of those parts. Small typed questions are verification-shaped. Each one can be logged, tested against examples, and thresholded on its&amp;nbsp;own.&lt;/p&gt;
+&lt;h2 id="where-it-breaks"&gt;Where it&amp;nbsp;breaks&lt;/h2&gt;
+&lt;p&gt;To TypeSafe&amp;#8217;s credit, its docs publish a list of nine known failure modes for Jev 1.13. The ones that matter most in&amp;nbsp;practice:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Math, counting, and dates.&lt;/strong&gt; Jev reads numbers and dates as text. Keep arithmetic and date comparisons in code and ask Jev only for the&amp;nbsp;judgment.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Big, noisy state.&lt;/strong&gt; Accuracy falls as the state fills with irrelevant detail. Filter&amp;nbsp;first.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Inputs it cannot read.&lt;/strong&gt; Confidence cannot warn you when a model cannot read the input. Laya&amp;#8217;s 51-language test shows it best: its English checkpoint scored 0.000 accuracy on Khmer at 0.952 mean confidence. Jev&amp;#8217;s docs say English is its primary training language and that other languages &amp;#8220;are handled but not equally well&amp;#8221;. Test your own languages before you trust a&amp;nbsp;threshold.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Adversarial content.&lt;/strong&gt; Text in the state that argues for its own classification &amp;#8220;can move the answer&amp;#8221;. Test prompt injection&amp;nbsp;yourself.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;No structural guarantees.&lt;/strong&gt; Ask &amp;#8220;is the customer asking for a refund?&amp;#8221; as a Noul and you get 0.22. Ask it as a yes/no Choice on the same ticket and &amp;#8220;yes&amp;#8221; gets 0.01. Do not assume identities between separate questions&amp;nbsp;hold.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And &amp;#8220;can&amp;#8217;t hallucinate&amp;#8221; means it cannot invent a value outside your schema. It can still pick the wrong value, confidently. Almeida agreed on &lt;span class="caps"&gt;HN&lt;/span&gt;: &amp;#8220;because these models are probabilistic, it&amp;#8217;s also possible to be confidently wrong&amp;#8221;. A commenter there summed Jev up as &amp;#8220;basically a zero-shot classifier that can accept raw text&amp;#8221;. I think that is a fair description, and it is not an insult. A zero-shot classifier with frontier-level judgment, calibrated probabilities, and a price of $42 per billion input tokens is a new building block, whatever you call&amp;nbsp;it.&lt;/p&gt;
+&lt;p&gt;Where I would reach for it&amp;nbsp;first:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Guardrails in agent loops.&lt;/strong&gt; Score every tool call or agent trace before it runs. At these prices, you can check every step instead of&amp;nbsp;sampling.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Routing and triage.&lt;/strong&gt; Tickets to teams, alerts to close, queue, or act, requests to the right&amp;nbsp;model.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Classification over large datasets.&lt;/strong&gt; Map millions of records into&amp;nbsp;features.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Where I would not: anything that needs generated text, exact arithmetic, or multi-hop reasoning. Keep an &lt;span class="caps"&gt;LLM&lt;/span&gt; for&amp;nbsp;those.&lt;/p&gt;
+&lt;p&gt;The chat interface made LLMs famous, and it also taught us to bolt a conversation onto places that only needed a decision. Jev&amp;#8217;s bet is that most automation is an if-statement that has to read. Whether or not TypeSafe&amp;#8217;s multipliers survive independent testing, the design move works today with any model: turn the policy into small typed questions, let code own the control flow, and gate every action on a probability you can&amp;nbsp;check.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev"&gt;Introducing System One Models &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt; Jev&lt;/a&gt;, Diogo Almeida, TypeSafe &lt;span class="caps"&gt;AI&lt;/span&gt;, 2026-09-15, Original&amp;nbsp;source&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://evals.typesafe.ai/"&gt;Workflow evals&lt;/a&gt;, TypeSafe &lt;span class="caps"&gt;AI&lt;/span&gt;, the four-workflow evaluation and its&amp;nbsp;data&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.typesafe.ai/"&gt;TypeSafe docs&lt;/a&gt;, primitives, confidence, pricing, and&amp;nbsp;patterns&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.typesafe.ai/model-jaggedness/jev-1.13"&gt;Jev 1.13 jaggedness&lt;/a&gt;, TypeSafe&amp;#8217;s own list of known failure&amp;nbsp;modes&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://typesafe.ai/blog/bitterest-lesson"&gt;The Bitterest Lesson&lt;/a&gt;, Diogo Almeida, on why the right task beats data, compute, and&amp;nbsp;algorithms&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2203.02155"&gt;Training language models to follow instructions with human feedback&lt;/a&gt;, the InstructGPT&amp;nbsp;paper&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/typesafe-ai/typesafe-sdk-python"&gt;TypeSafe Python &lt;span class="caps"&gt;SDK&lt;/span&gt;&lt;/a&gt;, source of the code&amp;nbsp;example&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://techcrunch.com/2026/09/18/a-new-kind-of-ai-model-from-a-chatgpt-inventor-is-thrilling-developers/"&gt;A new kind of &lt;span class="caps"&gt;AI&lt;/span&gt; model from a ChatGPT inventor is thrilling developers&lt;/a&gt;, Tim Fernholz, TechCrunch, early developer&amp;nbsp;reports&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://news.ycombinator.com/item?id=49717558"&gt;Introducing System One Models and Jev&lt;/a&gt;, Hacker News launch thread with replies from the &lt;span class="caps"&gt;CEO&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://archerhume.com/posts/jevs-architecture-unmasked/"&gt;Jev&amp;#8217;s Architecture Unmasked&lt;/a&gt;, Archer Hume, 2026-09-17, black-box probes of the live &lt;span class="caps"&gt;API&lt;/span&gt; and a&amp;nbsp;reconstruction&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://sgnt.ai/p/jev/"&gt;You could have built Jev&lt;/a&gt;, sgnt.ai, on the single-token logit trick and the open&amp;nbsp;clones&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2402.05099"&gt;Hydragen: High-Throughput &lt;span class="caps"&gt;LLM&lt;/span&gt; Inference with Shared Prefixes&lt;/a&gt;, shared-prefix&amp;nbsp;attention&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/typesafe-ai/system-one-adapter-python/blob/fb52b1030b7fc1f4f1cf39910afa5da54f9835e3/src/system_one_adapter/_utils/confidence_metrics.py"&gt;confidence_metrics.py&lt;/a&gt;, TypeSafe&amp;#8217;s confidence&amp;nbsp;formulas&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.latent.space/p/jev"&gt;Jev: System One Models for Prod, Not God&lt;/a&gt;, Latent Space podcast with Diogo&amp;nbsp;Almeida&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://laya.convaiinnovations.com/"&gt;Laya: 33ms Multilingual System 1 Decision Engine with Calibrated Probabilities&lt;/a&gt;, Nandakishor M, an open model with Jev&amp;#8217;s&amp;nbsp;interface&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/NandhaKishorM/laya"&gt;Laya source code&lt;/a&gt;, Apache 2.0, including the decision head&amp;nbsp;in &lt;code&gt;laya/common.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2503.23303"&gt;SalesRLAgent: A Reinforcement Learning Approach for Real-Time Sales Conversion Prediction and Optimization&lt;/a&gt;, Nandakishor M, 2025-03-30, an earlier probability-not-text model for one fixed&amp;nbsp;question&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2510.01237"&gt;Confidence-Aware Routing for Large Language Model Reliability Enhancement&lt;/a&gt;, Nandakishor M,&amp;nbsp;2025-09-23&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://news.ycombinator.com/item?id=49765348"&gt;I built non-autoregressive decision models with &lt;span class="caps"&gt;RL&lt;/span&gt; a year ago&lt;/a&gt;, Hacker News thread on Laya and prior&amp;nbsp;work&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-llm-agents"&gt;First Principles: &lt;span class="caps"&gt;LLM&lt;/span&gt; Agents&lt;/a&gt;, Related post on why probabilistic output must be&amp;nbsp;verified&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alexsavio.github.io/so-you-want-to-build-an-llm-agent"&gt;So You Want To Build An &lt;span class="caps"&gt;LLM&lt;/span&gt; Agent&lt;/a&gt;, Related post on why verification, not generation, is the hard&amp;nbsp;part&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-software-observability"&gt;First Principles: Software Observability&lt;/a&gt;, Related post on inferring internal state from external&amp;nbsp;outputs&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-data-engineering"&gt;First Principles: Data Engineering and ETLs&lt;/a&gt;, Related post on explicit contracts between producers and&amp;nbsp;consumers&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://alexsavio.github.io/first-principles-software-design"&gt;First Principles: Software Design&lt;/a&gt;, Related post on design as&amp;nbsp;decomposition&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Engineering"/><category term="ai"/><category term="llm"/><category term="agents"/><category term="evaluation"/><category term="architecture"/><category term="structured-output"/></entry><entry><title>Torvalds on AI: It Is a Tool, and 100% of Your Code Was Always Written by Compilers</title><link href="https://alexsavio.github.io/torvalds-ai-is-a-tool-not-a-replacement.html" rel="alternate"/><published>2026-06-09T00:00:00+02:00</published><updated>2026-06-09T00:00:00+02:00</updated><author><name>Alexandre M. Savio</name></author><id>tag:alexsavio.github.io,2026-06-09:/torvalds-ai-is-a-tool-not-a-replacement.html</id><summary type="html">&lt;p&gt;Linus Torvalds says he gets angry hearing &amp;#8220;99% of our code is &lt;span class="caps"&gt;AI&lt;/span&gt;&amp;#8221;, because 100% of it was already written by compilers and nobody brags about that. &lt;span class="caps"&gt;AI&lt;/span&gt; is a productivity tool in the compiler lineage, and its real cost in open source is maintainer burnout from drive-by bug&amp;nbsp;reports.&lt;/p&gt;</summary><content type="html">&lt;h2 id="tldr"&gt;&lt;span class="caps"&gt;TL&lt;/span&gt;;&lt;span class="caps"&gt;DR&lt;/span&gt;&lt;/h2&gt;
 &lt;p&gt;At the Open Source Summit North America in late May 2026, Linus Torvalds spent part of his keynote pushing back on a now-familiar claim: that &lt;span class="caps"&gt;AI&lt;/span&gt; is about to make programmers redundant. His sharpest line was aimed at the boast you hear everywhere lately, &amp;#8220;99% of our code is written by &lt;span class="caps"&gt;AI&lt;/span&gt;.&amp;#8221; It makes him angry, he said, because 100% of those same people&amp;#8217;s code was already written by &lt;strong&gt;compilers&lt;/strong&gt;, and nobody ever brags about that. His point is not that &lt;span class="caps"&gt;AI&lt;/span&gt; is useless. It is that &lt;span class="caps"&gt;AI&lt;/span&gt; is a tool in a long line of tools, the same lineage as assemblers and compilers, and it does not remove the need to understand the system underneath. He even put rough numbers on it: compilers made programming maybe &lt;strong&gt;1,000 times&lt;/strong&gt; more productive, and &lt;span class="caps"&gt;AI&lt;/span&gt; adds something like &lt;strong&gt;10x&lt;/strong&gt; on&amp;nbsp;top.&lt;/p&gt;
 &lt;p&gt;The part most hot takes skip is what comes next. The immediate cost of &lt;span class="caps"&gt;AI&lt;/span&gt; in open source is not bad code. It is &lt;strong&gt;burnout&lt;/strong&gt;, the slow grind of maintainers drowning in &lt;span class="caps"&gt;AI&lt;/span&gt;-generated bug reports that show up without a fix&amp;nbsp;attached.&lt;/p&gt;
 &lt;p&gt;A quick boundary before we go further: this post is not about whether LLMs can write code. They obviously can, and they are good at it. It is about the framing Torvalds is attacking, the idea that a percentage of &amp;#8220;&lt;span class="caps"&gt;AI&lt;/span&gt;-written code&amp;#8221; tells you anything useful, and about what the current &lt;span class="caps"&gt;AI&lt;/span&gt; surge is quietly doing to the people who maintain the software you depend&amp;nbsp;on.&lt;/p&gt;
