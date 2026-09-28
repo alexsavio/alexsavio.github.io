@@ -164,8 +164,6 @@ _check-deployable:
     exit 1
   fi
 
-##@ Publish
-
 # Build the blog for production into output/
 publish: build-prod
   @echo "Site built for production in output/"
