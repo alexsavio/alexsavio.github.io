@@ -34,13 +34,13 @@ Polarity = str  # "bad" | "good"
 
 # (label, x = detection delay normalized 0..1, y = blast radius normalized 0..1, polarity)
 POINTS: list[tuple[str, float, float, Polarity]] = [
-    ("Typosquat",                     0.05, 0.22, "bad"),
-    ("Account compromise",            0.22, 0.55, "bad"),
-    ("Bug / regression",              0.45, 0.30, "bad"),
-    ("Breaking change",               0.40, 0.15, "bad"),
-    ("Post-disclosure CVE fix",       0.04, 0.78, "good"),
-    ("Pre-disclosure CVE latency",    0.95, 0.78, "bad"),
-    ("Long-dwell backdoor (xz)",      0.92, 0.96, "bad"),
+    ("Typosquat", 0.05, 0.22, "bad"),
+    ("Account compromise", 0.22, 0.55, "bad"),
+    ("Bug / regression", 0.45, 0.30, "bad"),
+    ("Breaking change", 0.40, 0.15, "bad"),
+    ("Post-disclosure CVE fix", 0.04, 0.78, "good"),
+    ("Pre-disclosure CVE latency", 0.95, 0.78, "bad"),
+    ("Long-dwell backdoor (xz)", 0.92, 0.96, "bad"),
 ]
 
 # Label offset per point to avoid overlaps (dx, dy in data coords)
@@ -55,10 +55,10 @@ LABEL_OFFSETS: dict[str, tuple[float, float]] = {
 }
 
 QUADRANT_LABELS: list[tuple[float, float, str, str]] = [
-    (0.25, 0.97, "Cooldown useful\n(fast + costly)",     "top"),
-    (0.75, 0.97, "Cooldown useless\n(slow + costly)",    "top"),
-    (0.25, 0.03, "Cooldown overkill\n(fast + cheap)",    "bottom"),
-    (0.75, 0.03, "Cooldown helpless\n(slow + cheap)",    "bottom"),
+    (0.25, 0.97, "Cooldown useful\n(fast + costly)", "top"),
+    (0.75, 0.97, "Cooldown useless\n(slow + costly)", "top"),
+    (0.25, 0.03, "Cooldown overkill\n(fast + cheap)", "bottom"),
+    (0.75, 0.03, "Cooldown helpless\n(slow + cheap)", "bottom"),
 ]
 
 
@@ -66,12 +66,11 @@ def _render(outfile: Path, dark: bool) -> None:
     bg = "#1a1a1a" if dark else "#ffffff"
     fg = "#e0e0e0" if dark else "#2a2a2a"
     muted = "#666666" if dark else "#888888"
-    bad_color = "#ff6b6b" if dark else "#c0392b"   # red: events to avoid
+    bad_color = "#ff6b6b" if dark else "#c0392b"  # red: events to avoid
     good_color = "#4caf50" if dark else "#1e8449"  # green: events to adopt fast
     point_colors: dict[str, str] = {"bad": bad_color, "good": good_color}
     quadrant_bg_colors = (
-        ["#2a1f1f", "#1f2a2a", "#1f1f2a", "#2a2a1f"] if dark
-        else ["#fdecea", "#eaf4fd", "#ecebfa", "#fdfaea"]
+        ["#2a1f1f", "#1f2a2a", "#1f1f2a", "#2a2a1f"] if dark else ["#fdecea", "#eaf4fd", "#ecebfa", "#fdfaea"]
     )
 
     fig, ax = plt.subplots(figsize=(9, 6.5), dpi=160)
@@ -91,17 +90,26 @@ def _render(outfile: Path, dark: bool) -> None:
     # Quadrant labels
     for x, y, label, va in QUADRANT_LABELS:
         ax.text(
-            x, y, label,
-            ha="center", va=va,
-            color=muted, fontsize=9, fontstyle="italic",
+            x,
+            y,
+            label,
+            ha="center",
+            va=va,
+            color=muted,
+            fontsize=9,
+            fontstyle="italic",
             zorder=2,
         )
 
     # Points
     for label, x, y, polarity in POINTS:
         ax.scatter(
-            x, y,
-            s=140, color=point_colors[polarity], edgecolors=fg, linewidths=1.2,
+            x,
+            y,
+            s=140,
+            color=point_colors[polarity],
+            edgecolors=fg,
+            linewidths=1.2,
             zorder=4,
         )
         dx, dy = LABEL_OFFSETS.get(label, (0.02, 0.02))
@@ -110,20 +118,40 @@ def _render(outfile: Path, dark: bool) -> None:
             label,
             xy=(x, y),
             xytext=(x + dx, y + dy),
-            color=fg, fontsize=10.5, fontweight="bold",
-            ha=ha, va="center",
+            color=fg,
+            fontsize=10.5,
+            fontweight="bold",
+            ha=ha,
+            va="center",
             zorder=5,
         )
 
     # Legend so the green vs red distinction is explicit
     from matplotlib.lines import Line2D  # local import keeps top of file tidy
+
     legend_handles = [
-        Line2D([0], [0], marker="o", linestyle="", markersize=9,
-               markerfacecolor=bad_color, markeredgecolor=fg, markeredgewidth=1.0,
-               label="Event you want to contain"),
-        Line2D([0], [0], marker="o", linestyle="", markersize=9,
-               markerfacecolor=good_color, markeredgecolor=fg, markeredgewidth=1.0,
-               label="Event you want to adopt fast"),
+        Line2D(
+            [0],
+            [0],
+            marker="o",
+            linestyle="",
+            markersize=9,
+            markerfacecolor=bad_color,
+            markeredgecolor=fg,
+            markeredgewidth=1.0,
+            label="Event you want to contain",
+        ),
+        Line2D(
+            [0],
+            [0],
+            marker="o",
+            linestyle="",
+            markersize=9,
+            markerfacecolor=good_color,
+            markeredgecolor=fg,
+            markeredgewidth=1.0,
+            label="Event you want to adopt fast",
+        ),
     ]
     ax.legend(
         handles=legend_handles,
@@ -146,16 +174,23 @@ def _render(outfile: Path, dark: bool) -> None:
     # Axis labels
     ax.set_xlabel(
         "Detection speed      Fast  ─────────────────────────────▶  Slow",
-        color=fg, fontsize=10, labelpad=10,
+        color=fg,
+        fontsize=10,
+        labelpad=10,
     )
     ax.set_ylabel(
         "Blast radius      Small  ─────────────────────────▶  Large",
-        color=fg, fontsize=10, labelpad=10,
+        color=fg,
+        fontsize=10,
+        labelpad=10,
     )
 
     ax.set_title(
         "Dependency events: detection speed vs blast radius",
-        color=fg, fontsize=13, fontweight="bold", pad=14,
+        color=fg,
+        fontsize=13,
+        fontweight="bold",
+        pad=14,
     )
 
     fig.tight_layout()

@@ -45,29 +45,23 @@ SEED: Final[int] = 42
 
 # --- Defaults matching the blog post --------------------------------------
 
-LAMBDA_CVE: Final[float] = 25.0          # CVEs/year in your dep tree
-R_ATTACK: Final[float] = 0.1             # malicious releases/year you could adopt
+LAMBDA_CVE: Final[float] = 25.0  # CVEs/year in your dep tree
+R_ATTACK: Final[float] = 0.1  # malicious releases/year you could adopt
 COOLDOWN_DAYS: Final[float] = 8.0
-AUDIT_LATENCY_DAYS: Final[float] = 1.0   # no-cooldown case: daily audit
-NATURAL_ADOPT_MAX: Final[float] = 7.0    # N_0 ~ U(0, 7) weekly upgrade cadence
+AUDIT_LATENCY_DAYS: Final[float] = 1.0  # no-cooldown case: daily audit
+NATURAL_ADOPT_MAX: Final[float] = 7.0  # N_0 ~ U(0, 7) weekly upgrade cadence
 
 # Detection-delay mixture: (weight, mean_days) for exponential components
 MixtureComponent = tuple[float, float]
 DETECTION_MIXTURE: Final[tuple[MixtureComponent, ...]] = (
-    (0.50, 0.5),    # typosquats: hours
-    (0.30, 3.0),    # compromised maintainer account: a few days
-    (0.20, 60.0),   # long-dwell (xz, SolarWinds family)
+    (0.50, 0.5),  # typosquats: hours
+    (0.30, 3.0),  # compromised maintainer account: a few days
+    (0.20, 60.0),  # long-dwell (xz, SolarWinds family)
 )
-assert math.isclose(sum(w for w, _ in DETECTION_MIXTURE), 1.0, abs_tol=1e-9), (
-    "DETECTION_MIXTURE weights must sum to 1"
-)
+assert math.isclose(sum(w for w, _ in DETECTION_MIXTURE), 1.0, abs_tol=1e-9), "DETECTION_MIXTURE weights must sum to 1"
 
-_MIXTURE_WEIGHTS: Final[NDArray[np.float64]] = np.array(
-    [w for w, _ in DETECTION_MIXTURE], dtype=np.float64
-)
-_MIXTURE_MEANS: Final[NDArray[np.float64]] = np.array(
-    [m for _, m in DETECTION_MIXTURE], dtype=np.float64
-)
+_MIXTURE_WEIGHTS: Final[NDArray[np.float64]] = np.array([w for w, _ in DETECTION_MIXTURE], dtype=np.float64)
+_MIXTURE_MEANS: Final[NDArray[np.float64]] = np.array([m for _, m in DETECTION_MIXTURE], dtype=np.float64)
 
 N_ATTACK_SAMPLES: Final[int] = 2_000_000
 MC_ANALYTIC_TOLERANCE: Final[float] = 0.002
@@ -80,12 +74,13 @@ REPORT_RATIOS: Final[tuple[float, ...]] = (1e2, 1e3, 1e4, 1e5, 1e6)
 @dataclass(frozen=True)
 class PolicyResult:
     cooldown_days: float
-    vuln_days_per_year: float       # contribution from CVE exposure
-    p_compromise: float             # per malicious release
-    compromises_per_year: float     # = R_ATTACK * p_compromise
+    vuln_days_per_year: float  # contribution from CVE exposure
+    p_compromise: float  # per malicious release
+    compromises_per_year: float  # = R_ATTACK * p_compromise
 
 
 # --- Policy builders -------------------------------------------------------
+
 
 def _policy(cooldown_days: float, p_compromise: float) -> PolicyResult:
     vuln_days_per_cve = max(cooldown_days, AUDIT_LATENCY_DAYS)
@@ -99,6 +94,7 @@ def _policy(cooldown_days: float, p_compromise: float) -> PolicyResult:
 
 # --- Vectorized sampling --------------------------------------------------
 
+
 def sample_detection_delays(n: int, rng: np.random.Generator) -> NDArray[np.float64]:
     """Draw n samples from the exponential mixture (weights x means)."""
     component = rng.choice(len(_MIXTURE_MEANS), size=n, p=_MIXTURE_WEIGHTS)
@@ -110,6 +106,7 @@ def sample_natural_adoption(n: int, rng: np.random.Generator) -> NDArray[np.floa
 
 
 # --- Analytical closed forms ----------------------------------------------
+
 
 def _survival_at(t: float) -> float:
     """S(t) = Pr(D > t) for the detection-delay mixture."""
@@ -131,10 +128,12 @@ def analytical_p_compromise(cooldown: float) -> float:
 
     flat = cooldown * _survival_at(cooldown)
     # integral_{C}^{T} w_k * exp(-n/mean_k) dn = w_k * mean_k * (exp(-C/mean_k) - exp(-T/mean_k))
-    tail = float(np.dot(
-        _MIXTURE_WEIGHTS * _MIXTURE_MEANS,
-        np.exp(-cooldown / _MIXTURE_MEANS) - np.exp(-t / _MIXTURE_MEANS),
-    ))
+    tail = float(
+        np.dot(
+            _MIXTURE_WEIGHTS * _MIXTURE_MEANS,
+            np.exp(-cooldown / _MIXTURE_MEANS) - np.exp(-t / _MIXTURE_MEANS),
+        )
+    )
     return (flat + tail) / t
 
 
@@ -143,6 +142,7 @@ def analytical_policy(cooldown_days: float) -> PolicyResult:
 
 
 # --- Monte Carlo -----------------------------------------------------------
+
 
 def monte_carlo_policy(
     cooldown_days: float,
@@ -165,13 +165,12 @@ def run_paired_monte_carlo() -> tuple[PolicyResult, PolicyResult]:
 
 # --- Cost functions --------------------------------------------------------
 
+
 def total_cost(result: PolicyResult, i_attack_over_i_cve: float) -> float:
     return result.vuln_days_per_year + result.compromises_per_year * i_attack_over_i_cve
 
 
-def break_even_ratio(
-    cooldown: PolicyResult, no_cooldown: PolicyResult
-) -> float:
+def break_even_ratio(cooldown: PolicyResult, no_cooldown: PolicyResult) -> float:
     """Return I_attack/I_cve at which the two policies tie.
 
     (vuln_days_co - vuln_days_nc) * I_cve = (compromises_nc - compromises_co) * I_attack
@@ -183,17 +182,14 @@ def break_even_ratio(
     return extra_vuln_days / prevented
 
 
-def optimal_cooldown(
-    policies: list[PolicyResult], i_attack_over_i_cve: float
-) -> PolicyResult:
+def optimal_cooldown(policies: list[PolicyResult], i_attack_over_i_cve: float) -> PolicyResult:
     return min(policies, key=lambda r: total_cost(r, i_attack_over_i_cve))
 
 
 # --- Self-check ------------------------------------------------------------
 
-def assert_mc_matches_analytical(
-    mc: PolicyResult, analytical: float, label: str
-) -> None:
+
+def assert_mc_matches_analytical(mc: PolicyResult, analytical: float, label: str) -> None:
     diff = abs(mc.p_compromise - analytical)
     if diff > MC_ANALYTIC_TOLERANCE:
         raise AssertionError(
@@ -204,6 +200,7 @@ def assert_mc_matches_analytical(
 
 
 # --- Report sections -------------------------------------------------------
+
 
 def _print_header(title: str) -> None:
     print()
@@ -252,15 +249,16 @@ def print_mc_vs_analytical(
     p_co: float,
 ) -> None:
     _print_header(f"Analytical vs Monte Carlo (tolerance {MC_ANALYTIC_TOLERANCE})")
-    print(f"  P_nc: analytical={p_nc:.4f}  MC={no_cooldown.p_compromise:.4f}  "
-          f"diff={no_cooldown.p_compromise - p_nc:+.4f}  [ok]")
-    print(f"  P_co: analytical={p_co:.4f}  MC={cooldown.p_compromise:.4f}  "
-          f"diff={cooldown.p_compromise - p_co:+.4f}  [ok]")
+    print(
+        f"  P_nc: analytical={p_nc:.4f}  MC={no_cooldown.p_compromise:.4f}  "
+        f"diff={no_cooldown.p_compromise - p_nc:+.4f}  [ok]"
+    )
+    print(
+        f"  P_co: analytical={p_co:.4f}  MC={cooldown.p_compromise:.4f}  diff={cooldown.p_compromise - p_co:+.4f}  [ok]"
+    )
 
 
-def print_cost_differential(
-    cooldown: PolicyResult, no_cooldown: PolicyResult
-) -> None:
+def print_cost_differential(cooldown: PolicyResult, no_cooldown: PolicyResult) -> None:
     _print_header("Cost differential")
     extra_vd = cooldown.vuln_days_per_year - no_cooldown.vuln_days_per_year
     prevented = no_cooldown.compromises_per_year - cooldown.compromises_per_year
@@ -283,12 +281,9 @@ def print_shape_table(baseline: PolicyResult) -> None:
     This is the table reproduced in the blog post's section 4.
     """
     _print_header("Shape of the tradeoff - common cooldown windows vs C=0 baseline")
-    print(f"  {'C':>4} "
-          f"{'vuln-days/yr':>13} "
-          f"{'P(compr)':>10} "
-          f"{'prevented/yr':>14} "
-          f"{'1 per N yrs':>14} "
-          f"{'break-even':>12}")
+    print(
+        f"  {'C':>4} {'vuln-days/yr':>13} {'P(compr)':>10} {'prevented/yr':>14} {'1 per N yrs':>14} {'break-even':>12}"
+    )
     for c in SHAPE_COOLDOWNS:
         policy = analytical_policy(c)
         prevented = baseline.compromises_per_year - policy.compromises_per_year
@@ -306,12 +301,7 @@ def print_shape_table(baseline: PolicyResult) -> None:
 
 def print_sweep_table(policies: list[PolicyResult]) -> None:
     _print_header("Cooldown sweep (analytical) - cost at several risk ratios")
-    print(f"  {'C':>4} "
-          f"{'vuln-days/yr':>13} "
-          f"{'P(compr)':>10} "
-          f"{'cost@1e3':>12} "
-          f"{'cost@1e4':>12} "
-          f"{'cost@1e5':>12}")
+    print(f"  {'C':>4} {'vuln-days/yr':>13} {'P(compr)':>10} {'cost@1e3':>12} {'cost@1e4':>12} {'cost@1e5':>12}")
     for p in policies:
         print(
             f"  {p.cooldown_days:>4.0f} "
@@ -337,10 +327,7 @@ def print_sweep_optima(policies: list[PolicyResult]) -> None:
     print(f"  {'I_attack/I_cve':>16}   {'optimal C':>10}   {'total cost':>14}")
     for ratio in REPORT_RATIOS:
         best = optimal_cooldown(policies, ratio)
-        print(
-            f"  {ratio:>16,.0f}   {best.cooldown_days:>8.0f}d   "
-            f"{total_cost(best, ratio):>14.2f}"
-        )
+        print(f"  {ratio:>16,.0f}   {best.cooldown_days:>8.0f}d   {total_cost(best, ratio):>14.2f}")
 
 
 def print_verdict(no_cooldown: PolicyResult, cooldown: PolicyResult) -> None:
@@ -356,6 +343,7 @@ def print_verdict(no_cooldown: PolicyResult, cooldown: PolicyResult) -> None:
 
 
 # --- Entry point -----------------------------------------------------------
+
 
 def main() -> None:
     print_config()
