@@ -474,6 +474,13 @@ pre {
     color: var(--text-color);
     border-bottom: 2px solid var(--muted-color);
 }
+@media (max-width: 640px) {
+    /* Wide tables scroll inside themselves instead of widening the page. */
+    .article__content table {
+        display: block;
+        overflow-x: auto;
+    }
+}
 
 /* Blockquote */
 .article__content blockquote {
