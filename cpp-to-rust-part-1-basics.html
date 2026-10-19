@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>C++ to Rust, Part 1: The Everyday Vocabulary — Alexandre Manhães Savio</title>
+    <meta name="description" content="A phrasebook for C++ developers moving to Rust, part 1 of 3. Types, variables, overflow, control flow, functions, strings, containers, structs, enums, and null, each mapped from the C++ idiom you know to the Rust idiom you want, with the traps that a pure syntax swap hides." />
+    <meta name="author" content="Alexandre Manhães Savio" />    <link rel="canonical" href="https://alexsavio.github.io/cpp-to-rust-part-1-basics.html" />
+
+    <meta property="og:site_name" content="Alexandre Manhães Savio" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="C++ to Rust, Part 1: The Everyday Vocabulary — Alexandre Manhães Savio" />
+    <meta property="og:description" content="A phrasebook for C++ developers moving to Rust, part 1 of 3. Types, variables, overflow, control flow, functions, strings, containers, structs, enums, and null, each mapped from the C++ idiom you know to the Rust idiom you want, with the traps that a pure syntax swap hides." />
+    <meta property="og:url" content="https://alexsavio.github.io/cpp-to-rust-part-1-basics.html" />
+    <meta property="og:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />    <meta property="article:published_time" content="2026-10-19T00:00:00+02:00" />    <meta property="article:section" content="Engineering" />    <meta property="article:tag" content="rust" />    <meta property="article:tag" content="cpp" />    <meta property="article:tag" content="programming-languages" />    <meta property="article:tag" content="tutorial" />    <meta property="article:tag" content="memory-safety" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="C++ to Rust, Part 1: The Everyday Vocabulary — Alexandre Manhães Savio" />
+    <meta name="twitter:description" content="A phrasebook for C++ developers moving to Rust, part 1 of 3. Types, variables, overflow, control flow, functions, strings, containers, structs, enums, and null, each mapped from the C++ idiom you know to the Rust idiom you want, with the traps that a pure syntax swap hides." />
+    <meta name="twitter:image" content="https://alexsavio.github.io/imgs/alex_headshot.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+
+    <link rel="stylesheet" href="https://alexsavio.github.io/theme/css/style.css" />
+
+    <link href="https://alexsavio.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Alexandre Manhães Savio Atom Feed" />
+    <link href="https://alexsavio.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Alexandre Manhães Savio RSS Feed" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "C++ to Rust, Part 1: The Everyday\u00a0Vocabulary",
+  "description": "TL;DR Most everyday C++ has a direct Rust counterpart, but the translation is rarely one keyword for another. What changes is the defaults. C++ allows almost everything and makes safety\u00a0opt-in:...",
+  "datePublished": "2026-10-19T00:00:00+02:00",
+  "dateModified": "2026-10-19T00:00:00+02:00",
+  "url": "https://alexsavio.github.io/cpp-to-rust-part-1-basics.html",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://alexsavio.github.io/cpp-to-rust-part-1-basics.html" },
+  "image": "https://alexsavio.github.io/imgs/alex_headshot.png",
+  "author": {
+    "@type": "Person",
+    "name": "Alexandre Manh\u00e3es Savio",
+    "url": "https://alexsavio.github.io/pages/about.html"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Alexandre Manh\u00e3es Savio",
+    "url": "https://alexsavio.github.io/"
+  }
+}
+</script>
+    <style>
+        :root {
+--bg-color: #e6e9ef;--terminal-bg: #eff1f5;--text-color: #4c4f69;--primary-color: #1e66f5;--accent-color: #8839ef;--muted-color: #6c6f85;--code-bg: #ccd0da;--link-color: #179299;--header-bg: #dce0e8;        }
+    </style>
+</head>
+<body class="light-theme">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="terminal-strip" role="banner">
+                <div class="terminal-strip__chrome" aria-hidden="true">
+                    <span class="terminal-btn close"></span>
+                    <span class="terminal-btn minimize"></span>
+                    <span class="terminal-btn maximize"></span>
+                </div>
+                <div class="terminal-strip__prompt">
+                    <span class="prompt-user">alex</span><span class="prompt-at">@</span><span class="prompt-host">blog</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+                    <span class="terminal-strip__cmd">whoami</span>
+                </div>
+            </div>
+
+            <div class="site-identity">
+                <a class="site-identity__name" href="https://alexsavio.github.io/">Alexandre Manhães Savio</a>
+                <p class="site-identity__tagline">Freelance Software, Cloud & AI Engineer</p>
+            </div>
+
+            <nav class="site-nav" aria-label="Main navigation">
+                <ul>
+                    <li><a href="https://alexsavio.github.io/">Home</a></li>
+                    <li><a href="https://alexsavio.github.io/archives.html">Writing</a></li>
+                        <li><a href="https://alexsavio.github.io/pages/about.html">About</a></li>
+                        <li><a href="https://alexsavio.github.io/pages/work-with-me.html">Work with&nbsp;me</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="site-main">
+        <div class="container">
+<article class="article" itemscope itemtype="https://schema.org/BlogPosting">
+    <header class="article__header">
+        <p class="article__kicker">
+            <a href="https://alexsavio.github.io/category/engineering.html" itemprop="articleSection">Engineering</a>
+        </p>
+
+        <h1 class="article__title" itemprop="headline">C++ to Rust, Part 1: The Everyday&nbsp;Vocabulary</h1>
+
+        <div class="article__meta">
+            <time itemprop="datePublished" datetime="2026-10-19T00:00:00+02:00">
+                October 19, 2026
+            </time>
+            <span>· 24 min read</span>
+        </div>
+
+        <div class="article__meta" style="margin-top: 0.75rem;">
+                <a href="https://alexsavio.github.io/tag/rust.html" class="tag">rust</a>
+                <a href="https://alexsavio.github.io/tag/cpp.html" class="tag">cpp</a>
+                <a href="https://alexsavio.github.io/tag/programming-languages.html" class="tag">programming-languages</a>
+                <a href="https://alexsavio.github.io/tag/tutorial.html" class="tag">tutorial</a>
+                <a href="https://alexsavio.github.io/tag/memory-safety.html" class="tag">memory-safety</a>
+        </div>
+
+        <p class="article__series">
+            <strong>Part of the C++ to Rust series</strong> —
+            Part 1 of 1.
+        </p>
+    </header>
+
+    <div class="article__content" itemprop="articleBody">
+        <h2 id="tldr"><span class="caps">TL</span>;<span class="caps">DR</span></h2>
+<p>Most everyday C++ has a direct Rust counterpart, but the translation is rarely one keyword for another. What changes is the <strong>defaults</strong>. C++ allows almost everything and makes safety&nbsp;opt-in: <code>const</code>, <code>explicit</code>, <code>-Wall</code>, sanitizers. Rust forbids almost everything and makes permission&nbsp;opt-in: <code>mut</code>, <code>as</code>, <code>pub</code>, <code>unsafe</code>. So code that looks the same often behaves differently, and the biggest takeaway is to translate the intent, not the&nbsp;syntax.</p>
+<div class="toc">
+<ul>
+<li><a href="#tldr"><span class="caps">TL</span>;<span class="caps">DR</span></a></li>
+<li><a href="#what-this-series-is-and-what-it-is-not">What this series is, and what it is&nbsp;not</a></li>
+<li><a href="#the-one-big-shift-the-defaults-flip">The one big shift: the defaults&nbsp;flip</a></li>
+<li><a href="#toolchain-and-project-layout">Toolchain and project&nbsp;layout</a></li>
+<li><a href="#primitive-types-and-conversions">Primitive types and&nbsp;conversions</a></li>
+<li><a href="#variables-immutable-inferred-always-initialized">Variables: immutable, inferred, always&nbsp;initialized</a></li>
+<li><a href="#integer-overflow-from-undefined-to-defined">Integer overflow: from undefined to&nbsp;defined</a></li>
+<li><a href="#everything-is-an-expression">Everything is an&nbsp;expression</a></li>
+<li><a href="#functions-no-overloading-no-default-arguments">Functions: no overloading, no default&nbsp;arguments</a></li>
+<li><a href="#strings-two-types-and-a-byte-count">Strings: two types and a byte&nbsp;count</a></li>
+<li><a href="#containers">Containers</a></li>
+<li><a href="#structs-and-classes">Structs and&nbsp;classes</a></li>
+<li><a href="#enums-the-enum-class-c-wanted">Enums: the enum class C++&nbsp;wanted</a></li>
+<li><a href="#null-option-instead-of-nullptr">Null: Option instead of&nbsp;nullptr</a></li>
+<li><a href="#references-a-first-look">References: a first&nbsp;look</a></li>
+<li><a href="#printing-and-formatting">Printing and&nbsp;formatting</a></li>
+<li><a href="#cheat-sheet">Cheat&nbsp;sheet</a></li>
+<li><a href="#traps-for-c-developers">Traps for C++&nbsp;developers</a></li>
+<li><a href="#what-comes-next">What comes&nbsp;next</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+<h2 id="what-this-series-is-and-what-it-is-not">What this series is, and what it is&nbsp;not</h2>
+<p>This is not a &#8220;rewrite it in Rust&#8221; sermon, and it is not a language reference. It is a phrasebook, ordered as a learning path, for people who already write C++ for a&nbsp;living:</p>
+<ul>
+<li><strong>Part 1 (this post)</strong>: the everyday vocabulary. Types, variables, control flow, functions, strings, containers, structs, enums, and&nbsp;null.</li>
+<li><strong>Part 2</strong>: ownership and abstraction. Moves, <span class="caps">RAII</span>, borrowing, smart pointers, sum types, templates, traits, operators, errors, closures, and&nbsp;iterators.</li>
+<li><strong>Part 3</strong>: the advanced material. Threads and locks, lifetimes, compile-time programming, macros, self-referential&nbsp;data, <code>unsafe</code>, <span class="caps">FFI</span>, and how teams migrate real C++ code&nbsp;bases.</li>
+</ul>
+<p>Each section shows a C++ snippet, the idiomatic Rust, and the <strong>semantic gap</strong> between them. Syntax is the easy part. The gap is where the bugs and the surprises&nbsp;live.</p>
+<p>Every snippet in the series was compiled with <strong>rustc 1.99 (edition 2024)</strong> and <strong>Apple clang 21&nbsp;with <code>-std=c++23</code></strong>. Each snippet carries&nbsp;the <code>#include</code> lines&nbsp;or <code>use</code> imports it needs. A Rust snippet whose first line&nbsp;is <code>// does not compile</code> is there to fail, and it fails with the error code it&nbsp;names.</p>
+<p>Two free resources cover similar ground and make good companions: Brown University&#8217;s <a href="https://cel.cs.brown.edu/crp/">C++ to Rust Phrasebook</a>, a lookup table organized by C++ concept, and Google&#8217;s <a href="https://google.github.io/comprehensive-rust/">Comprehensive Rust</a>, a multi-day&nbsp;course.</p>
+<p>This series differs from both in three&nbsp;ways:</p>
+<ul>
+<li>It is ordered as a learning&nbsp;path.</li>
+<li>Every snippet is compile-checked on a named&nbsp;toolchain.</li>
+<li>It ends with how to migrate a real code&nbsp;base.</li>
+</ul>
+<h2 id="the-one-big-shift-the-defaults-flip">The one big shift: the defaults&nbsp;flip</h2>
+<p>Rust and C++ share more than either community likes to&nbsp;admit:</p>
+<ul>
+<li>zero-cost&nbsp;abstractions</li>
+<li>no garbage&nbsp;collector</li>
+<li><span class="caps">RAII</span></li>
+<li>generics compiled by monomorphization (one copy of the code per concrete type, as with&nbsp;templates)</li>
+<li>the same memory model for&nbsp;atomics</li>
+</ul>
+<p>The real difference is not what you <em>can</em> do. It is what happens when you say&nbsp;nothing.</p>
+<table>
+<thead>
+<tr>
+<th>When you write nothing&#8230;</th>
+<th>C++</th>
+<th>Rust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mutability</td>
+<td>mutable</td>
+<td>immutable&nbsp;(<code>mut</code> opts in)</td>
+</tr>
+<tr>
+<td>Visibility</td>
+<td><code>struct</code> public, <code>class</code> private</td>
+<td>private to the module&nbsp;(<code>pub</code> opts in)</td>
+</tr>
+<tr>
+<td>Numeric conversions</td>
+<td>implicit, narrowing included</td>
+<td>none&nbsp;(<code>as</code>, <code>From</code>, <code>TryFrom</code>)</td>
+</tr>
+<tr>
+<td>Assigning a non-trivial type</td>
+<td>copies</td>
+<td>moves</td>
+</tr>
+<tr>
+<td>Reading an uninitialized local</td>
+<td>undefined behavior</td>
+<td>compile error</td>
+</tr>
+<tr>
+<td>Pointers</td>
+<td>can be null, and the type does not say so</td>
+<td>references are never&nbsp;null; <code>Option&lt;&amp;T&gt;</code> opts in</td>
+</tr>
+<tr>
+<td>Signed integer overflow</td>
+<td>undefined behavior</td>
+<td>panics in debug builds</td>
+</tr>
+<tr>
+<td>Out-of-bounds index</td>
+<td>undefined behavior</td>
+<td>panics</td>
+</tr>
+<tr>
+<td><code>switch</code> / <code>match</code></td>
+<td>falls through, may be incomplete</td>
+<td>no fallthrough, must be exhaustive</td>
+</tr>
+<tr>
+<td>Dangerous operations</td>
+<td>allowed anywhere</td>
+<td>only&nbsp;inside <code>unsafe</code></td>
+</tr>
+</tbody>
+</table>
+<p>C++ hands you a workshop with every power tool plugged in, plus a thick safety manual. Rust hands you the same workshop with the tools locked in a cabinet, and each key you take out goes on a sign-out sheet. You can still do dangerous things in Rust. You just have to say so in writing, in a place a reviewer&nbsp;can <code>grep</code> for.</p>
+<p>C++26, technically complete since March 2026, softens two rows of the C++&nbsp;column:</p>
+<ul>
+<li>Reading an uninitialized local becomes <strong>erroneous behavior</strong> (a defined but wrong result that tools may diagnose) instead of undefined&nbsp;behavior.</li>
+<li>A <strong>hardened standard library</strong> can trap on an&nbsp;out-of-bounds <code>operator[]</code>.</li>
+</ul>
+<p>Compiler support is still arriving. Both changes turn silent corruption into defined behavior that implementations are encouraged to diagnose or trap, and neither one is a compile error. The rest of the table&nbsp;stands.</p>
+<p>Almost every section below is one row of this&nbsp;table.</p>
+<h2 id="toolchain-and-project-layout">Toolchain and project&nbsp;layout</h2>
+<p>Cargo is the build system, package manager, test runner, documentation generator, and lint driver in one tool. The &#8220;which build system, which package manager&#8221; decision that starts every C++ project does not&nbsp;exist.</p>
+<div class="highlight"><pre><span></span><code>cargo<span class="w"> </span>new<span class="w"> </span>inventory<span class="w">       </span><span class="c1"># Cargo.toml + src/main.rs</span>
+cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w">     </span><span class="c1"># optimized build in target/release</span>
+cargo<span class="w"> </span><span class="nb">test</span><span class="w">                </span><span class="c1"># runs every #[test] function, no framework needed</span>
+cargo<span class="w"> </span>clippy<span class="w">              </span><span class="c1"># lints, the clang-tidy of Rust</span>
+cargo<span class="w"> </span>fmt<span class="w">                 </span><span class="c1"># formatting, the clang-format of Rust</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Rust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Translation unit&nbsp;(<code>.cpp</code> + headers)</td>
+<td><strong>Crate</strong>: the whole library or binary is one compilation unit</td>
+</tr>
+<tr>
+<td><code>#include "parser.h"</code></td>
+<td><code>mod parser;</code> declares a&nbsp;module, <code>use parser::Token;</code> imports a name</td>
+</tr>
+<tr>
+<td><code>namespace net { ... }</code></td>
+<td><code>mod net { ... }</code>, or a&nbsp;file <code>net.rs</code></td>
+</tr>
+<tr>
+<td>CMake, Meson, Bazel</td>
+<td><code>Cargo.toml</code></td>
+</tr>
+<tr>
+<td>vcpkg, Conan</td>
+<td>crates.io,&nbsp;through <code>Cargo.toml</code> <code>[dependencies]</code></td>
+</tr>
+<tr>
+<td><code>-O3</code> / <code>-O0 -g</code></td>
+<td><code>--release</code> / the&nbsp;default <code>dev</code> profile</td>
+</tr>
+<tr>
+<td>GoogleTest, Catch2</td>
+<td>built-in <code>#[test]</code> + <code>cargo test</code></td>
+</tr>
+<tr>
+<td>clang-tidy, clang-format</td>
+<td><code>cargo clippy</code>, <code>cargo fmt</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The gap:</strong> there are no headers, so there are no include-order bugs, no forward declarations, and no One Definition Rule violations. Items in a module can refer to each other in any&nbsp;order.</p>
+<p>The trade-off is that the crate, not the file, is the unit of compilation, so a big crate behaves like a unity build. Code generation inside one crate already runs in parallel, but parsing and type-checking a crate do not. When builds get slow, split the code into several crates in a <strong>workspace</strong>: they type-check in parallel and rebuild&nbsp;independently.</p>
+<h2 id="primitive-types-and-conversions">Primitive types and&nbsp;conversions</h2>
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Rust</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int8_t</code> &#8230; <code>int64_t</code></td>
+<td><code>i8</code> &#8230; <code>i64</code></td>
+<td>exact match</td>
+</tr>
+<tr>
+<td><code>uint8_t</code> &#8230; <code>uint64_t</code></td>
+<td><code>u8</code> &#8230; <code>u64</code></td>
+<td>exact match</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>i32</code></td>
+<td>on every mainstream platform; the standard only promises at least 16 bits</td>
+</tr>
+<tr>
+<td><code>long</code></td>
+<td><code>i64</code> <em>or</em> <code>i32</code></td>
+<td>64-bit on 64-bit Linux and macOS, 32-bit on Windows and 32-bit targets: choose the width you mean</td>
+</tr>
+<tr>
+<td><code>size_t</code>, <code>ptrdiff_t</code></td>
+<td><code>usize</code>, <code>isize</code></td>
+<td>lengths and indices are&nbsp;always <code>usize</code></td>
+</tr>
+<tr>
+<td><code>__int128</code> (extension)</td>
+<td><code>i128</code>, <code>u128</code></td>
+<td>standard in Rust</td>
+</tr>
+<tr>
+<td><code>float</code>, <code>double</code></td>
+<td><code>f32</code>, <code>f64</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bool</code></td>
+<td><code>bool</code></td>
+<td>no implicit conversion to or from integers</td>
+</tr>
+<tr>
+<td><code>char</code> (a byte)</td>
+<td><code>u8</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>char32_t</code></td>
+<td><code>char</code></td>
+<td>a 4-byte Unicode scalar value, not a byte</td>
+</tr>
+</tbody>
+</table>
+<p>C++ converts between arithmetic types silently, narrowing included. The compiler may warn, but it will not stop you, unless you use brace initialization, where narrowing is an&nbsp;error.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdint&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">big</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">300</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">small</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">big</span><span class="p">;</span><span class="w"> </span><span class="c1">// 44, silently</span>
+<span class="kt">unsigned</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span><span class="w">          </span><span class="c1">// 4294967295, silently</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.9</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="p">;</span><span class="w">                </span><span class="c1">// 3, silently</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">small</span><span class="p">;</span><span class="w">   </span><span class="c1">// integer promotions do the rest</span>
+</code></pre></div>
+
+<p>Rust has no implicit numeric conversions at all, not even widening ones. You pick the conversion, and the name of the conversion tells the reader what can go&nbsp;wrong.</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">big</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">300</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// let small: u8 = big;          // error[E0308]: mismatched types</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">small</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">big</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">u8</span><span class="p">;</span><span class="w">           </span><span class="c1">// 44: `as` truncates, and now it says so</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">checked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">u8</span><span class="p">::</span><span class="n">try_from</span><span class="p">(</span><span class="n">big</span><span class="p">);</span><span class="w"> </span><span class="c1">// Err(TryFromIntError(PosOverflow))</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">wide</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">i64</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="n">big</span><span class="p">);</span><span class="w">       </span><span class="c1">// From exists only when no value can be lost</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.9_</span><span class="k">f64</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">;</span><span class="w">          </span><span class="c1">// 3</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">huge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e20_</span><span class="k">f64</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">;</span><span class="w">      </span><span class="c1">// 2147483647: float-to-int `as` saturates</span>
+<span class="w">    </span><span class="c1">// let total = i + small;        // error[E0308]: mismatched types, then E0277</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="kt">i32</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="n">small</span><span class="p">);</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{small} {checked:?} {wide} {i} {huge} {total}"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>The gap:</strong> pick the conversion by what can go&nbsp;wrong:</p>
+<ul>
+<li>Use <code>From</code> when the conversion is&nbsp;lossless.</li>
+<li>Use <code>TryFrom</code> when it can&nbsp;fail.</li>
+<li>Use <code>as</code> only when you mean&nbsp;&#8220;truncate&#8221;.</li>
+</ul>
+<p><code>as</code> is the one remaining sharp edge, so Clippy has&nbsp;opt-in <code>pedantic</code> lints&nbsp;(<code>cast_possible_truncation</code> and friends) to flag&nbsp;it.</p>
+<p>One more difference hides in the last cast: a float-to-int conversion that is out of range is undefined behavior in C++, while&nbsp;Rust&#8217;s <code>as</code> saturates to the nearest bound and&nbsp;turns <code>NaN</code> into <code>0</code>.</p>
+<h2 id="variables-immutable-inferred-always-initialized">Variables: immutable, inferred, always&nbsp;initialized</h2>
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Rust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>const int x = 5;</code></td>
+<td><code>let x = 5;</code></td>
+</tr>
+<tr>
+<td><code>int x = 5;</code></td>
+<td><code>let mut x = 5;</code></td>
+</tr>
+<tr>
+<td><code>auto x = f();</code></td>
+<td><code>let x = f();</code></td>
+</tr>
+<tr>
+<td><code>constexpr std::size_t N = 64;</code></td>
+<td><code>const N: usize = 64;</code></td>
+</tr>
+<tr>
+<td><code>int x;</code> (no initializer)</td>
+<td><code>let x: i32;</code> is allowed only if every path assigns it before use</td>
+</tr>
+<tr>
+<td>global <code>static int counter;</code></td>
+<td><code>static COUNTER: AtomicUsize</code> (globals must be thread-safe; Part 3)</td>
+</tr>
+</tbody>
+</table>
+<p>Reading an uninitialized local is a classic C++ bug. This compiles, and it reads garbage&nbsp;when <code>verbose</code> is&nbsp;false:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">log_level</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">verbose</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">level</span><span class="p">;</span><span class="w">           </span><span class="c1">// indeterminate value</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">level</span><span class="p">;</span><span class="w">        </span><span class="c1">// undefined behavior when verbose == false</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Rust tracks <strong>definite initialization</strong> on every&nbsp;path:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// does not compile: E0381</span>
+<span class="k">fn</span><span class="w"> </span><span class="nf">log_level</span><span class="p">(</span><span class="n">verbose</span><span class="p">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">level</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">verbose</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">level</span><span class="w"> </span><span class="c1">// error[E0381]: used binding `level` is possibly-uninitialized</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The idiomatic fix is to stop declaring first and assigning later. In&nbsp;Rust, <code>if</code> is an expression, so the value is computed where the variable is&nbsp;born:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">log_level</span><span class="p">(</span><span class="n">verbose</span><span class="p">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">verbose</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="n">level</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Two more differences are worth knowing on day&nbsp;one.</p>
+<p><strong>Shadowing.</strong> Rust lets you declare a new variable with the same name in the same scope. That sounds like a bug factory to C++ ears, but it is the idiomatic way to give a transformed value its natural name, instead of&nbsp;inventing <code>port_str</code>, <code>port_trimmed</code>,&nbsp;and <code>port_num</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">" 8080</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">port</span><span class="p">.</span><span class="n">trim</span><span class="p">();</span><span class="w">                </span><span class="c1">// &amp;str</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">port</span><span class="p">:</span><span class="w"> </span><span class="kt">u16</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">port</span><span class="p">.</span><span class="n">parse</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"> </span><span class="c1">// u16</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{port}"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Mutability is deep.</strong> In&nbsp;C++, <code>const</code> is part of the type, and it is shallow:&nbsp;a <code>const</code> object can hold a pointer to mutable data. That gives you the four-way puzzle&nbsp;of <code>const T*</code>, <code>T* const</code>, and&nbsp;friends.</p>
+<p>In Rust, mutability belongs to the binding and is <strong>inherited</strong> by everything the binding owns.&nbsp;A <code>let v = vec![1, 2]</code> cannot be pushed to, its elements cannot be changed, and there is&nbsp;no <code>const_cast</code> to get around it. (Part 2 covers the controlled escape hatch, interior&nbsp;mutability.)</p>
+<h2 id="integer-overflow-from-undefined-to-defined">Integer overflow: from undefined to&nbsp;defined</h2>
+<p>In C++, signed overflow is undefined behavior, so the optimizer is allowed to assume it never happens. Here is a real overflow check that clang 21&nbsp;at <code>-O2</code> compiles&nbsp;to <code>return false</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">bool</span><span class="w"> </span><span class="nf">will_overflow</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"> </span><span class="c1">// "cannot happen", so the compiler deletes the check</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Unsigned arithmetic is the opposite: it is defined to wrap, and a lot of C++ code (hashes, checksums, ring-buffer indices) depends on&nbsp;it.</p>
+<p>Rust treats <strong>every</strong> overflow, signed or unsigned, as a bug, but never as undefined behavior. The <a href="https://doc.rust-lang.org/reference/behavior-not-considered-unsafe.html#integer-overflow">Rust Reference</a> splits the rule by&nbsp;build:</p>
+<ul>
+<li>When debug assertions are on, &#8220;implementations must insert dynamic checks that panic on&nbsp;overflow&#8221;.</li>
+<li>Other builds &#8220;may result in panics or silently wrapped values on overflow, at the implementation&#8217;s discretion&#8221;, always with two&#8217;s complement&nbsp;results.</li>
+</ul>
+<p>Cargo&#8217;s defaults&nbsp;are <code>overflow-checks = true</code> in&nbsp;the <code>dev</code> profile&nbsp;and <code>false</code> in <code>release</code>.</p>
+<p>When you <em>want</em> a specific overflow behavior, you name&nbsp;it:</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">hint</span><span class="p">::</span><span class="n">black_box</span><span class="p">;</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">i32</span><span class="p">::</span><span class="n">MAX</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">black_box</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// hide the value from the compiler's constant checks</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{:?}"</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">checked_add</span><span class="p">(</span><span class="n">b</span><span class="p">));</span><span class="w">     </span><span class="c1">// None</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">wrapping_add</span><span class="p">(</span><span class="n">b</span><span class="p">));</span><span class="w">      </span><span class="c1">// -2147483648</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">saturating_add</span><span class="p">(</span><span class="n">b</span><span class="p">));</span><span class="w">    </span><span class="c1">// 2147483647</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{:?}"</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">overflowing_add</span><span class="p">(</span><span class="n">b</span><span class="p">));</span><span class="w"> </span><span class="c1">// (-2147483648, true)</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="c1">// panics: debug build, "attempt to add with overflow"</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{c}"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>The gap:</strong> port a C++ hash function to Rust with&nbsp;plain <code>+</code> and <code>*</code>, and your debug build panics on the first input. That is not a Rust bug. That is Rust asking you to say &#8220;yes, I want wrapping here&#8221;.&nbsp;Use <code>wrapping_*</code> methods or&nbsp;the <code>std::num::Wrapping&lt;T&gt;</code> type.</p>
+<p>The opposite trap also exists: release builds wrap silently by default. If overflow would be a real bug in production,&nbsp;set <code>overflow-checks = true</code> in <code>[profile.release]</code> and pay the small&nbsp;cost.</p>
+<h2 id="everything-is-an-expression">Everything is an&nbsp;expression</h2>
+<p>In&nbsp;Rust, <code>if</code>, <code>match</code>, and plain blocks all produce values. The ternary operator does not exist,&nbsp;because <code>if</code> already does its job, and the last expression of a function body is its return&nbsp;value.</p>
+<p>The <code>switch</code> statement&nbsp;becomes <code>match</code>,&nbsp;and <code>match</code> must be <strong>exhaustive</strong>. Here is the C++ version. It compiles, with&nbsp;a <code>-Wswitch</code> warning (on by default in clang, part&nbsp;of <code>-Wall</code> in <span class="caps">GCC</span>):</p>
+<div class="highlight"><pre><span></span><code><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Circle</span><span class="p">,</span><span class="w"> </span><span class="n">Square</span><span class="p">,</span><span class="w"> </span><span class="n">Triangle</span><span class="w"> </span><span class="p">};</span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="n">Shape</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">Shape</span><span class="o">::</span><span class="no">Circle</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"circle"</span><span class="p">;</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">Shape</span><span class="o">::</span><span class="no">Square</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"square"</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// Triangle forgotten: a warning at best</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s">"unknown"</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The same mistake in Rust is a hard error, not a&nbsp;warning:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// does not compile: E0004</span>
+<span class="k">enum</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Circle</span><span class="p">,</span><span class="w"> </span><span class="n">Square</span><span class="p">,</span><span class="w"> </span><span class="n">Triangle</span><span class="w"> </span><span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="w"> </span><span class="nc">Shape</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kp">&amp;</span><span class="o">'</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Shape</span><span class="p">::</span><span class="n">Circle</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"circle"</span><span class="p">,</span>
+<span class="w">        </span><span class="n">Shape</span><span class="p">::</span><span class="n">Square</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"square"</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="c1">// error[E0004]: non-exhaustive patterns: `Shape::Triangle` not covered</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>(<code>&amp;'static str</code> means &#8220;a string slice that lives for the whole program&#8221;, which is what a string literal&nbsp;is.)</p>
+<p><code>match</code> also has no fallthrough, and its patterns do much more than compare constants: alternatives, ranges, guards, and&nbsp;bindings.</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">classify</span><span class="p">(</span><span class="n">status</span><span class="p">:</span><span class="w"> </span><span class="kt">u16</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kp">&amp;</span><span class="o">'</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="mi">200</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">204</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"ok"</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">300</span><span class="o">..=</span><span class="mi">399</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"redirect"</span><span class="p">,</span>
+<span class="w">        </span><span class="n">s</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">500</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"server error"</span><span class="p">,</span>
+<span class="w">        </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"other"</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{} {} {}"</span><span class="p">,</span><span class="w"> </span><span class="n">classify</span><span class="p">(</span><span class="mi">204</span><span class="p">),</span><span class="w"> </span><span class="n">classify</span><span class="p">(</span><span class="mi">302</span><span class="p">),</span><span class="w"> </span><span class="n">classify</span><span class="p">(</span><span class="mi">503</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Loops translate almost one to one, with two&nbsp;upgrades: <code>loop</code> can return a value&nbsp;through <code>break</code>, and labeled breaks replace&nbsp;the <code>goto</code> you use to escape nested&nbsp;loops.</p>
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Rust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>for (const auto&amp; x : v)</code></td>
+<td><code>for x in &amp;v</code></td>
+</tr>
+<tr>
+<td><code>for (auto&amp; x : v)</code></td>
+<td><code>for x in &amp;mut v</code></td>
+</tr>
+<tr>
+<td><code>for (int i = 0; i &lt; n; ++i)</code></td>
+<td><code>for i in 0..n</code></td>
+</tr>
+<tr>
+<td>index + element</td>
+<td><code>for (i, x) in v.iter().enumerate()</code></td>
+</tr>
+<tr>
+<td><code>while (cond)</code></td>
+<td><code>while cond</code></td>
+</tr>
+<tr>
+<td><code>for (;;)</code> / <code>while (true)</code></td>
+<td><code>loop</code></td>
+</tr>
+<tr>
+<td><code>goto found;</code> out of nested loops</td>
+<td><code>break 'label</code>; with a value only&nbsp;from <code>loop</code> or a labeled block</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">]];</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">'</span><span class="na">search</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">grid</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">row</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="k">break</span><span class="w"> </span><span class="nl">'search</span><span class="w"> </span><span class="nb">Some</span><span class="p">((</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">));</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="nb">None</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{found:?}"</span><span class="p">);</span><span class="w"> </span><span class="c1">// Some((1, 1))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="functions-no-overloading-no-default-arguments">Functions: no overloading, no default&nbsp;arguments</h2>
+<p>Rust has neither function overloading nor default arguments. Both are deliberate. Overload resolution combined with implicit conversions is one of the most complicated parts of the C++ standard, and in Rust a function name always means exactly one&nbsp;function.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;utility&gt;</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">Conn</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">host</span><span class="p">;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">port</span><span class="p">;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="p">;</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">tls</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
+
+<span class="n">Conn</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">host</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">443</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">tls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">host</span><span class="p">),</span><span class="w"> </span><span class="n">port</span><span class="p">,</span><span class="w"> </span><span class="n">timeout_ms</span><span class="p">,</span><span class="w"> </span><span class="n">tls</span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">value</span><span class="p">);</span><span class="w"> </span><span class="c1">// overload by type</span>
+</code></pre></div>
+
+<p>The Rust replacements, from simplest to most&nbsp;flexible:</p>
+<ol>
+<li><strong>Different names</strong> for different&nbsp;things: <code>log_int</code>, <code>log_str</code>. Or one generic function over a trait&nbsp;(<code>fn log(value: impl Display)</code>), which Part 2&nbsp;covers.</li>
+<li><strong>An options struct&nbsp;with <code>Default</code></strong>, plus <strong>struct update syntax</strong>&nbsp;(<code>..Default::default()</code>) to override only some&nbsp;fields.</li>
+<li><strong>A builder</strong> when construction has rules or many optional&nbsp;parts.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="cp">#[derive(Debug)]</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">ConnectOptions</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">port</span><span class="p">:</span><span class="w"> </span><span class="kt">u16</span><span class="p">,</span>
+<span class="w">    </span><span class="n">timeout_ms</span><span class="p">:</span><span class="w"> </span><span class="kt">u32</span><span class="p">,</span>
+<span class="w">    </span><span class="n">tls</span><span class="p">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="nb">Default</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">ConnectOptions</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">default</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">Self</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="bp">Self</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">port</span><span class="p">:</span><span class="w"> </span><span class="mi">443</span><span class="p">,</span><span class="w"> </span><span class="n">timeout_ms</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span><span class="w"> </span><span class="n">tls</span><span class="p">:</span><span class="w"> </span><span class="nc">true</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="n">host</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p">:</span><span class="w"> </span><span class="nc">ConnectOptions</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="fm">format!</span><span class="p">(</span><span class="s">"{host}:{} tls={} timeout={}ms"</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p">.</span><span class="n">port</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p">.</span><span class="n">tls</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p">.</span><span class="n">timeout_ms</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">connect</span><span class="p">(</span><span class="s">"example.com"</span><span class="p">,</span><span class="w"> </span><span class="n">ConnectOptions</span><span class="p">::</span><span class="n">default</span><span class="p">()));</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span>
+<span class="w">        </span><span class="s">"{}"</span><span class="p">,</span>
+<span class="w">        </span><span class="n">connect</span><span class="p">(</span><span class="s">"localhost"</span><span class="p">,</span><span class="w"> </span><span class="n">ConnectOptions</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">port</span><span class="p">:</span><span class="w"> </span><span class="mi">8080</span><span class="p">,</span><span class="w"> </span><span class="n">tls</span><span class="p">:</span><span class="w"> </span><span class="nc">false</span><span class="p">,</span><span class="w"> </span><span class="o">..</span><span class="nb">Default</span><span class="p">::</span><span class="n">default</span><span class="p">()</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The options struct is more typing&nbsp;than <code>= 443</code>, but it ages better: the call site names every value it changes, and adding a new option does not break any&nbsp;caller.</p>
+<p>To return several values, return a&nbsp;tuple, <code>fn min_max(v: &amp;[i32]) -&gt; (i32, i32)</code>, and destructure it&nbsp;with <code>let (lo, hi) = min_max(&amp;v);</code>, like C++17 structured&nbsp;bindings.</p>
+<h2 id="strings-two-types-and-a-byte-count">Strings: two types and a byte&nbsp;count</h2>
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Rust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>std::string</code></td>
+<td><code>String</code>: owned, growable, always valid <span class="caps">UTF</span>-8</td>
+</tr>
+<tr>
+<td><code>std::string_view</code>, <code>const std::string&amp;</code></td>
+<td><code>&amp;str</code>: a borrowed view into <span class="caps">UTF</span>-8 text</td>
+</tr>
+<tr>
+<td><code>const char*</code> to or from C</td>
+<td><code>&amp;CStr</code> / <code>CString</code>, only at <span class="caps">FFI</span> boundaries</td>
+</tr>
+<tr>
+<td><code>std::to_string(42)</code></td>
+<td><code>42.to_string()</code>, <code>format!("{}", 42)</code></td>
+</tr>
+<tr>
+<td><code>std::stoi(s)</code> (throws)</td>
+<td><code>s.parse::&lt;i32&gt;()</code> (returns&nbsp;a <code>Result</code>)</td>
+</tr>
+<tr>
+<td><code>s.size()</code></td>
+<td><code>s.len()</code>, in <strong>bytes</strong></td>
+</tr>
+<tr>
+<td><code>s[i]</code></td>
+<td>no direct equivalent; see below</td>
+</tr>
+<tr>
+<td><code>s.substr(pos, n)</code></td>
+<td><code>&amp;s[pos..pos + n]</code>, a byte range that must fall on character boundaries</td>
+</tr>
+<tr>
+<td><code>a + b</code></td>
+<td><code>a + &amp;b</code> (consumes <code>a</code>),&nbsp;or <code>format!("{a}{b}")</code></td>
+</tr>
+</tbody>
+</table>
+<p>Function parameters that only read text should&nbsp;take <code>&amp;str</code>, the same advice as&nbsp;&#8220;take <code>std::string_view</code>&#8221; in modern C++.&nbsp;A <code>&amp;String</code> converts&nbsp;to <code>&amp;str</code> automatically.</p>
+<p>A&nbsp;Rust <code>String</code> is guaranteed to hold valid <span class="caps">UTF</span>-8, where a character can take one to four bytes. So &#8220;the i-th character&#8221; cannot be both O(1) and correct, and Rust refuses to pretend&nbsp;otherwise:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// does not compile: E0277</span>
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"naïve"</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"> </span><span class="c1">// error[E0277]: the type `str` cannot be indexed by `{integer}`</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>You say what you mean instead: bytes, characters, or a byte&nbsp;range.</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"naïve"</span><span class="p">);</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{} bytes, {} chars"</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">len</span><span class="p">(),</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">chars</span><span class="p">().</span><span class="n">count</span><span class="p">());</span><span class="w"> </span><span class="c1">// 6 bytes, 5 chars</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{:?}"</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">chars</span><span class="p">().</span><span class="n">nth</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span><span class="w"> </span><span class="c1">// Some('ï')</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="o">..</span><span class="mi">2</span><span class="p">]);</span><span class="w">           </span><span class="c1">// "na"</span>
+<span class="w">    </span><span class="c1">// &amp;s[0..3] would panic: byte 3 is in the middle of 'ï'</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">n</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"42"</span><span class="p">.</span><span class="n">parse</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The second difference is lifetime.&nbsp;A <code>std::string_view</code> that outlives its string is a dangling pointer, and the compiler will not tell&nbsp;you:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;print&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string_view&gt;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="nf">first_word</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="sc">' '</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first_word</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">"hello world"</span><span class="p">));</span><span class="w"> </span><span class="c1">// the temporary dies at the ';'</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">println</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">);</span><span class="w">                           </span><span class="c1">// dangling view: undefined behavior</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The same code in Rust does not compile, because the borrow checker knows&nbsp;that <code>w</code> points into a&nbsp;temporary:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// does not compile: E0716</span>
+<span class="k">fn</span><span class="w"> </span><span class="nf">first_word</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="sc">' '</span><span class="p">).</span><span class="n">next</span><span class="p">().</span><span class="n">unwrap_or</span><span class="p">(</span><span class="s">""</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first_word</span><span class="p">(</span><span class="o">&amp;</span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"hello world"</span><span class="p">));</span><span class="w"> </span><span class="c1">// temporary dropped here...</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{w}"</span><span class="p">);</span><span class="w">                                  </span><span class="c1">// ...while `w` still borrows it</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This is your first look at the borrow checker. Part 2 is mostly about&nbsp;it.</p>
+<h2 id="containers">Containers</h2>
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Rust</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>T[N]</code>, <code>std::array&lt;T, N&gt;</code></td>
+<td><code>[T; N]</code></td>
+<td>a value type,&nbsp;like <code>std::array</code></td>
+</tr>
+<tr>
+<td><code>std::vector&lt;T&gt;</code></td>
+<td><code>Vec&lt;T&gt;</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>std::span&lt;T&gt;</code>, pointer + length</td>
+<td><code>&amp;[T]</code>, <code>&amp;mut [T]</code></td>
+<td>a <strong>slice</strong> always carries its length</td>
+</tr>
+<tr>
+<td><code>std::deque&lt;T&gt;</code></td>
+<td><code>VecDeque&lt;T&gt;</code></td>
+<td>a ring buffer</td>
+</tr>
+<tr>
+<td><code>std::list&lt;T&gt;</code></td>
+<td><code>LinkedList&lt;T&gt;</code></td>
+<td>rarely the right choice, in either language</td>
+</tr>
+<tr>
+<td><code>std::map&lt;K, V&gt;</code></td>
+<td><code>BTreeMap&lt;K, V&gt;</code></td>
+<td>ordered; a B-tree,&nbsp;where <code>std::map</code> is usually a red-black tree</td>
+</tr>
+<tr>
+<td><code>std::unordered_map&lt;K, V&gt;</code></td>
+<td><code>HashMap&lt;K, V&gt;</code></td>
+<td>SipHash 1-3 by default: resists HashDoS, slower for small keys</td>
+</tr>
+<tr>
+<td><code>std::set</code>, <code>std::unordered_set</code></td>
+<td><code>BTreeSet</code>, <code>HashSet</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>std::priority_queue&lt;T&gt;</code></td>
+<td><code>BinaryHeap&lt;T&gt;</code></td>
+<td>both are max-heaps by default</td>
+</tr>
+<tr>
+<td><code>v.push_back(x)</code>, <code>v.emplace_back(args)</code></td>
+<td><code>v.push(x)</code></td>
+<td>no <code>emplace</code>: see below</td>
+</tr>
+<tr>
+<td><code>v[i]</code> / <code>v.at(i)</code></td>
+<td><code>v[i]</code> panics if out of range&nbsp;/ <code>v.get(i)</code> returns <code>Option</code></td>
+<td><code>get_unchecked</code> is&nbsp;the <code>unsafe</code> opt-out</td>
+</tr>
+</tbody>
+</table>
+<p>The most important container lesson is that in Rust, <strong>reading never writes</strong>. In&nbsp;C++, <code>operator[]</code> on a map inserts a default value when the key is missing, even when all you wanted was to&nbsp;look:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;map&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;print&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">stock</span><span class="p">{{</span><span class="s">"apples"</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">}};</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">stock</span><span class="p">[</span><span class="s">"pears"</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// inserts "pears" -&gt; 0 as a side effect</span>
+<span class="n">std</span><span class="o">::</span><span class="n">println</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">stock</span><span class="p">.</span><span class="n">size</span><span class="p">());</span><span class="w">     </span><span class="c1">// 2</span>
+</code></pre></div>
+
+<p>In Rust, indexing a map with a missing key panics,&nbsp;and <code>get</code> returns&nbsp;an <code>Option</code>. When you want insert-or-update, the <strong>entry <span class="caps">API</span></strong> says so out&nbsp;loud:</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">collections</span><span class="p">::</span><span class="n">BTreeMap</span><span class="p">;</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BTreeMap</span><span class="p">::</span><span class="n">from</span><span class="p">([(</span><span class="s">"apples"</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)]);</span>
+<span class="w">    </span><span class="c1">// stock["pears"] would panic: indexing never inserts</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">pears</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stock</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"pears"</span><span class="p">).</span><span class="n">copied</span><span class="p">().</span><span class="n">unwrap_or</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{pears} {}"</span><span class="p">,</span><span class="w"> </span><span class="n">stock</span><span class="p">.</span><span class="n">len</span><span class="p">());</span><span class="w"> </span><span class="c1">// 0 1</span>
+<span class="w">    </span><span class="o">*</span><span class="n">stock</span><span class="p">.</span><span class="n">entry</span><span class="p">(</span><span class="s">"pears"</span><span class="p">).</span><span class="n">or_insert</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{stock:?}"</span><span class="p">);</span><span class="w"> </span><span class="c1">// {"apples": 3, "pears": 5}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>The gap:</strong> out-of-bounds access is a panic, not undefined behavior. The bounds checks are cheap and are often optimized out, especially when you iterate instead of indexing, which is the idiomatic style anyway (Part&nbsp;2).</p>
+<p>There is also&nbsp;no <code>emplace_back</code>: a Rust move is a plain copy of the bytes that never runs user code, so there is no constructor to forward arguments to. You build the value&nbsp;and <code>push</code> it.</p>
+<h2 id="structs-and-classes">Structs and&nbsp;classes</h2>
+<p>A C++ class splits into two Rust pieces:&nbsp;a <code>struct</code> for the data and&nbsp;an <code>impl</code> block for the&nbsp;functions.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdint&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;utility&gt;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Account</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="k">explicit</span><span class="w"> </span><span class="n">Account</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">owner</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">owner_</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">owner</span><span class="p">)),</span><span class="w"> </span><span class="n">balance_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">deposit</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">int64_t</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">balance_</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">amount</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">int64_t</span><span class="w"> </span><span class="n">balance</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">balance_</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">owner_</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">int64_t</span><span class="w"> </span><span class="n">balance_</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">Account</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">owner</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="c1">// private: visible in this module and its child modules</span>
+<span class="w">    </span><span class="n">balance</span><span class="p">:</span><span class="w"> </span><span class="kt">i64</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">Account</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">new</span><span class="p">(</span><span class="n">owner</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">Self</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="bp">Self</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="n">balance</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">deposit</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">:</span><span class="w"> </span><span class="kt">i64</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">balance</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">amount</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">balance</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">i64</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">balance</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Account</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s">"ada"</span><span class="p">.</span><span class="n">to_string</span><span class="p">());</span>
+<span class="w">    </span><span class="n">acc</span><span class="p">.</span><span class="n">deposit</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{} has {}"</span><span class="p">,</span><span class="w"> </span><span class="n">acc</span><span class="p">.</span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="n">acc</span><span class="p">.</span><span class="n">balance</span><span class="p">());</span><span class="w"> </span><span class="c1">// fine: same module</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Rust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>constructor</td>
+<td>an ordinary associated function, by convention&nbsp;called <code>new</code></td>
+</tr>
+<tr>
+<td>overloaded constructors</td>
+<td>several named&nbsp;functions: <code>new</code>, <code>with_capacity</code>, <code>from_parts</code></td>
+</tr>
+<tr>
+<td><code>this-&gt;field</code></td>
+<td><code>self.field</code>, always explicit</td>
+</tr>
+<tr>
+<td><code>const</code> member function</td>
+<td><code>&amp;self</code></td>
+</tr>
+<tr>
+<td>non-<code>const</code> member function</td>
+<td><code>&amp;mut self</code></td>
+</tr>
+<tr>
+<td><code>&amp;&amp;</code>-qualified member function</td>
+<td><code>self</code>: the method takes ownership and consumes the object</td>
+</tr>
+<tr>
+<td><code>static</code> member function</td>
+<td>an associated function with&nbsp;no <code>self</code></td>
+</tr>
+<tr>
+<td><code>private:</code></td>
+<td>the default, but private to the <strong>module</strong>, not to the type</td>
+</tr>
+<tr>
+<td><code>friend</code></td>
+<td>not needed: everything in the same module can see private fields</td>
+</tr>
+<tr>
+<td>destructor</td>
+<td><code>impl Drop</code> (Part 2)</td>
+</tr>
+<tr>
+<td>inheritance</td>
+<td>traits and composition (Part 2)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The gap:</strong> a Rust constructor is not special. A struct literal must set every field, so there is no half-built object, no member initialization order puzzle, and no exception escaping from the middle of a&nbsp;constructor.</p>
+<p>The price is that &#8220;constructor&#8221; is now a naming convention, and nothing forces callers to go&nbsp;through <code>new</code> except privacy. That is why privacy matters: a type with a private field can only be created inside its own module (or a child module), which is how you protect an&nbsp;invariant.</p>
+<h2 id="enums-the-enum-class-c-wanted">Enums: the enum class C++&nbsp;wanted</h2>
+<p>A&nbsp;C++ <code>enum class</code> maps to a&nbsp;Rust <code>enum</code>, with explicit values when you need&nbsp;them:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#[derive(Debug, Clone, Copy, PartialEq)]</span>
+<span class="cp">#[repr(u8)]</span>
+<span class="k">enum</span><span class="w"> </span><span class="nc">Level</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Debug</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Warn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">lvl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Level</span><span class="p">::</span><span class="n">Info</span><span class="p">;</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{:?} = {}"</span><span class="p">,</span><span class="w"> </span><span class="n">lvl</span><span class="p">,</span><span class="w"> </span><span class="n">lvl</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">u8</span><span class="p">);</span><span class="w"> </span><span class="c1">// Info = 20</span>
+<span class="w">    </span><span class="c1">// let bad = 7 as Level;               // error[E0605]: non-primitive cast</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Casting an enum to an integer is fine. The other way does not compile. In&nbsp;C++, <code>static_cast&lt;Level&gt;(7)</code> gives you a value that matches no enumerator, and&nbsp;every <code>switch</code> downstream has to deal with it. A Rust enum value is always one of its variants, so integer-to-enum conversions go through&nbsp;a <code>TryFrom</code> impl you write, and that impl can&nbsp;fail.</p>
+<p>Rust enums can also <strong>carry data</strong>, one payload per variant. That makes them tagged unions, the&nbsp;job <code>std::variant</code> does in C++, but built into the language and checked&nbsp;by <code>match</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">enum</span><span class="w"> </span><span class="nc">Command</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Quit</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Move</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="n">Write</span><span class="p">(</span><span class="nb">String</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">:</span><span class="w"> </span><span class="nc">Command</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">cmd</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Command</span><span class="p">::</span><span class="n">Quit</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"bye"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">Command</span><span class="p">::</span><span class="n">Move</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">format!</span><span class="p">(</span><span class="s">"move to {x},{y}"</span><span class="p">),</span>
+<span class="w">        </span><span class="n">Command</span><span class="p">::</span><span class="n">Write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">text</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="n">Command</span><span class="p">::</span><span class="n">Move</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">}));</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Data-carrying enums are among the most used features in Rust. Part 2 compares them&nbsp;with <code>std::variant</code> and <code>std::visit</code> in&nbsp;detail.</p>
+<h2 id="null-option-instead-of-nullptr">Null: <code>Option</code> instead&nbsp;of <code>nullptr</code></h2>
+<p>A C++ pointer can always be null, and nothing in the type tells the caller whether it might&nbsp;be:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">User</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">name</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">User</span><span class="o">*</span><span class="w"> </span><span class="nf">find_user</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">users</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">users</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">u</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="n">u</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">nullptr</span><span class="p">;</span><span class="w"> </span><span class="c1">// the caller must remember to check</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Rust references are never null. &#8220;Maybe a value&#8221; is a separate&nbsp;type, <code>Option&lt;T&gt;</code>, and you cannot reach the value inside without handling&nbsp;the <code>None</code> case:</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">User</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">u32</span><span class="p">,</span>
+<span class="w">    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">find_user</span><span class="p">(</span><span class="n">users</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="p">[</span><span class="n">User</span><span class="p">],</span><span class="w"> </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">u32</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;&amp;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">users</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">find</span><span class="p">(</span><span class="o">|</span><span class="n">u</span><span class="o">|</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="s">"ada"</span><span class="p">.</span><span class="n">into</span><span class="p">()</span><span class="w"> </span><span class="p">}];</span>
+<span class="w">    </span><span class="c1">// find_user(&amp;users, 1).name  // error[E0609]: no field `name` on type `Option&lt;&amp;User&gt;`</span>
+
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">find_user</span><span class="p">(</span><span class="o">&amp;</span><span class="n">users</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">Some</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">"found {}"</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">name</span><span class="p">),</span>
+<span class="w">        </span><span class="nb">None</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">"no such user"</span><span class="p">),</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">guest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_user</span><span class="p">(</span><span class="o">&amp;</span><span class="n">users</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">).</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="n">u</span><span class="o">|</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">name</span><span class="p">.</span><span class="n">as_str</span><span class="p">()).</span><span class="n">unwrap_or</span><span class="p">(</span><span class="s">"guest"</span><span class="p">);</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{guest}"</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_user</span><span class="p">(</span><span class="o">&amp;</span><span class="n">users</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// let-else: unwrap or leave early</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>|u| u.id == id</code> is a <strong>closure</strong>, Rust&#8217;s lambda,&nbsp;and <code>.iter().find(...)</code> is the iterator form&nbsp;of <code>std::find_if</code>. Part 2 covers&nbsp;both.</p>
+<p>This safety costs <strong>zero bytes</strong>. The standard library <a href="https://doc.rust-lang.org/std/option/index.html#representation">guarantees</a>&nbsp;that <code>Option&lt;&amp;T&gt;</code>, <code>Option&lt;Box&lt;T&gt;&gt;</code>, and a few others have the same size as the bare pointer, because the compiler uses the forbidden null value to&nbsp;encode <code>None</code>.</p>
+<p>On this&nbsp;machine, <code>size_of::&lt;Option&lt;&amp;u64&gt;&gt;()</code> is 8, the same as a pointer,&nbsp;while <code>sizeof(std::optional&lt;int*&gt;)</code> is 16. The type Rust uses to remove null pointers compiles back down to a null&nbsp;pointer.</p>
+<h2 id="references-a-first-look">References: a first&nbsp;look</h2>
+<p>C++ references and Rust references look&nbsp;alike. <code>const T&amp;</code> becomes <code>&amp;T</code>,&nbsp;and <code>T&amp;</code> becomes <code>&amp;mut T</code>. One difference is visible right away, at the call&nbsp;site:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">k</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// scale(data, 2.0);  -- nothing here says that `data` is modified</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="n">v</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="p">[</span><span class="kt">f64</span><span class="p">],</span><span class="w"> </span><span class="n">k</span><span class="p">:</span><span class="w"> </span><span class="kt">f64</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">iter_mut</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">*</span><span class="n">x</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">k</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">v</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="p">[</span><span class="kt">f64</span><span class="p">])</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">f64</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">v</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">sum</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="p">];</span>
+<span class="w">    </span><span class="n">scale</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">);</span><span class="w"> </span><span class="c1">// the call says it: `data` may change here</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="o">&amp;</span><span class="n">data</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The deeper difference is one rule, which the compiler checks everywhere: at any moment, a value has <strong>either any number&nbsp;of <code>&amp;T</code> readers or exactly&nbsp;one <code>&amp;mut T</code> writer</strong>, never both. Add &#8220;a reference can never outlive what it points to&#8221;, and you have the core of the borrow&nbsp;checker.</p>
+<p>Part 2 shows how this one rule removes iterator invalidation, dangling references, and a whole family of aliasing bugs, and what to do when it gets in your&nbsp;way.</p>
+<h2 id="printing-and-formatting">Printing and&nbsp;formatting</h2>
+<p>C++20 <code>std::format</code> and&nbsp;C++23 <code>std::print</code> use almost the same format-spec mini-language as&nbsp;Rust&#8217;s <code>format!</code> and <code>println!</code>, so this section is mostly good news.&nbsp;The <code>!</code> marks a <strong>macro</strong>. Macros are how Rust checks the format string against the arguments at compile time, the job that&nbsp;the <code>consteval</code> format string does&nbsp;for <code>std::format</code> in&nbsp;C++20.</p>
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Rust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>std::println("{} {}", a, b)</code></td>
+<td><code>println!("{} {}", a, b)</code> or <code>println!("{a} {b}")</code></td>
+</tr>
+<tr>
+<td><code>std::format("{:&gt;8}", s)</code></td>
+<td><code>format!("{:&gt;8}", s)</code></td>
+</tr>
+<tr>
+<td><code>std::cerr &lt;&lt; ...</code></td>
+<td><code>eprintln!(...)</code></td>
+</tr>
+<tr>
+<td><code>operator&lt;&lt;</code> or&nbsp;a <code>std::formatter</code> specialization</td>
+<td><code>impl Display</code> (Part 2)</td>
+</tr>
+<tr>
+<td>a debug dump of a struct</td>
+<td><code>#[derive(Debug)]</code> plus <code>{:?}</code>,&nbsp;or <code>{:#?}</code> for pretty output</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="cp">#[derive(Debug)]</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Point</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="kt">f64</span><span class="p">,</span>
+<span class="w">    </span><span class="n">y</span><span class="p">:</span><span class="w"> </span><span class="kt">f64</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="mf">3.14159</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="mf">2.0</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"offset"</span><span class="p">;</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{label}: {p:?}"</span><span class="p">);</span><span class="w">  </span><span class="c1">// offset: Point { x: 3.14159, y: -2.0 }</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"[{:&gt;8.2}]"</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="p">);</span><span class="w"> </span><span class="c1">// [    3.14]</span>
+<span class="w">    </span><span class="fm">eprintln!</span><span class="p">(</span><span class="s">"{p:#?}"</span><span class="p">);</span><span class="w">        </span><span class="c1">// pretty, multi-line, to stderr</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>The gap:</strong> one trap hides in the &#8220;almost&#8221;. In&nbsp;Rust, <code>{:.2}</code> on a float means <strong>two digits after the decimal point</strong>. In&nbsp;C++, <code>{:.2}</code> without a type letter uses the general format, where the precision counts <strong>significant digits</strong>: <code>std::format("{:.2}", 3.14159)</code> gives <code>3.1</code>, and you&nbsp;need <code>{:.2f}</code> to&nbsp;get <code>3.14</code>. Port a format string without&nbsp;the <code>f</code> and your numbers change&nbsp;quietly.</p>
+<h2 id="cheat-sheet">Cheat&nbsp;sheet</h2>
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Rust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code>, <code>long</code>, <code>size_t</code></td>
+<td><code>i32</code>, <code>i64</code>/<code>i32</code> (choose), <code>usize</code></td>
+</tr>
+<tr>
+<td>implicit conversion</td>
+<td><code>From</code> (lossless), <code>TryFrom</code> (fallible), <code>as</code> (truncating)</td>
+</tr>
+<tr>
+<td><code>const T x = v;</code> / <code>T x = v;</code></td>
+<td><code>let x = v;</code> / <code>let mut x = v;</code></td>
+</tr>
+<tr>
+<td><code>constexpr</code> value</td>
+<td><code>const</code></td>
+</tr>
+<tr>
+<td><code>auto</code></td>
+<td>type inference&nbsp;with <code>let</code></td>
+</tr>
+<tr>
+<td>uninitialized variable</td>
+<td>compile error until every path assigns it</td>
+</tr>
+<tr>
+<td>signed overflow (undefined behavior)</td>
+<td>panic in debug, wrap in&nbsp;release; <code>checked_</code>, <code>wrapping_</code>, <code>saturating_</code></td>
+</tr>
+<tr>
+<td>unsigned wraparound</td>
+<td><code>wrapping_*</code> or <code>Wrapping&lt;T&gt;</code> (plain <code>+</code> panics in debug)</td>
+</tr>
+<tr>
+<td><code>c ? a : b</code></td>
+<td><code>if c { a } else { b }</code></td>
+</tr>
+<tr>
+<td><code>switch</code></td>
+<td><code>match</code>: exhaustive, no fallthrough, patterns and guards</td>
+</tr>
+<tr>
+<td>range-for</td>
+<td><code>for x in &amp;v</code> / <code>for x in &amp;mut v</code> / <code>for x in v</code></td>
+</tr>
+<tr>
+<td><code>goto</code> out of loops</td>
+<td>labeled <code>break 'outer</code></td>
+</tr>
+<tr>
+<td>overloads</td>
+<td>distinct names, or generics with traits</td>
+</tr>
+<tr>
+<td>default arguments</td>
+<td><code>Default</code> + <code>..Default::default()</code>, or a builder</td>
+</tr>
+<tr>
+<td><code>std::pair</code>, structured bindings</td>
+<td>tuples, <code>let (a, b) = ...</code></td>
+</tr>
+<tr>
+<td><code>std::string</code> / <code>std::string_view</code></td>
+<td><code>String</code> / <code>&amp;str</code></td>
+</tr>
+<tr>
+<td><code>const char*</code></td>
+<td><code>&amp;CStr</code>, <code>CString</code> (<span class="caps">FFI</span> only)</td>
+</tr>
+<tr>
+<td><code>std::stoi</code></td>
+<td><code>s.parse::&lt;i32&gt;()</code></td>
+</tr>
+<tr>
+<td><code>std::array</code> / <code>std::vector</code> / <code>std::span</code></td>
+<td><code>[T; N]</code> / <code>Vec&lt;T&gt;</code> / <code>&amp;[T]</code></td>
+</tr>
+<tr>
+<td><code>std::map</code> / <code>std::unordered_map</code></td>
+<td><code>BTreeMap</code> / <code>HashMap</code></td>
+</tr>
+<tr>
+<td><code>m[k]</code> (inserts)</td>
+<td><code>m.get(&amp;k)</code> (reads), <code>m.entry(k).or_insert(v)</code> (writes)</td>
+</tr>
+<tr>
+<td><code>v.at(i)</code></td>
+<td><code>v[i]</code> (panics)&nbsp;or <code>v.get(i)</code> (<code>Option</code>)</td>
+</tr>
+<tr>
+<td><code>class</code> with constructor</td>
+<td><code>struct</code> + <code>impl</code> + <code>fn new</code></td>
+</tr>
+<tr>
+<td><code>const</code> /&nbsp;non-<code>const</code> method</td>
+<td><code>&amp;self</code> / <code>&amp;mut self</code></td>
+</tr>
+<tr>
+<td><code>private:</code> + <code>friend</code></td>
+<td>module&nbsp;privacy, <code>pub</code></td>
+</tr>
+<tr>
+<td><code>enum class</code></td>
+<td><code>enum</code> (<code>#[repr(u8)]</code> for a fixed layout)</td>
+</tr>
+<tr>
+<td><code>std::variant</code></td>
+<td><code>enum</code> with data</td>
+</tr>
+<tr>
+<td><code>T*</code> that can be&nbsp;null, <code>std::optional&lt;T&gt;</code></td>
+<td><code>Option&lt;&amp;T&gt;</code>, <code>Option&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td><code>const T&amp;</code> / <code>T&amp;</code></td>
+<td><code>&amp;T</code> / <code>&amp;mut T</code> (explicit at the call site)</td>
+</tr>
+<tr>
+<td><code>std::println</code>, <code>std::format</code></td>
+<td><code>println!</code>, <code>format!</code></td>
+</tr>
+<tr>
+<td><code>operator&lt;&lt;</code> for printing</td>
+<td><code>impl Display</code>, <code>#[derive(Debug)]</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="traps-for-c-developers">Traps for C++&nbsp;developers</h2>
+<ol>
+<li><strong>Unsigned arithmetic panics in debug builds.</strong> Hashes and checksums&nbsp;need <code>wrapping_*</code>.</li>
+<li><strong>Release builds wrap on overflow by default.</strong> Turn&nbsp;on <code>overflow-checks</code> in release if overflow would be a real&nbsp;bug.</li>
+<li><strong><code>as</code> truncates silently.</strong>&nbsp;Prefer <code>From</code> and <code>TryFrom</code>.</li>
+<li><strong><code>s.len()</code> counts bytes</strong>, and string slices panic if a range cuts a character in&nbsp;half.</li>
+<li><strong>Map indexing never inserts.</strong> It panics on a missing key.&nbsp;Use <code>get</code> to read&nbsp;and <code>entry</code> to&nbsp;write.</li>
+<li><strong><code>{:.2}</code> means decimals in Rust</strong> and significant digits in C++&nbsp;(without <code>f</code>).</li>
+<li><strong>Privacy is per module.</strong> Code in the same module, and in its child modules, can see private&nbsp;fields.</li>
+<li><strong>Immutability is deep.</strong> There is&nbsp;no <code>const_cast</code>; Part 2 shows the legal escape&nbsp;hatch.</li>
+</ol>
+<h2 id="what-comes-next">What comes&nbsp;next</h2>
+<p>The syntax swap takes an afternoon. The defaults take longer, because each one removes something your C++ habits relied on: the implicit conversion, the uninitialized variable, the overflow that &#8220;never happens&#8221;, the null that is &#8220;always&nbsp;checked&#8221;.</p>
+<p>In your first weeks, read every Rust compile error as a C++ assumption that someone finally wrote down. Most of the time the assumption was fine. Sometimes it was a bug that had been waiting in your C++ code all along, and in Rust it stops the build instead of reaching&nbsp;production.</p>
+<p>Part 2 takes on the biggest default flip of all: <strong>ownership</strong>. It covers moves without moved-from objects, <span class="caps">RAII</span>&nbsp;with <code>Drop</code>, the borrow checker in depth, smart pointers, errors without exceptions, and how templates and virtual functions become generics and&nbsp;traits.</p>
+<hr>
+<h2 id="references">References</h2>
+<ol>
+<li><a href="https://doc.rust-lang.org/book/">The Rust Programming Language</a>, the official&nbsp;book</li>
+<li><a href="https://doc.rust-lang.org/reference/behavior-not-considered-unsafe.html#integer-overflow">The Rust Reference: Integer overflow</a>, overflow rules quoted&nbsp;above</li>
+<li><a href="https://doc.rust-lang.org/cargo/reference/profiles.html">Cargo Book: Profiles</a>,&nbsp;default <code>overflow-checks</code> per&nbsp;profile</li>
+<li><a href="https://doc.rust-lang.org/std/option/index.html#representation">std::option: Representation</a>, the null pointer optimization&nbsp;guarantee</li>
+<li><a href="https://doc.rust-lang.org/std/collections/struct.HashMap.html">std::collections::HashMap</a>, default hasher (SipHash 1-3) and HashDoS&nbsp;resistance</li>
+<li><a href="https://doc.rust-lang.org/std/fmt/">std::fmt</a>, Rust format&nbsp;syntax</li>
+<li><a href="https://en.cppreference.com/w/cpp/language/operator_arithmetic.html#Overflows">cppreference: Arithmetic operators, overflows</a>, signed overflow is undefined&nbsp;behavior</li>
+<li><a href="https://en.cppreference.com/w/cpp/container/map/operator_at.html">cppreference: std::map::operator[]</a>, inserts when the key is&nbsp;missing</li>
+<li><a href="https://en.cppreference.com/w/cpp/utility/format/spec.html">cppreference: Standard format specification</a>, precision with and without a type&nbsp;letter</li>
+<li><a href="https://cel.cs.brown.edu/crp/">C++ to Rust Phrasebook</a>, Brown University, a good companion to this&nbsp;series</li>
+<li><a href="https://google.github.io/comprehensive-rust/">Comprehensive Rust</a>, Google&#8217;s free Rust&nbsp;course</li>
+<li><a href="https://rust-lang.github.io/rust-clippy/master/index.html">Clippy lints</a>,&nbsp;including <code>cast_possible_truncation</code></li>
+<li><a href="https://herbsutter.com/2026/03/29/c26-is-done-trip-report-march-2026-iso-c-standards-meeting-london-croydon-uk/">Herb Sutter: C++26 is done! Trip report, March 2026</a>, C++26 status, erroneous behavior, and library&nbsp;hardening</li>
+<li><a href="https://en.cppreference.com/w/cpp/compiler_support/26.html">cppreference: C++26 compiler support</a>, which compilers ship which C++26&nbsp;features</li>
+</ol>
+    </div>
+
+
+    <aside class="article__byline" aria-label="About the author">
+        <img src="https://alexsavio.github.io/imgs/alex_headshot.png"
+             alt="Alexandre Manhães Savio" width="64" height="64" />
+        <div class="article__byline__text">
+            <strong>Alexandre Manhães Savio</strong>
+            Freelance Software, Cloud &amp; AI engineer. Ex-academia (neuroimaging, ML).
+            Currently accepting new engagements —
+            <a href="https://alexsavio.github.io/pages/work-with-me.html">work with me</a>.
+        </div>
+    </aside>
+
+    <section class="article__related" aria-labelledby="related-heading">
+        <h2 id="related-heading">You might also like</h2>
+        <ul class="article__related__list">
+            <li>
+                <span class="article__related__date">
+                    <time datetime="2026-04-08T20:58:00+02:00">Apr 2026</time>
+                </span>
+                <a href="https://alexsavio.github.io/first-principles-data-engineering.html">First Principles: Data Engineering and&nbsp;ETLs</a>
+            </li>
+        </ul>
+    </section>
+
+</article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer__grid">
+                <div class="site-footer__availability">
+                    <strong>Available for freelance engagements.</strong>
+                    <span>Accepting new engagements for Q2 2026.</span>
+                    <a class="site-footer__cta" href="mailto:alexsavio@gmail.com">alexsavio@gmail.com</a>
+                </div>
+                <ul class="site-footer__social">
+                    <li><a href="https://github.com/alexsavio" rel="me">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/alexsavio/" rel="me">LinkedIn</a></li>
+                    <li><a href="https://orcid.org/0000-0002-6608-6885" rel="me">ORCID</a></li>
+                    <li><a href="/feeds/all.atom.xml" rel="me">RSS</a></li>
+                </ul>
+            </div>
+            <p class="site-footer__colophon">
+                &copy;  Alexandre Manhães Savio.
+                Built with <a href="https://getpelican.com/">Pelican</a>.
+            </p>
+            <p class="site-footer__colophon site-footer__disclosure">
+                Posts are drafted and edited with AI assistance,
+                then reviewed by the author before publishing.
+            </p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+</html>
