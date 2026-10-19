@@ -66,10 +66,10 @@
         <p class="article__series">
             <strong>Part of the {{ article.series.name }} series</strong> —
             Part {{ article.series.index }} of {{ article.series.all|length }}.
-            {% if article.series.previous %}
+            {% if article.series.previous and article.series.previous.status == "published" %}
             <br>← Previous: <a href="{{ SITEURL }}/{{ article.series.previous.url }}">{{ article.series.previous.title }}</a>
             {% endif %}
-            {% if article.series.next %}
+            {% if article.series.next and article.series.next.status == "published" %}
             <br>→ Next: <a href="{{ SITEURL }}/{{ article.series.next.url }}">{{ article.series.next.title }}</a>
             {% endif %}
         </p>
