@@ -189,3 +189,4 @@ stats:
   @echo ""
   @echo "Lines:"
   @find content -maxdepth 1 -name "*.md" -exec cat {} + | wc -l | xargs echo "  Posts total:"
+mod? sim 'linkedin/audience-sim/justfile'
