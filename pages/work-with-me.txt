@@ -71,3 +71,6 @@ I try to reply within two business days.
 You can also reach me on
 [LinkedIn](https://www.linkedin.com/in/alexsavio/) or see my code on
 [GitHub](https://github.com/alexsavio).
+
+Want to hear from people I have worked with? Read their
+[references](/pages/references.html).
