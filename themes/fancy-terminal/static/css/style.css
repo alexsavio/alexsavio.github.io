@@ -675,6 +675,15 @@ pre {
     color: var(--text-color);
 }
 
+/* Attribution under a quote on the References page */
+.page .reference__by {
+    margin: -0.6em 0 2.4em;
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    color: var(--muted-color);
+}
+.page .reference__by strong { color: var(--text-color); }
+
 .page figure.portrait {
     float: right;
     margin: 0 0 var(--space-4) var(--space-6);

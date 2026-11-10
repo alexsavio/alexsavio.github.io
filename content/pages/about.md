@@ -52,4 +52,5 @@ The fastest way to reach me is email:
 [LinkedIn](https://www.linkedin.com/in/alexsavio/).
 
 If you're evaluating me for a contract, the [Work with me](/pages/work-with-me.html)
-page has the details you probably want next.
+page has the details you probably want next. Some former managers and
+teammates also wrote [references](/pages/references.html).
